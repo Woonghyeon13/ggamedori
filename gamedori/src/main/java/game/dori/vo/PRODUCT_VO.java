@@ -7,7 +7,7 @@ public class PRODUCT_VO {
 	private int prod_idx;				// 상품 인덱스
 	private int category_tb_code;		// 카테고리 코드 (품번)
 	private String prod_name;			// 상품 명
-	private int prod_proce;				// 상품 가격
+	private int prod_price;				// 상품 가격
 	private String prod_detail;			// 상품 설명
 	private int prod_stock;				// 재고 량
 	private String prod_wdate;			// 등록 일
@@ -44,10 +44,10 @@ public class PRODUCT_VO {
 		this.prod_name = prod_name;
 	}
 	public int getProd_proce() {
-		return prod_proce;
+		return prod_price;
 	}
 	public void setProd_proce(int prod_proce) {
-		this.prod_proce = prod_proce;
+		this.prod_price = prod_proce;
 	}
 	public String getProd_detail() {
 		return prod_detail;
