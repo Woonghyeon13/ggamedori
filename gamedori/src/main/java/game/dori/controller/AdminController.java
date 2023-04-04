@@ -1,13 +1,24 @@
 package game.dori.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import game.dori.service.ProductService;
+import game.dori.vo.CATEGORY_VO;
+import net.sf.json.JSONArray;
 
 @RequestMapping( value = "/admin" )
 @Controller
 public class AdminController {
 
+	@Autowired
+	private ProductService productService;
+	
 	// 회원관리
 	@RequestMapping( value = "/member.do", method = RequestMethod.GET )
 	public String member(){
@@ -16,9 +27,13 @@ public class AdminController {
 
 	// 상품관리
 	@RequestMapping( value = "/prod.do", method = RequestMethod.GET )
-	public String prod(){
+	public String prod( Model model ){
+		List<CATEGORY_VO> category = null;
+		category = productService.category();
+		model.addAttribute("category", JSONArray.fromObject(category));
 		return "admin/prod";
 	}
+	
 
 	// 반품관리
 	@RequestMapping( value = "/asreturn.do", method = RequestMethod.GET )
