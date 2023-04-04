@@ -29,18 +29,21 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int insert(MEMBER_VO memberVO) {
-		return memberDAO.insert(memberVO);
-	}
-
-	@Override
-	public void update(MEMBER_VO memberVO) {
-		memberDAO.update(memberVO);
+	public void updateyn(MEMBER_VO memberVO) {
+		memberDAO.updateyn(memberVO);
 	}
 
 	@Override
 	public int insertMember(MEMBER_VO memberVO) {
 		return memberDAO.insertMember(memberVO);
 	}
+
+	@Override
+	public MEMBER_VO Login(MEMBER_VO MemberVO) {
+		// TODO Auto-generated method stub
+		return memberDAO.Login(MemberVO);
+	}
+
+
 
 }

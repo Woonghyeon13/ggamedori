@@ -23,17 +23,20 @@ public class MEMBER_VO {
 		this.member_role = member_role;
 	}
 	
-	public int getMember_mail_yn() {
+	public int getMember_email_yn() {
 		return member_email_yn;
 	}
-	public void setMember_mail_yn(int member_mail_yn) {
-		this.member_email_yn = member_mail_yn;
+	public void setMember_email_yn(int member_mail_yn) {
+		this.member_email_yn = member_email_yn;
 	}
-	public String getMember_mail_key() {
+
+	
+	public String getMember_email_key() {
 		return member_email_key;
 	}
-	public void setMember_mail_key(String member_mail_key) {
-		this.member_email_key = member_mail_key;
+	public void setMember_email_key(String member_email_key) {
+		this.member_email_key = member_email_key;
+
 	}
 	public int getMember_idx() {
 		return member_idx;
