@@ -5,16 +5,8 @@
 <mapper namespace="game.dori.mapper.addressMapper">
  
   <insert id="insert" parameterType="addressVO">
-    <selectKey keyProperty="member_tb_idx" resultType="int" order="BEFORE">
-      SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'gamedori' AND TABLE_NAME = 'address_tb';
-    </selectKey>
-
-    INSERT INTO address_tb (addr_1, addr_2, addr_3, member_tb_idx)
-    VALUES (#{addr_1}, #{addr_2}, #{addr_3}, #{member_tb_idx})
-  </insert>
-  
-  <select id="checkMemberIdx" resultType="int" parameterType="int">
-    SELECT COUNT(*) FROM member_tb WHERE MEMBER_IDX = #{member_tb_idx}
-  </select>
+  INSERT INTO address_tb (addr_1, addr_2, addr_3, member_tb_idx)
+  VALUES (#{addr_1}, #{addr_2}, #{addr_3}, #{member_tb_idx})
+</insert>
   
 </mapper>
