@@ -66,7 +66,17 @@
 		
 				<div class="text-end">
 					<ul class="d-flex flex-row mb-0 ps-0">
-						<li><button type="button" class="btn btn-outline-light login me-2" data-bs-toggle="modal" data-bs-target="#login">로그인</button></li>
+						<c:if test="${empty sessionScope.Login}">
+						  <li><button type="button" class="btn btn-outline-light login me-2" data-bs-toggle="modal" data-bs-target="#login">로그인</button></li>
+						</c:if>
+						<c:if test="${not empty sessionScope.Login}">
+						  <li>${sessionScope.Login}님<br/> 환영합니다!</li>
+						</c:if>
+						<c:if test="${not empty sessionScope.Login}">
+						  <li><button type="button" class="btn btn-outline-light join me-2" ><a href="<c:url value='/user/logout.do'/>">로그아웃</a></button></li>
+						</c:if>
+					
+						
 						<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/user/join.do'/>">회원가입</a></button></li>
 						<!-- 로그인 성공시  -->
 						<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/mypage/main.do'/>">마이페이지</a></button></li>
@@ -135,7 +145,7 @@
 						<p class="text-center" id="logo">GAMEDORI</p>
 					</div>
 					<div class="modal-body">
-						<form>
+						<form action="<c:url value='/user/login.do'/>" method="post">
 							<table>
 								<tr>
 									<td style="width: 500px;">
@@ -145,13 +155,13 @@
 								<tr>
 									<td>
 										<div class="mb-3">
-											<input style="margin-top: 20px;"type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요">
+											<input style="margin-top: 20px;"type="email" class="form-control" id="member_email" name="member_email" placeholder="이메일을 입력하세요">
 										</div>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
+										<input type="password" class="form-control" id="member_pw" name="member_pw" placeholder="비밀번호를 입력하세요">
 									</td>
 								</tr>
 								<tr>
@@ -202,7 +212,7 @@
 								<tr>	
 									<td >
 										<div class="mb-3">
-											<input style="margin-top: 20px;"type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
+											<input style="margin-top: 20px;"type="email" class="form-control" id="member_email" name="member_email" placeholder="이메일을 입력하세요">
 										</div>
 									</td>
 								</tr>

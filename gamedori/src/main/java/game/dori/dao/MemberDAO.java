@@ -30,19 +30,20 @@ public class MemberDAO {
 	    return memberVO.getMember_idx();
 	}
 	
+	public MEMBER_VO Login(MEMBER_VO MemberVO)
+	{
+		
+		return sqlSession.selectOne(namespace + "Login" , MemberVO);
+	}
+	
 	public MEMBER_VO selectByEmail(String member_email)
 	{
 		return sqlSession.selectOne(namespace + "selectByEmail",member_email);
 	}
 	
-	public int insert(MEMBER_VO vo)
-	{
-		return sqlSession.insert(namespace + "insert",vo);
-	}
-
-	public void update(MEMBER_VO memberVO) {
-		// TODO Auto-generated method stub
-		return ;
+	public int updateyn(MEMBER_VO memberVO) {
+		return sqlSession.update(namespace + "updateMemberyn",memberVO);
+	
 	}
 	
 	

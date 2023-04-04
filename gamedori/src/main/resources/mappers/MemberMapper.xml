@@ -17,40 +17,27 @@
     SELECT * FROM member_tb WHERE member_email = #{email}
 	</select>
 	 
-
+	 
+	 <select id ="Login" resultType="memberVO">
+	 	
+	 	select * from member_tb where member_email = #{member_email} and member_pw = #{member_pw}
+	 	and member_email_yn = "2"
+	 
+	 </select>
+	 
 	
-	<insert id="insert"  parameterType="memberVO">
-	
-		insert into member_tb( 
-		MEMBER_EMAIL, 
-		MEMBER_EMAIL_KEY
-		,MEMBER_PW 
-		,MEMBER_NAME
-		, MEMBER_PHONE) 
-		values(
-		 #{member_email}
-		,#{member_mail_key} 
-		,#{member_pw}
-		,#{member_name}
-		,#{member_phone} )
-	
+	<insert id="insertMember" parameterType="memberVO" useGeneratedKeys="true" keyProperty="member_idx">
+	    INSERT INTO member_tb(MEMBER_EMAIL, MEMBER_EMAIL_KEY, MEMBER_PW, MEMBER_NAME, MEMBER_PHONE)
+	    VALUES (#{member_email}, #{member_email_key}, #{member_pw}, #{member_name}, #{member_phone})
 	</insert>
-
-<insert id="insertMember" parameterType="memberVO" useGeneratedKeys="true" keyProperty="member_idx">
-    INSERT INTO member_tb(MEMBER_EMAIL, MEMBER_EMAIL_KEY, MEMBER_PW, MEMBER_NAME, MEMBER_PHONE)
-    VALUES (#{member_email}, #{member_mail_key}, #{member_pw}, #{member_name}, #{member_phone})
-</insert>
-
-<update id="updateMember" parameterType="memberVO">
-    UPDATE member
-    SET
-        member_pw = #{member_pw},
-        member_name = #{member_name},
-        member_phone = #{member_phone},
-        member_mail_yn = #{member_mail_yn}
-    WHERE
-        member_email = #{member_email}
-</update>
+	
+	<update id="updateMemberyn" parameterType="memberVO">
+	    UPDATE member_tb
+	    SET
+	        member_email_yn = #{member_email_yn}
+	    WHERE
+	        member_email = #{member_email}
+	</update>
 	
 </mapper>
 
