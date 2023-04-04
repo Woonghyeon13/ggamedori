@@ -1,12 +1,14 @@
 package game.dori.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.util.Base64;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +45,47 @@ public class MemberController {
 		return "user/join";
 	}
 	
+	
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	public void Login( MEMBER_VO MemberVO ,  HttpServletResponse rsp ,HttpServletRequest req , HttpSession session, Model model) throws IOException
+	{
+		MEMBER_VO result = MemberService.Login(MemberVO);
+	    if (result != null) {
+	        // 로그인 성공
+	    	
+	    	MEMBER_VO MemberVO2 = new MEMBER_VO();
+	    	MemberVO2.setMember_email(result.getMember_email());
+	    	MemberVO2.setMember_role(result.getMember_role());
+	    	
+	    	rsp.setContentType("text/html; charset=utf-8");
+	        PrintWriter pw = rsp.getWriter();
+	        pw.append("<script>alert('로그인 성공!'); location.href='"+req.getContextPath()+"'</script>");
+	    	session.setAttribute("Login", MemberVO2);
+	        
+	    	
+	    } else {
+	        // 로그인 실패
+	        rsp.setContentType("text/html; charset=utf-8");
+	        PrintWriter pw = rsp.getWriter();
+	        model.addAttribute("message", "로그인 실패");
+	        pw.append("<script>alert('로그인 실패!'); history.back();</script>");
+	        pw.flush();
+	        pw.close();
+	    }
+	    
+	    
+	}
+	
+	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
+	public void logout(HttpSession session ,HttpServletResponse rsp ,HttpServletRequest req) throws IOException {
+	    session.invalidate(); // 세션 삭제
+	    rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		pw.append("<script>alert('로그아웃 되었습니다'); location.href='"+req.getContextPath()+"'</script>");
+
+	 
+	}
 
 	
 	@RequestMapping(value = "/join.do", method = RequestMethod.POST)
@@ -50,17 +93,22 @@ public class MemberController {
 
 		 // 이메일 인증 링크 생성
 	    String token = generateToken();
-	    MemberVO.setMember_mail_key(token);
-			
-		int memberId = MemberService.insert(MemberVO);
-	    MemberVO.setMember_idx(memberId); // 이 부분을 추가하여 MEMBER_IDX를 설정합니다.
-	    addr.setMember_tb_idx(memberId); // 이 부분을 추가하여 address_tb의 외래 키를 설정합니다.
-	    AddressService.insert(addr);
+	    MemberVO.setMember_email_key(token);
 
+		int memberId = MemberService.insertMember(MemberVO);
+		
+
+		
+		if(memberId > 0)
+		{
+			addr.setMember_tb_idx(MemberVO.getMember_idx());
+			AddressService.insert(addr);
+			
+			System.out.println("idx 값 ::" + MemberVO.getMember_idx());
 
 	    // 이메일 전송
-	    mailService.sendVerificationEmail(MemberVO.getMember_email(), token);
-
+	    	mailService.sendVerificationEmail(MemberVO.getMember_email(), token);
+		}
 	    return "user/emailcheck";
 	}
 	
@@ -89,7 +137,7 @@ public class MemberController {
 	
 
 	@RequestMapping(value = "/emailCheck.do", method = RequestMethod.GET)
-	public String emailCheck(@RequestParam("email") String email, @RequestParam("token") String token) {
+	public void emailCheck(@RequestParam("email") String email, @RequestParam("token") String token , HttpServletResponse rsp ,HttpServletRequest req) throws IOException {
 
 		MEMBER_VO memberVO = MemberService.selectByEmail(email);
 
@@ -98,26 +146,23 @@ public class MemberController {
 			System.out.println("membervo가 비어있습니다.");
 		}
 
-		String memberMailKey = memberVO.getMember_mail_key();
+		String memberMailKey = memberVO.getMember_email_key();
+		
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
 
 		if (memberMailKey == null || !memberMailKey.equalsIgnoreCase(token)) {
 		    // 토큰 값이 null이거나 일치하지 않는 경우
 		    // 에러 처리
-			System.out.println("끄아아아아.");
-			return "user/emailcheck";
+			pw.append("<script>alert('이메일 인증 코드가 다릅니다!'); location.href='"+req.getContextPath()+"'</script>");
 		}
 		
-		System.out.println(memberVO.getMember_email());
-		System.out.println(memberVO.getMember_mail_key());
-		
-		
-		
 		// 토큰 값이 일치하는 경우
-		memberVO.setMember_mail_yn(1);
-		MemberService.update(memberVO);
-		System.out.println("회원가입이 성공하였습니다.");
+		memberVO.setMember_email_yn(2);
+		MemberService.updateyn(memberVO);
 		
-		return "home";
+		pw.append("<script>alert('회원가입 성공!'); location.href='"+req.getContextPath()+"'</script>");
+		
 	    
 	    
 	}
