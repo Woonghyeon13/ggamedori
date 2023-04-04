@@ -16,35 +16,13 @@ public class MEMBER_VO {
 	private String member_email_key; //이메일인증키
 	private int member_role; //회원권한 1:일반 2:관리자
 	
-	public int getMember_role() {
-		return member_role;
-	}
-	public void setMember_role(int member_role) {
-		this.member_role = member_role;
-	}
 	
-	public int getMember_email_yn() {
-		return member_email_yn;
-	}
-	public void setMember_email_yn(int member_mail_yn) {
-		this.member_email_yn = member_email_yn;
-	}
-
-	
-	public String getMember_email_key() {
-		return member_email_key;
-	}
-	public void setMember_email_key(String member_email_key) {
-		this.member_email_key = member_email_key;
-
-	}
 	public int getMember_idx() {
 		return member_idx;
 	}
 	public void setMember_idx(int member_idx) {
 		this.member_idx = member_idx;
 	}
-
 	public int getMember_level() {
 		return member_level;
 	}
@@ -87,7 +65,24 @@ public class MEMBER_VO {
 	public void setMember_name(String member_name) {
 		this.member_name = member_name;
 	}
-	
+	public int getMember_email_yn() {
+		return member_email_yn;
+	}
+	public void setMember_email_yn(int member_email_yn) {
+		this.member_email_yn = member_email_yn;
+	}
+	public String getMember_email_key() {
+		return member_email_key;
+	}
+	public void setMember_email_key(String member_email_key) {
+		this.member_email_key = member_email_key;
+	}
+	public int getMember_role() {
+		return member_role;
+	}
+	public void setMember_role(int member_role) {
+		this.member_role = member_role;
+	}
 	
 	
 	
