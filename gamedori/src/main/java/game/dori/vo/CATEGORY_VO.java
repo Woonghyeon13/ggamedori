@@ -5,14 +5,21 @@ package game.dori.vo;
 public class CATEGORY_VO {
 
 
-	private int cate_code;			// 카테고리 코드 (품번)
+	private String cate_code;		// 카테고리 코드 (품번)
 	private String cate_name;		// 이름
-	private int cate_refcode;		// 참조 코드
+	private String cate_refcode;	// 참조 코드
+	private int level;
 	
-	public int getCate_code() {
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	public String getCate_code() {
 		return cate_code;
 	}
-	public void setCate_code(int cate_code) {
+	public void setCate_code(String cate_code) {
 		this.cate_code = cate_code;
 	}
 	public String getCate_name() {
@@ -21,12 +28,13 @@ public class CATEGORY_VO {
 	public void setCate_name(String cate_name) {
 		this.cate_name = cate_name;
 	}
-	public int getCate_refcode() {
+	public String getCate_refcode() {
 		return cate_refcode;
 	}
-	public void setCate_refcode(int cate_refcode) {
+	public void setCate_refcode(String cate_refcode) {
 		this.cate_refcode = cate_refcode;
 	}
 	
+
 	
 }

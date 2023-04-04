@@ -268,72 +268,71 @@
 						</div>
 					</div>
 					<div class="modal-body">
-						<form name="review" method="post" action="loginAction.jsp">
+						<form name="prodInsert" method="post" action="detail.do" enctype="multipart/form-data">
 							<div class="form-group d-flex justify-content-around">
-								<select class="form-select form-select-sm"
+								<select name="cate_refcode" class="category1 form-select form-select-sm"
 									aria-label=".form-select-sm example">
 									<option selected>1차 카테고리</option>
-									<option value="1">One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
-								</select> <select class="form-select form-select-sm"
+								</select> <select name="cate_code" class="category2 form-select form-select-sm"
 									aria-label=".form-select-sm example">
 									<option selected>2차 카테고리</option>
-									<option value="1">One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
 								</select>
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								<input type="text" class="form-control" id="review_title"
-									placeholder="상품명" name="review_title">
+									placeholder="상품명" name="prod_name">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								<input type="text" class="form-control" id="review_title"
-									placeholder="가격" name="review_title">
+									placeholder="가격" name="prod_price">
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input type="file" class="form-control" id="inputGroupFile02">
+									<input name="img_sum" type="file" class="form-control" id="inputGroupFile02">
 									<label class="input-group-text" for="inputGroupFile02">썸네일</label>
 								</div>
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								<input type="text" class="form-control" id="review_title"
-									placeholder="제조사" name="review_title">
+									placeholder="제조사" name="prod_co">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								<input type="text" class="form-control" id="review_title"
-									placeholder="제품옵션1" name="review_title">
+									placeholder="제품옵션1" name="prod_opt">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								<input type="text" class="form-control" id="review_title"
-									placeholder="제품옵션2" name="review_title">
+									placeholder="제품옵션2" name="prod_opt">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								<input type="text" class="form-control" id="review_title"
-									placeholder="제품옵션3" name="review_title">
+									placeholder="제품옵션3" name="prod_opt">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								성인등급 여부 <input name="adultyn" type="radio" value="1">Y <input
+								성인등급 여부 <input name="prod_rating" type="radio" value="1">Y <input
+									name="adultyn" type="radio" value="2">N
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								예약상품 여부 <input name="prod_reserv" type="radio" value="1">Y <input
 									name="adultyn" type="radio" value="2">N
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input type="file" class="form-control" id="inputGroupFile02">
+									<input name="img_1" type="file" class="form-control" id="inputGroupFile02">
 									<label class="input-group-text" for="inputGroupFile02">상세사진</label>
 								</div>
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input type="file" class="form-control" id="inputGroupFile02">
+									<input name="img_2" type="file" class="form-control" id="inputGroupFile02">
 									<label class="input-group-text" for="inputGroupFile02">배송정보</label>
 								</div>
 							</div>
@@ -385,6 +384,74 @@
 		</div>
 	</div>
 </main>
+<!-- 카테고리 -->
+<script>
+	// 데이터
+	var jsonData = JSON.parse('${category}');
+	console.log(jsonData);
+	
+	var cate1Arr = new Array();
+	var cate1Obj = new Object();
+	
+	for( var i = 0; i < jsonData.length; i ++ )
+	{
+		if( jsonData[i].level == "1" )
+		{
+			cate1Obj = new Object();
+			cate1Obj.cate_code = jsonData[i].cate_code;
+			cate1Obj.cate_name = jsonData[i].cate_name;
+			cate1Arr.push(cate1Obj);
+		}
+	}
+	
+	var cateSelect1 = $("select.category1");
+	
+	for( var i =0; i < cate1Arr.length; i++ )
+	{
+		cateSelect1.append("<option value='" + cate1Arr[i].cate_code + "'>" +cate1Arr[i].cate_name + "</option>");
+	}
+	
+	$(document).on("change","select.category1",function(){
+		var cate2Arr = new Array();
+		var cate2Obj = new Object();
+		
+		for( var i = 0; i < jsonData.length; i++ )
+		{
+			if( jsonData[i].level == "2" )
+			{
+				cate2Obj = new Object();
+				cate2Obj.cate_code = jsonData[i].cate_code;
+				cate2Obj.cate_name = jsonData[i].cate_name;
+				cate2Obj.cate_refcode = jsonData[i].cate_refcode;
+				
+				cate2Arr.push(cate2Obj);
+			}
+		}
+		var cateSelect2 = $("select.category2");
+		
+		/*
+		for( var i = 0; i < cate2Arr.length; i++ )
+		{
+			cateSelect2.append("<option value='" + cate2Arr[i].cate_code + "'>" + cate2Arr[i].cate_name + "</option>");
+		}*/
+		
+		cateSelect2.children().remove();
+		cateSelect2.append("<option value=''>2차 카테고리</option>");
+		
+		$("option:selected",this).each(function(){
+			var selectVal = $(this).val();
+			
+			for( var i = 0; i < cate2Arr.length; i++ )
+			{
+				if( selectVal == cate2Arr[i].cate_refcode )
+				{
+					cateSelect2.append("<option value='" + cate2Arr[i].cate_code + "'>" + cate2Arr[i].cate_name + "</option>");
+				}
+			}
+		});
+	});
+	
+</script>>
 
 
 <%@ include file="../include/foot.jsp" %>

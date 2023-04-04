@@ -12,7 +12,7 @@ public class MEMBER_VO {
 	private String member_indate ; //가입날짜
 	private int member_state; //회원상태 1:일반 2:정지 3:탈퇴
 	private String member_name; //회원 이름
-	private int member_email_yn;  //이메일 인증여부  1:N 2:y
+	private int member_email_yn;  //이메일 인증여부  1:Y 2:N
 	private String member_email_key; //이메일인증키
 	private int member_role; //회원권한 1:일반 2:관리자
 	
@@ -27,7 +27,7 @@ public class MEMBER_VO {
 		return member_email_yn;
 	}
 	public void setMember_email_yn(int member_mail_yn) {
-		this.member_email_yn = member_mail_yn;
+		this.member_email_yn = member_email_yn;
 	}
 
 	
@@ -36,6 +36,7 @@ public class MEMBER_VO {
 	}
 	public void setMember_email_key(String member_email_key) {
 		this.member_email_key = member_email_key;
+
 	}
 	public int getMember_idx() {
 		return member_idx;
