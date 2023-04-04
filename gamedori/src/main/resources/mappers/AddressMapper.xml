@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="game.dori.mapper.addressMapper">
+ 
+  <insert id="insert" parameterType="addressVO">
+    <selectKey keyProperty="member_tb_idx" resultType="int" order="BEFORE">
+      SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'gamedori' AND TABLE_NAME = 'address_tb';
+    </selectKey>
 
-	<resultMap id="getMemberGroup" type="memberVO">
-		<id property="member_idx" column="MEMBER_IDX" />
-		<result property="member_idx" column="MEMBER_IDX" />
-		<association property="group" column="GROUP_ID"
-			select="getGroup" />
-	</resultMap>
-
-	<insert id="insert" parameterType="addressVO"
-		useGeneratedKeys="true" keyProperty="member_tb_idx">
-		<selectKey keyProperty="member_tb_idx" resultType="int"
-			order="BEFORE">
-			SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA =
-			'gamedori' AND TABLE_NAME = 'address_tb';
-		</selectKey>
-		insert into address_tb(addr_1, addr_2, addr_3, member_tb_idx)
-		values (#{addr_1}, #{addr_2}, #{addr_3}, #{member_tb_idx})
-	</insert>
-
+    INSERT INTO address_tb (addr_1, addr_2, addr_3, member_tb_idx)
+    VALUES (#{addr_1}, #{addr_2}, #{addr_3}, #{member_tb_idx})
+  </insert>
+  
+  <select id="checkMemberIdx" resultType="int" parameterType="int">
+    SELECT COUNT(*) FROM member_tb WHERE MEMBER_IDX = #{member_tb_idx}
+  </select>
+  
 </mapper>
