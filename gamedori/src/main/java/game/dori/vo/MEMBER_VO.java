@@ -14,6 +14,7 @@ public class MEMBER_VO {
 	private String member_name; //회원 이름
 	private int member_email_yn;  //이메일 인증여부  1:N 2:y
 	private String member_email_key; //이메일인증키
+	private int member_role; //회원권한 1:일반 2:관리자
 	
 	public int getMember_role() {
 		return member_role;
@@ -21,7 +22,6 @@ public class MEMBER_VO {
 	public void setMember_role(int member_role) {
 		this.member_role = member_role;
 	}
-	private int member_role; //회원권한 1:일반 2:관리자
 	
 	public int getMember_email_yn() {
 		return member_email_yn;

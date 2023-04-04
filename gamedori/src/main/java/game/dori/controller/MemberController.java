@@ -52,10 +52,15 @@ public class MemberController {
 		MEMBER_VO result = MemberService.Login(MemberVO);
 	    if (result != null) {
 	        // 로그인 성공
+	    	
+	    	MEMBER_VO MemberVO2 = new MEMBER_VO();
+	    	MemberVO2.setMember_email(result.getMember_email());
+	    	MemberVO2.setMember_role(result.getMember_role());
+	    	
 	    	rsp.setContentType("text/html; charset=utf-8");
 	        PrintWriter pw = rsp.getWriter();
 	        pw.append("<script>alert('로그인 성공!'); location.href='"+req.getContextPath()+"'</script>");
-	    	session.setAttribute("Login", result.getMember_email());
+	    	session.setAttribute("Login", MemberVO2);
 	        
 	    	
 	    } else {

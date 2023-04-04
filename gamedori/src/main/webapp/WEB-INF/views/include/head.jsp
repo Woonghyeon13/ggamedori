@@ -68,19 +68,26 @@
 					<ul class="d-flex flex-row mb-0 ps-0">
 						<c:if test="${empty sessionScope.Login}">
 						  <li><button type="button" class="btn btn-outline-light login me-2" data-bs-toggle="modal" data-bs-target="#login">로그인</button></li>
+						  <li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/user/join.do'/>">회원가입</a></button></li>
+						<!-- 로그인 성공시  -->
 						</c:if>
 						<c:if test="${not empty sessionScope.Login}">
-						  <li>${sessionScope.Login}님<br/> 환영합니다!</li>
+						  <li>${sessionScope.Login.member_email}님<br/> 환영합니다!</li>
 						</c:if>
 						<c:if test="${not empty sessionScope.Login}">
 						  <li><button type="button" class="btn btn-outline-light join me-2" ><a href="<c:url value='/user/logout.do'/>">로그아웃</a></button></li>
+						 
+						 <c:if test="${sessionScope.Login.member_role == 1}">
+						  <li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/mypage/main.do'/>">마이페이지</a></button></li>
+						 </c:if>
+						<c:if test="${sessionScope.Login.member_role == 2}">
+							<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/admin/member.do'/>">관리자페이지</a></button></li>
+						</c:if>
 						</c:if>
 					
 						
-						<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/user/join.do'/>">회원가입</a></button></li>
-						<!-- 로그인 성공시  -->
-						<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/mypage/main.do'/>">마이페이지</a></button></li>
-						<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/admin/member.do'/>">관리자페이지</a></button></li>
+						
+			
 						<!-- ----- -->
 						<li><a href="<c:url value='/mypage/cart.do'/>" class="nav-link me-2 mt-1 text-muted" title="장바구니"><i class="xi-cart-o xi-2x"></i></a></li>
 						<li><a href="<c:url value='/mypage/wishlist.do'/>" class="nav-link mt-1 text-muted" title="찜 목록"><i class="xi-heart-o xi-2x jjim"></i></a></li>
