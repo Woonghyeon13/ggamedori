@@ -131,6 +131,7 @@ public class MemberController {
 	    // 세션에 회원 정보 저장
 	    session.setAttribute("memberVO", MemberVO);
 	    session.setAttribute("addr", addr);
+	    session.setAttribute("name", MemberVO.getMember_name());
 
 	    return "user/emailcheck";
 	}
@@ -157,7 +158,7 @@ public class MemberController {
 	        // 토큰 값이 null이거나 일치하지 않는 경우
 	        // 에러 처리
 	        pw.append("<script>alert('이메일 인증 코드가 다릅니다!'); location.href='" + req.getContextPath()
-	                + "/user/join.do'</script>");
+	                + "/user/emailcheck.do'</script>");
 	    } else {
 	        // 이메일 인증에 성공한 경우
 	        memberVO.setMember_email_yn(1);
@@ -173,6 +174,19 @@ public class MemberController {
 	    // 세션에 저장된 정보 제거
 	    session.removeAttribute("memberVO");
 	    session.removeAttribute("addr");
+	}
+	
+	//메일 다시보내기 처리
+	@RequestMapping(value = "/resendVerificationEmail.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String resendVerificationEmail(@RequestParam("email") String email) {
+	    // 이메일 인증 링크 생성
+	    String token = generateToken();
+	    
+	    // 이메일 전송
+	    mailService.sendVerificationEmail(email, token);
+	    
+	    return "sueess.";
 	}
 		
 	private String generateToken() {
