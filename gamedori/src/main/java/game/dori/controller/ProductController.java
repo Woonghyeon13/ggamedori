@@ -4,6 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import game.dori.vo.CATEGORY_VO;
+import game.dori.vo.PRODUCT_VO;
+
 @RequestMapping( value = "/prod")
 @Controller
 public class ProductController {
@@ -21,4 +24,5 @@ public class ProductController {
 	{
 		return "prod/detail";
 	}
+
 }
