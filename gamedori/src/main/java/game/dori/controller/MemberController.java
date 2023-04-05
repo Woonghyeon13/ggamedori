@@ -88,32 +88,7 @@ public class MemberController {
 	 
 	}
 
-	
-	@RequestMapping(value = "/join.do", method = RequestMethod.POST)
-	public String join( Model model , MEMBER_VO MemberVO , ADDRESS_VO addr, HttpServletRequest req , HttpServletResponse rsp) throws IOException {
-
-		 // 이메일 인증 링크 생성
-	    String token = generateToken();
-	    MemberVO.setMember_email_key(token);
-
-		int memberId = MemberService.insertMember(MemberVO);
 		
-
-		
-		if(memberId > 0)
-		{
-			addr.setMember_tb_idx(MemberVO.getMember_idx());
-			AddressService.insert(addr);
-			
-			System.out.println("idx 값 ::" + MemberVO.getMember_idx());
-
-	    // 이메일 전송
-	    	mailService.sendVerificationEmail(MemberVO.getMember_email(), token);
-		}
-	    return "user/emailcheck";
-	}
-	
-	
 	@RequestMapping(value = "/mypage.do", method = RequestMethod.GET)
 	public String mypage() {
 
@@ -142,39 +117,64 @@ public class MemberController {
 	}
 	
 
-	@RequestMapping(value = "/emailCheck.do", method = RequestMethod.GET)
-	public void emailCheck(@RequestParam("email") String email, @RequestParam("token") String token , HttpServletResponse rsp ,HttpServletRequest req) throws IOException {
+	@RequestMapping(value = "/join.do", method = RequestMethod.POST)
+	public String join(Model model, MEMBER_VO MemberVO, ADDRESS_VO addr, HttpServletRequest req, HttpServletResponse rsp,
+	                   HttpSession session) throws IOException {
 
-		MEMBER_VO memberVO = MemberService.selectByEmail(email);
+	    // 이메일 인증 링크 생성
+	    String token = generateToken();
+	    MemberVO.setMember_email_key(token);
 
-		if (memberVO == null) {
-		    // 에러 처리
-			System.out.println("membervo가 비어있습니다.");
-		}
+	    // 이메일 전송
+	    mailService.sendVerificationEmail(MemberVO.getMember_email(), token);
 
-		String memberMailKey = memberVO.getMember_email_key();
-		
-		rsp.setContentType("text/html; charset=utf-8");
-		PrintWriter pw = rsp.getWriter();
+	    // 세션에 회원 정보 저장
+	    session.setAttribute("memberVO", MemberVO);
+	    session.setAttribute("addr", addr);
 
-		if (memberMailKey == null || !memberMailKey.equalsIgnoreCase(token)) {
-		    // 토큰 값이 null이거나 일치하지 않는 경우
-		    // 에러 처리
-			pw.append("<script>alert('이메일 인증 코드가 다릅니다!'); location.href='"+req.getContextPath()+"'</script>");
-		}
-		
-		// 토큰 값이 일치하는 경우
-		memberVO.setMember_email_yn(1);
-		MemberService.updateyn(memberVO);
-		
-		pw.append("<script>alert('회원가입 성공!'); location.href='"+req.getContextPath()+"'</script>");
-		
-	    
-	    
+	    return "user/emailcheck";
 	}
 
+	@RequestMapping(value = "/emailCheck.do", method = RequestMethod.GET)
+	public void emailCheck(@RequestParam("email") String email, @RequestParam("token") String token,
+	                        HttpServletResponse rsp, HttpServletRequest req, HttpSession session) throws IOException {
 
-	
+	    // 세션에서 회원 정보와 주소 정보 가져오기
+	    MEMBER_VO memberVO = (MEMBER_VO) session.getAttribute("memberVO");
+	    ADDRESS_VO addr = (ADDRESS_VO) session.getAttribute("addr");
+
+	    if (memberVO == null || addr == null) {
+	        // 에러 처리
+	        System.out.println("회원 정보나 주소 정보가 비어 있습니다.");
+	    }
+
+	    String memberMailKey = memberVO.getMember_email_key();
+
+	    rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+
+	    if (memberMailKey == null || !memberMailKey.equalsIgnoreCase(token)) {
+	        // 토큰 값이 null이거나 일치하지 않는 경우
+	        // 에러 처리
+	        pw.append("<script>alert('이메일 인증 코드가 다릅니다!'); location.href='" + req.getContextPath()
+	                + "/user/join.do'</script>");
+	    } else {
+	        // 이메일 인증에 성공한 경우
+	        memberVO.setMember_email_yn(1);
+	        int memberId = MemberService.insertMember(memberVO);
+	        if (memberId > 0) {
+	            addr.setMember_tb_idx(memberVO.getMember_idx());
+	            AddressService.insert(addr);
+	            System.out.println("idx 값 ::" + memberVO.getMember_idx());
+	        }
+	        pw.append("<script>alert('회원가입 성공!'); location.href='" + req.getContextPath() + "/'</script>");
+	    }
+
+	    // 세션에 저장된 정보 제거
+	    session.removeAttribute("memberVO");
+	    session.removeAttribute("addr");
+	}
+		
 	private String generateToken() {
 	    SecureRandom random = new SecureRandom();
 	    byte[] bytes = new byte[20];
