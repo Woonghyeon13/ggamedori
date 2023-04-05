@@ -56,6 +56,7 @@ public class MemberController {
 	    	MEMBER_VO MemberVO2 = new MEMBER_VO();
 	    	MemberVO2.setMember_email(result.getMember_email());
 	    	MemberVO2.setMember_role(result.getMember_role());
+	    	MemberVO2.setMember_name(result.getMember_name());
 	    	
 	    	rsp.setContentType("text/html; charset=utf-8");
 	        PrintWriter pw = rsp.getWriter();
@@ -123,16 +124,21 @@ public class MemberController {
 	@RequestMapping(value="/checkID.do" ,method=RequestMethod.GET)
 	public String checkID(MEMBER_VO MemberVO)
 	{
-		MEMBER_VO result = MemberService.selectByEmail(MemberVO.getMember_email());
-		
-		if(result != null)
-		{
-			return "0"; 
-		}
-		else 
-		{
-			return "1"; 
-		}
+	    String email = MemberVO.getMember_email();
+	    
+	    System.out.println(email);
+	    
+	    if (email == null || email.isEmpty() || !email.matches("\\S+@\\S+\\.\\S+")) {
+	        return "2"; // 이메일 양식 오류
+	    }
+	    
+	    MEMBER_VO result = MemberService.selectByEmail(email);
+	    
+	    if (result != null) {
+	        return "0"; // 중복 이메일
+	    } else {
+	        return "1"; // 사용 가능한 이메일
+	    }
 	}
 	
 
@@ -158,7 +164,7 @@ public class MemberController {
 		}
 		
 		// 토큰 값이 일치하는 경우
-		memberVO.setMember_email_yn(2);
+		memberVO.setMember_email_yn(1);
 		MemberService.updateyn(memberVO);
 		
 		pw.append("<script>alert('회원가입 성공!'); location.href='"+req.getContextPath()+"'</script>");

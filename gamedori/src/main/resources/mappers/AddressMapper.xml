@@ -8,5 +8,5 @@
   INSERT INTO address_tb (addr_1, addr_2, addr_3, member_tb_idx)
   VALUES (#{addr_1}, #{addr_2}, #{addr_3}, #{member_tb_idx})
 </insert>
-  
+  <!--  주소 삽입 sql문 -->
 </mapper>
