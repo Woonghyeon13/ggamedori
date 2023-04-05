@@ -31,7 +31,7 @@
 	        $.ajax({
 	            url: "${pageContext.request.contextPath}/user/resendVerificationEmail.do",
 	            type: "POST",
-	            data: { email: "${sessionScope.memberVO.member_email}" },
+	            data: { email: "${sessionScope.memberVO.member_email}", token: "${sessionScope.memberVO.member_email_key}" },
 	            dataType: "text",
 	            success: function(response) {
 	                alert(response);
@@ -42,8 +42,7 @@
 	        });
 	    });
 	});
-
-
+	
 </script>				
 </main>
 

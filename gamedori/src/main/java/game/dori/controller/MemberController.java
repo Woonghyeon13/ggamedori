@@ -158,7 +158,7 @@ public class MemberController {
 	        // 토큰 값이 null이거나 일치하지 않는 경우
 	        // 에러 처리
 	        pw.append("<script>alert('이메일 인증 코드가 다릅니다!'); location.href='" + req.getContextPath()
-	                + "/user/emailcheck.do'</script>");
+	                + "/k'</script>");
 	    } else {
 	        // 이메일 인증에 성공한 경우
 	        memberVO.setMember_email_yn(1);
@@ -179,9 +179,23 @@ public class MemberController {
 	//메일 다시보내기 처리
 	@RequestMapping(value = "/resendVerificationEmail.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String resendVerificationEmail(@RequestParam("email") String email) {
+	public String resendVerificationEmail(@RequestParam("email") String email , HttpSession session) {
 	    // 이메일 인증 링크 생성
 	    String token = generateToken();
+	    // 이메일 인증 링크 생성
+		
+	    MEMBER_VO result = MemberService.selectByEmail(email);
+	    
+	    
+	    if(result != null)
+	    {
+
+			 result.setMember_email_key(token); 
+			 session.removeAttribute("memberVO");
+			 session.setAttribute("memberVO", result);
+	    }
+			
+
 	    
 	    // 이메일 전송
 	    mailService.sendVerificationEmail(email, token);
