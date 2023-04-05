@@ -1,5 +1,7 @@
 package game.dori.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,11 @@ public class MemberServiceImpl implements MemberService{
 	public MEMBER_VO Login(MEMBER_VO MemberVO) {
 		// TODO Auto-generated method stub
 		return memberDAO.Login(MemberVO);
+	}
+
+	@Override
+	public List<MEMBER_VO> list() {//회원리스트
+		return memberDAO.list();
 	}
 
 

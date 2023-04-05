@@ -38,31 +38,38 @@
 </div> -->
 	<!-- 회원관리 -->
 	<div class="container mt-5">
-		<!-- 회원 정지 폼 -->
+		
 		<div class="container">
 			<form action="">
 				<table class="table">
 					<thead class="table-light">
 						<tr>
 							<th scope="col ">회원번호</th>
-							<th scope="col">ID</th>
 							<th scope="col">이름</th>
-							<th scope="col">주소</th>
-							<th scope="col">연락처</th>
 							<th scope="col">EMAIL</th>
+							<th scope="col">연락처</th>
 							<th scope="col">등급</th>
 							<th scope="col">상태</th>
 						</tr>
 					</thead>
 					<tbody>
+					<c:forEach var="memberlist" items="${list }">
 						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
+							<td>${memberlist.member_idx }</td>
+							<td>${memberlist.member_name }</td>
+							<td>${memberlist.member_email }</td>
+							<td>${memberlist.member_phone }</td>
+						<c:choose>	
+							<c:when test="${memberlist.member_level ==1}">	
+								<td>브론즈</td>
+							</c:when>
+							<c:when test="${memberlist.member_level==2}">	
+								<td>실버</td>
+							</c:when>
+							<c:otherwise>	
+								<td>골드</td>
+							</c:otherwise>			
+						</c:choose>
 							<td><select class="form-select"
 								aria-label="Default select example">
 									<option selected>정상</option>
@@ -71,96 +78,7 @@
 							</select></td>
 
 						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">4</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">5</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">6</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">7</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
+					</c:forEach>	
 					</tbody>
 				</table>
 		</div>

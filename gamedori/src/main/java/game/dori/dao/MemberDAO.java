@@ -1,11 +1,10 @@
 package game.dori.dao;
 
-import java.util.*;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 
 import game.dori.vo.MEMBER_VO;
 
@@ -44,6 +43,11 @@ public class MemberDAO {
 	public int updateyn(MEMBER_VO memberVO) {
 		return sqlSession.update(namespace + "updateMemberyn",memberVO);
 	
+	}
+	
+	//회원리스트
+	public List<MEMBER_VO> list(){
+		return sqlSession.selectList(namespace + "memberlist");
 	}
 	
 	

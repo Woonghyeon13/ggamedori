@@ -1,6 +1,8 @@
 
 package game.dori.service;
 
+import java.util.List;
+
 import game.dori.vo.MEMBER_VO;
 
 public interface MemberService {
@@ -15,6 +17,8 @@ public interface MemberService {
 	
 	
 	public MEMBER_VO Login(MEMBER_VO MemberVO);
+	
+	public List<MEMBER_VO> list(); //회원 리스트
 	
 
 }
