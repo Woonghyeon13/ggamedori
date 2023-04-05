@@ -5,10 +5,9 @@ package game.dori.vo;
 public class PRODUCT_VO {
 
 	private int prod_idx;				// 상품 인덱스
-	private int category_tb_code;		// 카테고리 코드 (품번)
+	private String category_tb_code;		// 카테고리 코드 (품번)
 	private String prod_name;			// 상품 명
 	private int prod_price;				// 상품 가격
-	private String prod_detail;			// 상품 설명
 	private int prod_stock;				// 재고 량
 	private String prod_wdate;			// 등록 일
 	private int prod_hit;				// 조회 수
@@ -18,23 +17,20 @@ public class PRODUCT_VO {
 	private String prod_rdate;			// 출시 일
 	private int prod_rating;			// 성인 등급 여부	 [ 1: 일반 / 2 : 성인등급 ]
 	private int prod_reserv;			// 예약 상품 여부
+	private String prod_img_t;			// 썸네일 이미지
+	private String prod_img_m;			// 메인 이미지
+	private String prod_img_d;			// 상세정보 이미지
 	
-	public int getProd_reserv() {
-		return prod_reserv;
-	}
-	public void setProd_reserv(int prod_reserv) {
-		this.prod_reserv = prod_reserv;
-	}
 	public int getProd_idx() {
 		return prod_idx;
 	}
 	public void setProd_idx(int prod_idx) {
 		this.prod_idx = prod_idx;
 	}
-	public int getCategory_tb_code() {
+	public String getCategory_tb_code() {
 		return category_tb_code;
 	}
-	public void setCategory_tb_code(int category_tb_code) {
+	public void setCategory_tb_code(String category_tb_code) {
 		this.category_tb_code = category_tb_code;
 	}
 	public String getProd_name() {
@@ -43,17 +39,11 @@ public class PRODUCT_VO {
 	public void setProd_name(String prod_name) {
 		this.prod_name = prod_name;
 	}
-	public int getProd_proce() {
+	public int getProd_price() {
 		return prod_price;
 	}
-	public void setProd_proce(int prod_proce) {
-		this.prod_price = prod_proce;
-	}
-	public String getProd_detail() {
-		return prod_detail;
-	}
-	public void setProd_detail(String prod_detail) {
-		this.prod_detail = prod_detail;
+	public void setProd_price(int prod_price) {
+		this.prod_price = prod_price;
 	}
 	public int getProd_stock() {
 		return prod_stock;
@@ -103,6 +93,31 @@ public class PRODUCT_VO {
 	public void setProd_rating(int prod_rating) {
 		this.prod_rating = prod_rating;
 	}
+	public int getProd_reserv() {
+		return prod_reserv;
+	}
+	public void setProd_reserv(int prod_reserv) {
+		this.prod_reserv = prod_reserv;
+	}
+	public String getProd_img_t() {
+		return prod_img_t;
+	}
+	public void setProd_img_t(String prod_img_t) {
+		this.prod_img_t = prod_img_t;
+	}
+	public String getProd_img_m() {
+		return prod_img_m;
+	}
+	public void setProd_img_m(String prod_img_m) {
+		this.prod_img_m = prod_img_m;
+	}
+	public String getProd_img_d() {
+		return prod_img_d;
+	}
+	public void setProd_img_d(String prod_img_d) {
+		this.prod_img_d = prod_img_d;
+	}
+	
 	
 	
 	

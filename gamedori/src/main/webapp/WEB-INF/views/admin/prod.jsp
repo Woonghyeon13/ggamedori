@@ -175,7 +175,7 @@
 						</div>
 					</div>
 					<div class="modal-body">
-						<form name="review" method="post" action="loginAction.jsp">
+						<form name="" method="post" action="">
 							<div class="form-group d-flex justify-content-around">
 								<select class="form-select form-select-sm"
 									aria-label=".form-select-sm example">
@@ -268,14 +268,15 @@
 						</div>
 					</div>
 					<div class="modal-body">
-						<form name="prodInsert" method="post" action="detail.do" enctype="multipart/form-data">
+						<form name="prodInsert" method="post" action="prod.do" enctype="multipart/form-data">
 							<div class="form-group d-flex justify-content-around">
-								<select name="cate_refcode" class="category1 form-select form-select-sm"
+								<select class="category1 form-select form-select-sm"
 									aria-label=".form-select-sm example">
-									<option selected>1차 카테고리</option>
-								</select> <select name="cate_code" class="category2 form-select form-select-sm"
+									<option value="">1차 카테고리</option>
+								</select> 
+								<select name="category_tb_code" class="category2 form-select form-select-sm"
 									aria-label=".form-select-sm example">
-									<option selected>2차 카테고리</option>
+									<option value="">2차 카테고리</option>
 								</select>
 							</div>
 							<div
@@ -288,16 +289,15 @@
 								<input type="text" class="form-control" id="review_title"
 									placeholder="가격" name="prod_price">
 							</div>
-							<div class="form-group mt-2">
-								<div class="input-group mb-3">
-									<input name="img_sum" type="file" class="form-control" id="inputGroupFile02">
-									<label class="input-group-text" for="inputGroupFile02">썸네일</label>
-								</div>
-							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								<input type="text" class="form-control" id="review_title"
 									placeholder="제조사" name="prod_co">
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="date" class="form-control" id="review_title"
+									placeholder="출시일" name="prod_rdate">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
@@ -326,14 +326,20 @@
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input name="img_1" type="file" class="form-control" id="inputGroupFile02">
-									<label class="input-group-text" for="inputGroupFile02">상세사진</label>
+									<input name="prod_img_t" type="file" class="form-control" id="inputGroupFile02">
+									<label class="input-group-text" for="inputGroupFile02">썸네일</label>
 								</div>
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input name="img_2" type="file" class="form-control" id="inputGroupFile02">
-									<label class="input-group-text" for="inputGroupFile02">배송정보</label>
+									<input name="prod_img_m" type="file" class="form-control" id="inputGroupFile02">
+									<label class="input-group-text" for="inputGroupFile02">메인사진</label>
+								</div>
+							</div>
+							<div class="form-group mt-2">
+								<div class="input-group mb-3">
+									<input name="prod_img_d" type="file" class="form-control" id="inputGroupFile02">
+									<label class="input-group-text" for="inputGroupFile02">상세정보</label>
 								</div>
 							</div>
 							<div class="d-grid gap-1 mt-2">
@@ -428,18 +434,12 @@
 			}
 		}
 		var cateSelect2 = $("select.category2");
-		
-		/*
-		for( var i = 0; i < cate2Arr.length; i++ )
-		{
-			cateSelect2.append("<option value='" + cate2Arr[i].cate_code + "'>" + cate2Arr[i].cate_name + "</option>");
-		}*/
-		
+
 		cateSelect2.children().remove();
-		cateSelect2.append("<option value=''>2차 카테고리</option>");
 		
 		$("option:selected",this).each(function(){
 			var selectVal = $(this).val();
+			cateSelect2.append("<option value='"+ selectVal +"'>2차 카테고리</option>");
 			
 			for( var i = 0; i < cate2Arr.length; i++ )
 			{
@@ -451,7 +451,8 @@
 		});
 	});
 	
-</script>>
+
+</script>
 
 
 <%@ include file="../include/foot.jsp" %>

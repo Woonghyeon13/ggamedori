@@ -4,9 +4,16 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import game.dori.vo.PRODUCT_VO;
+
 @Repository
 public class ProductDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
+	
+	public int prodInsert( PRODUCT_VO pvo )
+	{
+		return sqlSession.insert("game.dori.mapper.productMapper.prodInsert",pvo);
+	}
 }

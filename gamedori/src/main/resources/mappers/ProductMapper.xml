@@ -4,5 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="game.dori.mapper.productMapper">
-
+	<insert id="prodInsert" parameterType="productVO">
+		INSERT INTO 
+		product_tb (`category_tb_code`, `prod_name`, `prod_price`, `prod_stock`, `prod_co`, `prod_opt`, `prod_rdate`, `prod_rating`, `prod_reserv`, `prod_img_t`, `prod_img_m`, `prod_img_d`) 
+		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_opt}, #{prod_rdate}, #{prod_rating}, #{prod_reserv}, #{prod_img_t}, #{prod_img_m}, #{prod_img_d});
+	</insert>
 </mapper>

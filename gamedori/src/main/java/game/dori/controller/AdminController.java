@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import game.dori.service.ProductService;
 import game.dori.vo.CATEGORY_VO;
+import game.dori.vo.PRODUCT_VO;
 import net.sf.json.JSONArray;
 
 @RequestMapping( value = "/admin" )
@@ -31,6 +32,13 @@ public class AdminController {
 		List<CATEGORY_VO> category = null;
 		category = productService.category();
 		model.addAttribute("category", JSONArray.fromObject(category));
+		return "admin/prod";
+	}
+	// 상품등록
+	@RequestMapping( value = "/prod.do", method = RequestMethod.POST )
+	public String prod( PRODUCT_VO pvo ){
+		
+		int result = productService.prodInsert(pvo);
 		return "admin/prod";
 	}
 	

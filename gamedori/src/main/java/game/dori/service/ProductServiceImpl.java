@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import game.dori.dao.CategoryDAO;
 import game.dori.dao.ProductDAO;
 import game.dori.vo.CATEGORY_VO;
+import game.dori.vo.PRODUCT_VO;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -21,6 +22,11 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<CATEGORY_VO> category() {
 		return categoryDAO.category();
+	}
+
+	@Override
+	public int prodInsert( PRODUCT_VO pvo ) {
+		return productDAO.prodInsert(pvo);
 	}
 	
 }
