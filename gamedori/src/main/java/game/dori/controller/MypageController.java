@@ -1,12 +1,30 @@
 package game.dori.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import game.dori.service.MemberService;
+import game.dori.service.MypageService;
+import game.dori.vo.MEMBER_VO;
+import game.dori.vo.PRODUCT_Q_VO;
 
 @RequestMapping( value = "/mypage" )
 @Controller
 public class MypageController {
+	
+	@Autowired
+	private MemberService memberService;
+	
+	@Autowired
+	private MypageService mypageService;
 	
 	// 마이페이지 첫화면
 	@RequestMapping( value = "/main", method = RequestMethod.GET )
@@ -16,16 +34,29 @@ public class MypageController {
 	}
 	
 	// 1:1 문의
-	@RequestMapping( value = "/oto", method = RequestMethod.GET )
-	public String oto()
+	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
+	public String oto(Model model, HttpServletRequest req)
 	{
+		HttpSession session = req.getSession();
+		
+		
+		
 		return "mypage/oto";
 	}
 
-	// 상품 문의
-	@RequestMapping( value = "/prodqa", method = RequestMethod.GET )
-	public String prodqa()
+	// 상품 문의 리스트 출력
+	@RequestMapping( value = "/prodqa.do", method = RequestMethod.GET )
+	public String prodqa(Model model,HttpServletRequest req)
 	{
+		
+		HttpSession session = req.getSession();
+		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
+		
+		List<PRODUCT_Q_VO> selectList = mypageService.selectList(MEMBERVO.getMember_idx() );
+		model.addAttribute("selectList", selectList);
+		
+		System.out.println(selectList);
+		
 		return "mypage/prodqa";
 	}
 	

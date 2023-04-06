@@ -70,86 +70,16 @@
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach items="${pq_list_select}" var="vo">
 						<tr>
-							<th>1</th>
-							<td>게임 1</td>
-							<td>문의 제목입니다.</td>
-							<td>12345678</td>
-							<td>2023-03-08</td>
-							<td>답변 완료</td>
+							<th>${vo.prod_q_idx}</th>
+							<td>${vo.product_tb_idx}</td>
+							<td>${vo.prod_q_title}</td>
+							<td>${vo.prod_q_contents}</td>
+							<td>${vo.prod_q_wdate}</td>
+							<td>${vo.prod_q_yn}</td>
 						</tr>
-						<tr>
-							<th>2</th>
-							<td>게임 2</td>
-							<td>문의 제목입니다.</td>
-							<td>22345678</td>
-							<td>2023-03-08</td>
-							<td>답변 완료</td>
-						</tr>
-						<tr>
-							<th>3</th>
-							<td>게임 3</td>
-							<td>문의 제목입니다.</td>
-							<td>32345678</td>
-							<td>2023-03-08</td>
-							<td>답변 완료</td>
-						</tr>
-						<tr>
-							<th>4</th>
-							<td>게임 4</td>
-							<td>문의 제목입니다.</td>
-							<td>42345678</td>
-							<td>2023-03-08</td>
-							<td>답변 완료</td>
-						</tr>
-						<tr>
-							<th>5</th>
-							<td>게임 5</td>
-							<td>문의 제목입니다.</td>
-							<td>52345678</td>
-							<td>2023-03-08</td>
-							<td>답변 완료</td>
-						</tr>
-						<tr>
-							<th>6</th>
-							<td>게임 6</td>
-							<td>문의 제목입니다.</td>
-							<td>62345678</td>
-							<td>2023-03-08</td>
-							<td>답변 처리중</td>
-						</tr>
-						<tr>
-							<th>7</th>
-							<td>게임 7</td>
-							<td>문의 제목입니다.</td>
-							<td>72345678</td>
-							<td>2023-03-08</td>
-							<td>답변 처리중</td>
-						</tr>
-						<tr>
-							<th>8</th>
-							<td>게임 8</td>
-							<td>문의 제목입니다.</td>
-							<td>82345678</td>
-							<td>2023-03-08</td>
-							<td>답변 처리중</td>
-						</tr>
-						<tr>
-							<th>9</th>
-							<td>게임 9</td>
-							<td>문의 제목입니다.</td>
-							<td>92345678</td>
-							<td>2023-03-08</td>
-							<td>답변 처리중</td>
-						</tr>
-						<tr>
-							<th>10</th>
-							<td>게임 10</td>
-							<td>문의 제목입니다.</td>
-							<td>02345678</td>
-							<td>2023-03-08</td>
-							<td>답변 처리중</td>
-						</tr>
+						</c:forEach>
 
 					</tbody>
 				</table>
