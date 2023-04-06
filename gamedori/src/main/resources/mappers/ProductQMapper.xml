@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="game.dori.mapper.productQMapper">
+	<!-- 마이페이지 -상품문의 리스트 출력 -->
 	<select id="selectList" resultType="PRODUCT_Q_VO" parameterType="int">
 		select *
 			from PRODUCT_Q_TB

@@ -58,7 +58,6 @@
                     <thead>
                         <tr>
                             <th scope="col">번호</th>
-                            <th scope="col">문의 유형</th>
                             <th scope="col">문의 제목</th>
                             <th scope="col">작성자</th>
                             <th scope="col">작성 일자</th>
@@ -67,87 +66,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                    	<c:forEach items="${selectList2}" var="vo">
                         <tr>
-                            <th>1</th>
-                            <td>회원가입</td>
-                            <td>문의 제목입니다.</td>
-                            <td>abc1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 완료</td>
+                            <th>${vo.qa_idx}</th>
+                            <td>${vo.qa_title}</td>
+                            <td>${vo.qa_writer}</td>
+                            <td>${vo.qa_wdate}</td>
+                            <td>${vo.qa_yn}</td>
                         </tr> 
-                        <tr>
-                            <th>2</th>
-                            <td>결제 및 배송</td>
-                            <td>문의 제목입니다.</td>
-                            <td>def1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 완료</td>
-                        </tr> 
-                        <tr>
-                            <th>3</th>
-                            <td>교환 및 환불</td>
-                            <td>문의 제목입니다.</td>
-                            <td>ghi1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 완료</td>
-                        </tr>
-                        <tr>
-                            <th>4</th>
-                            <td>적립금</td>
-                            <td>문의 제목입니다.</td>
-                            <td>jkl1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 완료</td>
-                        </tr>
-                        <tr>
-                            <th>5</th>
-                            <td>기타</td>
-                            <td>문의 제목입니다.</td>
-                            <td>mno1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 완료</td>
-                        </tr>
-                        <tr>
-                            <th>6</th>
-                            <td>회원가입</td>
-                            <td>문의 제목입니다.</td>
-                            <td>abc1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 처리중</td>
-                        </tr> 
-                        <tr>
-                            <th>7</th>
-                            <td>결제 및 배송</td>
-                            <td>문의 제목입니다.</td>
-                            <td>def1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 처리중</td>
-                        </tr> 
-                        <tr>
-                            <th>8</th>
-                            <td>교환 및 환불</td>
-                            <td>문의 제목입니다.</td>
-                            <td>ghi1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 처리중</td>
-                        </tr>
-                        <tr>
-                            <th>9</th>
-                            <td>적립금</td>
-                            <td>문의 제목입니다.</td>
-                            <td>jkl1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 처리중</td>
-                        </tr>
-                        <tr>
-                            <th>10</th>
-                            <td>기타</td>
-                            <td>문의 제목입니다.</td>
-                            <td>mno1234</td>
-                            <td>2023-03-08</td>
-                            <td>답변 처리중</td>
-                        </tr>  
-      
+                        </c:forEach>
                     </tbody>   
                 </div> <!-- end:#enquiry_inner -->
             </table>
