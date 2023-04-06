@@ -56,6 +56,7 @@ public class MemberController {
 	    	MEMBER_VO MemberVO2 = new MEMBER_VO();
 	    	MemberVO2.setMember_email(result.getMember_email());
 	    	MemberVO2.setMember_role(result.getMember_role());
+	    	MemberVO2.setMember_name(result.getMember_name());
 	    	
 	    	rsp.setContentType("text/html; charset=utf-8");
 	        PrintWriter pw = rsp.getWriter();
@@ -87,32 +88,7 @@ public class MemberController {
 	 
 	}
 
-	
-	@RequestMapping(value = "/join.do", method = RequestMethod.POST)
-	public String join( Model model , MEMBER_VO MemberVO , ADDRESS_VO addr, HttpServletRequest req , HttpServletResponse rsp) throws IOException {
-
-		 // 이메일 인증 링크 생성
-	    String token = generateToken();
-	    MemberVO.setMember_email_key(token);
-
-		int memberId = MemberService.insertMember(MemberVO);
 		
-
-		
-		if(memberId > 0)
-		{
-			addr.setMember_tb_idx(MemberVO.getMember_idx());
-			AddressService.insert(addr);
-			
-			System.out.println("idx 값 ::" + MemberVO.getMember_idx());
-
-	    // 이메일 전송
-	    	mailService.sendVerificationEmail(MemberVO.getMember_email(), token);
-		}
-	    return "user/emailcheck";
-	}
-	
-	
 	@RequestMapping(value = "/mypage.do", method = RequestMethod.GET)
 	public String mypage() {
 
@@ -123,52 +99,110 @@ public class MemberController {
 	@RequestMapping(value="/checkID.do" ,method=RequestMethod.GET)
 	public String checkID(MEMBER_VO MemberVO)
 	{
-		MEMBER_VO result = MemberService.selectByEmail(MemberVO.getMember_email());
-		
-		if(result != null)
-		{
-			return "0"; 
-		}
-		else 
-		{
-			return "1"; 
-		}
+	    String email = MemberVO.getMember_email();
+	    
+	    System.out.println(email);
+	    
+	    if (email == null || email.isEmpty() || !email.matches("\\S+@\\S+\\.\\S+")) {
+	        return "2"; // 이메일 양식 오류
+	    }
+	    
+	    MEMBER_VO result = MemberService.selectByEmail(email);
+	    
+	    if (result != null) {
+	        return "0"; // 중복 이메일
+	    } else {
+	        return "1"; // 사용 가능한 이메일
+	    }
 	}
 	
+
+	@RequestMapping(value = "/join.do", method = RequestMethod.POST)
+	public String join(Model model, MEMBER_VO MemberVO, ADDRESS_VO addr, HttpServletRequest req, HttpServletResponse rsp,
+	                   HttpSession session) throws IOException {
+
+	    // 이메일 인증 링크 생성
+	    String token = generateToken();
+	    MemberVO.setMember_email_key(token);
+
+	    // 이메일 전송
+	    mailService.sendVerificationEmail(MemberVO.getMember_email(), token);
+
+	    // 세션에 회원 정보 저장
+	    session.setAttribute("memberVO", MemberVO);
+	    session.setAttribute("addr", addr);
+	    session.setAttribute("name", MemberVO.getMember_name());
+
+	    return "user/emailcheck";
+	}
 
 	@RequestMapping(value = "/emailCheck.do", method = RequestMethod.GET)
-	public void emailCheck(@RequestParam("email") String email, @RequestParam("token") String token , HttpServletResponse rsp ,HttpServletRequest req) throws IOException {
+	public void emailCheck(@RequestParam("email") String email, @RequestParam("token") String token,
+	                        HttpServletResponse rsp, HttpServletRequest req, HttpSession session) throws IOException {
 
-		MEMBER_VO memberVO = MemberService.selectByEmail(email);
+	    // 세션에서 회원 정보와 주소 정보 가져오기
+	    MEMBER_VO memberVO = (MEMBER_VO) session.getAttribute("memberVO");
+	    ADDRESS_VO addr = (ADDRESS_VO) session.getAttribute("addr");
 
-		if (memberVO == null) {
-		    // 에러 처리
-			System.out.println("membervo가 비어있습니다.");
-		}
+	    if (memberVO == null || addr == null) {
+	        // 에러 처리
+	        System.out.println("회원 정보나 주소 정보가 비어 있습니다.");
+	    }
 
-		String memberMailKey = memberVO.getMember_email_key();
-		
-		rsp.setContentType("text/html; charset=utf-8");
-		PrintWriter pw = rsp.getWriter();
+	    String memberMailKey = memberVO.getMember_email_key();
 
-		if (memberMailKey == null || !memberMailKey.equalsIgnoreCase(token)) {
-		    // 토큰 값이 null이거나 일치하지 않는 경우
-		    // 에러 처리
-			pw.append("<script>alert('이메일 인증 코드가 다릅니다!'); location.href='"+req.getContextPath()+"'</script>");
-		}
-		
-		// 토큰 값이 일치하는 경우
-		memberVO.setMember_email_yn(2);
-		MemberService.updateyn(memberVO);
-		
-		pw.append("<script>alert('회원가입 성공!'); location.href='"+req.getContextPath()+"'</script>");
-		
-	    
-	    
+	    rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+
+	    if (memberMailKey == null || !memberMailKey.equalsIgnoreCase(token)) {
+	        // 토큰 값이 null이거나 일치하지 않는 경우
+	        // 에러 처리
+	        pw.append("<script>alert('이메일 인증 코드가 다릅니다!'); location.href='" + req.getContextPath()
+	                + "/k'</script>");
+	    } else {
+	        // 이메일 인증에 성공한 경우
+	        memberVO.setMember_email_yn(1);
+	        int memberId = MemberService.insertMember(memberVO);
+	        if (memberId > 0) {
+	            addr.setMember_tb_idx(memberVO.getMember_idx());
+	            AddressService.insert(addr);
+	            System.out.println("idx 값 ::" + memberVO.getMember_idx());
+	        }
+	        pw.append("<script>alert('회원가입 성공!'); location.href='" + req.getContextPath() + "/'</script>");
+	    }
+
+	    // 세션에 저장된 정보 제거
+	    session.removeAttribute("memberVO");
+	    session.removeAttribute("addr");
 	}
-
-
 	
+	//메일 다시보내기 처리
+	@RequestMapping(value = "/resendVerificationEmail.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String resendVerificationEmail(@RequestParam("email") String email , HttpSession session) {
+	    // 이메일 인증 링크 생성
+	    String token = generateToken();
+	    // 이메일 인증 링크 생성
+		
+	    MEMBER_VO result = MemberService.selectByEmail(email);
+	    
+	    
+	    if(result != null)
+	    {
+
+			 result.setMember_email_key(token); 
+			 session.removeAttribute("memberVO");
+			 session.setAttribute("memberVO", result);
+	    }
+			
+
+	    
+	    // 이메일 전송
+	    mailService.sendVerificationEmail(email, token);
+	    
+	    return "sueess.";
+	}
+		
 	private String generateToken() {
 	    SecureRandom random = new SecureRandom();
 	    byte[] bytes = new byte[20];

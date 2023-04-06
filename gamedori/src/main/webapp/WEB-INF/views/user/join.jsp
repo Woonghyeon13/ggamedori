@@ -2,34 +2,68 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
 
+<script>
+
+var emailRegex = /\S+@\S+\.\S+/;
+
+
+function validateEmail() {
+	  var email = $("#member_email").val();
+	  var emailIsValid = emailRegex.test(email);
+
+	  if (!email) {
+	    emailInput.addClass("is-invalid");
+	    emailInput.nextAll(".invalid-feedback:first").show();
+	  } else if (!emailIsValid) {
+	    emailInput.addClass("is-invalid");
+	    emailInput.nextAll(".invalid-feedback:last").show();
+	  } else {
+	    emailInput.removeClass("is-invalid");
+	    emailInput.nextAll(".invalid-feedback").hide();
+	    if (!$("#member_email").data("checked")) { // 중복 체크가 수행되지 않은 경우에만 체크
+	      checkID();
+	    }
+	  }
+	}
+
+	$("#emailCheck").on("click", function() {
+	  $("#member_email").data("checked", false); // 중복 체크 버튼 클릭 시에만 체크
+	  checkID();
+	});
+
+	function checkID() {
+		  var email = $(".memberemail").val();
+
+		  if (!emailRegex.test(email)) {
+		    alert("유효한 이메일 주소를 입력해주세요.");
+		    return;
+		  }
+
+		  var contextPath = '<%=request.getContextPath()%>';
+
+		  $.ajax({
+		    url: contextPath + "/user/checkID.do",
+		    type: "get",
+		    data: { member_email : email },
+		    success: function(data) {
+		      $("#member_email").data("checked", true); // 중복 체크 완료
+		      if (data == '0') {
+		        alert("사용할 수 없는 이메일입니다.");	
+		        $("#member_email").val("");
+		      } else if (data == '1') {
+		        alert("사용할 수 있는 이메일입니다.");	
+		      }
+		    },
+		    error: function() {
+		      alert("에러입니다!");
+		    }
+		  });
+		}
+	
+
+</script>
 <main>
-	<script>
-	 	function checkID()
-		{	
-				var contextPath = '<%=request.getContextPath()%>';
-				
-				$.ajax({
-					url:contextPath+"/user/checkID.do",
-					type:"get",
-					data:{member_email : $("#member_email").val()},
-					success:function(data)
-					{
-						if(data == '0')
-						{
-							alert("사용할 수 없는 아이디입니다.");	
-							$("#member_email").val("");
-						}
-						else if(data == '1')
-						{
-							alert("사용할 수 있는 아이디입니다.");	
-						}
-					},
-					error:function(){
-						alert("에러입니다!");
-					}
-				});
-			}
-	</script>
+	
 	<div class="inner">
 		<section id="join_Main" class="d-flex p-2 ">
 			<div id="join_box" class="container">
@@ -38,56 +72,92 @@
 
 						<h4 class="mb-3">회원가입</h4>
 						<hr />
-						<form class="validation-form"
-							action="<%=request.getContextPath()%>/user/join.do" method="post">
+						<form class="validation-form" action="<%=request.getContextPath()%>/user/join.do" method="post" onsubmit="return validatePassword()">
 							<div class="row">
 
-								<div class="col-md-12 mb-3">
-									<label for="MEMBER_EMAIL">*이메일</label>
-									<div class="input-group mb-3">
-										<input type="text" class="form-control" name="member_email"
-											id="member_email" placeholder="이메일">
-
-										<button onclick="checkID()" class="btn btn-outline-secondary"
-											type="button" id="emailCheck">중복체크</button>
-										<div class="invalid-feedback">이메일을 입력해주세요.</div>
-									</div>
-
-									<!-- <div class="input-group-addon">
-							<button type="button" onclick="checkEamil()" class="btn btn-primary" id="mail-Check-Btn">본인인증</button>
-						</div>
-						<div class="mail-check-box">
-						<input class="form-control mail-check-input" id="member_mail_key" name="member_mail_key" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
-						</div>
-							<span id="mail-check-warn"></span>
-						</div> -->
+							<div class="col-md-12 mb-3">
+								 <label for="MEMBER_EMAIL">*이메일</label>
+								  <div class="input-group mb-3">
+								    <input type="email" class="form-control memberemail" name="member_email" id="member_email" placeholder="이메일" required>
+								    <button onclick="checkID()" class="btn btn-outline-secondary" type="button" id="emailCheck">중복체크</button>
+								    <div class="invalid-feedback">이메일을 입력해주세요.</div>
+								    <div class="invalid-feedback">유효한 이메일 주소를 입력해주세요.</div>
+								  </div>
 								</div>
 
-								<hr />
 
-								<div class="col-md-6 mb-3">
-									<label for="MEMBER_NAME">*비밀번호</label> <input type="password"
-										class="form-control input_s" id="member_pw" name="member_pw"
-										required>
-									<div class="invalid-feedback">비밀번호를 입력해주세요</div>
-									<br /> <label for="MEMBER_NAME" class="mt-3 ">*비밀번호 확인</label>
-									<input type="password" class="form-control input_s"
-										id="MEMBER_PWCheck" required>
-									<div class="invalid-feedback">비밀번호를 입력해주세요</div>
-								</div>
-
-								<hr />
-
+							
+							<div class="col-md-6 mb-3">
+							  <label for="member_pw">*비밀번호</label>
+							  	<input type="password" class="form-control input_s memberpw" id="member_pw" name="member_pw" required>
+							  <div class="invalid-feedback" id="pw-invalid-feedback">비밀번호는 영문 대/소문자, 숫자, 8~20자의 길이 특수문자 중 1개 이상 입력해주세요</div>
+							  <br>
+							  <label for="MEMBER_PWCheck" class="mt-3">*비밀번호 확인</label>
+							 	 <input type="password" class="form-control input_s" id="MEMBER_PWCheck" name="MEMBER_PWCheck" required>
+							  <div id="pwcheck-invalid-feedback" class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+							  <div id="pwcheck-valid-feedback" class="valid-feedback">비밀번호가 일치합니다.</div>
+							  <br>
+							
+							<script>
+							
+							// 비밀번호 암호식  비밀번호 체크 스크립트 
+							  var member_pw = document.querySelector(".memberpw");
+							  var pwCheckInput = document.getElementById("MEMBER_PWCheck");
+							  var pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
+							
+							  function validatePassword() {
+							    var pw = member_pw.value;
+							    var pwCheck = pwCheckInput.value;
+							    var pwIsValid = pwRegex.test(pw);
+							
+							    if (!pwIsValid) {
+							      member_pw.classList.add("is-invalid");
+							      document.getElementById("pw-invalid-feedback").style.display = "block";
+							      return false;
+							    } else {
+							      member_pw.classList.remove("is-invalid");
+							      document.getElementById("pw-invalid-feedback").style.display = "none";
+							    }
+							
+							    if (pw !== pwCheck) {
+							      pwCheckInput.classList.add("is-invalid");
+							      document.getElementById("pwcheck-invalid-feedback").style.display = "block";
+							      document.getElementById("pwcheck-valid-feedback").style.display = "none";
+							      return false;
+							    } else {
+							      pwCheckInput.classList.remove("is-invalid");
+							      document.getElementById("pwcheck-invalid-feedback").style.display = "none";
+							      document.getElementById("pwcheck-valid-feedback").style.display = "block";
+							      return true;
+							    }
+							  }
+							
+							  member_pw.addEventListener("input", validatePassword);
+							  pwCheckInput.addEventListener("input", validatePassword);
+							
+							  function submitForm() {
+							    var isPasswordValid = validatePassword();
+							    if (!isPasswordValid) {
+							      alert("비밀번호 보안식이 올바르지 않습니다. 다시 확인해주세요.");
+							      return false;
+							    } else {
+							      return true;
+							    }
+							  }
+							
+							</script>
+							</div>
+							
+							</div>
+							
 								<div class="col-md-6 mb-3">
 									<label for="MEMBER_NAME">*이름</label> <input type="text"
 										class="form-control input_s" name="member_name"
 										id="member_name" required>
 									<div class="invalid-feedback">이름을 입력해주세요.</div>
 								</div>
-
-								<hr />
-
-							</div>
+							
+							
 
 							<div class="mb-4">
 								<label for="MEMBER_PHONE" class="form-label fw-bold fs-6">휴대전화</label>
