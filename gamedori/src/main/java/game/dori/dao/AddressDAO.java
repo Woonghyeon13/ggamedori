@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import game.dori.vo.ADDRESS_VO;
+import game.dori.vo.MEMBER_VO;
 
 @Repository
 public class AddressDAO {
@@ -17,5 +18,10 @@ public class AddressDAO {
 	{
 		return sqlSession.insert("game.dori.mapper.addressMapper.insert",AddressVO);
 		
+	}
+	
+	public int addr_delete(MEMBER_VO memberVO)
+	{
+		return sqlSession.delete("game.dori.mapper.addressMapper.delete_address", memberVO);
 	}
 }

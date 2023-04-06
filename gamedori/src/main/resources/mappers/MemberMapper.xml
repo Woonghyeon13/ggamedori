@@ -36,5 +36,10 @@
 	        member_email = #{member_email}
 	</update>
 	
+	
+	<delete id="delete_member" parameterType="MemberVO">
+	  DELETE FROM member_tb
+	  WHERE member_email = #{member_email} AND member_pw = #{member_pw}
+	</delete>
 </mapper>
 

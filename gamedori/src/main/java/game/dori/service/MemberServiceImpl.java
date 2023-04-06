@@ -39,9 +39,15 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public MEMBER_VO Login(MEMBER_VO MemberVO) {
+	public MEMBER_VO Login(MEMBER_VO memberVO) {
 		// TODO Auto-generated method stub
-		return memberDAO.Login(MemberVO);
+		return memberDAO.Login(memberVO);
+	}
+
+	@Override
+	public int Delete(MEMBER_VO memberVO) {
+		// TODO Auto-generated method stub
+		return memberDAO.member_delete(memberVO);
 	}
 
 

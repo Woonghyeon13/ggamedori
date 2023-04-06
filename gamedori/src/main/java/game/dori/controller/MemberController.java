@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.util.Base64;
-
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -202,7 +203,46 @@ public class MemberController {
 	    
 	    return "sueess.";
 	}
+	
+	
+	
+	@RequestMapping(value = "/withdraw")
+	public String withdraw()
+	{
 		
+		return "user/withdraw";
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Member_delete.do", method = RequestMethod.POST)
+	public Map<String, String> memberdelete(MEMBER_VO MemberVO, HttpSession session) {
+		int result = AddressService.delete(MemberVO);
+
+		Map<String, String> response = new HashMap<String, String>();
+		if (result > 0) {
+			MemberService.Delete(MemberVO);
+			session.removeAttribute("Login");
+			response.put("result", "1");
+		} else {
+			System.out.println(MemberVO.getMember_email());
+			System.out.println(MemberVO.getMember_pw());
+			System.out.println("탈퇴 실패");
+			response.put("result", "2");
+		}
+
+		return response;
+	}
+	
+
+	@RequestMapping(value = "/modify")
+	public String modify()
+	{
+		
+		return "user/modify";
+	}
+	
+	//토큰값 만들기 위한 호출용 함수	
 	private String generateToken() {
 	    SecureRandom random = new SecureRandom();
 	    byte[] bytes = new byte[20];

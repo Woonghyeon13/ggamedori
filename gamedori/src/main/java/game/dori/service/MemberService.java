@@ -13,8 +13,10 @@ public interface MemberService {
 
 	public int insertMember(MEMBER_VO MemberVO);
 	
-	
 	public MEMBER_VO Login(MEMBER_VO MemberVO);
+	
+	
+	public int Delete(MEMBER_VO MemberVO);
 	
 
 }

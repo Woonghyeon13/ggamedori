@@ -30,10 +30,10 @@ public class MemberDAO {
 	    return memberVO.getMember_idx();
 	}
 	
-	public MEMBER_VO Login(MEMBER_VO MemberVO)
+	public MEMBER_VO Login(MEMBER_VO memberVO)
 	{
 		
-		return sqlSession.selectOne(namespace + "Login" , MemberVO);
+		return sqlSession.selectOne(namespace + "Login" , memberVO);
 	}
 	
 	public MEMBER_VO selectByEmail(String member_email)
@@ -44,6 +44,12 @@ public class MemberDAO {
 	public int updateyn(MEMBER_VO memberVO) {
 		return sqlSession.update(namespace + "updateMemberyn",memberVO);
 	
+	}
+	
+
+	public int member_delete(MEMBER_VO memberVO)
+	{
+		return sqlSession.delete(namespace + "delete_member", memberVO);
 	}
 	
 	
