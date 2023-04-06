@@ -4,7 +4,7 @@ package game.dori.vo;
 
 public class PRODUCT_Q_VO {
 	
-	private int prod_q_inx;				// 상품 문의 인덱스
+	private int prod_q_idx;				// 상품 문의 인덱스
 	private int product_tb_idx;			// 상품 인덱스
 	private int member_tb_idx;			// 회원 인덱스
 	private String prod_q_title;		// 제목
@@ -15,11 +15,12 @@ public class PRODUCT_Q_VO {
 	private	int prod_q_secret;			// 비밀 글 여부	[1: y / 2 : n]
 	
 	
-	public int getProd_q_inx() {
-		return prod_q_inx;
+
+	public int getProd_q_idx() {
+		return prod_q_idx;
 	}
-	public void setProd_q_inx(int prod_q_inx) {
-		this.prod_q_inx = prod_q_inx;
+	public void setProd_q_idx(int prod_q_idx) {
+		this.prod_q_idx = prod_q_idx;
 	}
 	public int getProduct_tb_idx() {
 		return product_tb_idx;
