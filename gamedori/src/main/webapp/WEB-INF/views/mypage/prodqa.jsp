@@ -70,7 +70,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${pq_list_select}" var="vo">
+						<c:forEach items="${selectList}" var="vo">
 						<tr>
 							<th>${vo.prod_q_idx}</th>
 							<td>${vo.product_tb_idx}</td>
