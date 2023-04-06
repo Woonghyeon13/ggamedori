@@ -24,4 +24,10 @@ public class AddressDAO {
 	{
 		return sqlSession.delete("game.dori.mapper.addressMapper.delete_address", memberVO);
 	}
+	
+	
+	public int update_Member(ADDRESS_VO AddressVO)
+	{
+		return sqlSession.delete("game.dori.mapper.addressMapper.updateAddress", AddressVO);
+	}
 }

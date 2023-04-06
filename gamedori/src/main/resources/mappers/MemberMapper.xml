@@ -41,5 +41,14 @@
 	  DELETE FROM member_tb
 	  WHERE member_email = #{member_email} AND member_pw = #{member_pw}
 	</delete>
+	
+	<update id="updateMember" parameterType="MemberVO">
+	    UPDATE member_tb
+	    SET
+	        member_pw = #{member_pw},
+	        member_phone = #{member_phone}
+	    WHERE
+	        member_idx = #{member_idx}
+	</update>
 </mapper>
 

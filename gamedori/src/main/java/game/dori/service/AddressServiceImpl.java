@@ -24,4 +24,10 @@ public class AddressServiceImpl implements AddressService{
 		// TODO Auto-generated method stub
 		return addressDAO.addr_delete(memberVO);
 	}
+
+	@Override
+	public int update(ADDRESS_VO addr) {
+		// TODO Auto-generated method stub
+		return addressDAO.update_Member(addr);
+	}
 }

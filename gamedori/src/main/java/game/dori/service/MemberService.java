@@ -15,8 +15,9 @@ public interface MemberService {
 	
 	public MEMBER_VO Login(MEMBER_VO MemberVO);
 	
-	
 	public int Delete(MEMBER_VO MemberVO);
+	
+	public int Update(MEMBER_VO MemberVO);
 	
 
 }

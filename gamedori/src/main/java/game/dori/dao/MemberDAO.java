@@ -46,11 +46,15 @@ public class MemberDAO {
 	
 	}
 	
-
 	public int member_delete(MEMBER_VO memberVO)
 	{
 		return sqlSession.delete(namespace + "delete_member", memberVO);
 	}
 	
+	
+	public int member_update(MEMBER_VO memberVO)
+	{
+		return sqlSession.update(namespace + "updateMember", memberVO);
+	}
 	
 }
