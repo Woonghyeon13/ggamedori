@@ -17,9 +17,9 @@ public class PRODUCT_VO {
 	private String prod_rdate;			// 출시 일
 	private int prod_rating;			// 성인 등급 여부	 [ 1: 일반 / 2 : 성인등급 ]
 	private int prod_reserv;			// 예약 상품 여부
-	private String prod_img_t;			// 썸네일 이미지
-	private String prod_img_m;			// 메인 이미지
-	private String prod_img_d;			// 상세정보 이미지
+	private String prod_imgt;			// 썸네일 이미지
+	private String prod_imgm;			// 메인 이미지
+	private String prod_imgd;			// 상세정보 이미지
 	
 	public int getProd_idx() {
 		return prod_idx;
@@ -99,25 +99,24 @@ public class PRODUCT_VO {
 	public void setProd_reserv(int prod_reserv) {
 		this.prod_reserv = prod_reserv;
 	}
-	public String getProd_img_t() {
-		return prod_img_t;
+	public String getProd_imgt() {
+		return prod_imgt;
 	}
-	public void setProd_img_t(String prod_img_t) {
-		this.prod_img_t = prod_img_t;
+	public void setProd_imgt(String prod_imgt) {
+		this.prod_imgt = prod_imgt;
 	}
-	public String getProd_img_m() {
-		return prod_img_m;
+	public String getProd_imgm() {
+		return prod_imgm;
 	}
-	public void setProd_img_m(String prod_img_m) {
-		this.prod_img_m = prod_img_m;
+	public void setProd_imgm(String prod_imgm) {
+		this.prod_imgm = prod_imgm;
 	}
-	public String getProd_img_d() {
-		return prod_img_d;
+	public String getProd_imgd() {
+		return prod_imgd;
 	}
-	public void setProd_img_d(String prod_img_d) {
-		this.prod_img_d = prod_img_d;
+	public void setProd_imgd(String prod_imgd) {
+		this.prod_imgd = prod_imgd;
 	}
-	
 	
 	
 	

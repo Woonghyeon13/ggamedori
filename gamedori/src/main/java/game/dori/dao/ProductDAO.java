@@ -12,8 +12,8 @@ public class ProductDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public int prodInsert( PRODUCT_VO pvo )
+	public void prodInsert( PRODUCT_VO pvo )
 	{
-		return sqlSession.insert("game.dori.mapper.productMapper.prodInsert",pvo);
+		sqlSession.insert("game.dori.mapper.productMapper.prodInsert",pvo);
 	}
 }

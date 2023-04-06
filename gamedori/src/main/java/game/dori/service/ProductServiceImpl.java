@@ -25,8 +25,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int prodInsert( PRODUCT_VO pvo ) {
-		return productDAO.prodInsert(pvo);
+	public void prodInsert( PRODUCT_VO pvo ) {
+		productDAO.prodInsert(pvo);
 	}
 	
 }

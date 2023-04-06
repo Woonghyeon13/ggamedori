@@ -9,5 +9,5 @@ public interface ProductService {
 
 	public List<CATEGORY_VO> category();
 	
-	public int prodInsert( PRODUCT_VO pvo );
+	public void prodInsert( PRODUCT_VO pvo );
 }

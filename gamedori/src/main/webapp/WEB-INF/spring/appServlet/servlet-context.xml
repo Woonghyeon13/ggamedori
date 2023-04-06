@@ -30,6 +30,7 @@
 	<context:component-scan base-package="game.dori.util" />
 	<context:component-scan base-package="game.dori.vo" />
 	
+	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
 	
 </beans:beans>

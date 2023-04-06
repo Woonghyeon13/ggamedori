@@ -281,64 +281,69 @@
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
+								<input type="text" class="form-control"
 									placeholder="상품명" name="prod_name">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
+								<input type="text" class="form-control"
 									placeholder="가격" name="prod_price">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
+								<input type="text" class="form-control"
 									placeholder="제조사" name="prod_co">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="date" class="form-control" id="review_title"
+								<input type="date" class="form-control"
 									placeholder="출시일" name="prod_rdate">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
+								<input type="text" class="form-control"
+									placeholder="재고량" name="prod_stock">
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="text" class="form-control"
 									placeholder="제품옵션1" name="prod_opt">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
+								<input type="text" class="form-control"
 									placeholder="제품옵션2" name="prod_opt">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
+								<input type="text" class="form-control"
 									placeholder="제품옵션3" name="prod_opt">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								성인등급 여부 <input name="prod_rating" type="radio" value="1">Y <input
-									name="adultyn" type="radio" value="2">N
+									name="prod_rating" type="radio" value="2">N
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								예약상품 여부 <input name="prod_reserv" type="radio" value="1">Y <input
-									name="adultyn" type="radio" value="2">N
+									name="prod_reserv" type="radio" value="2">N
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input name="prod_img_t" type="file" class="form-control" id="inputGroupFile02">
+									<input name="prod_file1" type="file" class="form-control">
 									<label class="input-group-text" for="inputGroupFile02">썸네일</label>
 								</div>
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input name="prod_img_m" type="file" class="form-control" id="inputGroupFile02">
+									<input name="prod_file2" type="file" class="form-control">
 									<label class="input-group-text" for="inputGroupFile02">메인사진</label>
 								</div>
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input name="prod_img_d" type="file" class="form-control" id="inputGroupFile02">
+									<input name="prod_file3" type="file" class="form-control">
 									<label class="input-group-text" for="inputGroupFile02">상세정보</label>
 								</div>
 							</div>
@@ -352,7 +357,6 @@
 				</div>
 			</div>
 		</div>
-
 		<!-- 검색폼 -->
 		<div class="container">
 			<form class="form-horizontal d-flex justify-content-center mt-3"
