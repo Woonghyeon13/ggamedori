@@ -69,8 +69,8 @@ public class MemberController {
 	        // 로그인 실패
 	        rsp.setContentType("text/html; charset=utf-8");
 	        PrintWriter pw = rsp.getWriter();
-	        model.addAttribute("message", "로그인 실패");
-	        pw.append("<script>alert('로그인 실패!'); history.back();</script>");
+	        model.addAttribute("message", "로그인 실패 아이디와 비밀번호가 맞는지 확인해주세요.");
+	        pw.append("<script>alert('로그인 실패 아이디와 비밀번호가 맞는지 확인해주세요.'); history.back();</script>");
 	        pw.flush();
 	        pw.close();
 	    }
@@ -235,41 +235,42 @@ public class MemberController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/Member_modfiy.do", method = RequestMethod.GET)
-	public Map<String, Integer> memberUpdate(ADDRESS_VO addr, MEMBER_VO memberVO, HttpSession session) {
-	    try {
-	        MEMBER_VO result = MemberService.selectByEmail(memberVO.getMember_email()); // 이메일로 회원 정보 검색
-	        
-	        if(result != null )
-	        {
+	@RequestMapping(value = "/Member_modfiy.do", method = RequestMethod.POST)
+	public Map<String, Integer> memberUpdate(ADDRESS_VO addr,String member_npw, MEMBER_VO memberVO, HttpSession session) {
+	  
+		
+		try {
+	        MEMBER_VO result = MemberService.Login(memberVO); // 이메일로 회원 정보 검색
+	        Map<String, Integer> response = new HashMap<String, Integer>();
+	        if(result != null) {
 	        	int memberIdx = result.getMember_idx(); // 검색된 회원의 idx 값 가져오기
-
+	        	
+	        	
+	        	memberVO.setMember_pw(member_npw);
 	 	        memberVO.setMember_idx(memberIdx); // 회원의 idx 값을 설정
 	 	        addr.setMember_tb_idx(memberIdx); // 주소 객체에 회원의 idx 값을 설정
 
 	 	        int memberResult = MemberService.Update(memberVO);
 	 	        int addrResult = AddressService.update(addr);
 
-	 	        Map<String, Integer> response = new HashMap<String, Integer>();
-	 	   
-	 	        	
+	 	        
 	 	       if (memberResult > 0 && addrResult > 0) {
 		            response.put("result", 1);
-		        } else {
-		            response.put("result", 0);
 		        }
-	 	      return response;
-	        }
-	       
-
-	        
-	   
-	    } catch (NullPointerException e) {
+	            return response; // 응답 객체를 반환합니다.
+	        } else {
+	            System.out.println("id 와 비밀번호 가 일치하지 않습니다.");
+	            response.put("result", 0); // 회원 정보가 없는 경우 실패로 설정합니다.
+	    	    return response; // 실패한 응답 객체를 반환합니다.
+	        	}
+			} catch (NullPointerException e) {
 	        e.printStackTrace(); // 예외 정보를 로그에 출력합니다.
 	        throw e; // 예외를 상위 메서드로 전파합니다.
+	        
 	    }
-		return null;
+	
 	}
+
 
 	
 

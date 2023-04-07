@@ -110,6 +110,14 @@
 			}
 		});
 	}
+	
+	// 로그인 세션 확인 후 비어있으면 메인 페이지로 이동
+	$(document).ready(function () {
+	    if (!${!empty Login}) { // 로그인 세션이 비어있는 경우
+	        alert("로그인이 필요한 페이지입니다.");
+	        window.location.href = "<%=request.getContextPath()%>/"; // 메인 페이지로 이동
+	    }
+	});
 </script>
 
 

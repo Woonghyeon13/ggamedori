@@ -17,7 +17,6 @@
 	 <select id ="Login" resultType="memberVO">
 	 	
 	 	select * from member_tb where member_email = #{member_email} and member_pw = #{member_pw}
-	 	and member_email_yn = "1"
 	 
 	 </select>
 	 
