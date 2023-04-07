@@ -53,20 +53,25 @@ public class CustomerscController {
 	public void write(NOTICE_VO noticeVO,HttpServletResponse rsp,String member_email, HttpServletRequest req, HttpSession session) throws IOException{
 
 		MEMBER_VO member = MemberService.selectByEmail(member_email);
-		noticeVO.setNotice_idx(member.getMember_idx());
-		
-		int result = adminService.insert(noticeVO);
 		
 		
+		int result = 0;
+		if(member.getMember_role() == 2)
+		{
+			noticeVO.setMember_tb_idx(member.getMember_idx());	
+			result = adminService.insert(noticeVO);
+		}
 		
 		 rsp.setContentType("text/html; charset=utf-8");
-		  PrintWriter pw = rsp.getWriter();
-		if(result > 0)
-		{
+		 PrintWriter pw = rsp.getWriter();
+		
+		 if(result > 0)
+		 {
 			session.setAttribute("noticeVO", noticeVO);
 			  pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
               + "/'</script>");
-		}
+		 }
+		 
 		
 		
 	}

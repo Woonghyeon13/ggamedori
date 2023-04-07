@@ -59,7 +59,11 @@
 					</td>
 					<td>
 						<button type="button" class="btn btn-dark">검색</button>
-						<button type="button" class="btn btn-dark" onclick="location.href='notice_write.do'">글쓰기</button>
+						
+						<c:if test="${Login.member_role == 2}">
+							<button type="button" class="btn btn-dark" onclick="location.href='notice_write.do'">글쓰기</button>
+						</c:if>
+						
 					</td>
 				</tr>
 			</table>
