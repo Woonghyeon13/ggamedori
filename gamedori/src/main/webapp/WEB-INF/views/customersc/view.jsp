@@ -4,7 +4,7 @@
 
 
 <main>
-	<div class="customer">
+	<div class="customer" class="container">
 		<div id="customer_header">
 			<h2>고객센터</h2>
 			<ul class="nav nav-tabs">
@@ -17,19 +17,19 @@
 			</ul>
 		</div>
 
-		<div id="customer_board">
+		<div id="customer_board" class="container">
 			<table class="table table-hover"
 				style="width: 70%; border-top: 1px solid black;">
 				<thead>
 					<tr>
-						<th>공지사항 제목입니다요용ㅇ</th>
-						<th>작성자</th>
-						<th>2023.02.20</th>
+						<th>${vo.notice_title}</th>
+						<th>${notice_writer }</th>
+						<th>${notice_wdate }</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="3" style="height: 800px; text-align: left;">아하하하</td>
+						<td colspan="3" style="height: 800px; text-align: left;">${vo.notice_contents}</td>
 					</tr>
 					<tr>
 						<td colspan="3" style="height: 50px;"><img
@@ -42,7 +42,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<div id="customer_bottom_page">
+			<div id="customer_bottom_page" class="container">
 				<ul>
 					<li>이전</li>
 					<li>다음</li>
