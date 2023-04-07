@@ -1,6 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+
+<script>
+
+function updateMemberRole(selectElement) {
+	  var selectedOption = selectElement.value;
+	  $.ajax({
+	    url: "/updateMemberRole",
+	    type: "POST",
+	    data: { 
+	      memberId: ${memberlist.member_id},
+	      option: selectedOption 
+	    },
+	    success: function(response) {
+	      console.log("Updated DB value to: " + response);
+	      selectElement.value = response; // 변경된 값을 선택한 옵션으로 설정
+	    },
+	    error: function(xhr) {
+	      console.log("Error updating DB value: " + xhr.responseText);
+	    }
+	  });
+	}
+
+</script>
+
 <main>
 	<div class="container d-flex justify-content-center mt-2">
 		<h3 class="fw-bold">관리자 페이지</h3>
@@ -40,53 +64,52 @@
 	<div class="container mt-5">
 		
 		<div class="container">
-			<form action="">
+			<!-- <form name="memberState" action="member.do" method="post">  -->
 				<table class="table">
 					<thead class="table-light">
 						<tr>
-							<th scope="col ">회원번호</th>
-							<th scope="col">이름</th>
-							<th scope="col">EMAIL</th>
-							<th scope="col">연락처</th>
-							<th scope="col">등급</th>
-							<th scope="col">상태</th>
+							<th scope="col" class="text-center" width="10%">회원번호</th>
+							<th scope="col" class="text-center" width="15%">이름</th>
+							<th scope="col" class="text-center" width="20%">EMAIL</th>
+							<th scope="col" class="text-center" width="20%">연락처</th>
+							<th scope="col" class="text-center" width="15%">등급</th>
+							<th scope="col" class="text-center" width="20%">상태</th>
 						</tr>
 					</thead>
 					<tbody>
 					<c:forEach var="memberlist" items="${list }">
 						<tr>
-							<td>${memberlist.member_idx }</td>
-							<td>${memberlist.member_name }</td>
-							<td>${memberlist.member_email }</td>
-							<td>${memberlist.member_phone }</td>
-						<c:choose>	
-							<c:when test="${memberlist.member_level ==1}">	
-								<td>브론즈</td>
-							</c:when>
-							<c:when test="${memberlist.member_level==2}">	
-								<td>실버</td>
-							</c:when>
-							<c:otherwise>	
-								<td>골드</td>
-							</c:otherwise>			
-						</c:choose>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-
+							<td class="text-center">${memberlist.member_idx }</td>
+							<td class="text-center">${memberlist.member_name }</td>
+							<td class="text-center">${memberlist.member_email }</td>
+							<td class="text-center">${memberlist.member_phone }</td>
+					<c:choose>	
+						<c:when test="${memberlist.member_level == 1}">	
+							<td class="text-center">브론즈</td>
+						</c:when>
+						<c:when test="${memberlist.member_level == 2}">	
+							<td class="text-center">실버</td>
+						</c:when>
+						<c:otherwise>	
+							<td class="text-center">골드</td>
+						</c:otherwise>			
+					</c:choose>
+							<td class="text-center">
+								<select class="form-select" onchange="updateMemberRole(this.value)">
+									<option value="1" <c:if test="${memberlist.member_state == 1}">selected</c:if>>정상</option>
+									<option value="2" <c:if test="${memberlist.member_state == 2}">selected</c:if>>정지</option>
+									<option value="3" <c:if test="${memberlist.member_state == 3}">selected</c:if>>탈퇴</option>
+								</select>
+							</td>
 						</tr>
 					</c:forEach>	
 					</tbody>
 				</table>
 		</div>
-		<div class="container d-flex justify-content-end">
-			<button type="button"
-				class="btn btn-outline-secondary btn-sm ms-2 me-4">승인</button>
-		</div>
-		</form>
+	<!-- 	<div class="container d-flex justify-content-end">
+			<button class="btn btn-outline-secondary ms-2 me-4">승인</button>
+		</div>  -->
+	<!-- </form>  -->
 
 		<div class="container">
 			<form class="form-horizontal d-flex justify-content-center"
@@ -96,7 +119,7 @@
 						placeholder="회원명" aria-label=".form-control-sm example">
 				</div>
 				<div>
-					<button type="button" class="btn btn-outline-secondary btn-sm ms-2">검색</button>
+					<button class="btn btn-outline-secondary btn-sm ms-2">검색</button>
 				</div>
 			</form>
 		</div>

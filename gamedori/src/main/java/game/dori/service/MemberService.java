@@ -20,5 +20,6 @@ public interface MemberService {
 	
 	public List<MEMBER_VO> list(); //회원 리스트
 	
+	public void updateMemberState(MEMBER_VO MemberVO); //회원 상태
 
 }

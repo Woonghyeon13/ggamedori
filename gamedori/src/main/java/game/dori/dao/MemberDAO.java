@@ -50,5 +50,11 @@ public class MemberDAO {
 		return sqlSession.selectList(namespace + "memberlist");
 	}
 	
+	//회원 상태(일반, 정지) 변경
+	public int updateMemberState(MEMBER_VO memberVO) {
+		return sqlSession.update(namespace + "updateMemberState",memberVO);
+	
+	}
+	
 	
 }

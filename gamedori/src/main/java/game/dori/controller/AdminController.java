@@ -33,7 +33,7 @@ public class AdminController {
 	@RequestMapping( value = "/member.do", method = RequestMethod.GET )
 	public String member(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
 		
-		//회원 리스트 가져오기
+		//회원 리스트 가져오기(일반 회원만 가져오게 sql문 작성했음)
 		List<MEMBER_VO> list = memberService.list();
 		model.addAttribute("list", list);
 		
@@ -61,6 +61,14 @@ public class AdminController {
 	        pw.close();
 			return "home";
 		}
+		
+	}
+	
+	//회원관리 회원상태 변경
+	@RequestMapping(value="/member.do",method=RequestMethod.POST)
+	public void updateMemberState( MEMBER_VO MemberVO) {
+		
+		memberService.updateMemberState(MemberVO);
 		
 	}
 
