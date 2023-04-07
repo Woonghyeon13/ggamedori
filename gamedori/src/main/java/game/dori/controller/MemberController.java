@@ -214,6 +214,8 @@ public class MemberController {
 	}
 	
 	
+	
+	//멤버 삭제
 	@ResponseBody
 	@RequestMapping(value = "/Member_delete.do", method = RequestMethod.POST)
 	public Map<String, String> memberdelete(MEMBER_VO MemberVO, HttpSession session) {

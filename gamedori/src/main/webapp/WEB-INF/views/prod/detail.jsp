@@ -424,40 +424,28 @@
     var $input =  $(ths).parent("td").find("input[name='pop_out']");
     var tCount = Number($input.val());
     var tEqCount = Number($(ths).parents("tr").find("td.bseq_ea").html());
-
-
     if(type=='p'){
       if(tCount < tEqCount) $input.val(Number(tCount)+1);
-
     }else{
       if(tCount >0) $input.val(Number(tCount)-1);
-
     }
   }
-
-
           //수량 버튼 스크립트
             Number.prototype.format = function(){
             if(this==0) return 0;
-
             var reg = /(^[+-]?\d+)(\d{3})/;
             var n = (this + '');
-
             while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
-
             return n;
             };
             
-
             String.prototype.format = function(){
             var num = parseFloat(this);
             if( isNaN(num) ) return "0";
-
             return num.format();
             };
               
             var basic_amount = parseInt('52000');
-
             function change_qty2(t){
             //var min_qty = '수량버튼'*1;
             var min_qty = 1;
@@ -478,14 +466,11 @@
                 return;
                 }
               }
-
             var show_total_amount = basic_amount * this_qty;
             //$("#ct_qty_txt").text(this_qty); 
             $("#ct_qty").val(this_qty);
             $("#it_pay").val(show_total_amount);
             $("#total_amount").html(show_total_amount.format());
             }
-
-
         </script>
 <%@ include file="../include/foot.jsp" %>

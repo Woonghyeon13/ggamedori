@@ -5,20 +5,50 @@
  
 <mapper namespace="game.dori.mapper.noticeMapper">
 
+
+	<!--  select all notice_tb 에있는 모든데이터를 선택해서 저장 -->
 	<select id="selectAll" resultType="noticeVO" >
 		SELECT * FROM notice_tb
 	</select>  
 
 
-	   <insert id="insert" parameterType="noticeVO">
-        INSERT INTO notice_tb (MEMBER_TB_IDX, NOTICE_TITLE, NOTICE_CONTENTS, NOTICE_WRITER, NOTICE_HIT) 
-        VALUES (
-            (SELECT member_idx FROM member_tb WHERE member_idx = member_tb_idx), 
-            #{notice_title},
-            #{notice_contents}, 
-            (SELECT member_name FROM member_tb WHERE member_idx = 1), 
-            0
-        );
-
+	<insert id="insert" parameterType="noticeVO">
+	   INSERT INTO notice_tb (MEMBER_TB_IDX, NOTICE_TITLE, NOTICE_CONTENTS, NOTICE_WRITER, NOTICE_HIT) 
+	   VALUES (
+	       #{member_tb_idx}, 
+	       #{notice_title},
+	       #{notice_contents}, 
+	       (SELECT member_name FROM member_tb WHERE member_idx = #{member_tb_idx}), 
+	       0
+  	 );
 	</insert>
+
+	<!--  공지사항 글 번호를 받아와 그 해당하는 글을 선택하는 쿼리문 -->
+	<select id="select" resultType="noticeVO" parameterType="noticeVO">
+		select * from notice_tb where notice_idx = #{notice_idx}
+	</select>
+	
+	
+	<!-- - 공지사항 글 삭제 -->
+	
+	<delete id="delete" parameterType="int">
+	
+		delete from notice_tb where notice_idx = #{notice_idx}
+	</delete>
+	
+	
+	<!--  공지사항 글 수정 -->
+	
+		<update id="modify" parameterType="noticeVO" >
+		    UPDATE notice_tb
+		    SET 
+		        MEMBER_TB_IDX = #{member_tb_idx},
+		        NOTICE_TITLE = #{notice_title},
+		        NOTICE_CONTENTS = #{notice_contents},
+		        NOTICE_WRITER = #{notice_writer},
+		        NOTICE_HIT = #{notice_hit}
+		    WHERE
+		        notice_idx = #{notice_idx}
+		</update>
+
 </mapper>

@@ -30,6 +30,24 @@ public class AdminServiceImpl implements AdminService{
 		
 	}
 
+	@Override
+	public NOTICE_VO select(int member_tb_idx) {
+		// TODO Auto-generated method stub
+		return noticeDAO.select(member_tb_idx);
+	}
+
+	@Override
+	public int delete(int notice_idx) {
+		// TODO Auto-generated method stub
+		return noticeDAO.delete(notice_idx);
+	}
+
+	@Override
+	public int modify(NOTICE_VO noticeVO) {
+		// TODO Auto-generated method stub
+		return noticeDAO.modfiy(noticeVO);
+	}
+
 //	@Override
 //	public void insert(NOTICE_VO vo) throws Exception {
 //		// TODO Auto-generated method stub
