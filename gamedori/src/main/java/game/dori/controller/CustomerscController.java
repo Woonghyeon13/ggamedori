@@ -1,8 +1,11 @@
 package game.dori.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import game.dori.service.AdminService;
+import game.dori.service.MemberService;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
 
@@ -23,15 +27,18 @@ public class CustomerscController {
 	@Autowired
 	private AdminService adminService;
 	
+	@Autowired
+	private MemberService MemberService;
 	
-	@RequestMapping( value = "/main.do", method = RequestMethod.GET )
-	public String main(Model model, NOTICE_VO nvo) throws Exception 
-	{
-		List<NOTICE_VO> list = adminService.list(nvo);
-		
-		model.addAttribute("main", adminService.list(nvo));
-		
-		return "customersc/main";
+	
+	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
+	public String main(Model model) throws Exception {
+	    List<NOTICE_VO> noticeList = adminService.list();
+	    model.addAttribute("notice", noticeList);
+	  
+	    
+	    
+	    return "customersc/main";
 	}
 	
 	// 공지사항 작성
@@ -43,10 +50,24 @@ public class CustomerscController {
 	}	
 	
 	@RequestMapping(value = "/notice_write.do", method = RequestMethod.POST)
-	public String write(NOTICE_VO vo, HttpServletRequest req){
+	public void write(NOTICE_VO noticeVO,HttpServletResponse rsp,String member_email, HttpServletRequest req, HttpSession session) throws IOException{
 
+		MEMBER_VO member = MemberService.selectByEmail(member_email);
+		noticeVO.setNotice_idx(member.getMember_idx());
 		
-		return "redirect:/customersc/main.do?notice_idx="+vo.getNotice_idx();
+		int result = adminService.insert(noticeVO);
+		
+		
+		
+		 rsp.setContentType("text/html; charset=utf-8");
+		  PrintWriter pw = rsp.getWriter();
+		if(result > 0)
+		{
+			session.setAttribute("noticeVO", noticeVO);
+			  pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+              + "/'</script>");
+		}
+		
 		
 	}
 	

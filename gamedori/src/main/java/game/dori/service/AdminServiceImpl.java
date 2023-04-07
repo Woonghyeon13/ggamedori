@@ -18,9 +18,9 @@ public class AdminServiceImpl implements AdminService{
 	private NoticeDAO noticeDAO;
 
 	@Override
-	public List<NOTICE_VO> list(NOTICE_VO nvo){
+	public List<NOTICE_VO> list( ){
 		// TODO Auto-generated method stub
-		return noticeDAO.list(nvo);
+		return noticeDAO.list();
 	}
 
 	@Override

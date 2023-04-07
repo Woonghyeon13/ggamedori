@@ -20,8 +20,8 @@ public class NoticeDAO {
 		return sqlSession.insert("game.dori.mapper.noticeMapper.insert",vo);
 	}
 	
-	public List<NOTICE_VO> list(NOTICE_VO vo){
-		return sqlSession.selectList("game.dori.mapper.noticeMapper.selectAll", vo);	
+	public List<NOTICE_VO> list(){
+		return sqlSession.selectList("game.dori.mapper.noticeMapper.selectAll");	
 	}
 	
 }

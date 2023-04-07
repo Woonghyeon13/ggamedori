@@ -5,18 +5,20 @@
  
 <mapper namespace="game.dori.mapper.noticeMapper">
 
-	<select id="selectAll" resultType="noticeVO" parameterType="noticeVO">
+	<select id="selectAll" resultType="noticeVO" >
 		SELECT * FROM notice_tb
 	</select>  
 
 
-	<insert id="insert" parameterType="noticeVO">
-		INSERT INTO notice_tb( 
-			,NOTICE_TITLE
-			,NOTICE_CONTENTS
-		)VALUES (
-			,#{notice_title}
-			,#{notice_contents}
-		)
+	   <insert id="insert" parameterType="noticeVO">
+        INSERT INTO notice_tb (MEMBER_TB_IDX, NOTICE_TITLE, NOTICE_CONTENTS, NOTICE_WRITER, NOTICE_HIT) 
+        VALUES (
+            (SELECT member_idx FROM member_tb WHERE member_idx = "1"), 
+            #{notice_title},
+            #{notice_contents}, 
+            (SELECT member_name FROM member_tb WHERE member_idx = 1), 
+            0
+        );
+
 	</insert>
 </mapper>

@@ -34,14 +34,14 @@
 				</tr>
 			</thead>
 			<tbody>
-			<c:forEach var="vo" items="${list}">
-				<tr>
-					<td>${vo.notice_idx}</td>
-					<td><a href="view.do?notice_idx=${vo.notice_idx }">${vo.notice_title}</td>
-					<td>${vo.notice_writer}</td>
-					<td>${vo.notice_hit}</td>
-					<td>${vo.notice_wdate}</td>
-				</tr>
+			<c:forEach var="noticeVO" items="${notice}">
+			    <tr>
+			        <td>${noticeVO.notice_idx}</td>
+			        <td><a href="view.do?notice_idx=${noticeVO.notice_idx}">${noticeVO.notice_title}</a></td>
+			        <td>${noticeVO.notice_writer}</td>
+			        <td>${noticeVO.notice_hit}</td>
+			        <td>${noticeVO.notice_wdate}</td>
+			    </tr>
 			</c:forEach>
 			</tbody>
 		</table>
