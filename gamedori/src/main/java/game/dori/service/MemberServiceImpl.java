@@ -1,6 +1,7 @@
 package game.dori.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -52,9 +53,11 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void updateMemberState(MEMBER_VO MemberVO) {
-		memberDAO.updateMemberState(MemberVO);
+	public void updateMemberState(MEMBER_VO memberVO) {
+		 memberDAO.updateMemberState(memberVO);
 	}
+
+
 
 		
 }

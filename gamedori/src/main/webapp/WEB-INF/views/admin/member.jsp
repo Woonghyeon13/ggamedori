@@ -4,25 +4,22 @@
 
 <script>
 
-function updateMemberRole(selectElement) {
-	  var selectedOption = selectElement.value;
-	  $.ajax({
-	    url: "/updateMemberRole",
-	    type: "POST",
-	    data: { 
-	      memberId: ${memberlist.member_id},
-	      option: selectedOption 
-	    },
-	    success: function(response) {
-	      console.log("Updated DB value to: " + response);
-	      selectElement.value = response; // 변경된 값을 선택한 옵션으로 설정
-	    },
-	    error: function(xhr) {
-	      console.log("Error updating DB value: " + xhr.responseText);
-	    }
-	  });
-	}
-
+	function updateMemberState(obj,idx){
+	      $.ajax({
+	        type: 'POST',
+	        url: 'updateMemberState.do',
+	        data: {
+				member_state:obj.value
+			   ,member_idx : idx
+	        },
+	        success: function() {
+	          console.log('상태 업데이트 완료');
+	        },
+	        error: function() {
+	          console.log('상태 업데이트 실패');
+	        }
+	      });
+	}    
 </script>
 
 <main>
@@ -95,7 +92,7 @@ function updateMemberRole(selectElement) {
 						</c:otherwise>			
 					</c:choose>
 							<td class="text-center">
-								<select class="form-select" onchange="updateMemberRole(this.value)">
+								<select class="form-select" onchange="updateMemberState(this,'${memberlist.member_idx }');">
 									<option value="1" <c:if test="${memberlist.member_state == 1}">selected</c:if>>정상</option>
 									<option value="2" <c:if test="${memberlist.member_state == 2}">selected</c:if>>정지</option>
 									<option value="3" <c:if test="${memberlist.member_state == 3}">selected</c:if>>탈퇴</option>

@@ -1,6 +1,7 @@
 package game.dori.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class MemberDAO {
 		return sqlSession.selectList(namespace + "memberlist");
 	}
 	
-	//회원 상태(일반, 정지) 변경
+	//회원 상태(일반, 정지) 변경  ajax
 	public int updateMemberState(MEMBER_VO memberVO) {
 		return sqlSession.update(namespace + "updateMemberState",memberVO);
 	
