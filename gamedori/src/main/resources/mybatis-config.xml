@@ -25,6 +25,7 @@
 		<typeAlias type="game.dori.vo.SAVEPOINT_VO" alias="savepointVO" />
 		<typeAlias type="game.dori.vo.USEPOINT_VO" alias="usepointVO" />
 		<typeAlias type="game.dori.vo.WISHLIST_VO" alias="wishlistVO" />
+		<typeAlias type="game.dori.vo.COUPON_VO" alias="couponVO"/>
 	</typeAliases>
 
 </configuration>

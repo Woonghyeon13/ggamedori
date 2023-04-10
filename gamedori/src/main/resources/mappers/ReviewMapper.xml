@@ -5,4 +5,17 @@
  
 <mapper namespace="game.dori.mapper.reviewMapper">
 
+	<!-- 마이페이지 리뷰 리스트 출력  -->
+	<select id="selectList3" resultType="reviewVO" parameterType="int">
+		select *
+			from REVIEW_TB
+			where MEMBER_TB_IDX = #{MEMBER_IDX}
+	</select>
+	
+	<!-- 마이페이지 리뷰 개수 -->
+	<select id="selectListCount2" resultType="int">
+		SELECT COUNT(*) FROM REVIEW_TB
+		WHERE MEMBER_TB_IDX = #{MEMBER_IDX}
+	</select>
+
 </mapper>
