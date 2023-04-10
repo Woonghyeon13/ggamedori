@@ -147,7 +147,7 @@ public class AdminController {
 
 	// 상품수정
 	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.POST )
-	public void prodmodify( PRODUCT_VO pvo, Model model, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3 ) throws IllegalStateException, IOException{
+	public void prodmodify( PRODUCT_VO pvo, Model model, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3, int prod_idx ) throws IllegalStateException, IOException{
 		
 		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
 		
