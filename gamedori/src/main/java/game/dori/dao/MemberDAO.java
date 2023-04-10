@@ -1,11 +1,11 @@
 package game.dori.dao;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 
 import game.dori.vo.MEMBER_VO;
 
@@ -46,6 +46,19 @@ public class MemberDAO {
 	
 	}
 	
+
+	//회원리스트
+	public List<MEMBER_VO> list(){
+		return sqlSession.selectList(namespace + "memberlist");
+	}
+	
+	//회원 상태(일반, 정지) 변경  ajax
+	public int updateMemberState(MEMBER_VO memberVO) {
+		return sqlSession.update(namespace + "updateMemberState",memberVO);
+	
+	}
+	
+
 	public int member_delete(MEMBER_VO memberVO)
 	{
 		return sqlSession.delete(namespace + "delete_member", memberVO);
@@ -56,5 +69,6 @@ public class MemberDAO {
 	{
 		return sqlSession.update(namespace + "updateMember", memberVO);
 	}
+
 	
 }
