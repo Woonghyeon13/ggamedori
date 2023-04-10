@@ -1,6 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+
+<script>
+
+	function updateMemberState(obj,idx){
+	      $.ajax({
+	        type: 'POST',
+	        url: 'updateMemberState.do',
+	        data: {
+				member_state:obj.value
+			   ,member_idx : idx
+	        },
+	        success: function() {
+	          console.log('상태 업데이트 완료');
+	        },
+	        error: function() {
+	          console.log('상태 업데이트 실패');
+	        }
+	      });
+	}    
+</script>
+
 <main>
 	<div class="container d-flex justify-content-center mt-2">
 		<h3 class="fw-bold">관리자 페이지</h3>
@@ -38,137 +59,54 @@
 </div> -->
 	<!-- 회원관리 -->
 	<div class="container mt-5">
-		<!-- 회원 정지 폼 -->
+		
 		<div class="container">
-			<form action="">
+			<!-- <form name="memberState" action="member.do" method="post">  -->
 				<table class="table">
 					<thead class="table-light">
 						<tr>
-							<th scope="col ">회원번호</th>
-							<th scope="col">ID</th>
-							<th scope="col">이름</th>
-							<th scope="col">주소</th>
-							<th scope="col">연락처</th>
-							<th scope="col">EMAIL</th>
-							<th scope="col">등급</th>
-							<th scope="col">상태</th>
+							<th scope="col" class="text-center" width="10%">회원번호</th>
+							<th scope="col" class="text-center" width="15%">이름</th>
+							<th scope="col" class="text-center" width="20%">EMAIL</th>
+							<th scope="col" class="text-center" width="20%">연락처</th>
+							<th scope="col" class="text-center" width="15%">등급</th>
+							<th scope="col" class="text-center" width="20%">상태</th>
 						</tr>
 					</thead>
 					<tbody>
+					<c:forEach var="memberlist" items="${list }">
 						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-
+							<td class="text-center">${memberlist.member_idx }</td>
+							<td class="text-center">${memberlist.member_name }</td>
+							<td class="text-center">${memberlist.member_email }</td>
+							<td class="text-center">${memberlist.member_phone }</td>
+					<c:choose>	
+						<c:when test="${memberlist.member_level == 1}">	
+							<td class="text-center">브론즈</td>
+						</c:when>
+						<c:when test="${memberlist.member_level == 2}">	
+							<td class="text-center">실버</td>
+						</c:when>
+						<c:otherwise>	
+							<td class="text-center">골드</td>
+						</c:otherwise>			
+					</c:choose>
+							<td class="text-center">
+								<select class="form-select" onchange="updateMemberState(this,'${memberlist.member_idx }');">
+									<option value="1" <c:if test="${memberlist.member_state == 1}">selected</c:if>>정상</option>
+									<option value="2" <c:if test="${memberlist.member_state == 2}">selected</c:if>>정지</option>
+									<option value="3" <c:if test="${memberlist.member_state == 3}">selected</c:if>>탈퇴</option>
+								</select>
+							</td>
 						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">4</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">5</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">6</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
-						<tr>
-							<th scope="row">7</th>
-							<td colspan="1">Larry the Bird</td>
-							<td>@twitter</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>Otto</td>
-							<td><select class="form-select"
-								aria-label="Default select example">
-									<option selected>정상</option>
-									<option value="2">일시정지</option>
-									<option value="3">정지</option>
-							</select></td>
-						</tr>
+					</c:forEach>	
 					</tbody>
 				</table>
 		</div>
-		<div class="container d-flex justify-content-end">
-			<button type="button"
-				class="btn btn-outline-secondary btn-sm ms-2 me-4">승인</button>
-		</div>
-		</form>
+	<!-- 	<div class="container d-flex justify-content-end">
+			<button class="btn btn-outline-secondary ms-2 me-4">승인</button>
+		</div>  -->
+	<!-- </form>  -->
 
 		<div class="container">
 			<form class="form-horizontal d-flex justify-content-center"
@@ -178,7 +116,7 @@
 						placeholder="회원명" aria-label=".form-control-sm example">
 				</div>
 				<div>
-					<button type="button" class="btn btn-outline-secondary btn-sm ms-2">검색</button>
+					<button class="btn btn-outline-secondary btn-sm ms-2">검색</button>
 				</div>
 			</form>
 		</div>
