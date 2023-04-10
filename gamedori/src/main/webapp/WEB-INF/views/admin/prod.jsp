@@ -68,6 +68,20 @@
 							</td>
 							<td class="col-2">
 								<div class="d-flex justify-content-around">
+									<input type="hidden" value="${pvo.category_tb_code}">
+									<input type="hidden" value="상품명 : ${pvo.prod_name}">
+									<input type="hidden" value="가격 : ${pvo.prod_price}">
+									<input type="hidden" value="제조사 : ${pvo.prod_co}">
+									<input type="hidden" value="${pvo.prod_wdate}">
+									<input type="hidden" value="재고량 : ${pvo.prod_stock}">
+									<input type="hidden" value="옵션 : ${pvo.prod_opt}">
+									<input type="hidden" value="옵션 : ${pvo.prod_opt}">
+									<input type="hidden" value="옵션 : ${pvo.prod_opt}">
+									<input type="hidden" value="${pvo.prod_rating}">
+									<input type="hidden" value="${pvo.prod_reserv}">
+									<input type="hidden" value="${pvo.prod_imgt}">
+									<input type="hidden" value="${pvo.prod_imgm}">
+									<input type="hidden" value="${pvo.prod_imgd}">
 									<button type="button" onclick="modify(this)" class="btn btn-outline-secondary btn-sm"
 										data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
 									<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
@@ -80,15 +94,36 @@
 		</div>
 		<script>
 			function modify(obj){
-				console.log(obj);
-				var no = $(obj).parent().parent().prev().prev().prev().prev().prev().prev().text();
-				console.log("no=>"+no);
-				var cate = $(obj).parent().parent().prev().prev().prev().prev().prev().text();
+				var cate = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
 				$("#mprod_cate").val(cate);
-				var name = $(obj).parent().parent().prev().prev().prev().prev().text();
+				var name = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
 				$("#mprod_name").val(name);
-				var stock = $(obj).parent().parent().prev().prev().text();
+				var price = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
+				$("#mprod_price").val(price);
+				var co = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
+				$("#mprod_co").val(co);
+				var wdate = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
+				$("#mprod_wdate").val(wdate);
+				var stock = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
 				$("#mprod_stock").val(stock);
+				var opt = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().val();
+				$("#mprod_opt").val(opt);
+				var opt = $(obj).prev().prev().prev().prev().prev().prev().prev().val();
+				$("#mprod_opt").val(opt);
+				var opt = $(obj).prev().prev().prev().prev().prev().prev().val();
+				$("#mprod_opt").val(opt);
+				var rating = $(obj).prev().prev().prev().prev().prev().val();
+				$("#mprod_rating").val(rating);
+				console.log(rating);
+				var reserv = $(obj).prev().prev().prev().prev().val();
+				$("#mprod_reserv").val(reserv);
+				var imgt = $(obj).prev().prev().prev().val();
+				$("#mprod_file1").val(imgd);
+				var imgm = $(obj).prev().prev().val();
+				$("#mprod_file2").val(imgd);
+				var imgd = $(obj).prev().val();
+				$("#mprod_file3").val(imgd);
+				
 			}
 		</script>
 		<!-- 상품 수정 -->
@@ -109,7 +144,7 @@
 								</select> 
 								<select name="category_tb_code" class="category2 form-select form-select-sm"
 									aria-label=".form-select-sm example">
-									<option  id="mprod_cate" value=""></option>
+									<option id="mprod_cate" value=""></option>
 								</select>
 							</div>
 							<div
@@ -155,26 +190,16 @@
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								성인등급 여부 
-								<c:if test="${spvo.prod_rating eq '1'}">
-									<input id="mprod_rating" name="prod_rating" type="radio" value="1" checked="checked">Y 
-									<input id="mprod_rating" name="prod_rating" type="radio" value="2">N
-								</c:if>
-								<c:if test="${spvo.prod_rating eq '2'}">
+								<c:if test="${#mprod_rating eq 1 }">
 									<input id="mprod_rating" name="prod_rating" type="radio" value="1">Y 
-									<input id="mprod_rating" name="prod_rating" type="radio" value="2" checked="checked">N
+									<input id="mprod_rating" name="prod_rating" type="radio" value="2">N
 								</c:if>
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								예약상품 여부 
-								<c:if test="${spvo.prod_reserv eq '1'}">
-									<input id="mprod_reserv" name="prod_reserv" type="radio" value="1" checked="checked">Y 
+									<input id="mprod_reserv" name="prod_reserv" type="radio" value="1" checked>Y 
 									<input id="mprod_reserv" name="prod_reserv" type="radio" value="2">N
-								</c:if>
-								<c:if test="${spvo.prod_reserv eq '2'}">
-									<input id="mprod_reserv" name="prod_reserv" type="radio" value="1">Y 
-									<input id="mprod_reserv" name="prod_reserv" type="radio" value="2" checked="checked">N
-								</c:if>
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
