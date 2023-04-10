@@ -73,6 +73,7 @@
 						</c:if>
 						<c:if test="${not empty sessionScope.Login}">
 							<li class="mt-2 me-3">${sessionScope.Login.member_email}님</li>
+						  <li style="margin-right : 50px">${sessionScope.Login.member_name}님<br/> 환영합니다!</li>
 						</c:if>
 						<c:if test="${not empty sessionScope.Login}">
 							<li><button type="button" class="btn btn-outline-light join me-2" ><a href="<c:url value='/user/logout.do'/>">로그아웃</a></button></li>

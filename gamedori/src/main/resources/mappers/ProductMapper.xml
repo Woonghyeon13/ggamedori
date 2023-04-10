@@ -4,5 +4,38 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="game.dori.mapper.productMapper">
-
+	<!-- 상품 등록 -->
+	<insert id="prodInsert" parameterType="productVO">
+		INSERT INTO 
+		product_tb (`category_tb_code`, `prod_name`, `prod_price`, `prod_stock`, `prod_co`, `prod_opt`, `prod_rdate`, `prod_rating`, `prod_reserv`, `prod_imgt`, `prod_imgm`, `prod_imgd`) 
+		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_opt}, #{prod_rdate}, #{prod_rating}, #{prod_reserv}, #{prod_imgt}, #{prod_imgm}, #{prod_imgd});
+	</insert>
+	
+	<!-- 상품 리스트 -->
+	<select id="prodSelectAll" resultType="productVO">
+		SELECT * FROM product_tb
+	</select>
+	
+	<!-- 상품 수정 -->
+	<update id="prodUpdate" parameterType="productVO">
+		update product_tb
+		set category_tb_code  = #{category_tb_code}
+		, prod_name = #{prod_name}
+		, prod_price = #{prod_price}
+		, prod_stock = #{prod_stock}
+		, prod_co = #{prod_co}
+		, prod_opt = #{prod_opt}
+		, prod_rdate = #{prod_rdate}
+		, prod_rating = #{prod_rating}
+		, prod_reserv = #{prod_reserv}
+		, prod_imgt = #{prod_imgt}
+		, prod_imgm = #{prod_imgm}
+		, prod_imgd = #{prod_imgd}
+		where prod_idx = #{prod_idx}
+	</update>
+	
+	<!-- 상품 상세 -->
+	<select id="prodSelectOne" resultType="productVO" parameterType="productVO">
+		select * from product_tb where prod_idx = #{prod_idx}
+	</select>
 </mapper>
