@@ -82,7 +82,7 @@ public class MypageController {
 		return "mypage/point";
 	}
 
-	// 쿠폰
+	// 리뷰
 	@RequestMapping( value = "/reviewlist", method = RequestMethod.GET )
 	public String reviewlist()
 	{
