@@ -38,6 +38,21 @@
 	        member_email = #{member_email}
 	</update>
 	
+
+	<select id="memberlist" resultType="memberVO">
+		select * 
+			from member_tb where member_role = "1"
+	</select>
+	
+	<update id="updateMemberState" parameterType="memberVO">
+	    UPDATE member_tb
+	    SET
+	        member_state = #{member_state}
+	    WHERE
+	        member_idx = #{member_idx}
+	</update>
+	
+
 	
 	<delete id="delete_member" parameterType="MemberVO">
 	  DELETE FROM member_tb
@@ -52,5 +67,6 @@
 	    WHERE
 	        member_idx = #{member_idx}
 	</update>
+
 </mapper>
 

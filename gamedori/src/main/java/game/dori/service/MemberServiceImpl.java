@@ -1,5 +1,8 @@
 package game.dori.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -56,6 +59,18 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.member_update(MemberVO);
 	}
 
+	@Override
+	public List<MEMBER_VO> list() {//회원리스트
+		return memberDAO.list();
+	}
+
+	@Override
+	public void updateMemberState(MEMBER_VO memberVO) {
+		 memberDAO.updateMemberState(memberVO);
+	}
 
 
+
+		
 }
+
