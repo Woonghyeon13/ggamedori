@@ -1,57 +1,183 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+
+
+<!-- 스크립트 구문 -->
+<script>
+
+//비밀번호 확인검사
+	function validatePassword() {
+	  const membernPw = document.getElementById("membernpw");
+	  const memberPwCheck = document.getElementById("MEMBER_PWCheck");
+	  const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
+	  const pwIsValid = pwRegex.test(membernPw.value);
+	  const errorMsgDiv = document.getElementById("password-error-msg");
+	
+	  if (!pwIsValid) {
+	    membernPw.setCustomValidity("비밀번호는 영문 대/소문자, 숫자, 8~20자의 길이 특수문자 중 1개 이상 입력해주세요.");
+	    errorMsgDiv.innerText = "비밀번호는 영문 대/소문자, 숫자, 8~20자의 길이, 특수문자 중 1개 이상 입력해주세요.";
+	    errorMsgDiv.style.display = "block";
+	  } else {
+	    membernPw.setCustomValidity("");
+	    errorMsgDiv.style.display = "none";
+	  }
+	
+	  if (membernPw.value !== memberPwCheck.value) {
+	    memberPwCheck.setCustomValidity("비밀번호가 일치하지 않습니다.");
+	    errorMsgDiv.innerText = "비밀번호가 일치하지 않습니다.";
+	    errorMsgDiv.style.display = "block";
+	  } else {
+	    memberPwCheck.setCustomValidity("");
+	    if (!errorMsgDiv.innerText) {
+	      // 숨길 에러 메시지가 없는 경우에만 div 엘리먼트를 숨깁니다.
+	      errorMsgDiv.style.display = "none";
+	    }
+	  }
+	}
+	
+	document.getElementById("membernpw").addEventListener("input", validatePassword);
+	document.getElementById("MEMBER_PWCheck").addEventListener("input", validatePassword);
+		
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// 데이터 폼 전송 스크립트
+	function updateMemberInfo(event) {
+	 const form = document.querySelector('.validation-form');
+
+	  if (!form.checkValidity()) {
+	    event.preventDefault();
+	    event.stopPropagation();
+	    form.classList.add('was-validated');
+	  } else {
+	    event.preventDefault(); // 폼 제출을 방지
+	
+	    // 입력한 정보를 가져옵니다.
+	    const memberemail = document.getElementById('memberemail').value;
+	    const memberoPw = document.getElementById('memberopw').value;
+	    const membernPw = document.getElementById('membernpw').value;
+	    const memberPwCheck = document.getElementById('MEMBER_PWCheck').value;
+	    const memberPhone = document.getElementById('member_phone').value;
+	    const addr1 = document.getElementById('ADDR_1').value;
+	    const addr2 = document.getElementById('ADDR_2').value;
+	    const addr3 = document.getElementById('ADDR_3').value;
+	
+	    // Ajax 요청을 작성하여 회원 정보 수정을 처리하고 결과를 받아옵니다.
+	    $.ajax({
+	      type: 'POST',
+	      url: '<%=request.getContextPath()%>/user/Member_modfiy.do',
+	      data: {
+	        member_email: memberemail,
+	        member_pw: memberoPw,
+	        member_npw: membernPw,
+	        member_phone: memberPhone,
+	        addr_1: addr1,
+	        addr_2: addr2,
+	        addr_3: addr3,
+	      },
+	      success: function (response) {
+	        if (response.result > 0) {
+	          // 회원 정보 수정 성공
+	          alert('회원 정보가 정상적으로 수정되었습니다.');
+	          window.location.href = '<%=request.getContextPath()%>/'; // 홈으로 이동
+	        } else {
+	          // 회원 정보 수정 실패
+	          alert('회원 정보 수정에 실패했습니다 기존 비밀번호가 일치하는지 확인해주세요.');
+	        }
+	      },
+	      error: function (error) {
+	        // 서버 오류 처리
+	        console.error('Error:', error);
+	        alert('서버 오류가 발생했습니다. 다시 시도해 주세요.');
+	      },
+	    });
+ 	 }
+	}
+	
+	// Bootstrap 유효성 검사 스크립트 부트스트랩의 보안식처리가 올바른지 체크함 올바르지않으면 안넘어가게 
+	(function () {
+	  'use strict'
+	  var forms = document.querySelectorAll('.validation-form')
+	  Array.prototype.slice.call(forms).forEach(function (form) {
+	    form.addEventListener('submit', function (event) {
+	      if (!form.checkValidity()) {
+	        event.preventDefault()
+	        event.stopPropagation()
+	      }
+	      form.classList.add('was-validated')
+	    }, false)
+	  })
+	})()
+	
+	// 로그인 세션 확인 후 비어있으면 메인 페이지로 이동
+		$(document).ready(function () {
+		    if (!${!empty Login}) { // 로그인 세션이 비어있는 경우
+		        alert("로그인이 필요한 페이지입니다.");
+		        window.location.href = "<%=request.getContextPath()%>/"; // 메인 페이지로 이동
+		    }
+		});
+</script>
+
 <main>			
-	<!-- 각 폼에 회원의 정보값이 나오게 해주세요 -->
+
 	<div class="inner">
 		<section id="join_Main">
 			<div id="join_box">
-				<form class="validation-form" novalidate><!-- novalidate 속성이 있으면 서버에서 유효성 검사를 안한다고합니다. 조율 후에 변경해야 할 듯 함. -->
-					<!-- 유효성 검사는 ajax를 사용해도 될듯 참고해주세요 -->
-					<div class="input-form input-form-background p-4">
+				<form id="updateMemberForm" class="validation-form" onsubmit="updateMemberInfo(event);" novalidate>
+				
+					 <div class="input-form input-form-background p-4">
 
-						<h3 class="mb-5">회원 정보 수정</h3>
-
+		                <h3 class="mb-5">회원 정보 수정</h3>
+		
+		                <div class="mb-4">
+		                    <label for="member_email" class="form-label fw-bold fs-6">이메일</label>
+		                    <div class="input_s">
+		                        <input type="email" class="form-control" id="memberemail" name="memberemail" value="${Login.member_email}" disabled>
+		                    </div>
+		                </div>
+						<!-- 기존 비밀번호 입력 필드 -->
 							<div class="mb-4">
-								<label for="MEMBER_EMAIL" class="form-label fw-bold fs-6">이메일</label>
-								<div class="input_s">
-									<input type="email" class="form-control" disabled>
-								</div>
-							</div>
-
-							<div class="mb-4">
-								<label for="MEMBER_PW" class="form-label fw-bold fs-6">비밀번호</label>
-								<input type="password" class="form-control input_s" id="MEMBER_PW" required>
+								<label for="MEMBER_PW" class="form-label fw-bold fs-6">기존비밀번호</label>
+								<input type="password" class="form-control input_s" id="memberopw" name="memberopw" required>
 								<div class="invalid-feedback">
-									비밀번호를 입력해주세요
+									기존 비밀번호를 입력해주세요
 								</div>
 							</div>
-
+						<!-- 새 비밀번호 입력 필드 -->
 							<div class="mb-4">
-								<label for="MEMBER_PWCheck" class="form-label fw-bold fs-6">비밀번호 확인</label>
-								<input type="password" class="form-control input_s" id="MEMBER_PWCheck" required>
-								<div class="invalid-feedback">
-									비밀번호 확인을 해주세요
-								</div>
+							  <label for="MEMBER_PW" class="form-label fw-bold fs-6">새 비밀번호</label>
+							  <input type="password" class="form-control input_s" id="membernpw" name="membernpw" oninput="validatePassword();" required>
+							  <div class="invalid-feedback">
+							    비밀번호를 입력해주세요
+							  </div>
+							  <!-- 새 비밀번호 에러 메시지를 나타내는 div 엘리먼트 -->
+							  <div id="password-error-msg" style="color:red;display:none;"></div>
 							</div>
-
+							
+							<!-- 새 비밀번호 확인 입력 필드 -->
 							<div class="mb-4">
-								<label for="MEMBER_NAME" class="form-label fw-bold fs-6">이름</label>
-								<input type="text" class="form-control input_s" id="MEMBER_NAME" disabled>
+							  <label for="MEMBER_PWCheck" class="form-label fw-bold fs-6">새 비밀번호 확인</label>
+							  <input type="password" class="form-control input_s" id="MEMBER_PWCheck" oninput="validatePassword();" required>
+							  <div class="invalid-feedback">
+							    비밀번호 확인을 해주세요
+							  </div>
 							</div>
-
-							<div class="mb-4">
-								<label for="MEMBER_PHONE" class="form-label fw-bold fs-6">휴대전화</label>
-								<div class="input-group input_s">
-									<input type="text" class="form-control" id="MEMBER_PHONE" required>
-									<button class="btn btn-outline-secondary" type="button" id="button-addon2">본인확인</button>
-									<div class="invalid-feedback">
-										휴대전화 번호를 입력해주세요.
-									</div>
-								</div>
-							</div>
-
-
+		
+		                <div class="mb-4">
+		                    <label for="MEMBER_NAME" class="form-label fw-bold fs-6">이름</label>
+		                    <input type="text" class="form-control input_s" id="member_name" name="member_name" value="${Login.member_name}"disabled>
+		                </div>
+		
+		                <div class="mb-4">
+		                    <label for="MEMBER_PHONE" class="form-label fw-bold fs-6">휴대전화</label>
+		                    <div class="input-group input_s">
+		                        <input type="text" class="form-control" id="member_phone" name="member_phone" required>
+		                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">본인확인</button>
+		                        <div class="invalid-feedback">
+		                            휴대전화 번호를 입력해주세요.
+		                        </div>
+		                    </div>
+		                </div>
 							<!-- 주소검색 api -->
 							<div class="mb-4">
 								<label for="ADDR_2" class="form-label mt-1 fw-bold fs-6">주소</label>
@@ -64,7 +190,7 @@
 								</div>
 							</div>
 							
-							<!--
+						
 							<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 							<script>
 								function sample6_execDaumPostcode() 
@@ -108,7 +234,7 @@
 									}).open();
 								}
 							</script>
-						-->
+					
 						
 						<div class="d-flex flex-row-reverse input_s mt-4 mb-4">
 							<button class="btn btn-outline-light login">수정 완료</button>
@@ -118,6 +244,7 @@
 			</div>
 		</section>
 	</div>
+
 
 </main>
 

@@ -22,6 +22,7 @@
 		</div>
 	</div>
 	<div class="container">
+
 		<table class="table table-hover" style="border-top: 1px solid black;">
 			<thead>
 				<tr>
@@ -33,113 +34,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>첫번째 공지사항입니다</td>
-					<td>관리자</td>
-					<td>1억회</td>
-					<td>2023.03.15</td>
-				</tr>
+			<c:forEach var="noticeVO" items="${notice}">
+			    <tr>
+			        <td>${noticeVO.notice_idx}</td>
+			        <td><a href="view.do?notice_idx=${noticeVO.notice_idx}">${noticeVO.notice_title}</a></td>
+			        <td>${noticeVO.notice_writer}</td>
+			        <td>${noticeVO.notice_hit}</td>
+			        <td>${noticeVO.notice_wdate}</td>
+			    </tr>
+			</c:forEach>
 			</tbody>
 		</table>
+
 
 		<div>
 			<table>
@@ -153,6 +59,11 @@
 					</td>
 					<td>
 						<button type="button" class="btn btn-dark">검색</button>
+						
+						<c:if test="${Login.member_role == 2}">
+							<button type="button" class="btn btn-dark" onclick="location.href='notice_write.do'">글쓰기</button>
+						</c:if>
+						
 					</td>
 				</tr>
 			</table>

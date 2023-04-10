@@ -10,8 +10,15 @@ public class NOTICE_VO {
 	private String notice_wdate; //글 작성일
 	private String notice_contents; //글 내용
 	private String notice_writer; //글 작성자
+	private int notice_hit;			// 조회수
 	
 	
+	public int getNotice_hit() {
+		return notice_hit;
+	}
+	public void setNotice_hit(int notice_hit) {
+		this.notice_hit = notice_hit;
+	}
 	public int getNotice_idx() {
 		return notice_idx;
 	}

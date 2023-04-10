@@ -8,5 +8,25 @@
   INSERT INTO address_tb (addr_1, addr_2, addr_3, member_tb_idx)
   VALUES (#{addr_1}, #{addr_2}, #{addr_3}, #{member_tb_idx})
 </insert>
+  <!--  주소 삽입 sql문 -->
+  
+  
+  
+  <!-- 관련된 주소 데이터 삭제 -->
+<delete id="delete_address" parameterType="MemberVO">
+  DELETE FROM address_tb
+  WHERE MEMBER_TB_IDX = (SELECT MEMBER_IDX FROM member_tb WHERE member_email = #{member_email} AND member_pw = #{member_pw})
+</delete>
+
+
+<update id="updateAddress" parameterType="addressVO">
+    UPDATE address_tb
+    SET
+        addr_1 = #{addr_1},
+        addr_2 = #{addr_2},
+        addr_3 = #{addr_3}
+    WHERE
+        member_tb_idx = #{member_tb_idx}
+</update>
   
 </mapper>
