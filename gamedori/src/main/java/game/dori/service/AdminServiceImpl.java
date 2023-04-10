@@ -54,8 +54,7 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public List<NOTICE_VO> searchNotices(String searchText, String searchOption) {
-		// TODO Auto-generated method stub
-		return noticeDAO.search(searchText, searchOption);
+	    return noticeDAO.search(searchText, searchOption);
 	}
 
 
