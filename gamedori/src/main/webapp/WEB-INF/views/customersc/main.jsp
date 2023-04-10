@@ -34,16 +34,30 @@
 				</tr>
 			</thead>
 			<tbody>
-			<!-- 공지사항 메인페이지에 보일 게시글 데이터 표시처리 -->
-			<c:forEach var="noticeVO" items="${notice}">
-			    <tr>
-			        <td>${noticeVO.notice_idx}</td>
-			        <td><a href="view.do?notice_idx=${noticeVO.notice_idx}">${noticeVO.notice_title}</a></td>
-			        <td>${noticeVO.notice_writer}</td>
-			        <td>${noticeVO.notice_hit}</td>
-			        <td>${noticeVO.notice_wdate}</td>
-			    </tr>
-			</c:forEach>
+			 <!-- 검색 결과가 있을 경우 -->
+				  <c:if test="${not empty searchResult}">
+				    <c:forEach var="noticeVO" items="${searchResult}">
+				      <tr>
+				        <td>${noticeVO.notice_idx}</td>
+				        <td><a href="view.do?notice_idx=${noticeVO.notice_idx}">${noticeVO.notice_title}</a></td>
+				        <td>${noticeVO.notice_writer}</td>
+				        <td>${noticeVO.notice_hit}</td>
+				        <td>${noticeVO.notice_wdate}</td>
+				      </tr>
+				    </c:forEach>
+				  </c:if>
+				  <!-- 검색 결과가 없을 경우 또는 검색을 하지 않았을 경우 -->
+				  <c:if test="${empty searchResult}">
+				    <c:forEach var="noticeVO" items="${notice}">
+				      <tr>
+				        <td>${noticeVO.notice_idx}</td>
+				        <td><a href="view.do?notice_idx=${noticeVO.notice_idx}">${noticeVO.notice_title}</a></td>
+				        <td>${noticeVO.notice_writer}</td>
+				        <td>${noticeVO.notice_hit}</td>
+				        <td>${noticeVO.notice_wdate}</td>
+				      </tr>
+				    </c:forEach>
+				  </c:if>
 			</tbody>
 		</table>
 
@@ -67,15 +81,16 @@
 					    </c:if>
 					</td>
 					
-			<script>
-		    $(document).ready(function() {
+	<script>
+
+		   	 $(document).ready(function() {
 		        $('.btn_search').click(function(event) {
 		            event.preventDefault();
-		
+
 		            // 검색어와 검색 옵션 가져오기
 		            var searchText = $('input[name="searchText"]').val();
 		            var searchOption = $('select[name="searchOption"]').val();
-		
+
 		            // 입력값이 있는지 확인하고 AJAX 요청 전송
 		            if (searchText.trim() === '' || searchOption === '검색 옵션') {
 		                alert('검색어와 검색 옵션을 선택해주세요.');
@@ -90,9 +105,10 @@
 		                        searchOption: searchOption
 		                    },
 		                    success: function(response) {
-		                        updateTable(response);
-		                        
-		                        
+		                        // 검색 결과를 테이블에 추가합니다.
+		                    	updateTable(response);
+		                    	console.log('데이터 들어온거맞아?:', response);
+		         
 		                    },
 		                    error: function(xhr, status, error) {
 		                        // 에러 처리
@@ -102,27 +118,37 @@
 		            }
 		        });
 		    });
-		    
-		    
-		    function updateTable(results) {
-		        var tableBody = $('table').children('tbody');
-		        if (tableBody.length === 0) {
-		            tableBody = $('<tbody>');
-		            $('table').append(tableBody);
-		        }
-		        // 검색 결과를 테이블에 추가합니다.
-		        tableBody.empty();
-		        $.each(results, function(index, notice) {
-		            var row = $('<tr>');
-		            row.append($('<td>').text(notice.notice_idx));
-		            row.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + notice.notice_idx).text(notice.notice_title)));
-		            row.append($('<td>').text(notice.notice_writer));
-		            row.append($('<td>').text(notice.notice_hit));
-		            row.append($('<td>').text(notice.notice_wdate));
-		            tableBody.append(row);
-		        });
-		    }
-		</script>
+		   	 
+		   	function updateTable(results) {
+		   	    var tableBody = $('table').children('tbody');
+		   	    if (tableBody.length === 0) {
+		   	        tableBody = $('<tbody>');
+		   	        $('table').append(tableBody);
+		   	    }
+		   	    // 검색 결과를 테이블에 추가합니다.
+		   	    tableBody.empty(); // tbody의 내용을 지우고
+		   	    if (results.length === 0) {
+		   	        // 검색 결과가 없는 경우
+		   	        tableBody.append($('<tr>').append($('<td>').text('검색 결과가 없습니다.')));
+		   	    } else {
+		   	        // 검색 결과가 있는 경우
+		   	        $.each(results, function(index, notice) {
+		   	            var row = $('<tr>');
+		   	            row.append($('<td>').text(notice.notice_idx));
+		   	            row.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + notice.notice_idx).text(notice.notice_title)));
+		   	            row.append($('<td>').text(notice.notice_writer));
+		   	            row.append($('<td>').text(notice.notice_hit));
+		   	            row.append($('<td>').text(notice.notice_wdate));
+		   	            tableBody.append(row);
+		   	        });
+		   	    }
+		   	    // 테이블을 보여줍니다.
+		   	    $('table').show();
+		   	}
+</script>
+			
+			
+			</script>
 										
 						<!-- 페이징 -->
 						

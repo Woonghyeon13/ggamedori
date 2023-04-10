@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,11 +33,15 @@ public class CustomerscController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
+		
 	@Autowired
 	private AdminService adminService;
 	
 	@Autowired
 	private MemberService MemberService;
+	
+	
+
 	
 	// 공지사항 리스트
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
@@ -66,18 +71,13 @@ public class CustomerscController {
 	}	
 	
 	
-	@RequestMapping(value = "/search.do", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
 	@ResponseBody
-	public List<NOTICE_VO> searchNotice(@RequestParam("searchText") String searchText,
-	                                    @RequestParam("searchOption") String searchOption) {
-	    
-	    logger.debug("Search notice request received. Search text: {}, Search option: {}", searchText, searchOption);
-	    // 서비스 레이어에서 검색 결과를 가져옵니다.
+	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
+	                                                    @RequestParam("searchOption") String searchOption) {
 	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption);
-	    logger.debug("{} search results found.", searchResults.size());
 
-	    // 검색 결과를 반환합니다.
-	    return searchResults;
+	    return new ResponseEntity<>(searchResults, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/notice_write.do", method = RequestMethod.POST)
