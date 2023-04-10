@@ -34,6 +34,11 @@
 		where prod_idx = #{prod_idx}
 	</update>
 	
+	<!-- 상품 삭제 -->
+	<delete id="prodDelete" parameterType="int">
+		delete from product_tb where prod_idx = #{prod_idx}
+	</delete>
+	
 	<!-- 상품 상세 -->
 	<select id="prodSelectOne" resultType="productVO" parameterType="productVO">
 		select * from product_tb where prod_idx = #{prod_idx}

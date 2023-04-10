@@ -68,6 +68,7 @@
 							</td>
 							<td class="col-2">
 								<div class="d-flex justify-content-around">
+									<input type="hidden" value="${pvo.prod_idx}">
 									<input type="hidden" value="${pvo.category_tb_code}">
 									<input type="hidden" value="상품명 : ${pvo.prod_name}">
 									<input type="hidden" value="가격 : ${pvo.prod_price}">
@@ -92,8 +93,11 @@
 				</tbody>
 			</table>
 		</div>
+		<!-- 상품수정 정보 -->
 		<script>
 			function modify(obj){
+				var idx = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
+				$("#mprod_idx").val(idx);
 				var cate = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
 				$("#mprod_cate").val(cate);
 				var name = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
@@ -113,10 +117,21 @@
 				var opt = $(obj).prev().prev().prev().prev().prev().prev().val();
 				$("#mprod_opt").val(opt);
 				var rating = $(obj).prev().prev().prev().prev().prev().val();
-				$("#mprod_rating").val(rating);
-				console.log(rating);
+				if( rating == '1' )
+				{
+				$(":radio[id='mprod_ratingy'][value='1']").attr('checked', true);
+				}else if( rating == '2' )
+				{
+				$(":radio[id='mprod_ratingn'][value='2']").attr('checked', true);
+				}
 				var reserv = $(obj).prev().prev().prev().prev().val();
-				$("#mprod_reserv").val(reserv);
+				if( reserv == '1' )
+				{
+				$(":radio[id='mprod_reservy'][value='1']").attr('checked', true);
+				}else if( reserv == '2' )
+				{
+				$(":radio[id='mprod_reservn'][value='2']").attr('checked', true);
+				}
 				var imgt = $(obj).prev().prev().prev().val();
 				$("#mprod_file1").val(imgd);
 				var imgm = $(obj).prev().prev().val();
@@ -136,8 +151,9 @@
 						</div>
 					</div>
 					<div class="modal-body">
-						<form name="prodmodify" method="post" action="prodmodify.do">
+						<form name="prodmodify" method="post" action="prodmodify.do" enctype="multipart/form-data">
 							<div class="form-group d-flex justify-content-around">
+								<input type="hidden" id="mprod_idx" name="prod_idx">
 								<select class="category1 form-select form-select-sm"
 									aria-label=".form-select-sm example">
 									<option value="">1차 카테고리</option>
@@ -190,14 +206,14 @@
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								성인등급 여부 
-									<input id="mprod_rating" name="prod_rating" type="radio" value="1">Y 
-									<input id="mprod_rating" name="prod_rating" type="radio" value="2">N
+									<input id="mprod_ratingy" name="prod_rating" type="radio" value="1">Y 
+									<input id="mprod_ratingn" name="prod_rating" type="radio" value="2">N
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								예약상품 여부 
-									<input id="mprod_reserv" name="prod_reserv" type="radio" value="1" checked>Y 
-									<input id="mprod_reserv" name="prod_reserv" type="radio" value="2">N
+									<input id="mprod_reservy" name="prod_reserv" type="radio" value="1" checked>Y 
+									<input id="mprod_reservn" name="prod_reserv" type="radio" value="2">N
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
