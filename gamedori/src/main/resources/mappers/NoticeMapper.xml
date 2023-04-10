@@ -7,11 +7,39 @@
 
 
 	<!--  select all notice_tb 에있는 모든데이터를 선택해서 저장 -->
-	<select id="selectAll" resultType="noticeVO" >
-		SELECT * FROM notice_tb
+	<select id="selectAll" resultType="noticeVO" parameterType="map">
+	    SELECT * FROM notice_tb
+	    ORDER BY notice_idx DESC
+	    LIMIT #{limit} OFFSET #{start}
 	</select>  
+	
+	
+	<!-- 페이징 처리를 위한 notice_board의 게시물 수값을 얻기위한 쿼리문 -->
+	<select id="countAll" resultType="int">
+    	SELECT COUNT(*) FROM notice_tb
+	</select>
+	
+	
+	<select id="search" resultType="noticeVO" parameterType="map">
+    SELECT * FROM notice_tb
+    <where>
+        <choose>
+            <when test="searchOption == 'name'">
+                AND notice_writer LIKE CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test="searchOption == 'content'">
+                AND (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_content LIKE CONCAT('%', #{searchText}, '%'))
+            </when>
+            <otherwise>
+                AND (notice_writer LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_content LIKE CONCAT('%', #{searchText}, '%'))
+            </otherwise>
+        </choose>
+    </where>
+    ORDER BY notice_idx DESC
+</select>
+	
 
-
+	<!--  공지사항 글 작성  -->
 	<insert id="insert" parameterType="noticeVO">
 	   INSERT INTO notice_tb (MEMBER_TB_IDX, NOTICE_TITLE, NOTICE_CONTENTS, NOTICE_WRITER, NOTICE_HIT) 
 	   VALUES (
