@@ -27,23 +27,33 @@
     <choose>
       <when test="searchOption == 'name'">
         <if test="searchText != null and searchText != ''">
-          and notice_writer like CONCAT('%', #{searchText}, '%')
+          and notice_title like CONCAT('%', #{searchText}, '%')
         </if>
       </when>
       <when test="searchOption == 'content'">
         <if test="searchText != null and searchText != ''">
-          AND (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+          AND notice_contents LIKE CONCAT('%', #{searchText}, '%') 
         </if>
       </when>
+      <when test="searchOption == 'ncontent'">
+		  <if test="searchText != null and searchText != ''">
+		    AND (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+		  </if>
+		</when>
       <otherwise>
         <if test="searchText != null and searchText != ''">
-          AND (notice_writer LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+          AND (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
         </if>
       </otherwise>
     </choose>
   </where>
   ORDER BY notice_idx DESC
 </select>
+
+
+
+
+
 
 
 	<!--  공지사항 글 작성  -->

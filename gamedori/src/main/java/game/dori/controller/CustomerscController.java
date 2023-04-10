@@ -75,9 +75,11 @@ public class CustomerscController {
 	@ResponseBody
 	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
 	                                                    @RequestParam("searchOption") String searchOption) {
-	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption);
+	    
+		
+		List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption);
 
-	    return new ResponseEntity<>(searchResults, HttpStatus.OK);
+	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/notice_write.do", method = RequestMethod.POST)
