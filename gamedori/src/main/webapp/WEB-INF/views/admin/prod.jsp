@@ -36,7 +36,7 @@
     </ul>
   </div> -->
 	<div class="container">
-
+		<!-- 상품 리스트 -->
 		<div class="container mt-5">
 			<table class="table table-sm ">
 				<thead class="table-light">
@@ -51,120 +51,46 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th class="table-secondary" scope="row">1</th>
-						<td class="table-secondary">Mark</td>
-						<td class="table-secondary">Otto</td>
-						<td class="table-secondary">@mdo</td>
-						<td class="table-secondary">Mark</td>
-						<td class="table-secondary">Otto</td>
-						<td class="col-2">
-							<div class="d-flex justify-content-around">
-								<button type="button" class="btn btn-outline-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
-								<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th class="table-secondary" scope="row">2</th>
-						<td class="table-secondary">Jacob</td>
-						<td class="table-secondary">Thornton</td>
-						<td class="table-secondary">@fat</td>
-						<td class="table-secondary">Mark</td>
-						<td class="table-secondary">Otto</td>
-						<td>
-							<div class="d-flex justify-content-around">
-								<button type="button" class="btn btn-outline-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
-								<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
-							</div>
-						</td>
-
-					</tr>
-					<tr>
-						<th class="table-secondary" scope="row">3</th>
-						<td class="table-secondary">Larry the Bird</td>
-						<td class="table-secondary">@twitter</td>
-						<td class="table-secondary">Mark</td>
-						<td class="table-secondary">Otto</td>
-						<td class="table-secondary">@mdo</td>
-						<td>
-							<div class="d-flex justify-content-around">
-								<button type="button" class="btn btn-outline-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
-								<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
-							</div>
-						</td>
-
-					</tr>
-					<tr>
-						<th class="table-secondary" scope="row">4</th>
-						<td class="table-secondary" colspan="1">Larry the Bird</td>
-						<td class="table-secondary">@twitter</td>
-						<td class="table-secondary">Mark</td>
-						<td class="table-secondary">Otto</td>
-						<td class="table-secondary">@mdo</td>
-						<td>
-							<div class="d-flex justify-content-around">
-								<button type="button" class="btn btn-outline-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
-								<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
-							</div>
-						</td>
-
-					</tr>
-					<tr>
-						<th class="table-secondary" scope="row">5</th>
-						<td class="table-secondary" colspan="1">Larry the Bird</td>
-						<td class="table-secondary">@twitter</td>
-						<td class="table-secondary">Mark</td>
-						<td class="table-secondary">Otto</td>
-						<td class="table-secondary">@mdo</td>
-						<td>
-							<div class="d-flex justify-content-around">
-								<button type="button" class="btn btn-outline-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
-								<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
-							</div>
-						</td>
-
-					</tr>
-					<tr>
-						<th class="table-secondary" scope="row">6</th>
-						<td class="table-secondary" colspan="1">Larry the Bird</td>
-						<td class="table-secondary">@twitter</td>
-						<td class="table-secondary">Mark</td>
-						<td class="table-secondary">Otto</td>
-						<td class="table-secondary">@mdo</td>
-						<td>
-							<div class="d-flex justify-content-around">
-								<button type="button" class="btn btn-outline-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
-								<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
-							</div>
-						</td>
-
-					</tr>
-					<tr>
-						<th class="table-secondary" scope="row">7</th>
-						<td class="table-secondary" colspan="1">Larry the Bird</td>
-						<td class="table-secondary">@twitter</td>
-						<td class="table-secondary">Mark</td>
-						<td class="table-secondary">Otto</td>
-						<td class="table-secondary">@mdo</td>
-						<td>
-							<div class="d-flex justify-content-around">
-								<button type="button" class="btn btn-outline-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
-								<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
-							</div>
-						</td>
-					</tr>
+					<c:forEach var="pvo" items="${plist}">
+						<tr>
+							<th class="table-secondary" scope="row">${pvo.prod_idx}</th>
+							<td class="table-secondary">${pvo.category_tb_code}</td>
+							<td class="table-secondary">${pvo.prod_name}</td>
+							<td class="table-secondary">${pvo.prod_wdate}</td>
+							<td class="table-secondary">${pvo.prod_stock}</td>
+							<td class="table-secondary">
+								<c:if test="${pvo.prod_stock eq 0 }">
+									품절
+								</c:if>
+								<c:if test="${pvo.prod_stock ne 0 }">
+									정상
+								</c:if>
+							</td>
+							<td class="col-2">
+								<div class="d-flex justify-content-around">
+									<button type="button" onclick="modify(this)" class="btn btn-outline-secondary btn-sm"
+										data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
+									<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
+								</div>
+							</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
-
+		<script>
+			function modify(obj){
+				console.log(obj);
+				var no = $(obj).parent().parent().prev().prev().prev().prev().prev().prev().text();
+				console.log("no=>"+no);
+				var cate = $(obj).parent().parent().prev().prev().prev().prev().prev().text();
+				$("#mprod_cate").val(cate);
+				var name = $(obj).parent().parent().prev().prev().prev().prev().text();
+				$("#mprod_name").val(name);
+				var stock = $(obj).parent().parent().prev().prev().text();
+				$("#mprod_stock").val(stock);
+			}
+		</script>
 		<!-- 상품 수정 -->
 		<div class="modal fade" id="prodModify">
 			<div class="modal-dialog modal-dialog-centered">
@@ -175,73 +101,97 @@
 						</div>
 					</div>
 					<div class="modal-body">
-						<form name="" method="post" action="">
+						<form name="prodmodify" method="post" action="prodmodify.do">
 							<div class="form-group d-flex justify-content-around">
-								<select class="form-select form-select-sm"
+								<select class="category1 form-select form-select-sm"
 									aria-label=".form-select-sm example">
-									<option selected>1차 카테고리</option>
-									<option value="1">One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
-								</select> <select class="form-select form-select-sm"
+									<option value="">1차 카테고리</option>
+								</select> 
+								<select name="category_tb_code" class="category2 form-select form-select-sm"
 									aria-label=".form-select-sm example">
-									<option selected>2차 카테고리</option>
-									<option value="1">One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
+									<option  id="mprod_cate" value=""></option>
 								</select>
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
-									placeholder="상품명" name="review_title">
+								<input type="text" class="form-control" id="mprod_name"
+									placeholder="" name="prod_name">
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
-									placeholder="가격" name="review_title">
+								<input type="text" class="form-control" id="mprod_price"
+									placeholder="" name="prod_price">
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="text" class="form-control" id="mprod_co"
+									placeholder="" name="prod_co">
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="date" class="form-control" id="mprod_rdate"
+									placeholder="" name="prod_rdate">
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="text" class="form-control" id="mprod_stock"
+									placeholder="" name="prod_stock">
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="text" class="form-control" id="mprod_opt"
+									placeholder="" name="prod_opt">
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="text" class="form-control" id="mprod_opt"
+									placeholder="" name="prod_opt">
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="text" class="form-control" id="mprod_opt"
+									placeholder="" name="prod_opt">
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								성인등급 여부 
+								<c:if test="${spvo.prod_rating eq '1'}">
+									<input id="mprod_rating" name="prod_rating" type="radio" value="1" checked="checked">Y 
+									<input id="mprod_rating" name="prod_rating" type="radio" value="2">N
+								</c:if>
+								<c:if test="${spvo.prod_rating eq '2'}">
+									<input id="mprod_rating" name="prod_rating" type="radio" value="1">Y 
+									<input id="mprod_rating" name="prod_rating" type="radio" value="2" checked="checked">N
+								</c:if>
+							</div>
+							<div
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								예약상품 여부 
+								<c:if test="${spvo.prod_reserv eq '1'}">
+									<input id="mprod_reserv" name="prod_reserv" type="radio" value="1" checked="checked">Y 
+									<input id="mprod_reserv" name="prod_reserv" type="radio" value="2">N
+								</c:if>
+								<c:if test="${spvo.prod_reserv eq '2'}">
+									<input id="mprod_reserv" name="prod_reserv" type="radio" value="1">Y 
+									<input id="mprod_reserv" name="prod_reserv" type="radio" value="2" checked="checked">N
+								</c:if>
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input type="file" class="form-control" id="inputGroupFile02">
+									<input id="mprod_file1" name="prod_file1" type="file" class="form-control">
 									<label class="input-group-text" for="inputGroupFile02">썸네일</label>
 								</div>
 							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
-									placeholder="제조사" name="review_title">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
-									placeholder="제품옵션1" name="review_title">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
-									placeholder="제품옵션2" name="review_title">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
-									placeholder="제품옵션3" name="review_title">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								성인등급 여부 <input name="adultyn" type="radio" value="1">Y <input
-									name="adultyn" type="radio" value="2">N
-							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input type="file" class="form-control" id="inputGroupFile02">
-									<label class="input-group-text" for="inputGroupFile02">상세사진</label>
+									<input id="mprod_file2" name="prod_file2" type="file" class="form-control">
+									<label class="input-group-text" for="inputGroupFile02">메인사진</label>
 								</div>
 							</div>
 							<div class="form-group mt-2">
 								<div class="input-group mb-3">
-									<input type="file" class="form-control" id="inputGroupFile02">
-									<label class="input-group-text" for="inputGroupFile02">배송정보</label>
+									<input id="mprod_file3" name="prod_file3" type="file" class="form-control">
+									<label class="input-group-text" for="inputGroupFile02">상세정보</label>
 								</div>
 							</div>
 							<div class="d-grid gap-1 mt-2">
@@ -457,6 +407,22 @@
 	
 
 </script>
-
+<!-- 상품수정 -->
+	<script>
+		function prodmodify(){
+			var prod_idxVal = $("#prod_idx").val();
+			$.ajax({
+				url:"prodmodify.do",
+				type:"get",
+				data:{prod_idx:prod_idxVal},
+				success:function(data){
+					
+					
+					
+					$("#prod_name").val(data.prod_name);
+				}
+			});
+		}
+	</script>
 
 <%@ include file="../include/foot.jsp" %>
