@@ -36,7 +36,7 @@ public class NoticeDAO {
 	}
 	
 	public List<NOTICE_VO> search(String searchText, String searchOption) {
-	    Map<String, Object> params = new HashMap<>();
+	    Map<String, Object> params = new HashMap<String, Object>();
 	    params.put("searchText", searchText);
 	    params.put("searchOption", searchOption);
 
