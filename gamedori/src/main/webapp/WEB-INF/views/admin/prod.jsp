@@ -190,10 +190,8 @@
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								성인등급 여부 
-								<c:if test="${#mprod_rating eq 1 }">
 									<input id="mprod_rating" name="prod_rating" type="radio" value="1">Y 
 									<input id="mprod_rating" name="prod_rating" type="radio" value="2">N
-								</c:if>
 							</div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
