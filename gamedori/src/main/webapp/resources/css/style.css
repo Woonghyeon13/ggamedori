@@ -19,6 +19,11 @@
   overflow: hidden;
 }
 
+.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}
+
 a:link {
   text-decoration: none;
   color: black;
@@ -72,11 +77,6 @@ header #logo {
   font-size: 32px;
   font-weight: bold;
   font-family: 'Orbitron';
-}
-
-header .dropdown:hover .dropdown-menu {
-  display: block;
-  margin-top: 0;
 }
 
 main {

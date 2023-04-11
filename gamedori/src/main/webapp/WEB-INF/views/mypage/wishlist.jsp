@@ -15,8 +15,8 @@
 								<th width="3%" id="Check"><input type="checkbox" id="check-all"></th>
 								<th width="10%" class="text-center">상품이미지</th>
 								<th width="50%" class="text-center">상품정보</th>
-								<th class="text-center">가격</th>
-								<th width="20%"></th>
+								<th width="10%" class="text-center">가격</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -34,10 +34,10 @@
 								<td class="text-center align-middle">70,000원</td>
 								<td class="text-center align-middle">
 									<ul class="list-unstyled mb-0">
-										<li><button type="button" class="btn btn-secondary w-50" data-toggle="popover">
-											장바구니담기
+										<li><button type="button" class="btn btn-secondary w-35" data-toggle="popover">
+											장바구니 담기
 										</button></li>
-										<li><button class="btn btn-outline-danger mt-2 w-50">삭제</button></li>
+										<li><button class="btn btn-outline-danger mt-2 w-35">삭제</button></li>
 									</ul>
 								</td>
 								

@@ -61,7 +61,7 @@ public class MemberController {
 	    	
 	    	rsp.setContentType("text/html; charset=utf-8");
 	        PrintWriter pw = rsp.getWriter();
-	        pw.append("<script>alert('로그인 성공!'); location.href='"+req.getContextPath()+"'</script>");
+	        pw.append("<script> location.href='"+req.getContextPath()+"'</script>");
 	    	session.setAttribute("Login", MemberVO2);
 	        
 	    	

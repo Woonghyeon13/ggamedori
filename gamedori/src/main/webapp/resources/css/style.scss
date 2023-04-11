@@ -84,6 +84,12 @@ main
 	overflow: hidden;
 
 	.login{background-color: #192773;}
+
+	//메인메뉴 드롭다운 설정
+	.dropdown:hover .dropdown-menu {
+		display: block;
+		margin-top: 0;
+	}
 	
 	//메인뷰
 	#carouselExampleDark
