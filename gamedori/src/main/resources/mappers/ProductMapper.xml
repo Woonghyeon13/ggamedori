@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="game.dori.mapper.productMapper">
+
 	<!-- 상품 등록 -->
 	<insert id="prodInsert" parameterType="productVO">
 		INSERT INTO 
@@ -12,14 +13,21 @@
 	</insert>
 	
 	<!-- 상품 리스트 -->
-	<select id="prodSelectAll" resultType="productVO">
-		SELECT * FROM product_tb
+	<select id="prodSelectAll" resultType="productVO" parameterType="categoryVO">
+		SELECT * FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
+		<if test="cate_refcode != null">
+			and cate_refcode = #{cate_refcode}
+		</if>
+		<if test='cate_refcode == null and cate_code != null'>
+			and category_tb_code = #{cate_code}
+		</if>
 	</select>
 	
 	<!-- 상품 수정 -->
 	<update id="prodUpdate" parameterType="productVO">
 		update product_tb
-		set category_tb_code  = #{category_tb_code}
+		set
+		 category_tb_code  = #{category_tb_code}
 		, prod_name = #{prod_name}
 		, prod_price = #{prod_price}
 		, prod_stock = #{prod_stock}

@@ -46,7 +46,7 @@
         
         <c:if test="${Login.member_role == 2}">
 			 <button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/customersc/modify.do?notice_idx=${noticeVO.notice_idx}'">수정</button>
-    		<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/customersc/delete.do?notice_idx=${noticeVO.notice_idx}'">삭제</button>
+    		 <button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/customersc/delete.do?notice_idx=${noticeVO.notice_idx}'">삭제</button>
     			
 		</c:if>
            

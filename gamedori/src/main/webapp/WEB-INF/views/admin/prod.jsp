@@ -73,7 +73,7 @@
 									<input type="hidden" value="상품명 : ${pvo.prod_name}">
 									<input type="hidden" value="가격 : ${pvo.prod_price}">
 									<input type="hidden" value="제조사 : ${pvo.prod_co}">
-									<input type="hidden" value="${pvo.prod_wdate}">
+									<input type="hidden" value="${pvo.prod_rdate}">
 									<input type="hidden" value="재고량 : ${pvo.prod_stock}">
 									<input type="hidden" value="옵션 : ${pvo.prod_opt}">
 									<input type="hidden" value="옵션 : ${pvo.prod_opt}">
@@ -83,9 +83,12 @@
 									<input type="hidden" value="${pvo.prod_imgt}">
 									<input type="hidden" value="${pvo.prod_imgm}">
 									<input type="hidden" value="${pvo.prod_imgd}">
-									<button type="button" onclick="modify(this)" class="btn btn-outline-secondary btn-sm"
+									<button type="button" onclick="modify(this,'${pvo.prod_idx}')" class="btn btn-outline-secondary btn-sm"
 										data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
-									<button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
+									<form name="frm" action="prodDelete.do" method="post">
+										<input name="prod_idx" type="hidden" value="${pvo.prod_idx}">
+										<button id="prodDel" class="btn btn-outline-secondary btn-sm">삭제</button>
+									</form>
 								</div>
 							</td>
 						</tr>
@@ -93,10 +96,10 @@
 				</tbody>
 			</table>
 		</div>
-		<!-- 상품수정 정보 -->
 		<script>
-			function modify(obj){
-				var idx = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
+			<!-- 상품수정 정보 -->
+			function modify(obj,idx){
+				var idx = idx;
 				$("#mprod_idx").val(idx);
 				var cate = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
 				$("#mprod_cate").val(cate);
@@ -106,8 +109,8 @@
 				$("#mprod_price").val(price);
 				var co = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
 				$("#mprod_co").val(co);
-				var wdate = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_wdate").val(wdate);
+				var rdate = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
+				$("#mprod_rdate").val(rdate);
 				var stock = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
 				$("#mprod_stock").val(stock);
 				var opt = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().val();
@@ -138,8 +141,8 @@
 				$("#mprod_file2").val(imgd);
 				var imgd = $(obj).prev().val();
 				$("#mprod_file3").val(imgd);
-				
-			}
+			};
+			
 		</script>
 		<!-- 상품 수정 -->
 		<div class="modal fade" id="prodModify">
@@ -151,7 +154,7 @@
 						</div>
 					</div>
 					<div class="modal-body">
-						<form name="prodmodify" method="post" action="prodmodify.do" enctype="multipart/form-data">
+						<form name="prodModify" method="post" action="prodmodify.do" enctype="multipart/form-data">
 							<div class="form-group d-flex justify-content-around">
 								<input type="hidden" id="mprod_idx" name="prod_idx">
 								<select class="category1 form-select form-select-sm"
@@ -446,22 +449,5 @@
 	
 
 </script>
-<!-- 상품수정 -->
-	<script>
-		function prodmodify(){
-			var prod_idxVal = $("#prod_idx").val();
-			$.ajax({
-				url:"prodmodify.do",
-				type:"get",
-				data:{prod_idx:prod_idxVal},
-				success:function(data){
-					
-					
-					
-					$("#prod_name").val(data.prod_name);
-				}
-			});
-		}
-	</script>
 
 <%@ include file="../include/foot.jsp" %>

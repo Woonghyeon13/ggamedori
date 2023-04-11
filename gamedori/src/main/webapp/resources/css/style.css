@@ -154,6 +154,10 @@ main #carouselExampleDark #MainView_Title3 {
   background-size: contain;
 }
 
+ main .pagination .page-link {
+        color: black;
+    }
+
 main #carouselExampleDark #MainView_Title3 img {
   -webkit-filter: brightness(20%);
           filter: brightness(20%);
