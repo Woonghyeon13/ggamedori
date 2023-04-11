@@ -1,19 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
-
 <main>
 	<!-- 상품 정보 -------------------------------------------->
 	<div class="container inner">
 		<div class="container mt-5">
 			<div class="row">
 				<div class="col-7">
-					<img class="border" src="<c:url value='/images/피파23 ps5_600x600.jpg' />">
+					<img class="border" src="<c:url value='/images/${pvo.prod_imgm}' />">
 				</div>
 				<div class="col-5">
 					<div class="container">
 						<div>
-							<h2 class="fw-bold">PS5 EA SPORTS FIFA 23</h2>
+							<h2 class="fw-bold">${pvo.prod_name}</h2>
 						</div>
 						<div class="mb-4" style="border-bottom: 1px solid #000;">
 							<p>한글판</p>
@@ -24,7 +23,7 @@
 							</div>
 							<div class="col-9 d-flex">
 								<h6>
-									<span class="fw-bold fs-5 me-1" style="color: #ee4a44;">52,000</span>
+									<span class="fw-bold fs-5 me-1" style="color: #ee4a44;">${pvo.prod_price}</span>
 								</h6>
 								<p>원</p>
 							</div>
@@ -47,7 +46,6 @@
 								<p>주문시 결제</p>
 							</div>
 						</div>
-
 						<hr>
 						<form name="" action="" method="">
 							<div class="row align-items-start">
@@ -55,7 +53,7 @@
 									<p class="fw-semibold">제조사</p>
 								</div>
 								<div class="col-9">
-									<p>EA SPORTS</p>
+									<p>${pvo.prod_co}</p>
 								</div>
 							</div>
 							<div class="row align-items-start">
@@ -63,7 +61,7 @@
 									<p class="fw-semibold">출시일</p>
 								</div>
 								<div class="col-9">
-									<p>2022-09-30</p>
+									<p>${pvo.prod_rdate}</p>
 								</div>
 							</div>
 							<div class="row align-items-start">
@@ -71,7 +69,7 @@
 									<p class="fw-semibold">기종</p>
 								</div>
 								<div class="col-9">
-									<p>PlayStation 5</p>
+									<p>${pvo.category_tb_code}</p>
 								</div>
 							</div>
 							<p style="font-size: 12px;">
@@ -96,7 +94,7 @@
 									<select class="form-select" onchange="num(this.value)"
 										aria-label="Default select example">
 										<option selected>선택</option>
-										<option value="1">EA SPORTS FIFA23</option>
+										<option value="1">${pvo.prod_opt}</option>
 									</select>
 
 									<div class="choice_product mt-3" style="margin: auto 0;">
@@ -104,7 +102,7 @@
 											style="display: none;">
 											<div class="d-flex justify-content-between">
 												<div class="mt-3">
-													<p>EA SPORTS FIFA23</p>
+													<p>${pvo.prod_name} : ${pvo.prod_opt}</p>
 												</div>
 												<!--선택한 옵션 이름나오게 해주세요-->
 												<div class="btn-group btn-group-sm my-3" role="group">
@@ -126,7 +124,7 @@
 							</div>
 							<p class="d-flex justify-content-end my-4 align-items-end">
 								총 금액<span class="fs-3 me-1 ms-2 fw-bold" id="total_amount"
-									style="color: #ee4a44;">52,000</span>원
+									style="color: #ee4a44;">${pvo.prod_price}</span>원
 							</p>
 							<div
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
@@ -155,7 +153,7 @@
 			</ul>
 			<!--상세 사진 영역-->
 			<div class="container d-flex justify-content-center mt-3">
-				<img src="<c:url value='/images/피파23_PS5_상세.jpg' />" alt="">
+				<img src="<c:url value='/images/${pvo.prod_imgd}' />" alt="">
 			</div>
 		</div>
 		<!-- 배송안내 -->
