@@ -51,16 +51,18 @@ public class NoticeDAO {
 	
 	public int delete(int notice_idx)
 	{
-		
 		return sqlSession.delete("game.dori.mapper.noticeMapper.delete", notice_idx);
 	}
 	
 	
 	public int modfiy(NOTICE_VO noticeVO)
-	{	
-		
-		return sqlSession.update("game.dori.mapper.noticeMapper.modify", noticeVO);
-		
+	{		
+		return sqlSession.update("game.dori.mapper.noticeMapper.modify", noticeVO);	
+	}
+	
+	public int update_Hit(NOTICE_VO noticeVO)
+	{
+		return sqlSession.update("game.dori.mapper.noticeMapper.updateHit", noticeVO);
 	}
 	
 }

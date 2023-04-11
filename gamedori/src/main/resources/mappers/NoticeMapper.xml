@@ -19,41 +19,30 @@
     	SELECT COUNT(*) FROM notice_tb
 	</select>
 	
- <!-- 공지사항 검색 -->
-
-<select id="search" resultType="noticeVO" parameterType="map">
-  SELECT * FROM notice_tb
-  <where>
-    <choose>
-      <when test="searchOption == 'name'">
-        <if test="searchText != null and searchText != ''">
-          and notice_title like CONCAT('%', #{searchText}, '%')
-        </if>
-      </when>
-      <when test="searchOption == 'content'">
-        <if test="searchText != null and searchText != ''">
-          AND notice_contents LIKE CONCAT('%', #{searchText}, '%') 
-        </if>
-      </when>
-      <when test="searchOption == 'ncontent'">
-		  <if test="searchText != null and searchText != ''">
-		    AND (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
-		  </if>
-		</when>
-      <otherwise>
-        <if test="searchText != null and searchText != ''">
-          AND (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
-        </if>
-      </otherwise>
-    </choose>
-  </where>
-  ORDER BY notice_idx DESC
-</select>
-
-
-
-
-
+ 	<!-- 공지사항 검색 -->
+	<select id="search" resultType="noticeVO" parameterType="map">
+	  SELECT * FROM notice_tb
+	  <where>
+	    <choose>
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          and notice_title like CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	      <when test="searchOption == 'content'">
+	        <if test="searchText != null and searchText != ''">
+	          AND (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+	        </if>
+	      </when>
+	      <otherwise>
+	        <if test="searchText != null and searchText != ''">
+	          AND (notice_writer LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+	        </if>
+	      </otherwise>
+	    </choose>
+	  </where>
+	  ORDER BY notice_idx DESC
+	</select>
 
 
 	<!--  공지사항 글 작성  -->
@@ -64,7 +53,7 @@
 	       #{notice_title},
 	       #{notice_contents}, 
 	       (SELECT member_name FROM member_tb WHERE member_idx = #{member_tb_idx}), 
-	       0
+	       #{notice_hit}
   	 );
 	</insert>
 
@@ -84,16 +73,21 @@
 	
 	<!--  공지사항 글 수정 -->
 	
-		<update id="modify" parameterType="noticeVO" >
-		    UPDATE notice_tb
-		    SET 
-		        MEMBER_TB_IDX = #{member_tb_idx},
-		        NOTICE_TITLE = #{notice_title},
-		        NOTICE_CONTENTS = #{notice_contents},
-		        NOTICE_WRITER = #{notice_writer},
-		        NOTICE_HIT = #{notice_hit}
-		    WHERE
-		        notice_idx = #{notice_idx}
-		</update>
+	<update id="modify" parameterType="noticeVO" >
+	    UPDATE notice_tb
+	    SET 
+	        MEMBER_TB_IDX = #{member_tb_idx},
+	        NOTICE_TITLE = #{notice_title},
+	        NOTICE_CONTENTS = #{notice_contents},
+	        NOTICE_WRITER = #{notice_writer},
+	        NOTICE_HIT = #{notice_hit}
+	    WHERE
+	        notice_idx = #{notice_idx}
+	</update>
+	
+	<!-- 공지사항 조회수 증가 -->
+	<update id="updateHit" parameterType="noticeVO">
+		update notice_tb set notice_hit = notice_hit + 1 where notice_idx = #{notice_idx}
+	</update>
 
 </mapper>

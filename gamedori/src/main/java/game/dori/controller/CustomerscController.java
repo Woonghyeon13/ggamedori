@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -153,15 +154,21 @@ public class CustomerscController {
 		    pw.append("<script>alert('글 수정 실패'); location.href='" + req.getContextPath()
 		        + "/customersc/view.do?notice_idx=" + noticeVO.getNotice_idx() + "';</script>");
 		}
-	}		
+	}	
+
 	
 	// 공지사항 상세보기
 	@RequestMapping( value = "/view.do", method = RequestMethod.GET )
 	public String view(Model model, @RequestParam("notice_idx") int noticeIdx)
 	{
 		NOTICE_VO noticeVO = adminService.select(noticeIdx);
+		int result = adminService.notice_Hit(noticeVO);
+		
+		if(result >= 0 )
+		{
 		model.addAttribute("noticeVO", noticeVO);
 		
+		}
 		return "customersc/view";
 	}
 	

@@ -57,20 +57,14 @@ public class AdminServiceImpl implements AdminService{
 	    return noticeDAO.search(searchText, searchOption);
 	}
 
+	@Override
+	public int notice_Hit(NOTICE_VO noticeVO) {
+		// TODO Auto-generated method stub
+		 return noticeDAO.update_Hit(noticeVO);
+	}
 
 
-//	@Override
-//	public void insert(NOTICE_VO vo) throws Exception {
-//		// TODO Auto-generated method stub
-//		noticeDAO.insert(vo);
-//	}
 
 
-
-//	@Override
-//	public List<NOTICE_VO> List() throws Exception {
-//		// TODO Auto-generated method stub
-//		return noticeDAO.select(vo);
-//	}
 
 }

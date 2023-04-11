@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -21,7 +21,7 @@
             
             <div id="n_contents" class="input-group">
                 <span class="input-group-text">공지사항 내용</span>
-                <textarea class="form-control noticecontents" aria-label="With textarea" name="notice_contents"></textarea>
+                <textarea class="form-control noticecontents" aria-label="With textarea" name="notice_contents" value="${noticeVO.notice_contents}"></textarea>
                 	<div>${fn:escapeXml(notice_contents)}</div>
            
             </div>
