@@ -5,7 +5,7 @@ package game.dori.vo;
 public class PRODUCT_VO {
 
 	private int prod_idx;				// 상품 인덱스
-	private String category_tb_code;		// 카테고리 코드 (품번)
+	private String category_tb_code;	// 카테고리 코드 (품번)
 	private String prod_name;			// 상품 명
 	private int prod_price;				// 상품 가격
 	private int prod_stock;				// 재고 량
@@ -20,7 +20,21 @@ public class PRODUCT_VO {
 	private String prod_imgt;			// 썸네일 이미지
 	private String prod_imgm;			// 메인 이미지
 	private String prod_imgd;			// 상세정보 이미지
+	private int prod_qtymin;			// 최소구매수량
+	private int prod_qtymax;			// 최대구매수량
 	
+	public int getProd_qtymin() {
+		return prod_qtymin;
+	}
+	public void setProd_qtymin(int prod_qtymin) {
+		this.prod_qtymin = prod_qtymin;
+	}
+	public int getProd_qtymax() {
+		return prod_qtymax;
+	}
+	public void setProd_qtymax(int prod_qtymax) {
+		this.prod_qtymax = prod_qtymax;
+	}
 	public int getProd_idx() {
 		return prod_idx;
 	}

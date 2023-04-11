@@ -86,12 +86,12 @@ public class AdminController {
 
 	// 상품관리
 	@RequestMapping( value = "/prod.do", method = RequestMethod.GET )
-	public String prod( Model model, PRODUCT_VO pvo ){
+	public String prod( Model model, CATEGORY_VO cvo ){
 		List<CATEGORY_VO> category = null;
 		category = productService.category();
 		model.addAttribute("category", JSONArray.fromObject(category));
 		
-		List<PRODUCT_VO> list = productService.list(pvo);
+		List<PRODUCT_VO> list = productService.list(cvo);
 		model.addAttribute("plist",list);
 		
 		return "admin/prod";
@@ -147,7 +147,7 @@ public class AdminController {
 
 	// 상품수정
 	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.POST )
-	public void prodmodify( PRODUCT_VO pvo, Model model, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3, int prod_idx ) throws IllegalStateException, IOException{
+	public void prodmodify( PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3) throws IllegalStateException, IOException{
 		
 		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
 		
@@ -160,23 +160,20 @@ public class AdminController {
 			String FileName = System.currentTimeMillis()+prod_file1.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
 			prod_file1.transferTo(new File(path,newFileName));
-			
+			pvo.setProd_imgt(prod_file1.getOriginalFilename());
 		}else
-			if(!prod_file2.getOriginalFilename().isEmpty()) { 
-				String FileName = System.currentTimeMillis()+prod_file2.getOriginalFilename();
-				newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
-				prod_file2.transferTo(new File(path,newFileName));
-				
-			}else
-				if(!prod_file3.getOriginalFilename().isEmpty()) { 
-					String FileName = System.currentTimeMillis()+prod_file3.getOriginalFilename();
-					newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
-					prod_file3.transferTo(new File(path,newFileName));
-					
-				}
-		pvo.setProd_imgt(prod_file1.getOriginalFilename());
-		pvo.setProd_imgm(prod_file2.getOriginalFilename());
-		pvo.setProd_imgd(prod_file3.getOriginalFilename());
+		if(!prod_file2.getOriginalFilename().isEmpty()) { 
+			String FileName = System.currentTimeMillis()+prod_file2.getOriginalFilename();
+			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
+			prod_file2.transferTo(new File(path,newFileName));
+			pvo.setProd_imgm(prod_file2.getOriginalFilename());
+		}else
+		if(!prod_file3.getOriginalFilename().isEmpty()) { 
+			String FileName = System.currentTimeMillis()+prod_file3.getOriginalFilename();
+			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
+			prod_file3.transferTo(new File(path,newFileName));
+			pvo.setProd_imgd(prod_file3.getOriginalFilename());
+		}
 		
 		int result = productService.prodUpdate(pvo);
 		
@@ -192,9 +189,14 @@ public class AdminController {
 		}
 		pw.flush();
 	}
+	// 상품삭제
+	@RequestMapping( value = "/prodDelete.do", method = RequestMethod.POST )
+	public String prodDelete( int prod_idx ){
+		
+		int result = productService.prodDelete(prod_idx);
+		return "redirect:/admin/prod.do";
+	}
 	
-	
-
 	// 반품관리
 	@RequestMapping( value = "/asreturn.do", method = RequestMethod.GET )
 	public String asreturn(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{

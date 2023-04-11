@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.PRODUCT_VO;
 
 @Repository
@@ -20,13 +21,18 @@ public class ProductDAO {
 	}
 	
 	// 상품 목록
-	public List<PRODUCT_VO> list( PRODUCT_VO pvo){
-		return sqlSession.selectList("game.dori.mapper.productMapper.prodSelectAll",pvo);
+	public List<PRODUCT_VO> list( CATEGORY_VO cvo ){
+		return sqlSession.selectList("game.dori.mapper.productMapper.prodSelectAll",cvo);
 	}
 	
 	// 상품 수정
 	public int pordUpdate( PRODUCT_VO pvo ) {
 		return sqlSession.update("game.dori.mapper.productMapper.prodUpdate",pvo);
+	}
+	
+	// 상품 삭제
+	public int pordDelete( int prod_idx ) {
+		return sqlSession.delete("game.dori.mapper.productMapper.prodDelete",prod_idx);
 	}
 	
 	// 상품 상세

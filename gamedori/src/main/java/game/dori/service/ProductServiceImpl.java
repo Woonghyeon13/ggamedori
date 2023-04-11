@@ -33,8 +33,8 @@ public class ProductServiceImpl implements ProductService{
 
 	// 상품 리스트
 	@Override
-	public List<PRODUCT_VO> list(PRODUCT_VO pvo) {
-		return productDAO.list(pvo);
+	public List<PRODUCT_VO> list( CATEGORY_VO cvo ) {
+		return productDAO.list(cvo);
 	}
 
 	// 상품 수정
@@ -47,6 +47,11 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public PRODUCT_VO prodSelectOne(int prod_idx) {
 		return productDAO.prodSelectOne(prod_idx);
+	}
+
+	@Override
+	public int prodDelete(int prod_idx) {
+		return productDAO.pordDelete(prod_idx);
 	}
 	
 }
