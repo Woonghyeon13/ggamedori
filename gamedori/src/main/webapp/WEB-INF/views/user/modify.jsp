@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- 스크립트 구문 -->
 <script>
@@ -172,7 +172,7 @@
 		                    <label for="MEMBER_PHONE" class="form-label fw-bold fs-6">휴대전화</label>
 		                    <div class="input-group input_s">
 		                        <input type="text" class="form-control" id="member_phone" name="member_phone" required>
-		                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">본인확인</button>
+		                       	 <div>${fn:escapeXml(member_phone)}</div>
 		                        <div class="invalid-feedback">
 		                            휴대전화 번호를 입력해주세요.
 		                        </div>
@@ -181,10 +181,13 @@
 							<!-- 주소검색 api -->
 							<div class="mb-4">
 								<label for="ADDR_2" class="form-label mt-1 fw-bold fs-6">주소</label>
-								<input type="button" class="btn btn-outline-secondary btn-sm" onclick="sample6_execDaumPostcode()" value="주소 검색">
+								<input type="button" class="btn btn-outline-secondary btn-sm" onclick="sample6_execDaumPostcode()" id="member_addr"value="주소 검색">
+								<div>${fn:escapeXml(member_addr)}</div>
 								<input type="text" class="form-control input_s" id="ADDR_1" placeholder="우편번호" required>
+								
 								<input type="text" class="form-control input_s mt-1" id="ADDR_2" placeholder="주소" required>
 								<input type="text" class="form-control input_s mt-1" id="ADDR_3" placeholder="상세주소">
+								<div>${fn:escapeXml(ADDR_3)}</div>
 								<div class="invalid-feedback">
 									주소를 입력해주세요
 								</div>
