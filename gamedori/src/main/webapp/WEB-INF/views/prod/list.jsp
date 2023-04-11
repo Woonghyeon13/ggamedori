@@ -11,8 +11,8 @@
 					<br>
 					<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
 				</div>
-				<div>
-					<ul id="product_menu">
+				<div class="mt-5 border-top border-2 border-dark">
+					<ul class="d-flex justify-content-evenly mt-4 ps-0">
 						<li><a href="<c:url value='/.do'/>">전체</a></li>
 						<li><a href="<c:url value='/.do'/>">하드웨어</a></li>
 						<li><a href="<c:url value='/.do'/>">타이틀</a></li>
@@ -33,9 +33,14 @@
         
 		<div class="mt-5">
 			<ul class="d-flex flex-wrap" style="padding: 0;">
+
+				<li class="ms-1 me-1 mb-4">
+					<a href="<c:url value='/prod/detail.do'/>">
+
 				<c:forEach var="pvo" items="${plist}">
 				<li class="ms-1 me-1 mb-4" style="width: 200px;">
 					<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
+
 						<div style="text-align: center;">
 							<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
 							<div>
@@ -48,7 +53,113 @@
 						</div>
 					</a> 
 				</li>
+
+
+				<li class="ms-1 me-1 mb-4">
+					<a href="<c:url value='/prod/detail.do'/>">
+						<div style="text-align: center;">
+							<img src="<c:url value='/images/ps4 피파23_180x180.jpg' />" alt="...">
+                            <div>
+                                <p class="text-center fs-6 mb-0"> PS4 피파23</p>
+                                <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;"> 69,800원</p>
+                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+                            </div>
+                        </div>
+                    </a> 
+                </li>
+
+               <li class="ms-1 me-1 mb-4">
+					<a href="<c:url value='/prod/detail.do'/>">
+                        <div style="text-align: center;">
+                            <img src="<c:url value='/images/ps4 피파23_180x180.jpg' />" alt="...">
+                            <div>
+                                <p class="text-center fs-6 mb-0"> PS4 피파23</p>
+                                <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;"> 69,800원</p>
+                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+                            </div>
+                        </div>
+                    </a> 
+                </li>
+
+                <li class="ms-1 me-1 mb-4">
+					<a href="<c:url value='/prod/detail.do'/>">
+                        <div style="text-align: center;">
+                            <img src="<c:url value='/images/ps4 피파23_180x180.jpg' />" alt="...">
+                            <div>
+                                <p class="text-center fs-6 mb-0"> PS4 피파23</p>
+                                <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;"> 69,800원</p>
+                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+                            </div>
+                        </div>
+                    </a> 
+                </li>
+
+                <li class="ms-1 me-1 mb-4">
+					<a href="<c:url value='/prod/detail.do'/>">
+                        <div style="text-align: center;">
+                            <img src="<c:url value='/images/ps4 피파23_180x180.jpg' />" alt="...">
+                            <div>
+                                <p class="text-center fs-6 mb-0"> PS4 피파23</p>
+                                <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;"> 69,800원</p>
+                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+                            </div>
+                        </div>
+                    </a> 
+                </li>
+
+                <li class="ms-1 me-1 mb-4">
+					<a href="<c:url value='/prod/detail.do'/>">
+                        <div style="text-align: center;">
+                            <img src="<c:url value='/images/ps4 피파23_180x180.jpg' />" alt="...">
+                            <div>
+                                <p class="text-center fs-6 mb-0"> PS4 피파23</p>
+                                <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;"> 69,800원</p>
+                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+                            </div>
+                        </div>
+                    </a> 
+                </li>
+
+              	<li class="ms-1 me-1 mb-4">
+					<a href="<c:url value='/prod/detail.do'/>">
+                        <div style="text-align: center;">
+                            <img src="<c:url value='/images/ps4 피파23_180x180.jpg' />" alt="...">
+                            <div>
+                                <p class="text-center fs-6 mb-0"> PS4 피파23</p>
+                                <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;"> 69,800원</p>
+                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+                            </div>
+                        </div>
+                    </a> 
+                </li>
+
+                <li class="ms-1 me-1 mb-4">
+					<a href="<c:url value='/prod/detail.do'/>">
+                        <div style="text-align: center;">
+                            <img src="<c:url value='/images/ps4 피파23_180x180.jpg' />" alt="...">
+                            <div>
+                                <p class="text-center fs-6 mb-0"> PS4 피파23</p>
+                                <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;"> 69,800원</p>
+                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+                            </div>
+                        </div>
+                    </a> 
+                </li>
+
+                <li class="ms-1 me-1 mb-4">
+					<a href="<c:url value='/prod/detail.do'/>">
+                        <div style="text-align: center;">
+                            <img src="<c:url value='/images/ps4 피파23_180x180.jpg' />" alt="...">
+                            <div>
+                                <p class="text-center fs-6 mb-0"> PS4 피파23</p>
+                                <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;"> 69,800원</p>
+                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+                            </div>
+                        </div>
+                    </a> 
+                </li>
 				</c:forEach>
+
             </ul>
             
         </div>

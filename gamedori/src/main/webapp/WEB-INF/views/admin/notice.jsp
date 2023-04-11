@@ -1,6 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+<script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
+
+<style>
+.ck.ck-editor {
+	width:100%;
+}
+.ck-editor__editable {
+	 min-height: 30vw;
+}
+</style>
+
 <main>
 	<div class="container d-flex justify-content-center mt-2">
 		<h3 class="fw-bold">관리자 페이지</h3>
@@ -8,33 +19,30 @@
 	<div class="container">
 		<div class="container mt-5">
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/asreturn.do' />">주문 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/prod.do' />">상품 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" aria-current="page" href="<c:url value='/admin/mainPageModify.do' />">메인 화면 관리</a></li>
+				<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/qaprod.do' />">문의/공지관리</a></li>
 				<li class="nav-item">
-					<!-- 선택시 클래스 fw-bold --> <a class="nav-link text-reset"
-					aria-current="page" href="<c:url value='/admin/member.do' />">회원 관리</a>
+					<!-- 선택시 클래스 fw-bold --> 
+					<a class="nav-link text-reset" aria-current="page" href="<c:url value='/admin/member.do' />">회원 관리</a>
 				</li>
-				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/prod.do' />">상품관리</a>
-				</li>
-				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/asreturn.do' />">A/S
-						관리</a></li>
-				<li class="nav-item"><a
-					class="nav-link active text-reset fw-bold" href="<c:url value='/admin/qaprod.do' />">문의/공지관리</a></li>
 			</ul>
 		</div>
 	</div>
 	<!-- 문의/공지사항 탭  -->
-	<div class="container">
+	<div class="container mt-4">
 		<ul class="nav justify-content-end text-black">
 			<li class="nav-item"><a class="nav-link text-reset"
 				aria-current="page" href="<c:url value='/admin/qaprod.do' />">상품 문의 관리</a></li>
-			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/oto.do' />">1:1
-					문의 관리</a></li>
+			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/oto.do' />">1:1 문의 관리</a></li>
 			<li class="nav-item"><a
 				class="nav-link active text-reset fw-bold" href="<c:url value='/admin/notice.do' />">공지사항 관리</a></li>
 		</ul>
 	</div>
-	<!-- 회원관리 -->
-	<div class="container mt-5">
-		<!-- 회원 정지 폼 -->
+
+	<div class="container mt-1">
+
 		<div class="container">
 			<form action="">
 				<table class="table">
@@ -49,7 +57,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<th scope="row">공지사항제목</th>
+							<th scope="row">공지사항 제목</th>
 							<td>Mark</td>
 							<td>2023-03-29</td>
 							<td>
@@ -57,8 +65,7 @@
 									data-bs-toggle="modal" data-bs-target="#noticeModify">수정</button>
 							</td>
 							<td>
-								<button type="button" class="btn btn-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#noticeModify">삭제</button>
+								<button class="btn btn-secondary btn-sm">삭제</button>
 							</td>
 						</tr>
 					</tbody>
@@ -71,13 +78,12 @@
 			<button type="button" class="btn btn-outline-secondary btn-sm me-4"
 				data-bs-toggle="modal" data-bs-target="#noticeWrite">글쓰기</button>
 		</div>
-		<div class="modal fade" id="noticeWrite">
-			<div class="modal-dialog modal-dialog-centered">
+		<div class="modal fade" id="noticeWrite" data-bs-backdrop="static">
+			<div class="modal-dialog modal-dialog-centered modal-xl">
 				<div class="modal-content">
 					<div class="modal-header d-flex flex-column logo">
-						<div class="mt-2">
-							<h4 class="modal-title fs-5">공지사항 등록</h4>
-						</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<h4 class="modal-title fs-5">공지사항 등록</h4>
 					</div>
 					<div class="modal-body">
 						<form name="review" method="post" action="loginAction.jsp">
@@ -87,10 +93,14 @@
 								<input type="text" class="form-control" id="review_title"
 									placeholder="공지사항 제목" name="review_title">
 							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<textarea name="" id="" class="form-control"
-									placeholder="공지사항 내용" cols="30" rows="10"></textarea>
+							<div class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<textarea name="" id="noticeContent" class="form-control" placeholder="공지사항 내용"></textarea>
+								   <script>
+								   	ClassicEditor.create( document.querySelector( '#noticeContent' ), {
+								        language: "ko"
+								        
+								      } );
+								   	</script>
 							</div>
 							<div class="d-grid gap-1 mt-2">
 								<input type="submit"
@@ -118,36 +128,34 @@
 		</div>
 
 		<!-- 공지사항 수정 -->
-		<div class="modal fade" id="noticeModify">
-			<div class="modal-dialog modal-dialog-centered">
+		<div class="modal fade" id="noticeModify" data-bs-backdrop="static">
+			<div class="modal-dialog modal-dialog-centered modal-xl">
 				<div class="modal-content">
 					<div class="modal-header d-flex flex-column logo">
-						<div class="mt-2">
-							<h4 class="modal-title fs-5">상품 문의</h4>
-						</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<h4 class="modal-title fs-5">공지사항 수정</h4>
 					</div>
 					<div class="modal-body">
 						<form name="review" method="post" action="loginAction.jsp">
+							<div class="form-group d-flex justify-content-around"></div>
 							<div
-								class="form-group d-flex flex-column justify-content-center align-items-center">
-								<input type="text" class="form-control" placeholder="상품 문의 제목">
+								class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="text" class="form-control" id="review_title"
+									placeholder="공지사항 제목" name="review_title">
 							</div>
-							<div
-								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<textarea name="" id="" placeholder="상품 문의 내용"
-									class="form-control" cols="30" rows="10"></textarea>
+							<div class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<textarea name="" id="noticeModi" class="form-control" placeholder="공지사항 내용"></textarea>
+								   <script>
+								   	ClassicEditor.create( document.querySelector( '#noticeModi' ), {
+								        language: "ko"
+								        
+								      } );
+								   	</script>
 							</div>
-							<hr>
-							<div
-								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<textarea name="" id="" placeholder="상품 문의 답변 내용"
-									class="form-control" cols="30" rows="10"></textarea>
-							</div>
-
-							<div class="d-flex gap-1 mt-2">
+							<div class="d-grid gap-1 mt-2">
 								<input type="submit"
 									class="btn btn-outline-secondary btn-lg form-control"
-									value="답변등록">
+									value="공지사항 등록">
 							</div>
 						</form>
 					</div>
