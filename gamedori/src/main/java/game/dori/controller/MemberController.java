@@ -266,8 +266,8 @@ public class MemberController {
 	    	    return response; // 실패한 응답 객체를 반환합니다.
 	        	}
 			} catch (NullPointerException e) {
-	        e.printStackTrace(); // 예외 정보를 로그에 출력합니다.
-	        throw e; // 예외를 상위 메서드로 전파합니다.
+				e.printStackTrace(); // 예외 정보를 로그에 출력합니다.
+				throw e; // 예외를 상위 메서드로 전파합니다.
 	        
 	    }
 	

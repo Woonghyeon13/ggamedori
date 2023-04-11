@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script>
 
@@ -79,6 +80,7 @@ function validateEmail() {
 								 <label for="MEMBER_EMAIL">*이메일</label>
 								  <div class="input-group mb-3">
 								    <input type="email" class="form-control memberemail" name="member_email" id="member_email" placeholder="이메일" required>
+								    <div>${fn:escapeXml(member_email)}</div>
 								    <button onclick="checkID()" class="btn btn-outline-secondary" type="button" id="emailCheck">중복체크</button>
 								    <div class="invalid-feedback">이메일을 입력해주세요.</div>
 								    <div class="invalid-feedback">유효한 이메일 주소를 입력해주세요.</div>
@@ -90,10 +92,12 @@ function validateEmail() {
 							<div class="col-md-6 mb-3">
 							  <label for="member_pw">*비밀번호</label>
 							  	<input type="password" class="form-control input_s memberpw" id="member_pw" name="member_pw" required>
+							
 							  <div class="invalid-feedback" id="pw-invalid-feedback">비밀번호는 영문 대/소문자, 숫자, 8~20자의 길이 특수문자 중 1개 이상 입력해주세요</div>
 							  <br>
 							  <label for="MEMBER_PWCheck" class="mt-3">*비밀번호 확인</label>
 							 	 <input type="password" class="form-control input_s" id="MEMBER_PWCheck" name="MEMBER_PWCheck" required>
+						
 							  <div id="pwcheck-invalid-feedback" class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
 							  <div id="pwcheck-valid-feedback" class="valid-feedback">비밀번호가 일치합니다.</div>
 							  <br>
@@ -154,6 +158,7 @@ function validateEmail() {
 									<label for="MEMBER_NAME">*이름</label> <input type="text"
 										class="form-control input_s" name="member_name"
 										id="member_name" required>
+										<div>${fn:escapeXml(member_name)}</div>
 									<div class="invalid-feedback">이름을 입력해주세요.</div>
 								</div>
 							
@@ -164,6 +169,8 @@ function validateEmail() {
 								<div class="input-group mb-3">
 									<input type="text" class="form-control" name="member_phone"
 										id="member_phone" placeholder="휴대폰">
+											<div>${fn:escapeXml(member_phone)}</div>
+										
 
 									<div class="invalid-feedback">휴대 번호를 입력해주세요.</div>
 								</div>
@@ -176,10 +183,13 @@ function validateEmail() {
 							<!-- 주소검색 api -->
 							<label for="addr1">*우편번호</label> <input type="text"
 								class="form-control col-md-6 input_s" id="addr_1" name="addr_1"
-								placeholder="우편번호" required> <input type="button"
-								class="btn btn-outline-secondary btn-sm"
-								onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+								placeholder="우편번호" required> 
+								
+								<input type="button" class="btn btn-outline-secondary btn-sm" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="member_addr">
+								<div>${fn:escapeXml(member_addr)}</div>
+								
 							<div class="invalid-feedback mb-3">우편번호를 입력해주세요</div>
+							
 							<br /> <label for="addr2" class="mt-3">*주소</label> <input
 								type="text" class="form-control col-md-6 input_s" id="addr_2"
 								name="addr_2" placeholder="주소" required>

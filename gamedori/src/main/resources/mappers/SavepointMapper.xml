@@ -5,4 +5,11 @@
  
 <mapper namespace="game.dori.mapper.savepointMapper">
 
+	<!-- 마이페이지 적립금 리스트 출력  -->
+	<select id="selectList4" resultType="savepointVO" parameterType="int">
+		select *
+			from savepoint_tb
+			where MEMBER_TB_IDX = #{MEMBER_IDX}
+	</select>
+	
 </mapper>

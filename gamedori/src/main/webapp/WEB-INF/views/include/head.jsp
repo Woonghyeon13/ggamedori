@@ -25,13 +25,16 @@
 	
 	<!--jquery-->
 	<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-	
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 	<!--xeicon-->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 	
 	<!--자바스크립트-->
 	<script src="<c:url value='/resources/js/script.js'/>"></script>
-	
+
 	<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 	<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/translations/ko.js"></script>
 
@@ -108,38 +111,38 @@
 				<ul class="nav nav-pills">
 					<li class="nav-item"><a href="<c:url value='/prod/list.do'/>" class="nav-link" style="color: black;">새로운상품</a></li>
 					<li class="nav-item"><a href="<c:url value='/prod/list.do'/>" class="nav-link" style="color: black;">예약판매</a></li>
-					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do'/>" class="nav-link" style="color: black;">닌텐도 Switch</a>
+					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do?cate_refcode=100'/>" class="nav-link" style="color: black;">닌텐도 Switch</a>
 						<ul class="dropdown-menu">
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item" type="button">하드웨어</a></li>
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item mt-1" type="button">타이틀</a></li>
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item mt-1" type="button">주변기기</a></li>
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item mt-1" type="button">아미보</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=101'/>" class="dropdown-item" type="button">하드웨어</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=102'/>" class="dropdown-item mt-1" type="button">타이틀</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=103'/>" class="dropdown-item mt-1" type="button">주변기기</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=104'/>" class="dropdown-item mt-1" type="button">아미보</a></li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do'/>" class="nav-link" style="color: black;">PlayStation 5</a>
+					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do?cate_refcode=200'/>" class="nav-link" style="color: black;">PlayStation 5</a>
 						<ul class="dropdown-menu">
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item" type="button">하드웨어</a></li>
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item mt-1" type="button">타이틀</a></li>
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item mt-1" type="button">주변기기</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=201'/>" class="dropdown-item" type="button">하드웨어</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=202'/>" class="dropdown-item mt-1" type="button">타이틀</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=203'/>" class="dropdown-item mt-1" type="button">주변기기</a></li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do'/>" class="nav-link" style="color: black;">PlayStation 4</a>
+					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do?cate_refcode=300'/>" class="nav-link" style="color: black;">PlayStation 4</a>
 						<ul class="dropdown-menu">
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item" type="button">하드웨어</a></li>
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item mt-1" type="button">타이틀</a></li>
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item mt-1" type="button">주변기기</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=301'/>" class="dropdown-item" type="button">하드웨어</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=302'/>" class="dropdown-item mt-1" type="button">타이틀</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=303'/>" class="dropdown-item mt-1" type="button">주변기기</a></li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do'/>" class="nav-link" style="color: black;">XBOX Series</a>
+					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do?cate_refcode=400'/>" class="nav-link" style="color: black;">XBOX Series</a>
 						<ul class="dropdown-menu">
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item" type="button">하드웨어</a></li>
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item mt-1" type="button">타이틀</a></li>
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item mt-1" type="button">주변기기</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=401'/>" class="dropdown-item" type="button">하드웨어</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=402'/>" class="dropdown-item mt-1" type="button">타이틀</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=403'/>" class="dropdown-item mt-1" type="button">주변기기</a></li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do'/>" class="nav-link" style="color: black;">GOODS</a>
+					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do?cate_refcode=500'/>" class="nav-link" style="color: black;">GOODS</a>
 						<ul class="dropdown-menu">
-							<li><a href="<c:url value='/prod/list.do'/>" class="dropdown-item" type="button">피규어</a></li>
+							<li><a href="<c:url value='/prod/list.do?cate_code=501'/>" class="dropdown-item" type="button">피규어</a></li>
 						</ul>
 					</li>
 					<li class="nav-item"><a href="<c:url value='/customersc/main.do'/>" class="nav-link" style="color: black;">고객지원</a></li>
