@@ -63,19 +63,21 @@
 					<p>
 						<strong>${sessionScope.Login.member_name}</strong>님이 작성한 후기모음
 					</p>
+						<!-- 검색기능 -->
+						<form action="reviewlist.do" method="get">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control"
-							aria-describedby="basic-addon2"> <span
-							class="input-group-text" id="basic-addon2"> <select
-							class="form-select" aria-label="Default select example">
-								<option value="1">제목</option>
-								<option value="2">상품 정보</option>
-						</select>
-						</span>
-						<button type="button" class="btn btn-outline-secondary">
-							<i class="xi-search"></i>
-						</button>
+							<input type="text" name="R_searchValue" value="${param.R_searchValue}" class="form-control" aria-describedby="basic-addon2"> 
+							<span class="input-group-text" id="basic-addon2"> 
+								<select id="R_searchType" name="R_searchType" class="form-select" aria-label="Default select example">
+										<option value="title" <c:if test ="${param.R_searchType eq 'title'}" > selected</c:if>>제목</option>
+										<option value="name" <c:if test ="${param.R_searchType eq 'name'}" > selected</c:if>>상품 정보</option>
+								</select>
+							</span>
+							<button type="button" class="btn btn-outline-secondary">
+								<i class="xi-search"></i>
+							</button>
 					</div>
+						</form>
 				</div>
 				<table id="review_t" class="table table-hover"
 					style="border-top: 1px solid #000;">

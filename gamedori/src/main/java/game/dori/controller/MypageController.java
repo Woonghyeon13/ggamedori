@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,6 +18,7 @@ import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
+import game.dori.vo.REVIEW_Search_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
 
@@ -95,14 +97,15 @@ public class MypageController {
 
 	// 상품후기 리스트 출력 **검색 추가해야함
 	@RequestMapping( value = "/reviewlist.do", method = RequestMethod.GET )
-	public String reviewlist(Model model,HttpServletRequest req)
+	public String reviewlist(Model model,HttpServletRequest req, REVIEW_Search_VO search)
 	{
 		HttpSession session = req.getSession();
 		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
 		
-		List<REVIEW_VO> selectList3 = mypageService.selectList3(MEMBERVO.getMember_idx() );
+		//검색 포함
+		List<REVIEW_VO> selectList3 = mypageService.selectList3(MEMBERVO.getMember_idx(), search);
 		model.addAttribute("selectList3", selectList3);
-		
+
 		//후기 개수
 		int selectListCount2 = mypageService.selectListCount2(MEMBERVO.getMember_idx());
 	    model.addAttribute("selectListCount2", selectListCount2);

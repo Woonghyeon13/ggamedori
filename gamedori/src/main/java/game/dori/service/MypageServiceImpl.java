@@ -13,6 +13,7 @@ import game.dori.dao.SavepointDAO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
+import game.dori.vo.REVIEW_Search_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
 
@@ -50,8 +51,8 @@ public class MypageServiceImpl implements MypageService{
 	
 	//마이페이지 리뷰 리스트출력
 	@Override
-	public List<REVIEW_VO> selectList3(int member_idx) {
-		return reviewDAO.selectList3(member_idx);
+	public List<REVIEW_VO> selectList3(int member_idx, REVIEW_Search_VO search ) {
+		return reviewDAO.selectList3(member_idx, search);
 	}
 
 	//마이페이지 적립금 리스트출력
@@ -77,6 +78,7 @@ public class MypageServiceImpl implements MypageService{
 	public int selectListCount2(int member_tb_idx) {
 		return reviewDAO.selectListCount2(member_tb_idx);
 	}
-	
+
+
 	
 }

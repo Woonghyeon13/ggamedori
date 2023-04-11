@@ -3,6 +3,12 @@
 <%@ include file="../include/head.jsp" %>
 <main>
 	<!-- 마이페이지 클릭 시 첫 화면 ------------------------------------------------------------------------------------------------->
+	<script><!-- 마이페이지 적립금 계산 -->
+		let savept_balance = ${vo.savept_balance};
+		et pt_used_amount = ${vo.pt_used_amount};
+					  	
+		let result = savept_balance - pt_used_amount;
+	</script><!-- 마이페이지 적립금 계산 END -->
 	<div id="mypage_inner" class="container">
 		<h3>마이페이지</h3>
 		<div id="mypage_1" class="col">
@@ -13,16 +19,16 @@
 				</li>
 				<li>
 					<h4>적립금</h4>
-					<p>적립금 표시 ex) 2500원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+					<p><c:if test="${result eq null}">0 </c:if>${result}원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
 					<!--s_money_check.html -->
 				</li>
 				<li>
 					<h4>쿠폰</h4>
-					<p>쿠폰 개수 표시</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
+					<p><c:if test ="${selectListCount eq null}">0</c:if>${couponCount} 개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
 				</li>
 				<li>
 					<h4>나의 후기</h4>
-					<p>후기 개수 표시</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
+					<p><c:if test ="${selectListCount2 eq null}">0</c:if>${selectListCount2} 개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
 				</li>
 			</ul>
 		</div>
