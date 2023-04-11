@@ -5,4 +5,30 @@
  
 <mapper namespace="game.dori.mapper.reviewMapper">
 
+	<!-- 마이페이지 리뷰 리스트 출력  -->
+	<select id="selectList3" resultType="reviewVO" parameterType="int">
+		select *
+			from REVIEW_TB
+			where MEMBER_TB_IDX = #{MEMBER_IDX}
+	</select>
+	
+	<!-- 마이페이지 리뷰 검색  -->
+	<select id="selectList3_R" resultType="reviewVO" parameterType="reviewsearchVO">
+		select *
+			from REVIEW_TB
+			where MEMBER_TB_IDX = #{MEMBER_IDX}
+			<if test = "R_searchType != null and R_searchType eq 'title'">
+  				and REVIEW_TITLE like concat('%',#{r_searchValue},'%')
+  			</if>
+  			<if test = "R_searchType != null and R_searchType eq 'name'">
+  				and PROD_NAME like concat('%',#{r_searchValue},'%')
+  			</if>
+	</select>
+	
+	<!-- 마이페이지 리뷰 개수 -->
+	<select id="selectListCount2" resultType="int">
+		SELECT COUNT(*) FROM REVIEW_TB
+		WHERE MEMBER_TB_IDX = #{MEMBER_IDX}
+	</select>
+
 </mapper>

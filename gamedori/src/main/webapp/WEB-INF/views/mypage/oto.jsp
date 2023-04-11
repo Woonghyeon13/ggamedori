@@ -4,7 +4,13 @@
 <main>		
 
     <!-- 1 : 1 문의 전체보기 ---------------------------------------------------- -->
-
+	<script><!-- 마이페이지 적립금 계산 -->
+		let savept_balance = ${vo.savept_balance};
+		et pt_used_amount = ${vo.pt_used_amount};
+					  	
+		let result = savept_balance - pt_used_amount;
+	</script><!-- 마이페이지 적립금 계산 END -->
+	
     <div class="container mypage_inner">
         <h4>1 : 1 문의 전체보기</h4>
         <div id="mypage_1" class="col">
@@ -15,17 +21,17 @@
                 </li>
                 <li>
                     <h5>적립금</h5>
-                    <p>적립금 표시 ex) 2500원</p>
+                    <p><c:if test="${result eq null}">0 </c:if>${result}원</p>
                     <a href="s_money_check.html">적립금 확인 > </a>  <!--s_money2.html-->
                 </li>
                 <li>
                     <h5>쿠폰</h5>
-                    <p>쿠폰 개수 표시</p>
+                    <p><c:if test ="${selectListCount eq null}">0</c:if>${selectListCount} 개</p>
                     <a href="coupon_check.html">쿠폰 확인 > </a>    <!-- coupon_check2.html-->
                 </li>
                 <li>
                     <h5>나의 후기</h5>
-                    <p>후기 개수 표시</p>
+                    <p><c:if test ="${selectListCount2 eq null}">0</c:if>${selectListCount2} 개</p>
                     <a href="review_list.html">후기 확인 > </a>    <!-- review_check2.html-->
                 </li>
             </ul>
@@ -33,7 +39,7 @@
         <div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
-					<strong>닉네임</strong>님 환영합니다.
+					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
 				<ol id="ol_li" class="list-group list-group-numbered">
@@ -53,7 +59,7 @@
 				</ol>
 			</div>
             <div id="one_to_one_inner" class="col-8">     
-                <p><strong>닉네임</strong>님의 1 : 1 문의 내역</p>            
+                <p><strong>${sessionScope.Login.member_name}</strong>님의 1 : 1 문의 내역</p>            
                 <table id="one_to_one_t" class="table table-hover" style="width:100%; border-top:1px solid #000;">
                     <thead>
                         <tr>
