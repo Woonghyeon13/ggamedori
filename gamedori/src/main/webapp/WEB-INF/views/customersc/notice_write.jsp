@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <main>
     <div id="notice" class="container">
@@ -12,6 +13,7 @@
             
             <div id="n_title" class="input-group mb-3">
                 <span class="input-group-text " id="basic-addon1">공지사항 제목</span>
+                <div>${fn:escapeXml(basic-addon1)}</div>
                 <input type="text" class="form-control noticetitle" placeholder="Title" aria-label="Username" aria-describedby="basic-addon1"
                  name="notice_title" id="notice_title" >
             </div>
@@ -19,6 +21,7 @@
             <div id="n_contents" class="input-group">
                 <span class="input-group-text">공지사항 내용</span>
                 <textarea class="form-control noticecontents" aria-label="With textarea" name="notice_contents"></textarea>
+                  <div>${fn:escapeXml(notice_contents)}</div>
             </div>
         
             <button class="btn btn-dark" onclick="validateForm(event)">등록</button>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <main>
 
@@ -55,9 +56,10 @@
 					    <form action="search.do" method="GET">
 					        <!-- 검색 옵션 드롭다운 추가 -->
 					        <input class="form-control" style="width: 300px;" type="text" name="searchText" aria-label="default input example">
+					        <div>${fn:escapeXml(searchText)}</div>
 					        <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
-					            <option selected>검색 옵션</option>
-					            <option value="name">이름으로 검색</option>
+					           <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
+					            <option value="name" selected>이름으로 검색</option>
 					            <option value="content">내용으로 검색</option>
 					            <option value="ncontent">이름+내용으로검색</option> 
 					        </select>
