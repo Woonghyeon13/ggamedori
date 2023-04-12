@@ -3,7 +3,7 @@
 <%@ include file="./include/head.jsp" %>
 	<main>		
 		<!--메인뷰-->	
-		<div id="carouselExampleDark" class="carousel slide shadow-drop-center" data-bs-ride="carousel">
+		<div id="carouselExampleDark" class="inner carousel slide shadow-drop-center" data-bs-ride="carousel">
 			<div class="carousel-indicators">
 			<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
 			<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -12,29 +12,13 @@
 
 			<div class="carousel-inner">
 				<div class="carousel-item active" data-bs-interval="10000">
-					<img src="<c:url value='/images/mainview_H.png' />" class="d-block w-100" alt="...">
-					<div class="carousel-caption d-none d-md-block">
-						<div id="MainView_Title" class="position-absolute bottom-0 start-50 translate-middle mb-4"></div>
-						<h5 class="mt-4">새로운 이야기를 써 내려가세요</h5>
-						<p>지금 PS5로 출시된 신규 오픈 월드 액션 RPG에서 마법사 세계의 운명을 결정하세요</p>
-					</div>
+					<img src="<c:url value='/images/mainview_1.jpg' />" class="d-block w-100" alt="...">
 				</div>
 				<div class="carousel-item" data-bs-interval="2000">
-					<img src="<c:url value='/images/mainview_2.webp' />" class="d-block w-100" alt="...">
-					<div class="carousel-caption d-none d-md-block">
-						<div id="MainView_Title2" class="position-absolute bottom-0 start-50 translate-middle mb-4"></div>
-						<h5>정예 유닛으로 운영하세요</h5>
-						<p>Battlefield 2042 시즌 4가 출시되었습니다. 신규 전장에서 싸우고, 새로운 스페셜리스트를 배치하고, 새로운 무기 등을 사용하며, 새로운 콘텐츠를 잠금 해제하세요.</p>
-						
-					</div>
+					<img src="<c:url value='/images/mainview_2.jpg' />" class="d-block w-100" alt="...">
 				</div>
 				<div class="carousel-item">
-					<img src="<c:url value='/images/mainview_4.jpg' />" class="d-block w-100" alt="...">
-					<div class="carousel-caption d-none d-md-block ms-5">
-						<div id="MainView_Title3" class="position-absolute bottom-0 start-50 translate-middle mb-4 pb-4 ms-5 container"></div>
-						<h5>죽음을 피하고, 쓰러트리는 쾌감.</h5>
-						<p>현대의 플레이 감각, 재구성된 스토리, 최신 그래픽을 통해 다시 태어난 서바이벌 호러의 명작을 체험하세요.</p>
-					</div>
+					<img src="<c:url value='/images/mainview_3.jpg' />" class="d-block w-100" alt="...">
 				</div>
 			</div>
 
@@ -53,7 +37,6 @@
 		<section id="AD">
 			
 			<div id="index_1" class="container">
-				<div id="back"></div>
 				<img id="index_1_img" src="<c:url value='/images/index_img.png' />" class="mt-4"/>
 				<img id="index_1_img2" src="<c:url value='/images/index_img2.webp' />" />
 				<div id="index_1_text" class="fade-in">
@@ -63,17 +46,8 @@
 				</div>
 			</div>
 
-			<div id="index_2">
-				<div id="back"></div>
-				<p id="index_2_title"><img src="./images/New_title.png"></p>
-				<p id="index_2_img1" class="fade-in4"><img src="<c:url value='/images/New_1.png' />"></p>
-				<p id="index_2_img1" class="fade-in4"><img src="<c:url value='/images/New_2.png' />"></p>
-				<p id="index_2_img1" class="fade-in4"><img src="<c:url value='/images/New_3.png' />"></p>
-				<p id="index_2_img1" class="fade-in4"><img src="<c:url value='/images/New_4.png' />"></p>
-			</div>
-
 			<div id="index_3"class="container">
-				<h3 class="text-left">HOT</h3>
+				<h3 class="text-center">HOT</h3>
 				<div class="row row-cols-5" >
 				<div class="col"><a href="#"><img src="<c:url value='/images/HOT1.jpg' />"></a></div>
 				<div class="col"><a href="#"><img src="<c:url value='/images/HOT2.jpg' />"></a></div>
@@ -82,15 +56,7 @@
 				<div class="col"><a href="#"><img src="<c:url value='/images/HOT5.webp' />"></a></div>
 				</div>
 
-				<h3>예약</h3>
-				<div class="row row-cols-5">
-					<div class="col"><a href="#"><img src="<c:url value='/images/Res1.webp' />"></a></div>
-					<div class="col"><a href="#"><img src="<c:url value='/images/Res2.webp' />"></a></div>
-					<div class="col"><a href="#"><img src="<c:url value='/images/Res3.jpg' />"></a></div>
-					<div class="col"><a href="#"><img src="<c:url value='/images/Res4.webp' />"></a></div>
-					<div class="col"><a href="#"><img src="<c:url value='/images/Res5.webp' />"></a></div>
-				</div>
-				<a href="#"><p class="text-white">더보기</p></a>
+				<a href="#"><p>더보기</p></a>
 				
 				<section>
 					<h3 id="h3_1" class="text-center">하드웨어</h3>
