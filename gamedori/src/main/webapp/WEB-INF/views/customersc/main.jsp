@@ -23,53 +23,59 @@
 		</div>
 	</div>
 	<div class="container">
-
-		<table class="table table-hover" style="border-top: 1px solid black; margin-left:2%;">
-			<thead>
+		<table class="table table-bordered table-hover">
+		
+			<thead style="background:#000; color:#fff;">
 				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>조회수</th>
-					<th>날짜</th>
+					<th width="10%" style="text-align:center;">번호</th>
+					<th width="55%">제목</th>
+					<th width="10%"  style="text-align:center;">작성자</th>
+					<th width="10%"  style="text-align:center;">조회수</th>
+					<th width="15%"  style="text-align:center;">날짜</th>
 				</tr>
 			</thead>
-		<tbody id="table-body">
+			
+		<tbody id = "table-body" >
+		
 		  <c:forEach var="noticeVO" items="${notice}">
 		    <tr>
-		      <td>${noticeVO.notice_idx}</td>
+		      <td style="text-align:center;">${noticeVO.notice_idx}</td>
 		      <td><a href="view.do?notice_idx=${noticeVO.notice_idx}">${noticeVO.notice_title}</a></td>
-		      <td>${noticeVO.notice_writer}</td>
-		      <td>${noticeVO.notice_hit}</td>
-		      <td>${noticeVO.notice_wdate}</td>
+		      <td style="text-align:center;">${noticeVO.notice_writer}</td>
+		      <td style="text-align:center;">${noticeVO.notice_hit}</td>
+		      <td style="text-align:center;">${noticeVO.notice_wdate}</td>
 		    </tr>
 		  </c:forEach>
+		  
 		</tbody>
 			
 		</table>
 
 
-		<div>
-			<table>
-				<tr>						
-					<td>
-					    <form action="search.do" method="GET">
-					        <!-- 검색 옵션 드롭다운 추가 -->
-					        <input class="form-control" style="width: 300px;" type="text" name="searchText" aria-label="default input example">
-					        <div>${fn:escapeXml(searchText)}</div>
-					        <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
-					           <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
-					            <option value="name" selected>이름으로 검색</option>
-					            <option value="content">내용으로 검색</option>
-					            <option value="ncontent">이름+내용으로검색</option> 
-					        </select>
-					        <button type="submit" class="btn btn-dark btn_search">검색</button>
-					    </form>
-					    <c:if test="${Login.member_role == 2}">
-					        <button type="button" class="btn btn-dark" onclick="location.href='notice_write.do'">글쓰기</button>
-					    </c:if>
-					</td>
-					
+
+				
+			 <table class="table" style="clear:both; width: 100%;">
+			    <tr>                        
+			        <td class="d-flex align-items-center justify-content-between">
+			            <form action="search.do" method="GET" class="d-flex align-items-center">
+			                <!-- 검색 옵션 드롭다운 추가 -->
+			                <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
+			                    <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
+			                    <option value="name" selected>이름으로 검색</option>
+			                    <option value="content">내용으로 검색</option>
+			                    <option value="ncontent">이름+내용으로검색</option> 
+			                </select>
+			                <input class="form-control" style="width: 300px;" type="text" name="searchText" aria-label="default input example">
+			                <div>${fn:escapeXml(searchText)}</div>
+			
+			                <button type="submit" class="btn btn-dark btn_search">검색</button>
+			            </form>
+			            <c:if test="${Login.member_role == 2}">
+			                <button type="button" class="btn btn-dark" onclick="location.href='notice_write.do'">글쓰기</button>
+			            </c:if>
+			        </td>
+			    </tr>
+			</table>
 	<script>
 	  var originalTableData = [];
 	

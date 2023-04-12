@@ -174,6 +174,7 @@ public class CustomerscController {
 		return "customersc/view";
 	}
 	
+	
 	// 공지사항 자주묻는 질문
 	@RequestMapping( value = "/faq.do", method = RequestMethod.GET )
 	public String faq()
