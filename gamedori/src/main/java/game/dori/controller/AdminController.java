@@ -429,7 +429,7 @@ public class AdminController {
 	{
 		NOTICE_VO noticeVO = adminService.select(noticeIdx);
 		int result = adminService.notice_Hit(noticeVO);
-		
+	
 		if(result >= 0 )
 		{
 		model.addAttribute("noticeVO", noticeVO);
