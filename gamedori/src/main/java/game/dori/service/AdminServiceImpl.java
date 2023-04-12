@@ -17,17 +17,19 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired
 	private NoticeDAO noticeDAO;
 
-	@Override
-	public List<NOTICE_VO> list( ){
-		// TODO Auto-generated method stub
-		return noticeDAO.list();
-	}
+	public List<NOTICE_VO> list(int limit, int start) {
+        return noticeDAO.list(limit, start);
+    }
 
 	@Override
 	public int insert(NOTICE_VO vo){
 		
-		return noticeDAO.insert(vo);
-		
+		return noticeDAO.insert(vo);	
+	}
+	
+	@Override
+	public int countAll() {
+	    return noticeDAO.countAll();
 	}
 
 	@Override
@@ -41,6 +43,8 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		return noticeDAO.delete(notice_idx);
 	}
+	
+	
 
 	@Override
 	public int modify(NOTICE_VO noticeVO) {
@@ -48,18 +52,19 @@ public class AdminServiceImpl implements AdminService{
 		return noticeDAO.modfiy(noticeVO);
 	}
 
-//	@Override
-//	public void insert(NOTICE_VO vo) throws Exception {
-//		// TODO Auto-generated method stub
-//		noticeDAO.insert(vo);
-//	}
+	@Override
+	public List<NOTICE_VO> searchNotices(String searchText, String searchOption) {
+	    return noticeDAO.search(searchText, searchOption);
+	}
+
+	@Override
+	public int notice_Hit(NOTICE_VO noticeVO) {
+		// TODO Auto-generated method stub
+		 return noticeDAO.update_Hit(noticeVO);
+	}
 
 
 
-//	@Override
-//	public List<NOTICE_VO> List() throws Exception {
-//		// TODO Auto-generated method stub
-//		return noticeDAO.select(vo);
-//	}
+
 
 }

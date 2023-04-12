@@ -4,7 +4,13 @@
 <main>
 
 	<!-- 쿠폰 확인------------------------------------------------------------ -->
-
+	<script><!-- 마이페이지 적립금 계산 -->
+		let savept_balance = ${vo.savept_balance};
+		et pt_used_amount = ${vo.pt_used_amount};
+					  	
+		let result = savept_balance - pt_used_amount;
+	</script><!-- 마이페이지 적립금 계산 END -->
+	
 	<div id="mypage_inner" class="container">
 		<h4>쿠폰 전체보기</h4>
 		<div id="mypage_1" class="col">
@@ -15,17 +21,17 @@
 				</li>
 				<li>
 					<h5>적립금</h5>
-					<p>적립금 표시 ex) 2500원</p> <a href="<c:url value='/mypage/point.do'/>">적립금
+					<p><c:if test="${result eq null}">0 </c:if>${result}원</p> <a href="<c:url value='/mypage/point.do'/>">적립금
 						확인 > </a> <!--s_money2.html-->
 				</li>
 				<li>
 					<h5>쿠폰</h5>
-					<p>쿠폰 개수 표시</p> <a href="<c:url value='/mypage/coupon.do'/>">쿠폰
+					<p><c:if test ="${selectListCount eq null}">0</c:if>${selectListCount} 개</p> <a href="<c:url value='/mypage/coupon.do'/>">쿠폰
 						확인 > </a> <!-- coupon_check2.html-->
 				</li>
 				<li>
 					<h5>나의 후기</h5>
-					<p>후기 개수 표시</p> <a href="<c:url value='/mypage/reviewlist.do'/>">후기
+					<p><c:if test ="${selectListCount2 eq null}">0</c:if>${selectListCount2} 개</p> <a href="<c:url value='/mypage/reviewlist.do'/>">후기
 						확인 > </a> <!-- review_check2.html-->
 				</li>
 			</ul>
@@ -33,7 +39,7 @@
 		<div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
-					<strong>닉네임</strong>님 환영합니다.
+					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
 				<ol id="ol_li" class="list-group list-group-numbered">
@@ -55,7 +61,7 @@
 
 			<div id="coupon_inner" class="col-8">
 				<p>
-					<strong>닉네임</strong>님의 쿠폰 내역
+					<strong>${sessionScope.Login.member_name}</strong>님의 쿠폰 내역
 				</p>
 				<table id="coupon_t" class="table table-hover"
 					style="width: 100%; border-top: 1px solid #000;">
@@ -65,92 +71,22 @@
 							<th scope="col">쿠폰 지급 일</th>
 							<th scope="col">쿠폰 만료 일</th>
 							<th scope="col">내용</th>
-							<th scope="col">할인 금액</th>
+							<th scope="col">최대할인 금액</th>
 							<th scope="col">사용 여부</th>
 
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<th>1</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
+							<c:forEach items="${selectList5}" var="vo">
+							<th>${vo.coupon_idx}</th>
+							<td>${vo.coupon_date}</td>
+							<td>${vo.coupon_end}</td>
+							<td>${vo.coupon_name}</td>
+							<td>- ${vo.coupon_max_amount}</td>
 							<td>O</td>
 						</tr>
-						<tr>
-							<th>2</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
-							<td>O</td>
-						</tr>
-						<tr>
-							<th>3</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
-							<td>O</td>
-						</tr>
-						<tr>
-							<th>4</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
-							<td>O</td>
-						</tr>
-						<tr>
-							<th>5</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
-							<td>O</td>
-						</tr>
-						<tr>
-							<th>6</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
-							<td>X</td>
-						</tr>
-						<tr>
-							<th>7</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
-							<td>X</td>
-						</tr>
-						<tr>
-							<th>8</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
-							<td>X</td>
-						</tr>
-						<tr>
-							<th>9</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
-							<td>X</td>
-						</tr>
-						<tr>
-							<th>10</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>회원가입 축하</td>
-							<td>- 2000원</td>
-							<td>X</td>
-						</tr>
+						</c:forEach>
 					</tbody>
 					</div>
 					<!-- end:#coupon_inner -->

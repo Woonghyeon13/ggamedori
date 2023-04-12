@@ -341,4 +341,33 @@ public class AdminController {
 			return "home";
 		}
 	}
+	
+	// 상품문의 관리
+	@RequestMapping( value = "/mainPageModify.do", method = RequestMethod.GET )
+	public String mainPageModify(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+		//관리자 계정 세션 제어
+		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
+		if(Login != null) {
+			int role = Login.getMember_role();
+			if(role == 2) {
+				return "admin/mainPageModify";
+			}else {
+			    rsp.setContentType("text/html; charset=utf-8");
+		        PrintWriter pw = rsp.getWriter();
+		        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
+		        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
+		        pw.flush();
+		        pw.close();
+				return "home";
+			}
+		}else {
+		    rsp.setContentType("text/html; charset=utf-8");
+	        PrintWriter pw = rsp.getWriter();
+	        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
+	        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
+	        pw.flush();
+	        pw.close();
+			return "home";
+		}
+	}
 }

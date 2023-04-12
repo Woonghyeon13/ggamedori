@@ -5,6 +5,13 @@
 
 	<!-- 적립금 확인------------------------------------------------------------ -->
 
+	<script><!-- 마이페이지 적립금 계산 -->
+		let savept_balance = ${vo.savept_balance};
+		et pt_used_amount = ${vo.pt_used_amount};
+					  	
+		let result = savept_balance - pt_used_amount;
+	</script><!-- 마이페이지 적립금 계산 END -->
+
 	<div id="mypage_inner" class="container">
 		<h4>적립금 확인</h4>
 		<div id="mypage_1" class="col">
@@ -15,17 +22,17 @@
 				</li>
 				<li>
 					<h5>적립금</h5>
-					<p>적립금 표시 ex) 2500원</p> <a href="<c:url value='/mypage/point.do'/>">적립금
+					<p><c:if test="${result eq null}">0 </c:if>${result}원</p> <a href="<c:url value='/mypage/point.do'/>">적립금
 						확인 > </a> <!--s_money2.html-->
 				</li>
 				<li>
 					<h5>쿠폰</h5>
-					<p>쿠폰 개수 표시</p> <a href="<c:url value='/mypage/coupon.do'/>">쿠폰
+					<p><c:if test ="${selectListCount eq null}">0</c:if>${selectListCount} 개</p> <a href="<c:url value='/mypage/coupon.do'/>">쿠폰
 						확인 > </a> <!-- coupon_check2.html-->
 				</li>
 				<li>
 					<h5>나의 후기</h5>
-					<p>후기 개수 표시</p> <a href="<c:url value='/mypage/reviewlist.do'/>">후기
+					<p><c:if test ="${selectListCount2 eq null}">0</c:if>${selectListCount2} 개시</p> <a href="<c:url value='/mypage/reviewlist.do'/>">후기
 						확인 > </a> <!-- review_check2.html-->
 				</li>
 			</ul>
@@ -33,7 +40,7 @@
 		<div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
-					<strong>닉네임</strong>님 환영합니다.
+					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
 				<ol id="ol_li" class="list-group list-group-numbered">
@@ -54,7 +61,7 @@
 			</div>
 			<div id="s_money_inner" class="col-8">
 				<p>
-					<strong>닉네임</strong>님의 적립금 내역
+					<strong>${sessionScope.Login.member_name}</strong>님의 적립금 내역
 				</p>
 				<table id="s_money_t" class="table table-hover"
 					style="width: 100%; border-top: 1px solid #000;">
@@ -62,83 +69,18 @@
 						<tr>
 							<th scope="col">번호</th>
 							<th scope="col">적립금 지급 일</th>
-							<th scope="col">적립금 만료 일</th>
-							<th scope="col">내용</th>
 							<th scope="col">지급 금액</th>
 
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach items="${selectList4}" var="vo">
 						<tr>
-							<th>1</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
+							<th>${vo.pt_used_idx}</th>
+							<td>${vo.savept_created}</td>
+							<td>+${vo.savept_amount}</td>
 						</tr>
-						<tr>
-							<th>2</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
-						</tr>
-						<tr>
-							<th>3</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
-						</tr>
-						<tr>
-							<th>4</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
-						</tr>
-						<tr>
-							<th>5</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
-						</tr>
-						<tr>
-							<th>6</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
-						</tr>
-						<tr>
-							<th>7</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
-						</tr>
-						<tr>
-							<th>8</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
-						</tr>
-						<tr>
-							<th>9</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
-						</tr>
-						<tr>
-							<th>10</th>
-							<td>2023-03-09</td>
-							<td>2024-03-09</td>
-							<td>10만원 이상 구매</td>
-							<td>+ 2000</td>
-						</tr>
+						</c:forEach>
 					</tbody>
 
 					</div>
@@ -186,9 +128,9 @@
 				<hr>
 				<div id="use_money" class="container">
 					<ul>
-						<li>10000</li>
-						<li>3000</li>
-						<li>7000</li>
+						<li>${vo.savept_balance}</li>
+						<li>${vo.pt_used_amount}</li>
+						<li>${result}</li>
 					</ul>
 				</div>
 			</div>

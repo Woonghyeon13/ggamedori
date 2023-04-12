@@ -4,7 +4,13 @@
 <main>
 
 	<!-- 리뷰 전체보기 --------------------------------------------------------- -->
-
+	<script><!-- 마이페이지 적립금 계산 -->
+		let savept_balance = ${vo.savept_balance};
+		et pt_used_amount = ${vo.pt_used_amount};
+					  	
+		let result = savept_balance - pt_used_amount;
+	</script><!-- 마이페이지 적립금 계산 END -->
+	
 	<div class="container mypage_inner">
 		<h4>후기 전체보기</h4>
 		<div id="mypage_1" class="col">
@@ -15,17 +21,17 @@
 				</li>
 				<li>
 					<h5>적립금</h5>
-					<p>적립금 표시 ex) 2500원</p> <a href="<c:url value='/mypage/point.do'/>">적립금
+					<p><c:if test="${result eq null}">0 </c:if>${result}원</p> <a href="<c:url value='/mypage/point.do'/>">적립금
 						확인 > </a> <!--s_money2.html-->
 				</li>
 				<li>
 					<h5>쿠폰</h5>
-					<p>쿠폰 개수 표시</p> <a href="<c:url value='/mypage/coupon.do'/>">쿠폰
+					<p><c:if test ="${selectListCount eq null}">0</c:if>${selectListCount} 개</p> <a href="<c:url value='/mypage/coupon.do'/>">쿠폰
 						확인 > </a> <!-- coupon_check2.html-->
 				</li>
 				<li>
 					<h5>나의 후기</h5>
-					<p>후기 개수 표시</p> <a href="<c:url value='/mypage/reviewlist.do'/>">후기
+					<p><c:if test ="${selectListCount2 eq null}">0</c:if>${selectListCount2} 개</p> <a href="<c:url value='/mypage/reviewlist.do'/>">후기
 						확인 > </a> <!-- review_check2.html-->
 				</li>
 			</ul>
@@ -33,7 +39,7 @@
 		<div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
-					<strong>닉네임</strong>님 환영합니다.
+					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
 				<ol id="ol_li" class="list-group list-group-numbered">
@@ -55,21 +61,23 @@
 			<div id="review_inner" class="col-8">
 				<div id="select">
 					<p>
-						<strong>닉네임</strong>님이 작성한 후기모음
+						<strong>${sessionScope.Login.member_name}</strong>님이 작성한 후기모음
 					</p>
+						<!-- 검색기능 -->
+						<form action="reviewlist.do" method="get">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control"
-							aria-describedby="basic-addon2"> <span
-							class="input-group-text" id="basic-addon2"> <select
-							class="form-select" aria-label="Default select example">
-								<option value="1">제목</option>
-								<option value="2">상품 정보</option>
-						</select>
-						</span>
-						<button type="button" class="btn btn-outline-secondary">
-							<i class="xi-search"></i>
-						</button>
+							<input type="text" name="R_searchValue" value="${param.R_searchValue}" class="form-control" aria-describedby="basic-addon2"> 
+							<span class="input-group-text" id="basic-addon2"> 
+								<select id="R_searchType" name="R_searchType" class="form-select" aria-label="Default select example">
+										<option value="title" <c:if test ="${param.R_searchType eq 'title'}" > selected</c:if>>제목</option>
+										<option value="name" <c:if test ="${param.R_searchType eq 'name'}" > selected</c:if>>상품 정보</option>
+								</select>
+							</span>
+							<button type="button" class="btn btn-outline-secondary">
+								<i class="xi-search"></i>
+							</button>
 					</div>
+						</form>
 				</div>
 				<table id="review_t" class="table table-hover"
 					style="border-top: 1px solid #000;">
@@ -83,76 +91,15 @@
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach items="${selectList3}" var="vo">
 						<tr>
-							<th scope="row">1</th>
-							<td>게임 1</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
+							<th scope="row">${vo.review_idx}</th>
+							<td>${vo.product_tb_idx}</td>
+							<td>${vo.review_title}</td>
+							<td>${vo.review_writer}</td>
+							<td>${vo.review_wdate}</td>
 						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>게임 2</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td>게임 3</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
-						</tr>
-						<tr>
-							<th scope="row">4</th>
-							<td>게임 4</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
-						</tr>
-						<tr>
-							<th scope="row">5</th>
-							<td>게임 5</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
-						</tr>
-						<tr>
-							<th scope="row">6</th>
-							<td>게임 6</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
-						</tr>
-						<tr>
-							<th scope="row">7</th>
-							<td>게임 7</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
-						</tr>
-						<tr>
-							<th scope="row">8</th>
-							<td>게임 8</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
-						</tr>
-						<tr>
-							<th scope="row">9</th>
-							<td>게임 9</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
-						</tr>
-						<tr>
-							<th scope="row">10</th>
-							<td>게임 10</td>
-							<td>후기 제목입니다.</td>
-							<td>abc****</td>
-							<td>2023-03-08</td>
-						</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 
