@@ -56,7 +56,7 @@ public class AdminController {
 	
 	// 회원관리
 	@RequestMapping( value = "/member.do", method = RequestMethod.GET )
-	public String member(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+	public String member(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
 		
 		//회원 리스트 가져오기(일반 회원만 가져오게 sql문 작성했음)
 		List<MEMBER_VO> list = memberService.list();
@@ -68,24 +68,16 @@ public class AdminController {
 			int role = Login.getMember_role();
 			if(role == 2) {
 				return "admin/member";
-			}else {
-			    rsp.setContentType("text/html; charset=utf-8");
-		        PrintWriter pw = rsp.getWriter();
-		        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-		        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-		        pw.flush();
-		        pw.close();
-				return "home";
 			}
-		}else {
-		    rsp.setContentType("text/html; charset=utf-8");
-	        PrintWriter pw = rsp.getWriter();
-	        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-	        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-	        pw.flush();
-	        pw.close();
-			return "home";
 		}
+		
+		rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+	    pw.append("<script>alert('관리자 계정으로 로그인해주세요.'); location.href='"
+	            + req.getContextPath() + "/';</script>");
+	    pw.flush();
+	    pw.close();
+		return null;
 		
 	}
 	
@@ -157,6 +149,7 @@ public class AdminController {
 		pw.flush();
 	}
 	
+	
 
 	// 상품수정
 	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.POST )
@@ -212,36 +205,28 @@ public class AdminController {
 	
 	// 반품관리
 	@RequestMapping( value = "/asreturn.do", method = RequestMethod.GET )
-	public String asreturn(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+	public String asreturn(HttpSession session, HttpServletResponse rsp,HttpServletRequest req, Model model) throws IOException{
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
 				return "admin/asreturn";
-			}else {
-			    rsp.setContentType("text/html; charset=utf-8");
-		        PrintWriter pw = rsp.getWriter();
-		        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-		        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-		        pw.flush();
-		        pw.close();
-				return "home";
 			}
-		}else {
-		    rsp.setContentType("text/html; charset=utf-8");
-	        PrintWriter pw = rsp.getWriter();
-	        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-	        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-	        pw.flush();
-	        pw.close();
-			return "home";
 		}
+		
+		rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+	    pw.append("<script>alert('관리자 계정으로 로그인해주세요.'); location.href='"
+	            + req.getContextPath() + "/';</script>");
+	    pw.flush();
+	    pw.close();
+		return null;
 	}
 
 	// 환불관리
 	@RequestMapping( value = "/asrefund.do", method = RequestMethod.GET )
-	public String asrefund(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+	public String asrefund(HttpSession session,  HttpServletRequest req,HttpServletResponse rsp, Model model) throws IOException{
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
@@ -249,23 +234,15 @@ public class AdminController {
 			if(role == 2) {
 				return "admin/asrefund";
 			}else {
-			    rsp.setContentType("text/html; charset=utf-8");
-		        PrintWriter pw = rsp.getWriter();
-		        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-		        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-		        pw.flush();
-		        pw.close();
-				return "home";
+				 rsp.setContentType("text/html; charset=utf-8");
+				    PrintWriter pw = rsp.getWriter();
+				    pw.append("<script>alert('관리자 계정으로 로그인해주세요.'); location.href='"
+				            + req.getContextPath() + "/';</script>");
+				    pw.flush();
+				    pw.close();
 			}
-		}else {
-		    rsp.setContentType("text/html; charset=utf-8");
-	        PrintWriter pw = rsp.getWriter();
-	        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-	        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-	        pw.flush();
-	        pw.close();
-			return "home";
 		}
+		return null;
 	}
 	
 	
@@ -304,89 +281,65 @@ public class AdminController {
 	
 	// 1:1문의 관리
 	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
-	public String oto(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+	public String oto(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
 				return "admin/oto";
-			}else {
-			    rsp.setContentType("text/html; charset=utf-8");
-		        PrintWriter pw = rsp.getWriter();
-		        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-		        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-		        pw.flush();
-		        pw.close();
-				return "home";
 			}
-		}else {
-		    rsp.setContentType("text/html; charset=utf-8");
-	        PrintWriter pw = rsp.getWriter();
-	        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-	        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-	        pw.flush();
-	        pw.close();
-			return "home";
 		}
+		
+		rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+	    pw.append("<script>alert('관리자 계정으로 로그인해주세요.'); location.href='"
+	            + req.getContextPath() + "/';</script>");
+	    pw.flush();
+	    pw.close();
+	    return null;
 	}
 	
 	// 상품문의 관리
 	@RequestMapping( value = "/qaprod.do", method = RequestMethod.GET )
-	public String qaprod(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+	public String qaprod(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
 				return "admin/qaprod";
-			}else {
-			    rsp.setContentType("text/html; charset=utf-8");
-		        PrintWriter pw = rsp.getWriter();
-		        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-		        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-		        pw.flush();
-		        pw.close();
-				return "home";
 			}
-		}else {
-		    rsp.setContentType("text/html; charset=utf-8");
-	        PrintWriter pw = rsp.getWriter();
-	        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-	        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-	        pw.flush();
-	        pw.close();
-			return "home";
+			
 		}
+		rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+	    pw.append("<script>alert('관리자 계정으로 로그인해주세요.'); location.href='"
+	            + req.getContextPath() + "/';</script>");
+	    pw.flush();
+	    pw.close();
+	    return null;
 	}
 	
 	// 상품문의 관리
 	@RequestMapping( value = "/mainPageModify.do", method = RequestMethod.GET )
-	public String mainPageModify(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+	public String mainPageModify(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
 				return "admin/mainPageModify";
-			}else {
-			    rsp.setContentType("text/html; charset=utf-8");
-		        PrintWriter pw = rsp.getWriter();
-		        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-		        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-		        pw.flush();
-		        pw.close();
-				return "home";
 			}
-		}else {
-		    rsp.setContentType("text/html; charset=utf-8");
-	        PrintWriter pw = rsp.getWriter();
-	        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
-	        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
-	        pw.flush();
-	        pw.close();
-			return "home";
-		}
+		   
+	}
+		rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+	    pw.append("<script>alert('관리자 계정으로 로그인해주세요.'); location.href='"
+	            + req.getContextPath() + "/';</script>");
+	    pw.flush();
+	    pw.close();
+		return null;
 	}
 	
 	
