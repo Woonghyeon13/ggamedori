@@ -18,13 +18,13 @@
 	<div class="container">
 		<div class="container mt-5">
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/asreturn.do' />">주문 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/orderList.do' />">주문 관리</a></li>
 				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/prod.do' />">상품 관리</a></li>
-				<li class="nav-item"><a class="nav-link text-reset" aria-current="page" href="<c:url value='/admin/PageModify.do' />">화면 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/mainPageModify.do' />">화면 관리</a></li>
 				<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/qaprod.do' />">문의/공지관리</a></li>
 				<li class="nav-item">
 					<!-- 선택시 클래스 fw-bold -->
-					<a class="nav-link text-reset" aria-current="page" href="<c:url value='/admin/member.do' />">회원 관리</a>
+					<a class="nav-link text-reset" href="<c:url value='/admin/member.do' />">회원 관리</a>
 				</li>
 			</ul>
 		</div>

@@ -65,7 +65,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void updateMemberState(MEMBER_VO memberVO) {
+	public void updateMemberState(MEMBER_VO memberVO) {//회원 상태 변경
 		 memberDAO.updateMemberState(memberVO);
 	}
 

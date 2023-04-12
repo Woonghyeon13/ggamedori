@@ -6,29 +6,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
+import game.dori.util.ORDER_LIST_VO;
 import game.dori.vo.CATEGORY_VO;
-
 import game.dori.vo.MEMBER_VO;
-
 import game.dori.vo.PRODUCT_VO;
-
 import net.sf.json.JSONArray;
 
 @RequestMapping( value = "/admin" )
@@ -40,6 +35,9 @@ public class AdminController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private AdminService AdminService;
 	
 	// 회원관리
 	@RequestMapping( value = "/member.do", method = RequestMethod.GET )
@@ -342,15 +340,77 @@ public class AdminController {
 		}
 	}
 	
-	// 화면 관리
-	@RequestMapping( value = "/PageModify.do", method = RequestMethod.GET )
-	public String PageModify(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+	// 메인 화면 관리
+	@RequestMapping( value = "/mainPageModify.do", method = RequestMethod.GET )
+	public String mainPageModify(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
-				return "admin/PageModify";
+				return "admin/mainPageModify";
+			}else {
+			    rsp.setContentType("text/html; charset=utf-8");
+		        PrintWriter pw = rsp.getWriter();
+		        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
+		        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
+		        pw.flush();
+		        pw.close();
+				return "home";
+			}
+		}else {
+		    rsp.setContentType("text/html; charset=utf-8");
+	        PrintWriter pw = rsp.getWriter();
+	        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
+	        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
+	        pw.flush();
+	        pw.close();
+			return "home";
+		}
+	}
+	
+	// 메인 화면 관리
+	@RequestMapping( value = "/productPageModify.do", method = RequestMethod.GET )
+	public String productPageModify(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+		//관리자 계정 세션 제어
+		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
+		if(Login != null) {
+			int role = Login.getMember_role();
+			if(role == 2) {
+				return "admin/productPageModify";
+			}else {
+			    rsp.setContentType("text/html; charset=utf-8");
+		        PrintWriter pw = rsp.getWriter();
+		        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
+		        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
+		        pw.flush();
+		        pw.close();
+				return "home";
+			}
+		}else {
+		    rsp.setContentType("text/html; charset=utf-8");
+	        PrintWriter pw = rsp.getWriter();
+	        model.addAttribute("message", "관리자 계정으로 로그인해주세요.");
+	        pw.append("<script>alert('관리자 계정으로 로그인해주세요.');</script>");
+	        pw.flush();
+	        pw.close();
+			return "home";
+		}
+	}
+	
+	// 주문내역
+	@RequestMapping( value = "/orderList.do", method = RequestMethod.GET )
+	public String orderList(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+		
+		List<ORDER_LIST_VO> orderList = AdminService.orderList();
+		model.addAttribute("orderList", orderList);
+		
+		//관리자 계정 세션 제어
+		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
+		if(Login != null) {
+			int role = Login.getMember_role();
+			if(role == 2) {
+				return "admin/orderList";
 			}else {
 			    rsp.setContentType("text/html; charset=utf-8");
 		        PrintWriter pw = rsp.getWriter();
