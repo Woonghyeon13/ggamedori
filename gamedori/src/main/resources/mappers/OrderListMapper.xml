@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="game.dori.mapper.orderListMapper">
+	
+	<!-- 주문 -->
+	<select id="orderlist" resultType="orderlistVO">
+		SELECT * 
+			FROM 
+				order_tb o, 
+				order_detail_tb od,
+			 	member_tb m
+		 	where 
+		 		o.member_tb_idx = m.member_idx 
+		 		and
+		 		o.order_idx = od.order_tb_idx
+	</select>
+	
+</mapper>
