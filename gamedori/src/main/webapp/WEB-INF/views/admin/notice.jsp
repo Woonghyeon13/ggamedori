@@ -21,7 +21,7 @@
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
 				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/asreturn.do' />">주문 관리</a></li>
 				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/prod.do' />">상품 관리</a></li>
-				<li class="nav-item"><a class="nav-link text-reset" aria-current="page" href="<c:url value='/admin/mainPageModify.do' />">메인 화면 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" aria-current="page" href="<c:url value='/admin/PageModify.do' />">화면 관리</a></li>
 				<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/qaprod.do' />">문의/공지관리</a></li>
 				<li class="nav-item">
 					<!-- 선택시 클래스 fw-bold --> 
@@ -48,11 +48,13 @@
 				<table class="table">
 					<thead class="table-light">
 						<tr>
-							<th scope="col">제목</th>
-							<th scope="col">작성자</th>
-							<th scope="col">작성일자</th>
-							<th scope="col" style="width: 80px;">수정</th>
-							<th scope="col" style="width: 80px;">삭제</th>
+							<th>번호</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>조회수</th>
+							<th>작성일자</th>
+							<th>수정</th>
+							<th>삭제</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -86,10 +88,9 @@
 						<h4 class="modal-title fs-5">공지사항 등록</h4>
 					</div>
 					<div class="modal-body">
-						<form name="review" method="post" action="loginAction.jsp">
+						<form name="review" method="post" action="">
 							<div class="form-group d-flex justify-content-around"></div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
+							<div class="form-group mt-2 d-flex justify-content-between align-items-center">
 								<input type="text" class="form-control" id="review_title"
 									placeholder="공지사항 제목" name="review_title">
 							</div>
@@ -136,7 +137,7 @@
 						<h4 class="modal-title fs-5">공지사항 수정</h4>
 					</div>
 					<div class="modal-body">
-						<form name="review" method="post" action="loginAction.jsp">
+						<form name="review" method="post" action="">
 							<div class="form-group d-flex justify-content-around"></div>
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">

@@ -342,15 +342,15 @@ public class AdminController {
 		}
 	}
 	
-	// 상품문의 관리
-	@RequestMapping( value = "/mainPageModify.do", method = RequestMethod.GET )
-	public String mainPageModify(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
+	// 화면 관리
+	@RequestMapping( value = "/PageModify.do", method = RequestMethod.GET )
+	public String PageModify(HttpSession session, HttpServletResponse rsp, Model model) throws IOException{
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
-				return "admin/mainPageModify";
+				return "admin/PageModify";
 			}else {
 			    rsp.setContentType("text/html; charset=utf-8");
 		        PrintWriter pw = rsp.getWriter();

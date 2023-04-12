@@ -13,9 +13,9 @@
             
             <div id="n_title" class="input-group mb-3">
                 <span class="input-group-text " id="basic-addon1">공지사항 제목</span>
-                <div>${fn:escapeXml(basic-addon1)}</div>
                 <input type="text" class="form-control noticetitle" placeholder="Title" aria-label="Username" aria-describedby="basic-addon1"
                  name="notice_title" id="notice_title" >
+                <div>${fn:escapeXml(notice_title)}</div>
             </div>
             
             <div id="n_contents" class="input-group">
