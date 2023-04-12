@@ -83,6 +83,8 @@ public class CustomerscController {
 	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
 	}
 	
+	
+	//공지사항 글 등록
 	@RequestMapping(value = "/notice_write.do", method = RequestMethod.POST)
 	public void write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
 		MEMBER_VO member = MemberService.selectByEmail(member_email);
