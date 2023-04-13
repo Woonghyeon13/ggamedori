@@ -15,12 +15,7 @@
 	 
 	 <!--  login sql 구문 -->
 	 <select id ="Login" resultType="memberVO">
-	 	
-	 	select * from member_tb where member_email = #{member_email} and member_pw = #{member_pw}
-
-	 	and member_email_yn = "1"
-
-	 
+	 	select * from member_tb where member_email = #{member_email} and member_pw = #{member_pw}	 
 	 </select>
 	 
 	<!--  회원가입 정보 멤버 sql 구문 -->
