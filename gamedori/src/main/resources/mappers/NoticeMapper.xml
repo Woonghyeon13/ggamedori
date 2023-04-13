@@ -42,8 +42,32 @@
 	    </choose>
 	  </where>
 	  ORDER BY notice_idx DESC
+	  LIMIT #{start}, #{limit}
 	</select>
-
+	
+	<!--  검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+	<select id="countSearchResults" resultType="int" parameterType="map">
+		  SELECT COUNT(*) FROM notice_tb
+		  <where>
+		    <choose>
+		      <when test="searchOption == 'name'">
+		        <if test="searchText != null and searchText != ''">
+		          notice_title like CONCAT('%', #{searchText}, '%')
+		        </if>
+		      </when>
+		      <when test="searchOption == 'content'">
+		        <if test="searchText != null and searchText != ''">
+		          (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+		        </if>
+		      </when>
+		      <otherwise>
+		        <if test="searchText != null and searchText != ''">
+		          (notice_writer LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+		        </if>
+		      </otherwise>
+		    </choose>
+		  </where>
+		</select>
 
 	<!--  공지사항 글 작성  -->
 	<insert id="insert" parameterType="noticeVO">

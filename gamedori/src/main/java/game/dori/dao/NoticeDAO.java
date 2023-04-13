@@ -34,11 +34,12 @@ public class NoticeDAO {
 	{
 		return sqlSession.selectOne("game.dori.mapper.noticeMapper.countAll");
 	}
-	
-	public List<NOTICE_VO> search(String searchText, String searchOption) {
+	public List<NOTICE_VO> search(String searchText, String searchOption, int start, int limit) {
 	    Map<String, Object> params = new HashMap<String, Object>();
 	    params.put("searchText", searchText);
 	    params.put("searchOption", searchOption);
+	    params.put("start", start);
+	    params.put("limit", limit);
 
 	    return sqlSession.selectList("game.dori.mapper.noticeMapper.search", params);
 	}
@@ -63,6 +64,13 @@ public class NoticeDAO {
 	public int update_Hit(NOTICE_VO noticeVO)
 	{
 		return sqlSession.update("game.dori.mapper.noticeMapper.updateHit", noticeVO);
+	}
+	public int countSearchResults(String searchText, String searchOption) {
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("searchText", searchText);
+	    params.put("searchOption", searchOption);
+	    
+	    return sqlSession.selectOne("game.dori.mapper.noticeMapper.countSearchResults", params);
 	}
 	
 }

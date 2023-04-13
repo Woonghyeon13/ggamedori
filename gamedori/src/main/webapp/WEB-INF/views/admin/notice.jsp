@@ -181,27 +181,69 @@
 	            alert('검색어와 검색 옵션을 선택해주세요.');
 	            return;
 	        } else {
+	        	$.ajax({
+	        	    url: '<%=request.getContextPath()%>/admin/search.do',
+	        	    method: 'GET',
+	        	    dataType: 'json',
+	        	    data: {
+	        	        searchText: searchText,
+	        	        searchOption: searchOption
+	        	    },
+	        	    success: function (response) {
+	        	        updateTable(response.searchResults);
+	        	        updatePagination(response.totalPages);
+	        	    },
+	        	    error: function (xhr, status, error) {
+	        	        console.log('Error:', error);
+	        	    }
+	        	});
+	        }
+	    });
+	});
+	//검색 결과에따른 페이징 처리
+	function updatePagination(totalPages) {
+	    var pagination = $('.pagination');
+	    pagination.empty();
+	
+	    var searchText = $('input[name="searchText"]').val();
+	    var searchOption = $('select[name="searchOption"]').val();
+	
+	    for (var i = 1; i <= totalPages; i++) {
+	        var pageItem = $('<li>').addClass('page-item');
+	        var pageLink = $('<a>').addClass('page-link')
+	            .attr('href', '#')
+	            .attr('data-search-text', searchText)
+	            .attr('data-search-option', searchOption)
+	            .text(i);
+	        pageLink.on('click', function (event) {
+	            event.preventDefault();
+	            var page = $(this).text();
+	            var searchText = $(this).data('searchText');
+	            var searchOption = $(this).data('searchOption');
+	
 	            $.ajax({
 	                url: '<%=request.getContextPath()%>/admin/search.do',
 	                method: 'GET',
 	                dataType: 'json',
 	                data: {
 	                    searchText: searchText,
-	                    searchOption: searchOption
+	                    searchOption: searchOption,
+	                    page: page
 	                },
 	                success: function (response) {
-	                    // 검색 결과를 테이블에 추가합니다.
-	                    updateTable(response);
+	                    updateTable(response.searchResults);
+	                    updatePagination(response.totalPages);
 	                },
 	                error: function (xhr, status, error) {
-	                    // 에러 처리
 	                    console.log('Error:', error);
 	                }
 	            });
-	        }
-	    });
-	});
-
+	        });
+	        pageItem.append(pageLink);
+	        pagination.append(pageItem);
+	    }
+	}
+	//테이블 검색한거에 따른 갯수처리
 	function updateTable(results) {
 	    var tableBody = $('#table-body');
 	    tableBody.empty(); // tbody의 내용을 지우고

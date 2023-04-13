@@ -18,9 +18,11 @@ public interface AdminService {
 	
 	public int countAll();
 	
-	List<NOTICE_VO> searchNotices(String searchText, String searchOption);
+	List<NOTICE_VO> searchNotices(String searchText, String searchOption, int start, int limit);
 	
 	public int notice_Hit(NOTICE_VO noticeVO);
 	
 	public List<ORDER_LIST_VO> orderList();
+	
+	public int countSearchResults(String searchText, String searchOption);
 }
