@@ -383,28 +383,29 @@ public class AdminController {
 	}
 	
 	
+
 	//관리자페이지에서 공지사항 글작성
-	@RequestMapping( value = "/notice_white.do", method = RequestMethod.POST )
-	public void notice_write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
-		MEMBER_VO member = MemberService.selectByEmail(member_email);
-		
-		int result = 0;
-		if (member.getMember_role() == 2) {
-			noticeVO.setMember_tb_idx(member.getMember_idx());
-			result = adminService.insert(noticeVO);
+		@RequestMapping( value = "/notice_white.do", method = RequestMethod.POST )
+		public void notice_write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
+			MEMBER_VO member = MemberService.selectByEmail(member_email);
 			
-			System.out.println(noticeVO.getMember_tb_idx());
+			int result = 0;
+			if (member.getMember_role() == 2) {
+				noticeVO.setMember_tb_idx(member.getMember_idx());
+				result = adminService.insert(noticeVO);
+				
+				System.out.println(noticeVO.getMember_tb_idx());
+			}
+			
+			rsp.setContentType("text/html; charset=utf-8");
+			PrintWriter pw = rsp.getWriter();
+			
+			if (result > 0) {
+				session.setAttribute("noticeVO", noticeVO);
+				pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+				+ "/admin/notice.do';</script>");
+			}
 		}
-		
-		rsp.setContentType("text/html; charset=utf-8");
-		PrintWriter pw = rsp.getWriter();
-		
-		if (result > 0) {
-			session.setAttribute("noticeVO", noticeVO);
-			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
-			+ "/admin/notice.do';</script>");
-		}
-	}
 	
 	//관리자 공지사항 글삭제
 	@RequestMapping(value = "/notice_delete.do", method = RequestMethod.GET)
@@ -431,31 +432,30 @@ public class AdminController {
 		return "customersc/view";
 	}
 	// 공지사항 글 수정
-	@RequestMapping(value = "/notice_modify.do", method = RequestMethod.POST)
-	public void modfiy(NOTICE_VO noticeVO, String member_email,HttpServletResponse rsp, HttpServletRequest req) throws IOException {	
-		
-		MEMBER_VO member = MemberService.selectByEmail(member_email);
-		
-		noticeVO.setMember_tb_idx(member.getMember_idx());
-		noticeVO.setNotice_writer(member.getMember_name());
-		System.out.println(noticeVO.getMember_tb_idx());
-		System.out.println(noticeVO.getNotice_title());
-		System.out.println(noticeVO.getNotice_contents());
-		System.out.println(noticeVO.getNotice_idx());
-		
-		int result = adminService.modify(noticeVO);
-		rsp.setContentType("text/html; charset=utf-8");
-		PrintWriter pw = rsp.getWriter();		
-		
-		if(result > 0) {
-		    pw.append("<script>alert('글 수정 성공'); location.href='" + req.getContextPath()
-		        + "/admin/notice.do';</script>");
-		} else {
-		    pw.append("<script>alert('글 수정 실패'); location.href='" + req.getContextPath()
-		        + "/admin/notice.do?notice_idx=" + noticeVO.getNotice_idx() + "';</script>");
-		}
-	}	
-	
+		@RequestMapping(value = "/notice_modify.do", method = RequestMethod.POST)
+		public void modfiy(NOTICE_VO noticeVO, String member_email,HttpServletResponse rsp, HttpServletRequest req) throws IOException {	
+			
+			MEMBER_VO member = MemberService.selectByEmail(member_email);
+			
+			noticeVO.setMember_tb_idx(member.getMember_idx());
+			noticeVO.setNotice_writer(member.getMember_name());
+			System.out.println(noticeVO.getMember_tb_idx());
+			System.out.println(noticeVO.getNotice_title());
+			System.out.println(noticeVO.getNotice_contents());
+			System.out.println(noticeVO.getNotice_idx());
+			
+			int result = adminService.modify(noticeVO);
+			rsp.setContentType("text/html; charset=utf-8");
+			PrintWriter pw = rsp.getWriter();		
+			
+			if(result > 0) {
+			    pw.append("<script>alert('글 수정 성공'); location.href='" + req.getContextPath()
+			        + "/admin/notice.do';</script>");
+			} else {
+			    pw.append("<script>alert('글 수정 실패'); location.href='" + req.getContextPath()
+			        + "/admin/notice.do?notice_idx=" + noticeVO.getNotice_idx() + "';</script>");
+			}
+		}	
 	
 	
 	// 메인 화면 관리
