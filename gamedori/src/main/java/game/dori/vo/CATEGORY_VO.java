@@ -9,7 +9,14 @@ public class CATEGORY_VO {
 	private String cate_name;		// 이름
 	private String cate_refcode;	// 참조 코드
 	private int level;
+	private String cate_rsv;		// 예약여부
 	
+	public String getCate_rsv() {
+		return cate_rsv;
+	}
+	public void setCate_rsv(String cate_rsv) {
+		this.cate_rsv = cate_rsv;
+	}
 	public int getLevel() {
 		return level;
 	}

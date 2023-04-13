@@ -71,7 +71,7 @@ public class CustomerscController {
 		
 	}	
 	
-	
+	//검색기능
 	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
@@ -79,7 +79,9 @@ public class CustomerscController {
 	    
 		
 		List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption);
-
+		int searchResultsCount = searchResults.size(); // 검색 결과의 갯수
+		
+		
 	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
 	}
 	
@@ -173,6 +175,7 @@ public class CustomerscController {
 		}
 		return "customersc/view";
 	}
+	
 	
 	// 공지사항 자주묻는 질문
 	@RequestMapping( value = "/faq.do", method = RequestMethod.GET )

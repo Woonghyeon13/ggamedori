@@ -8,65 +8,58 @@
 	<div class="container">
 		<div class="container mt-5">
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/orderList.do' />">주문 관리</a></li>
-				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/prod.do' />">상품 관리</a></li>
 				<li class="nav-item">
 					<!-- 선택시 클래스 fw-bold --> 
-					<a class="nav-link text-reset active fw-bold" href="<c:url value='/admin/mainPageModify.do' />">화면 관리</a>
+					<a class="nav-link text-reset active fw-bold" href="<c:url value='/admin/orderList.do' />">주문 관리</a>
 				</li>
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/prod.do' />">상품 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/mainPageModify.do' />">화면 관리</a></li>
 				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/qaprod.do' />">문의/공지관리</a></li>
 				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/member.do' />">회원 관리</a></li>
 			</ul>
 		</div>
 	</div>
-	<!-- 화면관리 탭  -->
+	<!-- a/s 탭  -->
 	<div class="container mt-4">
 		<ul class="nav justify-content-end text-black">
-			<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/mainPageModify.do' />">메인 페이지</a></li>
-			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/productPageModify.do' />">상품 페이지</a></li>
+			<li class="nav-item"><a class="nav-link text-reset active fw-bold" href="<c:url value='/admin/orderList.do' />">주문 내역</a></li>
+			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/asreturn.do' />">반품 관리</a></li>
+			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/asrefund.do' />">환불 관리</a></li>
 		</ul>
 	</div>
-	<!-- 문의/공지사항 탭  -->
-	<!-- <div class="container">
-    <ul class="nav justify-content-end text-black">
-      <li class="nav-item">
-        <a class="nav-link active text-reset" aria-current="page" href="#">상품 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">1:1 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">공지사항 관리</a>
-      </li>
-    </ul>
-  </div> -->
+	
 	<div class="container mt-1">
-
+	
 		<div class="container">
 			<table class="table table-sm">
 				<thead class="table-light">
 					<tr>
-						<th scope="col">반품신청일</th>
-						<th scope="col">주문번호</th>
-						<th scope="col">상품명</th>
-						<th scope="col">주문자</th>
-						<th scope="col">상태</th>
-						<th style="width: 120px;" scope="col">반품처리</th>
+						<th class="text-center">주문번호</th>
+						<th class="text-center">주문정보</th>
+						<th class="text-center">주문자 이메일</th>
+						<th class="text-center">주문자명</th>
+						<th class="text-center">주문일</th>
+						<th class="text-center">주문금액</th>
+						<th class="text-center">주문상태</th>
+						<th class="text-center">상세보기</th>
 					</tr>
 				</thead>
 				<tbody>
+				<c:forEach var="orderlist" items="${orderList }">
 					<tr>
-						<td>2023-03-29</td>
-						<td>ere2185152</td>
-						<td>ㄴㅇㄹㅇㄴㅇ</td>
-						<td>Mark</td>
-						<td>반품접수</td>
-						<td>
+						<td class="text-center">${orderlist.order_idx }</td>
+						<td class="text-center">주문정보</td>
+						<td class="text-center">${orderlist.member_email }</td>
+						<td class="text-center">${orderlist.member_name }</td>
+						<td class="text-center">${orderlist.order_date }</td>
+						<td class="text-center">주문금액</td>
+						<td class="text-center">주문상태</td>
+						<td class="text-center">
 							<button type="button" class="btn btn-secondary btn-sm"
-								data-bs-toggle="modal" data-bs-target="#prodRefund">반품정보</button>
+								data-bs-toggle="modal" data-bs-target="#prodRefund">상세보기</button>
 						</td>
 					</tr>
-
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -77,25 +70,24 @@
 				<div class="modal-content">
 					<div class="modal-header d-flex flex-column logo">
 						<div class="mt-2">
-							<h4 class="modal-title fs-5">반품 정보</h4>
+							<h4 class="modal-title fs-5">주문내역 상세보기</h4>
 						</div>
 					</div>
 					<div class="modal-body">
 						<form name="review" method="post" action="loginAction.jsp">
 							<div
 								class="form-group d-flex flex-column justify-content-center align-items-center">
-								<div>반품 신청 제목</div>
-								<input type="text" class="form-control">
+								<input type="text" class="form-control" placeholder="환불 신청 제목">
 							</div>
 							<div
 								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<div>반품 신청 사유</div>
-								<textarea name="" id="" class="form-control" cols="30" rows="10"></textarea>
+								<textarea name="" id="" placeholder="환불 신청 사유"
+									class="form-control" cols="30" rows="10"></textarea>
 							</div>
 							<div
 								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<div>반품 승인/거절 사유</div>
-								<textarea name="" id="" class="form-control" cols="30" rows="10"></textarea>
+								<textarea name="" id="" placeholder="환불 승인/거절 사유"
+									class="form-control" cols="30" rows="10"></textarea>
 							</div>
 
 							<div class="d-flex gap-1 mt-2">
@@ -148,6 +140,7 @@
 			</nav>
 		</div>
 	</div>
+	<!--  -->
 </main>
 
 
