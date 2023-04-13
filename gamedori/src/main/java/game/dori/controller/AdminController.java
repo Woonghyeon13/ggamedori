@@ -8,12 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,11 +28,10 @@ import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
 import game.dori.vo.CATEGORY_VO;
-
 import game.dori.vo.MEMBER_VO;
+import game.dori.vo.OPT_VO;
 import game.dori.vo.NOTICE_VO;
 import game.dori.vo.PRODUCT_VO;
-
 import net.sf.json.JSONArray;
 
 @RequestMapping( value = "/admin" )
@@ -102,8 +98,17 @@ public class AdminController {
 		return "admin/prod";
 	}
 	// 상품등록
-	@RequestMapping( value = "/prod.do", method = RequestMethod.POST )
-	public void prod( PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3 ) throws IllegalStateException, IOException{
+	@RequestMapping( value = "/prodinsert.do", method = RequestMethod.GET )
+	public String prodinsert( Model model, CATEGORY_VO cvo, OPT_VO opt, PRODUCT_VO pvo) {
+		List<CATEGORY_VO> category = null;
+		category = productService.category();
+		model.addAttribute("category", JSONArray.fromObject(category));
+		
+		return "admin/prodinsert";
+	}
+	// 상품등록
+	@RequestMapping( value = "/prodinsert.do", method = RequestMethod.POST )
+	public void prodinsert( OPT_VO opt, PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3 ) throws IllegalStateException, IOException{
 		
 		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
 		
@@ -141,6 +146,8 @@ public class AdminController {
 		//상품등록 성공
 		if( result > 0 )
 		{
+			opt.setOpt_idx(pvo.getProd_idx());
+			productService.optInsert(opt);
 			pw.append("<script>alert('등록 완료');location.href='prod.do'</script>");
 		}else
 		{
@@ -149,6 +156,13 @@ public class AdminController {
 		pw.flush();
 	}
 	
+
+	// 상품수정
+	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.GET )
+	public String prodmodify() {
+		return "admin/prodmodify";
+	}
+
 	
 
 	// 상품수정

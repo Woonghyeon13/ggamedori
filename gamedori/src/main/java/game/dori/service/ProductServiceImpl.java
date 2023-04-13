@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import game.dori.dao.CategoryDAO;
+import game.dori.dao.ProdOptDAO;
 import game.dori.dao.ProductDAO;
 import game.dori.vo.CATEGORY_VO;
+import game.dori.vo.OPT_VO;
 import game.dori.vo.PRODUCT_VO;
 
 @Service
@@ -19,6 +21,9 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private CategoryDAO categoryDAO;
 
+	@Autowired
+	private ProdOptDAO prodOptDAO;
+	
 	// 카테고리 리스트
 	@Override
 	public List<CATEGORY_VO> category() {
@@ -49,9 +54,23 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.prodSelectOne(prod_idx);
 	}
 
+	// 상품 삭제
 	@Override
 	public int prodDelete(int prod_idx) {
 		return productDAO.pordDelete(prod_idx);
 	}
+
+	// 상품목록 카운트
+	@Override
+	public int listCnt(CATEGORY_VO cvo) {
+		return productDAO.listCnt(cvo);
+	}
+
+	// 상품옵션 등록
+	@Override
+	public int optInsert(OPT_VO opt) {
+		return prodOptDAO.optInsert(opt);
+	}
+	
 	
 }
