@@ -84,38 +84,58 @@
 	    $('#table-body > tr').each(function () {
 	        originalTableData.push($(this).clone());
 	    });
-	
+
 	    $('.btn_search').click(function (event) {
 	        event.preventDefault();
-	
+
 	        // 검색어와 검색 옵션 가져오기
 	        var searchText = $('input[name="searchText"]').val();
 	        var searchOption = $('select[name="searchOption"]').val();
-	
-	        // 입력값이 있는지 확인하고 AJAX 요청 전송
-	        if (searchText.trim() === '' || searchOption === '검색 옵션') {
-	            alert('검색어와 검색 옵션을 선택해주세요.');
+
+	        // 검색 옵션 확인
+	        if (searchOption === '검색 옵션') {
+	            alert('검색 옵션을 선택해주세요.');
 	            return;
-	        } else {
-	        	$.ajax({
-	        	    url: '<%=request.getContextPath()%>/admin/search.do',
-	        	    method: 'GET',
-	        	    dataType: 'json',
-	        	    data: {
-	        	        searchText: searchText,
-	        	        searchOption: searchOption
-	        	    },
-	        	    success: function (response) {
-	        	        updateTable(response.searchResults);
-	        	        updatePagination(response.totalPages);
-	        	    },
-	        	    error: function (xhr, status, error) {
-	        	        console.log('Error:', error);
-	        	    }
-	        	});
 	        }
+
+	        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
+	        if (searchText.trim() === '') {
+	            showAll();
+	            return;
+	        }
+	        
+	        // AJAX 요청 전송
+	        $.ajax({
+	            url: '<%=request.getContextPath()%>/admin/search.do',
+	            method: 'GET',
+	            dataType: 'json',
+	            data: {
+	                searchText: searchText,
+	                searchOption: searchOption
+	            },
+	            success: function (response) {
+	                updateTable(response.searchResults);
+	                updatePagination(response.totalPages);
+	            },
+	            error: function (xhr, status, error) {
+	                console.log('Error:', error);
+	            }
+	        });
 	    });
 	});
+
+	function showAll() {
+	    var tableBody = $('#table-body');
+	    tableBody.empty(); // tbody의 내용을 지우고
+
+	    // 원래 데이터를 보여줍니다.
+	    $.each(originalTableData, function (index, row) {
+	        tableBody.append(row);
+	    });
+
+	    // 테이블을 보여줍니다.
+	    $('table').show();
+	}
 	//검색 결과에따른 페이징 처리
 	function updatePagination(totalPages) {
 	    var pagination = $('.pagination');
@@ -192,7 +212,11 @@
 		<nav aria-label="Page navigation example">
 			<ul class="pagination justify-content-center" >
 				<c:forEach var="i" begin="1" end="${totalPages}">
-					<li class="page-item" class="${param.page == i ? 'active' : ''}"><a class="page-link" href="?page=${i}">${i}</a></li>
+				    <li class="page-item" class="${param.page == i ? 'active' : ''}">
+				        <a class="page-link" href="?page=${i}" style="${param.page == i ? 'background-color: #dadbdd; border-color: #ffeeeee;' : ''}">
+				            ${i}
+				        </a>
+				    </li>
 				</c:forEach>
 			</ul>
 		</nav>
