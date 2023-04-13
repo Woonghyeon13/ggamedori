@@ -16,6 +16,7 @@
                 <div>${fn:escapeXml(notice_title)}</div>
                 <input type="text" class="form-control noticetitle" placeholder="Title" aria-label="Username" aria-describedby="basic-addon1"
                  name="notice_title" id="notice_title" >
+                <div>${fn:escapeXml(notice_title)}</div>
             </div>
             
             <div id="n_contents" class="input-group">

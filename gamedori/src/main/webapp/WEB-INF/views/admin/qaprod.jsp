@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+
+<style>
+.ck.ck-editor {
+	width:100%;
+}
+.ck-editor__editable {
+	 min-height: 30vw;
+}
+</style>
+
 <main>
 	<div class="container d-flex justify-content-center mt-2">
 		<h3 class="fw-bold">관리자 페이지</h3>
@@ -8,13 +18,13 @@
 	<div class="container">
 		<div class="container mt-5">
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/asreturn.do' />">주문 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/orderList.do' />">주문 관리</a></li>
 				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/prod.do' />">상품 관리</a></li>
-				<li class="nav-item"><a class="nav-link text-reset" aria-current="page" href="<c:url value='/admin/mainPageModify.do' />">메인 화면 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/mainPageModify.do' />">화면 관리</a></li>
 				<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/qaprod.do' />">문의/공지관리</a></li>
 				<li class="nav-item">
 					<!-- 선택시 클래스 fw-bold -->
-					<a class="nav-link text-reset" aria-current="page" href="<c:url value='/admin/member.do' />">회원 관리</a>
+					<a class="nav-link text-reset" href="<c:url value='/admin/member.do' />">회원 관리</a>
 				</li>
 			</ul>
 		</div>
@@ -78,30 +88,31 @@
 		</div>
 
 		<!-- 답변 모달 -->
-		<div class="modal fade" id="prodRefund">
-			<div class="modal-dialog modal-dialog-centered">
+		<div class="modal fade" id="prodRefund" data-bs-backdrop="static">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-header d-flex flex-column logo">
-						<div class="mt-2">
-							<h4 class="modal-title fs-5">상품 문의</h4>
-						</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<h4 class="modal-title fs-5">상품 문의 관리</h4>
 					</div>
 					<div class="modal-body">
-						<form name="review" method="post" action="loginAction.jsp">
-							<div
-								class="form-group d-flex flex-column justify-content-center align-items-center">
+						<form name="review" method="post" action="">
+							<div class="form-group d-flex flex-column justify-content-center align-items-center">
 								<input type="text" class="form-control" placeholder="상품 문의 제목">
 							</div>
-							<div
-								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<textarea name="" id="" placeholder="상품 문의 내용"
-									class="form-control" cols="30" rows="10"></textarea>
+							<div class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
+								<textarea readonly name="" id="" placeholder="상품 문의 내용" class="form-control" rows="5"></textarea>
 							</div>
 							<hr>
 							<div
 								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<textarea name="" id="" placeholder="상품 문의 답변 내용"
-									class="form-control" cols="30" rows="10"></textarea>
+								<textarea name="" id="otoCon" placeholder="상품 문의 답변 내용" class="form-control"></textarea>
+								<script>
+								   	ClassicEditor.create( document.querySelector( '#otoCon' ), {
+								        language: "ko"
+								        
+								      } );
+								</script>
 							</div>
 
 							<div class="d-flex gap-1 mt-2">

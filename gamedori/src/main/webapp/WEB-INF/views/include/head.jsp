@@ -93,7 +93,7 @@
 								<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/mypage/main.do'/>">마이페이지</a></button></li>
 							</c:if>
 							<c:if test="${sessionScope.Login.member_role == 2}">
-								<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/admin/member.do'/>">관리자페이지</a></button></li>
+								<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/admin/orderList.do'/>">관리자페이지</a></button></li>
 							</c:if>
 						</c:if>
 						<li><a href="<c:url value='/mypage/cart.do'/>" class="nav-link me-2 mt-1 text-muted" title="장바구니"><i class="xi-cart-o xi-2x"></i></a></li>
