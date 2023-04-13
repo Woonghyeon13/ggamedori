@@ -2,6 +2,7 @@ package game.dori.service;
 
 import java.util.List;
 
+import game.dori.util.ORDER_LIST_VO;
 import game.dori.vo.NOTICE_VO;
 
 public interface AdminService {
@@ -20,4 +21,6 @@ public interface AdminService {
 	List<NOTICE_VO> searchNotices(String searchText, String searchOption);
 	
 	public int notice_Hit(NOTICE_VO noticeVO);
+	
+	public List<ORDER_LIST_VO> orderList();
 }

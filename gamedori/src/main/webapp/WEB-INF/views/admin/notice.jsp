@@ -19,9 +19,9 @@
 	<div class="container">
 		<div class="container mt-5">
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/asreturn.do' />">주문 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/orderList.do' />">주문 관리</a></li>
 				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/prod.do' />">상품 관리</a></li>
-				<li class="nav-item"><a class="nav-link text-reset" aria-current="page" href="<c:url value='/admin/mainPageModify.do' />">메인 화면 관리</a></li>
+				<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/mainPageModify.do' />">화면 관리</a></li>
 				<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/qaprod.do' />">문의/공지관리</a></li>
 				<li class="nav-item">
 					<!-- 선택시 클래스 fw-bold --> 
@@ -33,11 +33,9 @@
 	<!-- 문의/공지사항 탭  -->
 	<div class="container mt-4">
 		<ul class="nav justify-content-end text-black">
-			<li class="nav-item"><a class="nav-link text-reset"
-				aria-current="page" href="<c:url value='/admin/qaprod.do' />">상품 문의 관리</a></li>
+			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/qaprod.do' />">상품 문의 관리</a></li>
 			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/oto.do' />">1:1 문의 관리</a></li>
-			<li class="nav-item"><a
-				class="nav-link active text-reset fw-bold" href="<c:url value='/admin/notice.do' />">공지사항 관리</a></li>
+			<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/notice.do' />">공지사항 관리</a></li>
 		</ul>
 	</div>
 
@@ -53,6 +51,8 @@
 							<th>작성자</th>
 							<th>조회수</th>
 							<th>작성일자</th>
+							<th>수정</th>
+							<th>삭제</th>
 							<th scope="col" style="width: 80px;">수정</th>
 							<th scope="col" style="width: 80px;">삭제</th>
 						</tr>
@@ -77,6 +77,45 @@
 				</table>
 		</div>
 		</form>
+
+		<!-- 공지사항 등록 -->
+		<div class="container d-flex justify-content-end">
+			<button type="button" class="btn btn-outline-secondary btn-sm me-4"
+				data-bs-toggle="modal" data-bs-target="#noticeWrite">글쓰기</button>
+		</div>
+		<div class="modal fade" id="noticeWrite" data-bs-backdrop="static">
+			<div class="modal-dialog modal-dialog-centered modal-xl">
+				<div class="modal-content">
+					<div class="modal-header d-flex flex-column logo">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<h4 class="modal-title fs-5">공지사항 등록</h4>
+					</div>
+					<div class="modal-body">
+						<form name="review" method="post" action="">
+							<div class="form-group d-flex justify-content-around"></div>
+							<div class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<input type="text" class="form-control" id="review_title"
+									placeholder="공지사항 제목" name="review_title">
+							</div>
+							<div class="form-group mt-2 d-flex justify-content-between align-items-center">
+								<textarea name="" id="noticeContent" class="form-control" placeholder="공지사항 내용"></textarea>
+								   <script>
+								   	ClassicEditor.create( document.querySelector( '#noticeContent' ), {
+								        language: "ko"
+								        
+								      } );
+								   	</script>
+							</div>
+							<div class="d-grid gap-1 mt-2">
+								<input type="submit"
+									class="btn btn-outline-secondary btn-lg form-control"
+									value="공지사항 등록">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- 삭제버튼 눌렀을때 작업해줄 내용 -->
 		<script>
 		    function deleteNotice(noticeIdx) {

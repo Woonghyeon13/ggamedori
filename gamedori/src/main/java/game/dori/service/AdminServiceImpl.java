@@ -2,13 +2,12 @@ package game.dori.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import game.dori.dao.NoticeDAO;
+import game.dori.dao.OrderListDAO;
+import game.dori.util.ORDER_LIST_VO;
 import game.dori.vo.NOTICE_VO;
 
 @Service
@@ -16,6 +15,9 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
 	private NoticeDAO noticeDAO;
+	
+	@Autowired
+	private OrderListDAO orderlistDAO;
 
 	public List<NOTICE_VO> list(int limit, int start) {
         return noticeDAO.list(limit, start);
@@ -61,6 +63,11 @@ public class AdminServiceImpl implements AdminService{
 	public int notice_Hit(NOTICE_VO noticeVO) {
 		// TODO Auto-generated method stub
 		 return noticeDAO.update_Hit(noticeVO);
+	}
+
+	@Override
+	public List<ORDER_LIST_VO> orderList() {
+		return orderlistDAO.list();
 	}
 
 
