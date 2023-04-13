@@ -254,8 +254,7 @@
 		</div>
 		<!-- 상품 등록 -->
 		<div class="container d-flex justify-content-end">
-			<button type="button" class="btn btn-outline-secondary btn-sm me-4"
-				data-bs-toggle="modal" data-bs-target="#prodWrite">상품 등록</button>
+			<button onclick="location.href='prodinsert.do'" type="button" class="btn btn-outline-secondary btn-sm me-4" >상품 등록</button>
 		</div>
 		<div class="modal fade" id="prodWrite">
 			<div class="modal-dialog modal-dialog-centered">

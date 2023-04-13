@@ -24,7 +24,11 @@ public class ProductDAO {
 	public List<PRODUCT_VO> list( CATEGORY_VO cvo ){
 		return sqlSession.selectList("game.dori.mapper.productMapper.prodSelectAll",cvo);
 	}
-	
+	// 상품 목록 카운트
+	public int listCnt( CATEGORY_VO cvo ){
+		return sqlSession.selectOne("game.dori.mapper.productMapper.listCnt",cvo);
+	}
+
 	// 상품 수정
 	public int pordUpdate( PRODUCT_VO pvo ) {
 		return sqlSession.update("game.dori.mapper.productMapper.prodUpdate",pvo);

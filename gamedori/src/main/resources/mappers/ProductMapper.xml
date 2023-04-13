@@ -18,6 +18,23 @@
 		<if test="cate_refcode != null">
 			and cate_refcode = #{cate_refcode}
 		</if>
+		<if test='cate_rsv != null'>
+			and prod_reserv = #{cate_rsv}
+		</if>
+		<if test='cate_refcode == null and cate_code != null'>
+			and category_tb_code = #{cate_code}
+		</if>
+	</select>
+	
+	<!-- 상품리스트 카운트 -->
+	<select id="listCnt" resultType="int" parameterType="categoryVO">
+		SELECT count(*) FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
+		<if test="cate_refcode != null">
+			and cate_refcode = #{cate_refcode}
+		</if>
+		<if test='cate_rsv != null'>
+			and prod_reserv = #{cate_rsv}
+		</if>
 		<if test='cate_refcode == null and cate_code != null'>
 			and category_tb_code = #{cate_code}
 		</if>
