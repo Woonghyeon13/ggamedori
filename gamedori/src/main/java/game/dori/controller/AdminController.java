@@ -362,7 +362,7 @@ public class AdminController {
 	}
 	
 	
-	//관리자페이지에서 글작성
+	//관리자페이지에서 공지사항 글작성
 	@RequestMapping( value = "/notice_white.do", method = RequestMethod.POST )
 	public void notice_write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
 		MEMBER_VO member = MemberService.selectByEmail(member_email);
@@ -381,7 +381,7 @@ public class AdminController {
 		if (result > 0) {
 			session.setAttribute("noticeVO", noticeVO);
 			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
-			+ "/customersc/main.do';</script>");
+			+ "/admin/notice.do';</script>");
 		}
 	}
 	
