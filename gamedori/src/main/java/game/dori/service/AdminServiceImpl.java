@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import game.dori.dao.NoticeDAO;
 import game.dori.dao.OrderListDAO;
+import game.dori.dao.QaDAO;
 import game.dori.util.ORDER_LIST_VO;
+import game.dori.util.OTO_VO;
 import game.dori.vo.NOTICE_VO;
 
 @Service
@@ -18,6 +20,9 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
 	private OrderListDAO orderlistDAO;
+	
+	@Autowired
+	private QaDAO qaDAO;
 
 	public List<NOTICE_VO> list(int limit, int start) {
         return noticeDAO.list(limit, start);
@@ -68,6 +73,11 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<ORDER_LIST_VO> orderList() {
 		return orderlistDAO.list();
+	}
+
+	@Override
+	public List<OTO_VO> otoList() {
+		return qaDAO.list();
 	}
 
 

@@ -53,8 +53,6 @@
 							<th>작성일자</th>
 							<th>수정</th>
 							<th>삭제</th>
-							<th scope="col" style="width: 80px;">수정</th>
-							<th scope="col" style="width: 80px;">삭제</th>
 						</tr>
 					</thead>
 					<tbody id="table-body">
@@ -78,44 +76,7 @@
 		</div>
 		</form>
 
-		<!-- 공지사항 등록 -->
-		<div class="container d-flex justify-content-end">
-			<button type="button" class="btn btn-outline-secondary btn-sm me-4"
-				data-bs-toggle="modal" data-bs-target="#noticeWrite">글쓰기</button>
-		</div>
-		<div class="modal fade" id="noticeWrite" data-bs-backdrop="static">
-			<div class="modal-dialog modal-dialog-centered modal-xl">
-				<div class="modal-content">
-					<div class="modal-header d-flex flex-column logo">
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						<h4 class="modal-title fs-5">공지사항 등록</h4>
-					</div>
-					<div class="modal-body">
-						<form name="review" method="post" action="">
-							<div class="form-group d-flex justify-content-around"></div>
-							<div class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control" id="review_title"
-									placeholder="공지사항 제목" name="review_title">
-							</div>
-							<div class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<textarea name="" id="noticeContent" class="form-control" placeholder="공지사항 내용"></textarea>
-								   <script>
-								   	ClassicEditor.create( document.querySelector( '#noticeContent' ), {
-								        language: "ko"
-								        
-								      } );
-								   	</script>
-							</div>
-							<div class="d-grid gap-1 mt-2">
-								<input type="submit"
-									class="btn btn-outline-secondary btn-lg form-control"
-									value="공지사항 등록">
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+
 		<!-- 삭제버튼 눌렀을때 작업해줄 내용 -->
 		<script>
 		    function deleteNotice(noticeIdx) {
@@ -126,7 +87,7 @@
 		                .then(data => {
 		                    if (data.result > 0) {
 		                        alert("글 삭제 성공");
-		                        location.reload(); // 페이지를 새로 고침합니다.
+		                       location.reload(); // 페이지를 새로 고침합니다.
 		                    } else {
 		                        alert("글 삭제 실패");
 		                    }
@@ -270,15 +231,6 @@
 	}
 	  </script>
 		
-		<!-- 페이징 -->
-		
-		<nav aria-label="Page navigation example">
-			<ul class="pagination justify-content-center" >
-				<c:forEach var="i" begin="1" end="${totalPages}">
-					<li class="page-item" class="${param.page == i ? 'active' : ''}"><a class="page-link" href="?page=${i}">${i}</a></li>
-				</c:forEach>
-			</ul>
-		</nav>
 </tr>
 </table>
 </div>
@@ -304,9 +256,9 @@
 									placeholder="공지사항 제목" name="notice_title">
 							</div>
 							<div class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<textarea name="notice_contents" id="notice_contents" class="form-control mnoticecontents" placeholder="공지사항 내용"></textarea>
+								<textarea name="notice_contents" id="notice_modify" class="form-control mnoticecontents" placeholder="공지사항 내용"></textarea>
 								   <script>
-								   	ClassicEditor.create( document.querySelector( '#notice_contents' ), {
+								   	ClassicEditor.create( document.querySelector( '#notice_modify' ), {
 								        language: "ko"
 								        
 								      } );
