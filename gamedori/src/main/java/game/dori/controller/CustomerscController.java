@@ -71,7 +71,7 @@ public class CustomerscController {
 		
 	}	
 	
-	
+	//검색기능
 	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
@@ -79,10 +79,14 @@ public class CustomerscController {
 	    
 		
 		List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption);
-
+		int searchResultsCount = searchResults.size(); // 검색 결과의 갯수
+		
+		
 	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
 	}
 	
+	
+	//공지사항 글 등록
 	@RequestMapping(value = "/notice_write.do", method = RequestMethod.POST)
 	public void write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
 		MEMBER_VO member = MemberService.selectByEmail(member_email);
@@ -171,6 +175,7 @@ public class CustomerscController {
 		}
 		return "customersc/view";
 	}
+	
 	
 	// 공지사항 자주묻는 질문
 	@RequestMapping( value = "/faq.do", method = RequestMethod.GET )
