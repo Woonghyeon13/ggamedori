@@ -121,8 +121,8 @@ main #carouselExampleDark p {
 }
 
 main #carouselExampleDark img {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
 }
 
 main #carouselExampleDark .bg-success {
@@ -276,8 +276,8 @@ main #AD #index_2 #index_2_img1 img {
 }
 
 main #AD #index_2 #index_2_img1 img:hover {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   cursor: pointer;
 }
 
@@ -292,8 +292,8 @@ main #AD #index_2 #index_2_img2 img {
 }
 
 main #AD #index_2 #index_2_img2 img:hover {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   cursor: pointer;
 }
 
@@ -308,8 +308,8 @@ main #AD #index_2 #index_2_img3 img {
 }
 
 main #AD #index_2 #index_2_img3 img:hover {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   cursor: pointer;
 }
 
@@ -324,8 +324,8 @@ main #AD #index_2 #index_2_img4 img {
 }
 
 main #AD #index_2 #index_2_img4 img:hover {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   cursor: pointer;
 }
 
@@ -346,7 +346,6 @@ main #AD #index_3 h3 {
   font-weight: bold;
   margin-bottom: 55px;
   margin-top: 80px;
-  color: #fff;
   font-size: 24px;
 }
 
@@ -358,8 +357,8 @@ main #AD #index_3 p {
 
 main #AD #index_3 img {
   width: 200px;
-  -webkit-filter: brightness(80%);
-          filter: brightness(80%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   border: 0px solid #000;
   border-radius: 10px;
 }
@@ -370,11 +369,12 @@ main #AD #index_3 img:hover {
 }
 
 main #AD #index_3 div {
-  color: #fff;
+ 
 }
 
 main #AD #index_3 #index_3_C {
-  margin-top: 100px;
+  margin-top: 20px;
+  margin-bottom : 120px;
 }
 
 main #AD #index_3 #index_3_C img {
@@ -384,8 +384,8 @@ main #AD #index_3 #index_3_C img {
 }
 
 main #AD #index_3 #index_3_C img:hover {
-  -webkit-filter: brightness(80%);
-          filter: brightness(80%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
 }
 
 main #AD #index_3 :nth-child(8) {
@@ -1553,8 +1553,8 @@ main #carouselExampleDark p {
 }
 
 main #carouselExampleDark img {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
 }
 
 main #carouselExampleDark .bg-success {
@@ -1637,7 +1637,7 @@ main #AD #index_1 {
   height: 700px;
   margin-top: 100px;
   position: relative;
-  background-color: #fff;
+  padding-left : 5%;
 }
 
 main #AD #index_1 #index_1_img {
@@ -1650,7 +1650,7 @@ main #AD #index_1 #index_1_img {
 main #AD #index_1 #index_1_img2 {
   position: absolute;
   top: 380px;
-  left: 660px;
+  left: 730px;
   width: 350px;
   height: auto;
   border: 0px solid #000;
@@ -1712,8 +1712,8 @@ main #AD #index_2 #index_2_img1 img {
 }
 
 main #AD #index_2 #index_2_img1 img:hover {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   cursor: pointer;
 }
 
@@ -1728,8 +1728,8 @@ main #AD #index_2 #index_2_img2 img {
 }
 
 main #AD #index_2 #index_2_img2 img:hover {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   cursor: pointer;
 }
 
@@ -1744,8 +1744,8 @@ main #AD #index_2 #index_2_img3 img {
 }
 
 main #AD #index_2 #index_2_img3 img:hover {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   cursor: pointer;
 }
 
@@ -1760,8 +1760,8 @@ main #AD #index_2 #index_2_img4 img {
 }
 
 main #AD #index_2 #index_2_img4 img:hover {
-  -webkit-filter: brightness(60%);
-          filter: brightness(60%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   cursor: pointer;
 }
 
@@ -1782,7 +1782,7 @@ main #AD #index_3 h3 {
   font-weight: bold;
   margin-bottom: 55px;
   margin-top: 80px;
-  color: #fff;
+  
   font-size: 24px;
 }
 
@@ -1794,8 +1794,8 @@ main #AD #index_3 p {
 
 main #AD #index_3 img {
   width: 200px;
-  -webkit-filter: brightness(80%);
-          filter: brightness(80%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
   border: 0px solid #000;
   border-radius: 10px;
 }
@@ -1806,11 +1806,11 @@ main #AD #index_3 img:hover {
 }
 
 main #AD #index_3 div {
-  color: #fff;
+  
 }
 
 main #AD #index_3 #index_3_C {
-  margin-top: 100px;
+  margin-top: 20px;
 }
 
 main #AD #index_3 #index_3_C img {
@@ -1820,8 +1820,8 @@ main #AD #index_3 #index_3_C img {
 }
 
 main #AD #index_3 #index_3_C img:hover {
-  -webkit-filter: brightness(80%);
-          filter: brightness(80%);
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
 }
 
 main #AD #index_3 :nth-child(8) {
@@ -2858,7 +2858,14 @@ main #ready {
   text-align: center;
   padding: 100px;
 }
-
+@media screen and (max-width: 1400px) {
+  main #AD #index_1 {
+    margin-left: 0;
+  }
+  main #AD #index_2 {
+    margin-left: 0;
+  }
+}
 
 
 footer {

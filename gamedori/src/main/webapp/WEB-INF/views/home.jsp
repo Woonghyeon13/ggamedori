@@ -36,7 +36,7 @@
 		<!--광고영역-->
 		<section id="AD">
 			
-			<div id="index_1" class="container">
+			<div id="index_1" class="inner container">
 				<img id="index_1_img" src="<c:url value='/images/index_img.png' />" class="mt-4"/>
 				<img id="index_1_img2" src="<c:url value='/images/index_img2.webp' />" />
 				<div id="index_1_text" class="fade-in">
@@ -45,21 +45,42 @@
 					<button type="button" class="btn btn-outline-dark btn-sm MC">자세히 보기</button>
 				</div>
 			</div>
+			
+			<div id="index_1" class="inner container">
+				<img id="index_1_img" src="<c:url value='/images/index_img3.png' />" class="mt-4"/>
+				<img id="index_1_img2" src="<c:url value='/images/index_img4.jpg' />" />
+				<div id="index_1_text" class="fade-in">
+					<h3>젤다의 전설 티어스 오브 더 킹덤</h3>
+					<p>끝없는 모험의 무대가 하늘로 넓어진다.<br>하늘에 떠 있는 섬들, 처음 보는 무기, 신기한 탈것... 도대체 하이랄에 무슨 일이 일어난 것인가?<br>당신만의 끝없는 모험이 다시 시작됩니다.</p>
+					<button type="button" class="btn btn-outline-dark btn-sm MC">자세히 보기</button>
+				</div>
+			</div>
 
 			<div id="index_3"class="container">
-				<h3 class="text-center">HOT</h3>
-				<div class="row row-cols-5" >
-				<div class="col"><a href="#"><img src="<c:url value='/images/HOT1.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/HOT2.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/HOT3.webp' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/HOT4.webp' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/HOT5.webp' />"></a></div>
-				</div>
-
-				<a href="#"><p>더보기</p></a>
+				<h3 class="text-center" style="margin-bottom:70px">HOT</h3>
+				<div class="row row-cols-5" style="margin-bottom:100px">
 				
-				<section>
-					<h3 id="h3_1" class="text-center">하드웨어</h3>
+				<div class="col"><a href="#"><img src="<c:url value='/images/PS5 묶이지 않은 자들을 위한 우주.jpg' />"></a></div>
+				<div class="col"><a href="#"><img src="<c:url value='/images/PS5 와룡 폴른 다이너스티.jpg' />"></a></div>
+				<div class="col"><a href="#"><img src="<c:url value='/images/닌텐도 스위치 마인크래프트 레전드_180x180.jpg' />"></a></div>
+				<div class="col"><a href="#"><img src="<c:url value='/images/닌텐도 스위치 스운 어스이스케이프.jpg' />"></a></div>
+				<div class="col"><a href="#"><img src="<c:url value='/images/피파23 ps5_600x600.jpg' />"></a></div>
+		
+				</div>
+				<div class="row row-cols-5" style="margin-bottom:30px">
+	
+				<div class="col"><a href="#"><img src="<c:url value='/images/피파23 ps5_600x600.jpg' />"></a></div>
+				<div class="col"><a href="#"><img src="<c:url value='/images/닌텐도 스위치 스운 어스이스케이프.jpg' />"></a></div>
+				<div class="col"><a href="#"><img src="<c:url value='/images/닌텐도 스위치 마인크래프트 레전드_180x180.jpg' />"></a></div>
+				<div class="col"><a href="#"><img src="<c:url value='/images/PS5 와룡 폴른 다이너스티.jpg' />"></a></div>
+				<div class="col"><a href="#"><img src="<c:url value='/images/PS5 묶이지 않은 자들을 위한 우주.jpg' />"></a></div>
+				
+				</div>
+				<a href="#"><p>더보기</p></a>
+
+				
+				<section style="margin-bottom:300px">
+					<h3 id="h3_1" class="text-center" style="margin-top:380px">하드웨어</h3>
 					<div id="index_3_C" class="row row-cols-4 mx-auto text-center">
 						<div class="col"><a href="#"><img src="./images/C_1.png"></a><br/>Nintendo Switch</div>
 						<div class="col"><a href="#"><img src="./images/C_2.png"></a><br/>PlayStation5</div>
