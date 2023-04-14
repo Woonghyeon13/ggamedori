@@ -46,21 +46,42 @@ public class CustomerscController {
 	
 	// 공지사항 리스트
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String main(Model model, @RequestParam(value = "page", defaultValue = "1") int page) throws Exception {
-	   int limit = 15; // 페이지당 게시물 수
-       int start = (page - 1) * limit;
+	public String main(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
+	                   @RequestParam(value = "searchText", required = false) String searchText,
+	                   @RequestParam(value = "searchOption", required = false) String searchOption) throws Exception {
+	    int limit = 15; // 페이지당 게시물 수
+	    int start = (page - 1) * limit;
 
-        List<NOTICE_VO> noticeList = adminService.list(limit, start);
-        model.addAttribute("notice", noticeList);
+	    List<NOTICE_VO> noticeList;
+	    int totalRecords;
 
-        // 전체 게시물 수 및 전체 페이지 수를 가져와 모델에 추가합니다.
-        // 이 부분은 데이터베이스에서 전체 게시물 수를 가져오는 쿼리를 사용하여 구현해야 합니다.
-        int totalRecords = adminService.countAll(); 
-        int totalPages = (int) Math.ceil((double) totalRecords / limit);
-        model.addAttribute("totalPages", totalPages);
-    
-	    
+	    if (searchText != null && searchOption != null) {
+	        noticeList = adminService.searchNotices(searchText, searchOption, start, limit);
+	        totalRecords = adminService.countSearchResults(searchText, searchOption);
+	    } else {
+	        noticeList = adminService.list(limit, start);
+	        totalRecords = adminService.countAll();
+	    }
+
+	    model.addAttribute("notice", noticeList);
+
+	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
+	    model.addAttribute("totalPages", totalPages);
+
 	    return "customersc/main";
+	}
+
+	// 검색 기능
+	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
+	                                                    @RequestParam("searchOption") String searchOption,
+	                                                    @RequestParam(value = "page", defaultValue = "1") int page) {
+	    int limit = 15; // 페이지당 게시물 수
+	    int start = (page - 1) * limit;
+
+	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
+	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
 	}
 	
 	// 공지사항 작성
@@ -71,19 +92,7 @@ public class CustomerscController {
 		
 	}	
 	
-	//검색기능
-	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
-	                                                    @RequestParam("searchOption") String searchOption) {
-	    
-		
-		List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption);
-		int searchResultsCount = searchResults.size(); // 검색 결과의 갯수
-		
-		
-	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
-	}
+	
 	
 	
 	//공지사항 글 등록

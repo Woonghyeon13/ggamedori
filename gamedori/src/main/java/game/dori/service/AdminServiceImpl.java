@@ -60,8 +60,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<NOTICE_VO> searchNotices(String searchText, String searchOption) {
-	    return noticeDAO.search(searchText, searchOption);
+	public List<NOTICE_VO> searchNotices(String searchText, String searchOption, int start, int limit) {
+	    return noticeDAO.search(searchText, searchOption, start, limit);
 	}
 
 	@Override
@@ -76,8 +76,14 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
+
 	public List<OTO_VO> otoList() {
 		return qaDAO.list();
+
+	public int countSearchResults(String searchText, String searchOption) {
+		// TODO Auto-generated method stub
+		return noticeDAO.countSearchResults(searchText, searchOption);
+
 	}
 
 

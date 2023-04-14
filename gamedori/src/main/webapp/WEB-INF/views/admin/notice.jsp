@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
-<script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <style>
 .ck.ck-editor {
@@ -64,7 +64,7 @@
 					      <td>${noticeVO.notice_hit}</td>
 					      <td>${noticeVO.notice_wdate}</td>
 						<td>
-						  <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#noticeModify" onclick="prepareModify(${noticeVO.notice_idx})">수정</button>
+						  <button class="btn btn-secondary btn-sm" onclick="prepareModify(${noticeVO.notice_idx}, '${noticeVO.notice_title}', unescapeHtml('${fn:escapeXml(noticeVO.notice_contents)}'))">수정</button>
 						</td>
 						<td>
 							 <button class="btn btn-secondary btn-sm" onclick="deleteNotice(${noticeVO.notice_idx})">삭제</button>
@@ -75,7 +75,25 @@
 				</table>
 		</div>
 		</form>
+		<script>
+		function unescapeHtml(escapedHtml) {
+			  const textarea = document.createElement('textarea');
+			  textarea.innerHTML = escapedHtml;
+			  return textarea.value;
+			}
+		function prepareModify(noticeIdx, noticeTitle, noticeContents) {
+		    // noticeIdx를 hidden input에 저장합니다.
+		    $('#notice_idx').val(noticeIdx);
 
+		    // 제목과 내용을 모달 창의 입력 필드에 설정합니다.
+		    $('#notice_title').val(noticeTitle);
+		    CKEDITOR.instances.notice_modify.setData(noticeContents);
+
+		    // 모달 창을 엽니다.
+		    $('#noticeModify').modal('show');
+		}
+
+		</script>
 
 		<!-- 삭제버튼 눌렀을때 작업해줄 내용 -->
 		<script>
@@ -141,29 +159,30 @@
     </div>
 </div>
 
-		<!-- 검색 -->
-		<div class="container">
-		    <form class="d-flex justify-content-center align-items-center" role="form">
-		        <div class="me-2">
-		            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
-		                <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
-		                <option value="name" selected>이름으로 검색</option>
-		                <option value="content">내용으로 검색</option>
-		                <option value="ncontent">이름+내용으로검색</option>
-		            </select>
-		        </div>
-		        <div class="me-2">
-		            <input class="form-control form-control-sm" type="text" placeholder="제목"  name="searchText"aria-label=".form-control-sm example">
-		        </div>
-		        <div>
-		            <button type="submit" class="btn btn-dark btn_search">검색</button>
-		        </div>
-		    </form>
-		</div>
 		
+<!-- 검색 -->
+	<div class="container">
+	    <form class="d-flex justify-content-center align-items-center" role="form">
+	        <div class="me-2">
+	            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
+	                <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
+	                <option value="name" selected>제목으로 검색</option>
+	                <option value="content">내용으로 검색</option>
+	                <option value="ncontent">제목+내용으로검색</option>
+	            </select>
+	        </div>
+	        <div class="me-2">
+	            <input class="form-control form-control-sm" type="text" placeholder="제목"  name="searchText"aria-label=".form-control-sm example">
+	        </div>
+	        <div>
+	            <button type="submit" class="btn btn-dark btn_search">검색</button>
+	        </div>
+	    </form>
+	</div>
+	
 	<script>
 	var originalTableData = [];
-
+	
 	$(document).ready(function () {
 	    // 기본 테이블 데이터를 저장합니다.
 	    $('#table-body > tr').each(function () {
@@ -177,36 +196,100 @@
 	        var searchText = $('input[name="searchText"]').val();
 	        var searchOption = $('select[name="searchOption"]').val();
 
-	        // 입력값이 있는지 확인하고 AJAX 요청 전송
-	        if (searchText.trim() === '' || searchOption === '검색 옵션') {
-	            alert('검색어와 검색 옵션을 선택해주세요.');
+	        // 검색 옵션 확인
+	        if (searchOption === '검색 옵션') {
+	            alert('검색 옵션을 선택해주세요.');
 	            return;
-	        } else {
+	        }
+
+	        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
+	        if (searchText.trim() === '') {
+	            showAll();
+	            return;
+	        }
+	        
+	        // AJAX 요청 전송
+	        $.ajax({
+	            url: '<%=request.getContextPath()%>/admin/search.do',
+	            method: 'GET',
+	            dataType: 'json',
+	            data: {
+	                searchText: searchText,
+	                searchOption: searchOption
+	            },
+	            success: function (response) {
+	                updateTable(response.searchResults);
+	                updatePagination(response.totalPages);
+	            },
+	            error: function (xhr, status, error) {
+	                console.log('Error:', error);
+	            }
+	        });
+	    });
+	});
+
+	function showAll() {
+	    var tableBody = $('#table-body');
+	    tableBody.empty(); // tbody의 내용을 지우고
+
+	    // 원래 데이터를 보여줍니다.
+	    $.each(originalTableData, function (index, row) {
+	        tableBody.append(row);
+	    });
+
+	    // 테이블을 보여줍니다.
+	    $('table').show();
+
+	   
+	}
+	//검색 결과에따른 페이징 처리
+	function updatePagination(totalPages) {
+	    var pagination = $('.pagination');
+	    pagination.empty();
+	
+	    var searchText = $('input[name="searchText"]').val();
+	    var searchOption = $('select[name="searchOption"]').val();
+	
+	    for (var i = 1; i <= totalPages; i++) {
+	        var pageItem = $('<li>').addClass('page-item');
+	        var pageLink = $('<a>').addClass('page-link')
+	            .attr('href', '#')
+	            .attr('data-search-text', searchText)
+	            .attr('data-search-option', searchOption)
+	            .text(i);
+	        pageLink.on('click', function (event) {
+	            event.preventDefault();
+	            var page = $(this).text();
+	            var searchText = $(this).data('searchText');
+	            var searchOption = $(this).data('searchOption');
+	
 	            $.ajax({
 	                url: '<%=request.getContextPath()%>/admin/search.do',
 	                method: 'GET',
 	                dataType: 'json',
 	                data: {
 	                    searchText: searchText,
-	                    searchOption: searchOption
+	                    searchOption: searchOption,
+	                    page: page
 	                },
 	                success: function (response) {
-	                    // 검색 결과를 테이블에 추가합니다.
-	                    updateTable(response);
+	                    updateTable(response.searchResults);
+	                    updatePagination(response.totalPages);
 	                },
 	                error: function (xhr, status, error) {
-	                    // 에러 처리
 	                    console.log('Error:', error);
 	                }
 	            });
-	        }
-	    });
-	});
-
+	        });
+	        pageItem.append(pageLink);
+	        pagination.append(pageItem);
+	    }
+	}
+	//테이블 검색한거에 따른 갯수처리
 	function updateTable(results) {
 	    var tableBody = $('#table-body');
 	    tableBody.empty(); // tbody의 내용을 지우고
-
+	
 	    if (results.length === 0) {
 	        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
 	        $.each(originalTableData, function (index, row) {
@@ -214,7 +297,7 @@
 	        });
 	    } else {
 	        // 검색 결과가 있는 경우
-	        $.each(results, function (index, notice) {
+	    	$.each(results, function (index, notice) {
 	            var row = $('<tr>');
 	            row.append($('<td>').text(notice.notice_idx));
 	            row.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + notice.notice_idx).text(notice.notice_title)));
@@ -231,12 +314,28 @@
 	}
 	  </script>
 		
-</tr>
-</table>
-</div>
+
+
+
+		<!-- 페이징 -->
+		
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center" >
+				<c:forEach var="i" begin="1" end="${totalPages}">
+				    <li class="page-item" class="${param.page == i ? 'active' : ''}">
+				        <a class="page-link" href="?page=${i}" style="${param.page == i ? 'background-color: #dadbdd; border-color: #ffeeeee;' : ''}">
+				            ${i}
+				        </a>
+				    </li>
+				</c:forEach>
+			</ul>
+		</nav>
+	
+	</div>
 
 
 </div>
+
 		<!-- 공지사항 수정 -->
 		<div class="modal fade" id="noticeModify" data-bs-backdrop="static">
 			<div class="modal-dialog modal-dialog-centered modal-xl">
@@ -253,10 +352,10 @@
 							<div
 								class="form-group mt-2 d-flex justify-content-between align-items-center">
 								<input type="text" class="form-control mnoticetitle" id="notice_title"
-									placeholder="공지사항 제목" name="notice_title">
+									placeholder="공지사항 제목" name="notice_title" value="${noticeVO.notice_title}">
 							</div>
 							<div class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<textarea name="notice_contents" id="notice_modify" class="form-control mnoticecontents" placeholder="공지사항 내용"></textarea>
+								<textarea name="notice_contents" id="notice_modify" class="form-control mnoticecontents" placeholder="공지사항 내용" >${noticeVO.notice_contents}</textarea>
 								   <script>
 								   	ClassicEditor.create( document.querySelector( '#notice_modify' ), {
 								        language: "ko"
@@ -274,25 +373,6 @@
 		</div>
 
 
-		<div>
-			<table>
-					
-						<!-- 페이징 -->
-						
-						<nav aria-label="Page navigation example">
-  							<ul class="pagination justify-content-center" >
-								<c:forEach var="i" begin="1" end="${totalPages}">
-									<li class="page-item" class="${param.page == i ? 'active' : ''}"><a class="page-link" href="?page=${i}">${i}</a></li>
-								</c:forEach>
-							</ul>
-						</nav>
-				</tr>
-			</table>
-		</div>
-
-
-	</div>
-	</div>
 	
 	 <script>
 	 function prepareModify(noticeIdx) {
@@ -302,7 +382,8 @@
 		    // 모달 창을 엽니다.
 		    $('#noticeModify').modal('show');
 		}
-    function validateForm(event) {
+    
+	 function validateForm(event) {
         // 검색어와 검색 옵션 가져오기
         var noticeTitle = $('.noticetitle').val();
 		var noticeContents = $('.noticecontents').val();
