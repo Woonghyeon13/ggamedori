@@ -22,7 +22,7 @@
             
             <div id="n_contents" class="input-group ">
                 <textarea id="classic" class="form-control noticecontents" aria-label="With textarea" name="notice_contents" >${noticeVO.notice_title} </textarea>
-                	<div>${fn:escapeXml(notice_contents)}</div>          
+                	<div>${fn:escapeXml(notice_contents)}</div>    
             </div>
 
 

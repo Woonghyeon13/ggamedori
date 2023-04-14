@@ -51,8 +51,8 @@
 							<th>작성자</th>
 							<th>조회수</th>
 							<th>작성일자</th>
-							<th scope="col" style="width: 80px;">수정</th>
-							<th scope="col" style="width: 80px;">삭제</th>
+							<th>수정</th>
+							<th>삭제</th>
 						</tr>
 					</thead>
 					<tbody id="table-body">
@@ -105,7 +105,7 @@
 		                .then(data => {
 		                    if (data.result > 0) {
 		                        alert("글 삭제 성공");
-		                        location.reload(); // 페이지를 새로 고침합니다.
+		                       location.reload(); // 페이지를 새로 고침합니다.
 		                    } else {
 		                        alert("글 삭제 실패");
 		                    }
@@ -314,6 +314,9 @@
 	}
 	  </script>
 		
+
+
+
 		<!-- 페이징 -->
 		
 		<nav aria-label="Page navigation example">
@@ -329,6 +332,7 @@
 		</nav>
 	
 	</div>
+
 
 </div>
 

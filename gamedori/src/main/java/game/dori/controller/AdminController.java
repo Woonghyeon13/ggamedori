@@ -22,16 +22,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
+import game.dori.util.OTO_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
-import game.dori.vo.OPT_VO;
 import game.dori.vo.NOTICE_VO;
+import game.dori.vo.OPT_VO;
 import game.dori.vo.PRODUCT_VO;
 import net.sf.json.JSONArray;
 
@@ -322,6 +322,10 @@ public class AdminController {
 	// 1:1문의 관리
 	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
 	public String oto(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
+		
+		List<OTO_VO> otoList = AdminService.otoList();
+		model.addAttribute("otoList", otoList);
+		
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
@@ -382,29 +386,28 @@ public class AdminController {
 		return null;
 	}
 	
-	
 
-	//관리자페이지에서 공지사항 글작성
-		@RequestMapping( value = "/notice_white.do", method = RequestMethod.POST )
-		public void notice_write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
-			MEMBER_VO member = MemberService.selectByEmail(member_email);
+	//관리자페이지에서 공지사항 작성
+	@RequestMapping( value = "/notice_white.do", method = RequestMethod.POST )
+	public void notice_write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
+		MEMBER_VO member = MemberService.selectByEmail(member_email);
+		
+		int result = 0;
+		if (member.getMember_role() == 2) {
+			noticeVO.setMember_tb_idx(member.getMember_idx());
+			result = adminService.insert(noticeVO);
 			
-			int result = 0;
-			if (member.getMember_role() == 2) {
-				noticeVO.setMember_tb_idx(member.getMember_idx());
-				result = adminService.insert(noticeVO);
-				
-				System.out.println(noticeVO.getMember_tb_idx());
-			}
-			
-			rsp.setContentType("text/html; charset=utf-8");
-			PrintWriter pw = rsp.getWriter();
-			
-			if (result > 0) {
-				session.setAttribute("noticeVO", noticeVO);
-				pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
-				+ "/admin/notice.do';</script>");
-			}
+			System.out.println(noticeVO.getMember_tb_idx());
+		}
+		
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if (result > 0) {
+			session.setAttribute("noticeVO", noticeVO);
+			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+			+ "/admin/notice.do';</script>");
+
 		}
 	
 	//관리자 공지사항 글삭제
@@ -431,32 +434,45 @@ public class AdminController {
 		}
 		return "customersc/view";
 	}
-	// 공지사항 글 수정
-		@RequestMapping(value = "/notice_modify.do", method = RequestMethod.POST)
-		public void modfiy(NOTICE_VO noticeVO, String member_email,HttpServletResponse rsp, HttpServletRequest req) throws IOException {	
-			
-			MEMBER_VO member = MemberService.selectByEmail(member_email);
-			
-			noticeVO.setMember_tb_idx(member.getMember_idx());
-			noticeVO.setNotice_writer(member.getMember_name());
-			System.out.println(noticeVO.getMember_tb_idx());
-			System.out.println(noticeVO.getNotice_title());
-			System.out.println(noticeVO.getNotice_contents());
-			System.out.println(noticeVO.getNotice_idx());
-			
-			int result = adminService.modify(noticeVO);
-			rsp.setContentType("text/html; charset=utf-8");
-			PrintWriter pw = rsp.getWriter();		
-			
-			if(result > 0) {
-			    pw.append("<script>alert('글 수정 성공'); location.href='" + req.getContextPath()
-			        + "/admin/notice.do';</script>");
-			} else {
-			    pw.append("<script>alert('글 수정 실패'); location.href='" + req.getContextPath()
-			        + "/admin/notice.do?notice_idx=" + noticeVO.getNotice_idx() + "';</script>");
-			}
-		}	
 	
+	// 공지사항 글 수정
+
+	@RequestMapping(value = "/notice_modify.do", method = RequestMethod.POST)
+	public void modfiy(NOTICE_VO noticeVO, String member_email,HttpServletResponse rsp, HttpServletRequest req) throws IOException {	
+		
+		MEMBER_VO member = MemberService.selectByEmail(member_email);
+		
+		noticeVO.setMember_tb_idx(member.getMember_idx());
+		noticeVO.setNotice_writer(member.getMember_name());
+		System.out.println(noticeVO.getMember_tb_idx());
+		System.out.println(noticeVO.getNotice_title());
+		System.out.println(noticeVO.getNotice_contents());
+		System.out.println(noticeVO.getNotice_idx());
+		
+		int result = adminService.modify(noticeVO);
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();		
+		
+		if(result > 0) {
+		    pw.append("<script>alert('글 수정 성공'); location.href='" + req.getContextPath()
+		        + "/admin/notice.do';</script>");
+		} else {
+		    pw.append("<script>alert('글 수정 실패'); location.href='" + req.getContextPath()
+		        + "/admin/notice.do?notice_idx=" + noticeVO.getNotice_idx() + "';</script>");
+		}
+	}	
+
+	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
+	                                                    @RequestParam("searchOption") String searchOption) {
+	    
+		
+		List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption);
+
+	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
+	}
+
 	
 	// 메인 화면 관리
 	@RequestMapping( value = "/productPageModify.do", method = RequestMethod.GET )
