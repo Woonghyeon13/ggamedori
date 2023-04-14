@@ -28,7 +28,9 @@
 		<typeAlias type="game.dori.vo.COUPON_VO" alias="couponVO"/>
 		<typeAlias type="game.dori.vo.REVIEW_Search_VO" alias="reviewsearchVO"/>
 		<typeAlias type="game.dori.util.ORDER_LIST_VO" alias="orderlistVO"/>
+		<typeAlias type="game.dori.util.OTO_VO" alias="otoVO"/>
 		<typeAlias type="game.dori.vo.OPT_VO" alias="optVO"/>
+		<typeAlias type="game.dori.vo.OPTLIST_VO" alias="optlistVO"/>
 	</typeAliases>
 
 </configuration>

@@ -4,8 +4,8 @@ public class OPT_VO {
 	private int opt_idx;		// 옵션 인덱스
 	private int prod_tb_idx;	// 상품 인덱스
 	private String opt_name;	// 옵션이름
-	private int opt_stock;		// 옵션재고수
-	private int opt_price;		// 옵션추가금액
+	private String opt_stock;		// 옵션재고수
+	private String opt_price;		// 옵션추가금액
 	
 	public int getOpt_idx() {
 		return opt_idx;
@@ -25,18 +25,17 @@ public class OPT_VO {
 	public void setOpt_name(String opt_name) {
 		this.opt_name = opt_name;
 	}
-	public int getOpt_stock() {
+	public String getOpt_stock() {
 		return opt_stock;
 	}
-	public void setOpt_stock(int opt_stock) {
+	public void setOpt_stock(String opt_stock) {
 		this.opt_stock = opt_stock;
 	}
-	public int getOpt_price() {
+	public String getOpt_price() {
 		return opt_price;
 	}
-	public void setOpt_price(int opt_price) {
+	public void setOpt_price(String opt_price) {
 		this.opt_price = opt_price;
 	}
-	
 	
 }

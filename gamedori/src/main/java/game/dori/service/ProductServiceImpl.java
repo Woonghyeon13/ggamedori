@@ -71,6 +71,29 @@ public class ProductServiceImpl implements ProductService{
 	public int optInsert(OPT_VO opt) {
 		return prodOptDAO.optInsert(opt);
 	}
+
+	// 상품 인덱스
+	@Override
+	public int optIdx() {
+		return prodOptDAO.optIdx();
+	}
+
+	// 상품옵션 상세
+	@Override
+	public List<OPT_VO> optSelecet(int prod_idx) {
+		return prodOptDAO.optSelecet(prod_idx);
+	}
 	
-	
+	// 상품옵션 수정
+	@Override
+	public int optModify(OPT_VO opt) {
+		return prodOptDAO.optModify(opt);
+	}
+
+	// 상품옵션 삭제
+	@Override
+	public int optDel(int prod_idx) {
+		return prodOptDAO.optDel(prod_idx);
+	}
+
 }
