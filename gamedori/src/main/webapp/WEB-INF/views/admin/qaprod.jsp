@@ -32,47 +32,59 @@
 	<!-- 문의/공지사항 탭  -->
 	<div class="container mt-4">
 		<ul class="nav justify-content-end text-black">
-			<li class="nav-item"><a
-				class="nav-link active text-reset fw-bold" aria-current="page"
-				href="<c:url value='/admin/qaprod.do' />">상품 문의 관리</a></li>
-			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/oto.do' />">1:1
-					문의 관리</a></li>
-			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/notice.do' />">공지사항
-					관리</a></li>
+			<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/qaprod.do' />">상품 문의 관리</a></li>
+			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/oto.do' />">1:1 문의 관리</a></li>
+			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/notice.do' />">공지사항 관리</a></li>
 		</ul>
 	</div>
 
 	<div class="container mt-1">
 
 		<div class="container">
-			<form action="">
+
 				<table class="table">
 					<thead class="table-light">
 						<tr>
-							<th scope="col">상품명</th>
-							<th scope="col">문의제목</th>
-							<th scope="col">회원명</th>
-							<th scope="col">작성일자</th>
-							<th scope="col">처리상태</th>
-							<th scope="col" style="width: 80px;">답변</th>
+							<th class="text-center">번호</th>
+							<th class="text-center">상품명</th>
+							<th class="text-center">문의제목</th>
+							<th class="text-center">회원명</th>
+							<th class="text-center">작성일자</th>
+							<th class="text-center">비밀글 여부</th>
+							<th class="text-center">처리상태</th>
+							<th class="text-center">답변</th>
 						</tr>
 					</thead>
 					<tbody>
+					<c:forEach var="pqlist" items="${pqlist }">
 						<tr>
-							<th scope="row">상품명상품명</th>
-							<td>문의제목입니다</td>
-							<td>Mark</td>
-							<td>2023-03-29</td>
-							<td>답변대기</td>
-							<td>
+							<td class="text-center">${pqlist.prod_q_idx }</td>
+							<td class="text-center">${pqlist.prod_name}</td>
+							<td class="text-center">${pqlist.prod_q_title }</td>
+							<td class="text-center">${pqlist.member_name }</td>
+							<td class="text-center">${pqlist.prod_q_wdate }</td>
+						<c:if test="${pqlist.prod_q_secret == 1 }">
+							<td class="text-center">예</td>
+						</c:if>
+						<c:if test="${pqlist.prod_q_secret == 2 }">
+							<td class="text-center">아니오</td>
+						</c:if>
+						<c:if test="${pqlist.prod_q_yn == 1 }">
+							<td class="text-center">답변 완료</td>
+						</c:if>	
+						<c:if test="${pqlist.prod_q_yn == 2 }">
+							<td class="text-center">답변 대기 중</td>
+						</c:if>	
+							<td class="text-center">
 								<button type="button" class="btn btn-secondary btn-sm"
 									data-bs-toggle="modal" data-bs-target="#prodRefund">답변</button>
 							</td>
 						</tr>
+					</c:forEach>
 					</tbody>
 				</table>
 		</div>
-		</form>
+
 
 		<div class="container">
 			<form class="form-horizontal d-flex justify-content-center"

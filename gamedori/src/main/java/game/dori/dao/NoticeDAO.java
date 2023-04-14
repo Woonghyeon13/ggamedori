@@ -56,7 +56,7 @@ public class NoticeDAO {
 	}
 	
 	
-	public int modfiy(NOTICE_VO noticeVO)
+	public int modify(NOTICE_VO noticeVO)
 	{		
 		return sqlSession.update("game.dori.mapper.noticeMapper.modify", noticeVO);	
 	}

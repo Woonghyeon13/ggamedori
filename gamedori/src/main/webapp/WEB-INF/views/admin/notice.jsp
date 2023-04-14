@@ -130,7 +130,7 @@
                 <h4 class="modal-title fs-5">공지사항 등록</h4>
             </div>
             <div class="modal-body">
-                <form name="review" method="POST" action="notice_white.do">
+                <form name="review" method="POST" action="notice_write.do">
                 
                   <input type="hidden" name="member_email" value="${Login.member_email}">
                     <div class="form-group d-flex justify-content-around "></div>
