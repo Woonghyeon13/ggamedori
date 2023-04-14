@@ -160,6 +160,7 @@ public class AdminController {
 		pw.flush();
 	}
 	
+	
 
 	// 상품수정
 	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.GET )
@@ -297,6 +298,27 @@ public class AdminController {
 	    return null;
 	}
 	
+	//검색 기능
+	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
+	                                                        @RequestParam("searchOption") String searchOption,
+	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+	    int limit = 15; // 페이지당 게시물 수
+	    int start = (page - 1) * limit;
+
+	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
+	    int totalRecords = adminService.countSearchResults(searchText, searchOption);
+	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
+
+	    Map<String, Object> responseMap = new HashMap<String, Object>();
+	    responseMap.put("searchResults", searchResults);
+	    responseMap.put("totalPages", totalPages);
+
+	    return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.OK);
+	}
+		
+	
 	// 1:1문의 관리
 	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
 	public String oto(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
@@ -361,7 +383,7 @@ public class AdminController {
 	}
 	
 	
-	//관리자페이지에서 글작성
+	//관리자페이지에서 공지사항 글작성
 	@RequestMapping( value = "/notice_white.do", method = RequestMethod.POST )
 	public void notice_write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
 		MEMBER_VO member = MemberService.selectByEmail(member_email);
@@ -380,7 +402,7 @@ public class AdminController {
 		if (result > 0) {
 			session.setAttribute("noticeVO", noticeVO);
 			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
-			+ "/customersc/main.do';</script>");
+			+ "/admin/notice.do';</script>");
 		}
 	}
 	
@@ -434,16 +456,7 @@ public class AdminController {
 		}
 	}	
 	
-	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
-	                                                    @RequestParam("searchOption") String searchOption) {
-	    
-		
-		List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption);
-
-	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
-	}
+	
 	
 	// 메인 화면 관리
 	@RequestMapping( value = "/productPageModify.do", method = RequestMethod.GET )

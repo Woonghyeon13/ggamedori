@@ -50,10 +50,15 @@ public class MemberController {
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public void Login( MEMBER_VO MemberVO ,  HttpServletResponse rsp ,HttpServletRequest req , HttpSession session, Model model) throws IOException
 	{
+		
+		
+		System.out.println(MemberVO.getMember_email());
+		System.out.println(MemberVO.getMember_pw());
 		MEMBER_VO result = MemberService.Login(MemberVO);
 	    if (result != null) {
 	        // 로그인 성공
 	    	
+	    	System.out.println("로그인성공");
 	    	MEMBER_VO MemberVO2 = new MEMBER_VO();
 	    	MemberVO2.setMember_email(result.getMember_email());
 	    	MemberVO2.setMember_role(result.getMember_role());
@@ -67,6 +72,7 @@ public class MemberController {
 	    	
 	    } else {
 	        // 로그인 실패
+	    	System.out.println("로그인실패");
 	        rsp.setContentType("text/html; charset=utf-8");
 	        PrintWriter pw = rsp.getWriter();
 	        model.addAttribute("message", "로그인 실패 아이디와 비밀번호가 맞는지 확인해주세요.");
@@ -163,8 +169,12 @@ public class MemberController {
 	    } else {
 	        // 이메일 인증에 성공한 경우
 	        memberVO.setMember_email_yn(1);
+		   
 	        int memberId = MemberService.insertMember(memberVO);
+	        
+	        MemberService.updateyn(memberVO);
 	        if (memberId > 0) {
+	        	
 	            addr.setMember_tb_idx(memberVO.getMember_idx());
 	            AddressService.insert(addr);
 	            System.out.println("idx 값 ::" + memberVO.getMember_idx());
