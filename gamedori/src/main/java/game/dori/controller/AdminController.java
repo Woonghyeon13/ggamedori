@@ -4,6 +4,7 @@ package game.dori.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
@@ -30,8 +30,8 @@ import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
-import game.dori.vo.OPT_VO;
 import game.dori.vo.NOTICE_VO;
+import game.dori.vo.OPT_VO;
 import game.dori.vo.PRODUCT_VO;
 import net.sf.json.JSONArray;
 
@@ -144,14 +144,26 @@ public class AdminController {
 		pvo.setProd_imgd(prod_file3.getOriginalFilename());
 		
 		int result = productService.prodInsert(pvo);
-		
 		rsp.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = rsp.getWriter();
+		
+		String optName = opt.getOpt_name();
+		String[] optNsplit = optName.split(",");
+		String optStock = opt.getOpt_stock();
+		String[] optSsplit = optStock.split(",");
+		String optPrice = opt.getOpt_price();
+		String[] optPsplit = optPrice.split(",");
 		//상품등록 성공
 		if( result > 0 )
 		{
-			opt.setOpt_idx(pvo.getProd_idx());
+			int prodIdx = productService.optIdx();
+			for( int i=0; i<optNsplit.length; i++  ) {
+			opt.setProd_tb_idx(prodIdx);
+			opt.setOpt_name(optNsplit[i]);
+			opt.setOpt_stock(optSsplit[i]);
+			opt.setOpt_price(optPsplit[i]);
 			productService.optInsert(opt);
+			}
 			pw.append("<script>alert('등록 완료');location.href='prod.do'</script>");
 		}else
 		{
@@ -160,18 +172,22 @@ public class AdminController {
 		pw.flush();
 	}
 	
-
 	// 상품수정
 	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.GET )
-	public String prodmodify() {
+	public String prodmodify( CATEGORY_VO cvo, int prod_idx, Model model ) {
+		List<CATEGORY_VO> category = null;
+		category = productService.category();
+		model.addAttribute("category", JSONArray.fromObject(category));
+		PRODUCT_VO pvo = productService.prodSelectOne(prod_idx);
+		model.addAttribute("pvo",pvo);
+		List<OPT_VO> optlist = productService.optSelecet(prod_idx);
+		model.addAttribute("optlist",optlist);
 		return "admin/prodmodify";
 	}
 
-	
-
 	// 상품수정
 	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.POST )
-	public void prodmodify( PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3) throws IllegalStateException, IOException{
+	public void prodmodify( OPT_VO opt, PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3) throws IllegalStateException, IOException{
 		
 		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
 		
@@ -200,12 +216,24 @@ public class AdminController {
 		}
 		
 		int result = productService.prodUpdate(pvo);
+		String optName = opt.getOpt_name();
+		String[] optNsplit = optName.split(",");
+		String optStock = opt.getOpt_stock();
+		String[] optSsplit = optStock.split(",");
+		String optPrice = opt.getOpt_price();
+		String[] optPsplit = optPrice.split(",");
 		
 		rsp.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = rsp.getWriter();
-		//상품등록 성공
+		//상품수정 성공
 		if( result > 0 )
 		{
+			for( int i=0; i<optNsplit.length; i++  ) {
+			opt.setOpt_name(optNsplit[i]);
+			opt.setOpt_stock(optSsplit[i]);
+			opt.setOpt_price(optPsplit[i]);
+			productService.optModify(opt);
+			}
 			pw.append("<script>alert('수정 완료');location.href='prod.do'</script>");
 		}else
 		{
@@ -216,7 +244,7 @@ public class AdminController {
 	// 상품삭제
 	@RequestMapping( value = "/prodDelete.do", method = RequestMethod.POST )
 	public String prodDelete( int prod_idx ){
-		
+		int optd = productService.optDel(prod_idx);
 		int result = productService.prodDelete(prod_idx);
 		return "redirect:/admin/prod.do";
 	}
