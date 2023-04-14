@@ -79,7 +79,7 @@ public class AdminServiceImpl implements AdminService{
 
 	public List<OTO_VO> otoList() {
 		return qaDAO.list();
-
+	}
 	public int countSearchResults(String searchText, String searchOption) {
 		// TODO Auto-generated method stub
 		return noticeDAO.countSearchResults(searchText, searchOption);

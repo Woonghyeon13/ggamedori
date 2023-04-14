@@ -435,7 +435,7 @@ public class AdminController {
 			session.setAttribute("noticeVO", noticeVO);
 			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
 			+ "/admin/notice.do';</script>");
-
+			}
 		}
 	
 	//관리자 공지사항 글삭제
@@ -496,7 +496,7 @@ public class AdminController {
 	                                                    @RequestParam("searchOption") String searchOption) {
 	    
 		
-		List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption);
+	List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption,1,2);
 
 	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
 	}
