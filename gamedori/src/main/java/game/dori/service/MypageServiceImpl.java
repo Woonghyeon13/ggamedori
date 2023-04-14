@@ -51,8 +51,8 @@ public class MypageServiceImpl implements MypageService{
 	
 	//마이페이지 리뷰 리스트출력
 	@Override
-	public List<REVIEW_VO> selectList3(int member_idx, REVIEW_Search_VO search ) {
-		return reviewDAO.selectList3(member_idx, search);
+	public List<REVIEW_VO> selectList3(int member_idx) {
+		return reviewDAO.selectList3(member_idx);
 	}
 
 	//마이페이지 적립금 리스트출력
@@ -77,6 +77,17 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public int selectListCount2(int member_tb_idx) {
 		return reviewDAO.selectListCount2(member_tb_idx);
+	}
+
+	//마이페이지 리뷰 서치... 복붙
+	@Override
+	public List<REVIEW_VO> searchReview(String R_searchValue, String R_searchType, int start, int limit) {
+		return reviewDAO.search(R_searchValue, R_searchType, start, limit);
+	}
+
+	@Override
+	public int countSearchResults(String r_searchValue, String r_searchType) {
+		return reviewDAO.countSearchResults(r_searchValue, r_searchType);
 	}
 
 

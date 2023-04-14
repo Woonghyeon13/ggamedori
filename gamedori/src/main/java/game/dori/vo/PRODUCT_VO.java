@@ -15,8 +15,6 @@ public class PRODUCT_VO {
 	private String prod_co;				// 제조사
 	private String prod_opt;			// 제품 옵션
 	private String prod_rdate;			// 출시 일
-	private int prod_rating;			// 성인 등급 여부	 [ 1: 일반 / 2 : 성인등급 ]
-	private int prod_reserv;			// 예약 상품 여부
 	private String prod_imgt;			// 썸네일 이미지
 	private String prod_imgm;			// 메인 이미지
 	private String prod_imgd;			// 상세정보 이미지
@@ -100,18 +98,6 @@ public class PRODUCT_VO {
 	}
 	public void setProd_rdate(String prod_rdate) {
 		this.prod_rdate = prod_rdate;
-	}
-	public int getProd_rating() {
-		return prod_rating;
-	}
-	public void setProd_rating(int prod_rating) {
-		this.prod_rating = prod_rating;
-	}
-	public int getProd_reserv() {
-		return prod_reserv;
-	}
-	public void setProd_reserv(int prod_reserv) {
-		this.prod_reserv = prod_reserv;
 	}
 	public String getProd_imgt() {
 		return prod_imgt;
