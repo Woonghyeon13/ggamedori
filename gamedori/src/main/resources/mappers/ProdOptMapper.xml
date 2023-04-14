@@ -5,12 +5,33 @@
  
 <mapper namespace="game.dori.mapper.prodOptMapper">
 	<!-- 옵션 입력 -->
-	<insert id="optInsert" parameterType="java.util.Map">
-		insert into opt_tb(`opt_name`,`opt_stock`,`opt_price`,`prod_tb_idx`)
+	<insert id="optInsert" parameterType="optVO">
+		insert into opt_tb(opt_name,opt_stock,opt_price,prod_tb_idx)
 		value
-		<foreach collection="list" item="item" separator=" , ">
 			(#{opt_name},#{opt_stock},#{opt_price},#{prod_tb_idx})
-		</foreach>
 	</insert>
 	
+	<!-- 상품인덱스 -->
+	<select id="optIdx" resultType="int">
+		select max(prod_idx) from product_tb
+	</select>
+	
+	<!-- 옵션 정보 -->
+	<select id="optSelecet" resultType="optVO" parameterType="int">
+		select * from opt_tb where prod_tb_idx = #{prod_idx}
+	</select>
+	
+	<!-- 옵션 수정 -->
+	<update id="optModify" parameterType="optVO">
+		update opt_tb set 
+		opt_name = #{opt_name},
+		opt_stock = #{opt_stock},
+		opt_price = #{opt_price},
+		where prod_tb_idx = #{prod_idx};
+	</update>
+	
+	<!-- 옵션 삭제 -->
+	<delete id="optDel" parameterType="int">
+		delete from opt_tb where prod_tb_idx = #{prod_idx};
+	</delete>
 </mapper>
