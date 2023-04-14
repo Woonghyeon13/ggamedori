@@ -11,6 +11,9 @@ public class QA_VO {
 	private String qa_contents; //내용
 	private String qa_writer; //문의 작성자
 	private int qa_yn; //답변여부 1:답변완료 2.미완
+
+	
+
 	
 	public int getQa_idx() {
 		return qa_idx;

@@ -12,5 +12,6 @@
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
+	
 
 </mapper>

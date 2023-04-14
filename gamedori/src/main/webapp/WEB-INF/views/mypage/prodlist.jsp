@@ -7,29 +7,40 @@
 
 	<div class="container mypage_inner">
 		<h4>주문 상품 전체보기</h4>
-		<div id="mypage_1" class="col">
-			<ul>
-				<li>
-					<h5>등급</h5>
-					<p>브론즈,실버,골드 등등..</p>
-				</li>
-				<li>
-					<h5>적립금</h5>
-					<p>적립금 표시 ex) 2500원</p> <a href="<c:url value='/mypage/point.do'/>">적립금
-						확인 > </a> <!--s_money2.html-->
-				</li>
-				<li>
-					<h5>쿠폰</h5>
-					<p>쿠폰 개수 표시</p> <a href="<c:url value='/mypage/coupon.do'/>">쿠폰
-						확인 > </a> <!-- coupon_check2.html-->
-				</li>
-				<li>
-					<h5>나의 후기</h5>
-					<p>후기 개수 표시</p> <a href="<c:url value='/mypage/reviewlist.do'/>">후기
-						확인 > </a> <!-- review_check2.html-->
-				</li>
-			</ul>
-		</div>
+			<div id="mypage_1" class="col">
+				<ul>
+					<li>
+						<h4>등급</h4>
+						<p>
+						<c:choose>
+							<c:when test="${level == 1}">
+							    <c:out value="브론즈" />
+							</c:when>
+							<c:when test="${level == 2}">
+							    <c:out value="실버" />
+							 </c:when>
+							 <c:when test="${level == 3}">
+							    <c:out value="골드" />
+							 </c:when>
+							 
+						</c:choose>
+						</p>
+					</li>
+					<li>
+						<h4>적립금</h4>
+						<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+						<!--s_money_check.html -->
+					</li>
+					<li>
+						<h4>쿠폰</h4>
+						<p> <c:out value="${selectListCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
+					</li>
+					<li>
+						<h4>나의 후기</h4>
+						<p><c:out value="${selectListCount2}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
+					</li>
+				</ul>
+			</div>
 		<div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
@@ -37,19 +48,16 @@
 				</p>
 
 				<ol id="ol_li" class="list-group list-group-numbered">
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/cart.do'/>">장바구니</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/prodqa.do'/>">상품문의</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/oto.do'/>">1 : 1문의</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/reviewlist.do'/>">나의 후기</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/user/modify.do'/>">회원정보수정</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/user/withdraw.do'/>">탈퇴하기</a></li>
-					<!-- unregister2.html -->
+					<li class="list-group-item"><a href="<c:url value='/mypage/cart.do' />">장바구니</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의
+							후기</a></li>
+					<!-- review_list.html -->
+					<li class="list-group-item"><a href="<c:url value='/user/modify.do' />">회원정보수정</a></li>
+					<li class="list-group-item"><a href="<c:url value='/user/withdraw.do' />">탈퇴하기</a></li>
+					<!-- unregister.html -->
 				</ol>
 			</div>
 			<div id="product_inner" class="col-8">
@@ -60,96 +68,35 @@
 					style="width: 100%; border-top: 1px solid #000;">
 					<thead>
 						<tr>
-							<th scope="col">번호</th>
 							<th scope="col">상품 정보</th>
 							<th scope="col">주문 일자</th>
-							<th scope="col">주분 번호</th>
+							<th scope="col">주문 번호</th>
 							<th scope="col">주문 금액</th>
-							<th scope="col">입금 상태</th>
-
+							<th scope="col">주문 상태</th>
 						</tr>
 					</thead>
 					<tbody>
+					<c:forEach var="selectList" items="${list}">
 						<tr>
-							<th>1</th>
-							<td>게임 1</td>
-							<td>2023-03-09</td>
-							<td>12345678</td>
-							<td>10000원</td>
-							<td>입금 완료</td>
+							<th>${selectList.order_title}</th>
+							<td>${selectList.order_date}</td>
+							<td>${selectList.order_idx}</td>
+							<td>${selectList.order_price}</td>
+							<td>			
+							<c:choose>
+								<c:when test="${selectList.order_situ == 1}">
+									 <c:out value="주문완료" />
+								</c:when>
+								<c:when test="${selectList.order_situ == 2}">
+									<c:out value="배송중" />
+								</c:when>
+								<c:when test="${selectList.order_situ == 3}">
+									<c:out value="배송완료" />
+								</c:when>
+							</c:choose>
+							</td>
 						</tr>
-						<tr>
-							<th>2</th>
-							<td>게임 2</td>
-							<td>2023-03-09</td>
-							<td>22345678</td>
-							<td>10000원</td>
-							<td>입금 완료</td>
-						</tr>
-						<tr>
-							<th>3</th>
-							<td>게임 3</td>
-							<td>2023-03-09</td>
-							<td>32345678</td>
-							<td>10000원</td>
-							<td>입금 완료</td>
-						</tr>
-						<tr>
-							<th>4</th>
-							<td>게임 4</td>
-							<td>2023-03-09</td>
-							<td>42345678</td>
-							<td>10000원</td>
-							<td>입금 완료</td>
-						</tr>
-						<tr>
-							<th>5</th>
-							<td>게임 5</td>
-							<td>2023-03-09</td>
-							<td>52345678</td>
-							<td>10000원</td>
-							<td>입금 완료</td>
-						</tr>
-						<tr>
-							<th>6</th>
-							<td>게임 6</td>
-							<td>2023-03-09</td>
-							<td>62345678</td>
-							<td>10000원</td>
-							<td>입금 준비중</td>
-						</tr>
-						<tr>
-							<th>7</th>
-							<td>게임 7</td>
-							<td>2023-03-09</td>
-							<td>72345678</td>
-							<td>10000원</td>
-							<td>입금 준비중</td>
-						</tr>
-						<tr>
-							<th>8</th>
-							<td>게임 8</td>
-							<td>2023-03-09</td>
-							<td>82345678</td>
-							<td>10000원</td>
-							<td>입금 준비중</td>
-						</tr>
-						<tr>
-							<th>9</th>
-							<td>게임 9</td>
-							<td>2023-03-09</td>
-							<td>92345678</td>
-							<td>10000원</td>
-							<td>입금 준비중</td>
-						</tr>
-						<tr>
-							<th>10</th>
-							<td>게임 10</td>
-							<td>2023-03-09</td>
-							<td>02345678</td>
-							<td>10000원</td>
-							<td>입금 준비중</td>
-						</tr>
+					</c:forEach>
 
 					</tbody>
 					</div>

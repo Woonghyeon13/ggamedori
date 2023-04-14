@@ -62,6 +62,13 @@
 	    WHERE
 	        member_idx = #{member_idx}
 	</update>
+	
+	<!-- 마이페이지 등급  -->
+	<select id="selectMemberLevelMapper" parameterType="int" resultType="int">
+		SELECT member_level
+		FROM member_tb
+		WHERE member_idx = #{member_idx}
+	</select>
 
 </mapper>
 

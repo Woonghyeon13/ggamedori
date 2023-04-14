@@ -15,20 +15,33 @@
 			<ul>
 				<li>
 					<h4>등급</h4>
-					<p>브론즈,실버,골드 등등..</p>
+					<p>
+					<c:choose>
+						<c:when test="${level == 1}">
+						    <c:out value="브론즈" />
+						</c:when>
+						<c:when test="${level == 2}">
+						    <c:out value="실버" />
+						 </c:when>
+						 <c:when test="${level == 3}">
+						    <c:out value="골드" />
+						 </c:when>
+						 
+					</c:choose>
+					</p>
 				</li>
 				<li>
 					<h4>적립금</h4>
-					<p><c:if test="${result eq null}">0 </c:if>${result}원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+					<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
 					<!--s_money_check.html -->
 				</li>
 				<li>
 					<h4>쿠폰</h4>
-					<p><c:if test ="${selectListCount eq null}">0</c:if>${couponCount} 개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
+					<p> <c:out value="${selectListCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
 				</li>
 				<li>
 					<h4>나의 후기</h4>
-					<p><c:if test ="${selectListCount2 eq null}">0</c:if>${selectListCount2} 개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
+					<p><c:out value="${selectListCount2}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
 				</li>
 			</ul>
 		</div>
@@ -42,6 +55,7 @@
 				<ol id="ol_li" class="list-group list-group-numbered">
 					<li class="list-group-item"><a href="<c:url value='/mypage/cart.do' />">장바구니</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의
 							후기</a></li>
@@ -62,7 +76,6 @@
 							<table class="table table-hover" class="container">
 								<thead>
 									<tr>
-										<th scope="col">번호</th>
 										<th scope="col">상품 정보</th>
 										<th scope="col">주문 일자</th>
 										<th scope="col">주문 번호</th>
@@ -71,38 +84,27 @@
 									</tr>
 								</thead>
 								<tbody>
+								<c:forEach var="selectList" items="${list}">
 									<tr>
-										<th>1</th>
-										<td>게임 1</td>
-										<td>2023-03-08</td>
-										<td>12345678</td>
-										<td>10000원</td>
-										<td>주문 완료</td>
+										<th>${selectList.order_title}</th>
+										<td>${selectList.order_date}</td>
+										<td>${selectList.order_idx}</td>
+										<td>${selectList.order_price}</td>
+										<td>			
+										<c:choose>
+											<c:when test="${selectList.order_situ == 1}">
+											    <c:out value="주문완료" />
+											</c:when>
+											<c:when test="${selectList.order_situ == 2}">
+											    <c:out value="배송중" />
+											 </c:when>
+											 <c:when test="${selectList.order_situ == 3}">
+											    <c:out value="배송완료" />
+											 </c:when>
+										</c:choose>
+										</td>
 									</tr>
-									<tr>
-										<th>2</th>
-										<td>게임 2</td>
-										<td>2023-03-08</td>
-										<td>22345678</td>
-										<td>10000원</td>
-										<td>주문 완료</td>
-									</tr>
-									<tr>
-										<th>3</th>
-										<td>게임 3</td>
-										<td>2023-03-08</td>
-										<td>32345678</td>
-										<td>10000원</td>
-										<td>주문 완료</td>
-									</tr>
-									<tr>
-										<th>4</th>
-										<td>게임 4</td>
-										<td>2023-03-08</td>
-										<td>42345678</td>
-										<td>10000원</td>
-										<td>주문 준비중</td>
-									</tr>
+								</c:forEach>
 								</tbody>
 							</table>
 							<p id="breakdown1">
@@ -122,6 +124,7 @@
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
+										<th scope="col">비밀글여부</th>
 										<th scope="col">상품 정보</th>
 										<th scope="col">문의 제목</th>
 										<th scope="col">주문 번호</th>
@@ -130,38 +133,30 @@
 									</tr>
 								</thead>
 								<tbody>
+									<c:forEach items="${selectList}" var="vo">
 									<tr>
-										<th>1</th>
-										<td>게임 1</td>
-										<td>문의 제목입니다.</td>
-										<td>12345678</td>
-										<td>2023-03-08</td>
-										<td>답변 완료</td>
-									</tr>
-									<tr>
-										<th>2</th>
-										<td>게임 2</td>
-										<td>문의 제목입니다.</td>
-										<td>22345678</td>
-										<td>2023-03-08</td>
-										<td>답변 완료</td>
-									</tr>
-									<tr>
-										<th>3</th>
-										<td>게임 3</td>
-										<td>문의 제목입니다.</td>
-										<td>32345678</td>
-										<td>2023-03-08</td>
-										<td>답변 완료</td>
-									</tr>
-									<tr>
-										<th>4</th>
-										<td>게임 4</td>
-										<td>문의 제목입니다.</td>
-										<td>42345678</td>
-										<td>2023-03-08</td>
-										<td>답변 처리중</td>
-									</tr>
+										<th>${vo.prod_q_idx}</th>
+									<td>
+									<c:choose>
+										<c:when test="${vo.prod_q_yn == 1}">
+											<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
+										</c:when>
+									</c:choose>
+									</td>
+									<td>${vo.prod_name}</td>
+									<td>${vo.prod_q_title}</td>	
+									<td>${vo.prod_q_wdate}</td>
+									<td>
+									<c:choose>
+										<c:when test="${vo.prod_q_yn == 1}">
+											<c:out value="접수완료" />
+										</c:when>
+										<c:when test="${vo.prod_q_yn == 2}">
+											<c:out value="답변완료" />
+										</c:when>
+									</c:choose>
+									</td>
+									</c:forEach>
 								</tbody>
 							</table>
 							<p id="breakdown1">
@@ -176,53 +171,37 @@
 						<div id="one_to_one_page" class="container">
 							<p>1 : 1 문의</p>
 
-							<!-- 문의 유형 : [ 회원가입 / 결제 및 배송 / 교환 및 환불 / 적립금 / 기타 ] -->
+						
 						</div>
 						<div id="one_to_one" class="container">
 							<table class="table table-hover">
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
-										<th scope="col">문의 유형</th>
 										<th scope="col">문의 제목</th>
-										<th scope="col">주문 번호</th>
 										<th scope="col">작성 일자</th>
 										<th scope="col">처리 상태</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<th>1</th>
-										<td>회원가입</td>
-										<td>문의 제목입니다.</td>
-										<td>12345678</td>
-										<td>2023-03-08</td>
-										<td>답변 완료</td>
-									</tr>
-									<tr>
-										<th>2</th>
-										<td>결제 및 배송</td>
-										<td>문의 제목입니다.</td>
-										<td>22345678</td>
-										<td>2023-03-08</td>
-										<td>답변 완료</td>
-									</tr>
-									<tr>
-										<th>3</th>
-										<td>교환 및 환불</td>
-										<td>문의 제목입니다.</td>
-										<td>32345678</td>
-										<td>2023-03-08</td>
-										<td>답변 완료</td>
-									</tr>
-									<tr>
-										<th>4</th>
-										<td>적립금</td>
-										<td>문의 제목입니다.</td>
-										<td>42345678</td>
-										<td>2023-03-08</td>
-										<td>답변 처리중</td>
-									</tr>
+								<c:forEach items="${selectList2}" var="vo">
+				                	<tr>				   
+				                    	<th>${vo.qa_idx}</th>
+				                        <td>${vo.qa_title}</td>				             
+				                        <td>${vo.qa_wdate}</td>
+				                        <td>
+				                        <c:choose>
+											<c:when test="${vo.qa_yn == 1}">
+												<c:out value="접수완료" />
+											</c:when>
+											<c:when test="${vo.qa_yn == 2}">
+												<c:out value="답변완료" />
+											</c:when>
+										</c:choose>
+										</td>
+				                  	</tr> 
+                       			</c:forEach>
+								
 								</tbody>
 							</table>
 							<p id="breakdown1">
@@ -235,7 +214,6 @@
 					<li>
 						<div id="review_page" class="container">
 							<p>나의 후기</p>
-
 						</div>
 						<div id="review" class="container">
 							<table class="table table-hover">
@@ -255,30 +233,6 @@
 										<td>게임 1</td>
 										<td>후기 제목입니다.</td>
 										<td>abc1234</td>
-										<td>2023-03-08</td>
-										<td>★★★★★</td>
-									</tr>
-									<tr>
-										<th>2</th>
-										<td>게임 2</td>
-										<td>후기 제목입니다.</td>
-										<td>def1234</td>
-										<td>2023-03-08</td>
-										<td>★★★★★</td>
-									</tr>
-									<tr>
-										<th>3</th>
-										<td>게임 3</td>
-										<td>후기 제목입니다.</td>
-										<td>ghi1234</td>
-										<td>2023-03-08</td>
-										<td>★★★★★</td>
-									</tr>
-									<tr>
-										<th>4</th>
-										<td>게임 4</td>
-										<td>후기 제목입니다.</td>
-										<td>jkl1234</td>
 										<td>2023-03-08</td>
 										<td>★★★★★</td>
 									</tr>

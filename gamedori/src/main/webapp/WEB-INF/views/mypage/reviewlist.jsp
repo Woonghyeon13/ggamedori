@@ -13,49 +13,57 @@
 	
 	<div class="container mypage_inner">
 		<h4>후기 전체보기</h4>
-		<div id="mypage_1" class="col">
-			<ul>
-				<li>
-					<h5>등급</h5>
-					<p>브론즈,실버,골드 등등..</p>
-				</li>
-				<li>
-					<h5>적립금</h5>
-					<p><c:if test="${result eq null}">0 </c:if>${result}원</p> <a href="<c:url value='/mypage/point.do'/>">적립금
-						확인 > </a> <!--s_money2.html-->
-				</li>
-				<li>
-					<h5>쿠폰</h5>
-					<p><c:if test ="${selectListCount eq null}">0</c:if>${selectListCount} 개</p> <a href="<c:url value='/mypage/coupon.do'/>">쿠폰
-						확인 > </a> <!-- coupon_check2.html-->
-				</li>
-				<li>
-					<h5>나의 후기</h5>
-					<p><c:if test ="${selectListCount2 eq null}">0</c:if>${selectListCount2} 개</p> <a href="<c:url value='/mypage/reviewlist.do'/>">후기
-						확인 > </a> <!-- review_check2.html-->
-				</li>
-			</ul>
-		</div>
+			<div id="mypage_1" class="col">
+				<ul>
+					<li>
+						<h4>등급</h4>
+						<p>
+						<c:choose>
+							<c:when test="${level == 1}">
+							    <c:out value="브론즈" />
+							</c:when>
+							<c:when test="${level == 2}">
+							    <c:out value="실버" />
+							 </c:when>
+							 <c:when test="${level == 3}">
+							    <c:out value="골드" />
+							 </c:when>
+							 
+						</c:choose>
+						</p>
+					</li>
+					<li>
+						<h4>적립금</h4>
+						<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+						<!--s_money_check.html -->
+					</li>
+					<li>
+						<h4>쿠폰</h4>
+						<p> <c:out value="${selectListCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
+					</li>
+					<li>
+						<h4>나의 후기</h4>
+						<p><c:out value="${selectListCount2}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
+					</li>
+				</ul>
+			</div>
 		<div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
 					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
-				<ol id="ol_li" class="list-group list-group-numbered">
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/cart.do'/>">장바구니</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/prodqa.do'/>">상품문의</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/oto.do'/>">1 : 1문의</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/reviewlist.do'/>">나의 후기</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/user/modify.do'/>">회원정보수정</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/user/withdraw.do'/>">탈퇴하기</a></li>
-					<!-- unregister2.html -->
+			<ol id="ol_li" class="list-group list-group-numbered">
+					<li class="list-group-item"><a href="<c:url value='/mypage/cart.do' />">장바구니</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의
+							후기</a></li>
+					<!-- review_list.html -->
+					<li class="list-group-item"><a href="<c:url value='/user/modify.do' />">회원정보수정</a></li>
+					<li class="list-group-item"><a href="<c:url value='/user/withdraw.do' />">탈퇴하기</a></li>
+					<!-- unregister.html -->
 				</ol>
 			</div>
 			<div id="review_inner" class="col-8">

@@ -5,4 +5,15 @@
  
 <mapper namespace="game.dori.mapper.orderMapper">
 
+	<select id="selectOrder" parameterType="orderVO">
+		SELECT * FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
+
+	</select>
+	
+	<!-- 메인페이지 주문내역 출력 -->
+	<select id="selectOrderListMapper" parameterType="int" resultType="orderVO">
+		SELECT *
+		FROM order_tb  
+		where member_tb_idx =#{member_tb_idx}
+	</select>
 </mapper>
