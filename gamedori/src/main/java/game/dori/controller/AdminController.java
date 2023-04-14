@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import game.dori.dao.ProdOptDAO;
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
@@ -158,13 +159,14 @@ public class AdminController {
 		if( result > 0 )
 		{
 			int prodIdx = productService.optIdx();
-			for( int i=0; i<optNsplit.length; i++  ) {
+			if( optNsplit.length > 0) {
+			for( int i=1; i<optNsplit.length; i++  ) {
 			opt.setProd_tb_idx(prodIdx);
 			opt.setOpt_name(optNsplit[i]);
 			opt.setOpt_stock(optSsplit[i]);
 			opt.setOpt_price(optPsplit[i]);
 			productService.optInsert(opt);
-			}
+			}}
 			pw.append("<script>alert('등록 완료');location.href='prod.do'</script>");
 		}else
 		{
@@ -223,17 +225,20 @@ public class AdminController {
 		String[] optSsplit = optStock.split(",");
 		String optPrice = opt.getOpt_price();
 		String[] optPsplit = optPrice.split(",");
-		
 		rsp.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = rsp.getWriter();
+		System.out.println("optNsplit 길이 : " + optNsplit.length);
 		//상품수정 성공
 		if( result > 0 )
 		{
-			for( int i=0; i<optNsplit.length; i++  ) {
+			productService.optDel(pvo.getProd_idx());
+			for( int i=1; i<optNsplit.length; i++ ) {
+			opt.setProd_tb_idx(pvo.getProd_idx());
 			opt.setOpt_name(optNsplit[i]);
 			opt.setOpt_stock(optSsplit[i]);
 			opt.setOpt_price(optPsplit[i]);
-			productService.optModify(opt);
+			System.out.println("옵션이름 ; " +optNsplit[i]);
+			productService.optInsert(opt);
 			}
 			pw.append("<script>alert('수정 완료');location.href='prod.do'</script>");
 		}else
@@ -326,25 +331,25 @@ public class AdminController {
 	    return null;
 	}
 	
-	//검색 기능
-	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
-	                                                        @RequestParam("searchOption") String searchOption,
-	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-	    int limit = 15; // 페이지당 게시물 수
-	    int start = (page - 1) * limit;
-
-	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
-	    int totalRecords = adminService.countSearchResults(searchText, searchOption);
-	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
-
-	    Map<String, Object> responseMap = new HashMap<String, Object>();
-	    responseMap.put("searchResults", searchResults);
-	    responseMap.put("totalPages", totalPages);
-
-	    return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.OK);
-	}
+//	//검색 기능
+//	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+//	@ResponseBody
+//	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
+//	                                                        @RequestParam("searchOption") String searchOption,
+//	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+//	    int limit = 15; // 페이지당 게시물 수
+//	    int start = (page - 1) * limit;
+//
+//	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
+//	    int totalRecords = adminService.countSearchResults(searchText, searchOption);
+//	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
+//
+//	    Map<String, Object> responseMap = new HashMap<String, Object>();
+//	    responseMap.put("searchResults", searchResults);
+//	    responseMap.put("totalPages", totalPages);
+//
+//	    return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.OK);
+//	}
 		
 	
 	// 1:1문의 관리
@@ -496,7 +501,7 @@ public class AdminController {
 	                                                    @RequestParam("searchOption") String searchOption) {
 	    
 		
-	List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption,1,2);
+	List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption,1,1);
 
 	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
 	}
