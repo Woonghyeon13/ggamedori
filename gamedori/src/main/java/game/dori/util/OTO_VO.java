@@ -9,6 +9,7 @@ public class OTO_VO {
 	private String qa_contents; //내용
 	private String qa_writer; //문의 작성자
 	private int qa_yn; //답변여부 1:답변완료 2.미완
+	private String qa_reply ; //답변
 	
 	private int member_idx ; //유저 인덱스
 	private int member_level ; //회원 등급 1:브론즈 2:실버 3:골드
@@ -21,10 +22,6 @@ public class OTO_VO {
 	private int member_email_yn;  //이메일 인증여부  1:Y 2:N
 	private String member_email_key; //이메일인증키
 	private int member_role; //회원권한 1:일반 2:관리자
-	
-	private int qa_a_idx; //문의 답변 인덱스
-	private int qa_tb_index;    //문의 인덱스
-	private String qa_a_reply ; //답글 텍스트 내용
 	
 	
 	public int getQa_idx() {
@@ -68,6 +65,12 @@ public class OTO_VO {
 	}
 	public void setQa_yn(int qa_yn) {
 		this.qa_yn = qa_yn;
+	}
+	public String getQa_reply() {
+		return qa_reply;
+	}
+	public void setQa_reply(String qa_reply) {
+		this.qa_reply = qa_reply;
 	}
 	public int getMember_idx() {
 		return member_idx;
@@ -134,24 +137,6 @@ public class OTO_VO {
 	}
 	public void setMember_role(int member_role) {
 		this.member_role = member_role;
-	}
-	public int getQa_a_idx() {
-		return qa_a_idx;
-	}
-	public void setQa_a_idx(int qa_a_idx) {
-		this.qa_a_idx = qa_a_idx;
-	}
-	public int getQa_tb_index() {
-		return qa_tb_index;
-	}
-	public void setQa_tb_index(int qa_tb_index) {
-		this.qa_tb_index = qa_tb_index;
-	}
-	public String getQa_a_reply() {
-		return qa_a_reply;
-	}
-	public void setQa_a_reply(String qa_a_reply) {
-		this.qa_a_reply = qa_a_reply;
 	}
 	
 	

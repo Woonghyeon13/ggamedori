@@ -4,6 +4,7 @@ import java.util.List;
 
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
+import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.NOTICE_VO;
 
 public interface AdminService {
@@ -23,10 +24,15 @@ public interface AdminService {
 	
 	public int notice_Hit(NOTICE_VO noticeVO);
 	
-	public List<ORDER_LIST_VO> orderList();
+	public List<ORDER_LIST_VO> orderList(); //주문목록 리스트
 	
-	public List<OTO_VO> otoList();
+	public List<OTO_VO> otoList(); //1:1문의 리스트
 
 	public int countSearchResults(String searchText, String searchOption);
+	
+	public int otoAnswer(OTO_VO otoVO); //1:1문의 답변
+	
+	public List<PROD_Q_LIST_VO> pqlist(); //상품 문의 리스트
 
+	public int pqAnswer(PROD_Q_LIST_VO pqVO); //상품 문의 답변
 }
