@@ -3,6 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-<mapper namespace="game.dori.mapper.cartMapper">
+<mapper namespace="game.dori.mapper.CartMapper">
 
+<select id="selectCartListMapper" parameterType="int" resultType="cartpVO">
+	SELECT * FROM cart_tb c,product_tb p, member_tb m where c.MEMBER_TB_IDX = m.MEMBER_IDX
+		and member_tb_idx = #{member_idx}
+</select>
 </mapper>
