@@ -8,8 +8,8 @@
 	<!-- 상품 등록 -->
 	<insert id="prodInsert" parameterType="productVO">
 		INSERT INTO 
-		product_tb (`category_tb_code`, `prod_name`, `prod_price`, `prod_stock`, `prod_co`, `prod_opt`, `prod_rdate`, `prod_rating`, `prod_reserv`, `prod_imgt`, `prod_imgm`, `prod_imgd`) 
-		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_opt}, #{prod_rdate}, #{prod_rating}, #{prod_reserv}, #{prod_imgt}, #{prod_imgm}, #{prod_imgd});
+		product_tb (category_tb_code, prod_name, prod_price, prod_stock, prod_co, prod_rdate, prod_rating, prod_reserv, prod_imgt, prod_imgm, prod_imgd, prod_qtymin, prod_qtymax) 
+		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_rdate}, #{prod_rating}, #{prod_reserv}, #{prod_imgt}, #{prod_imgm}, #{prod_imgd}, #{prod_qtymin}, #{prod_qtymax});
 	</insert>
 	
 	<!-- 상품 리스트 -->
@@ -49,13 +49,13 @@
 		, prod_price = #{prod_price}
 		, prod_stock = #{prod_stock}
 		, prod_co = #{prod_co}
-		, prod_opt = #{prod_opt}
 		, prod_rdate = #{prod_rdate}
-		, prod_rating = #{prod_rating}
 		, prod_reserv = #{prod_reserv}
 		, prod_imgt = #{prod_imgt}
 		, prod_imgm = #{prod_imgm}
 		, prod_imgd = #{prod_imgd}
+		, prod_qtymin = #{prod_qtymin}
+		, prod_qtymax = #{prod_qtymax}
 		where prod_idx = #{prod_idx}
 	</update>
 	

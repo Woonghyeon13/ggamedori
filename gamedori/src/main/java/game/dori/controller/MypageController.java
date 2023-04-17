@@ -1,17 +1,22 @@
 package game.dori.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import game.dori.service.MemberService;
 import game.dori.service.MypageService;
@@ -230,9 +235,9 @@ public class MypageController {
 	
 	
 
-	// 상품후기 리스트 출력 **검색 추가해야함
+	// 상품후기 리스트 출력
 	@RequestMapping( value = "/reviewlist.do", method = RequestMethod.GET )
-	public String reviewlist(Model model,HttpServletRequest req, REVIEW_Search_VO search)
+	public String reviewlist(Model model,HttpServletRequest req)
 	{
 		HttpSession session = req.getSession();
 		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
@@ -253,8 +258,10 @@ public class MypageController {
 		int selectListCount2 = mypageService.selectListCount2(memberVO.getMember_idx());
 		model.addAttribute("selectListCount2", selectListCount2);
 		
+
 		//검색 포함
 		List<REVIEW_VO> selectList3 = mypageService.selectList3(memberVO.getMember_idx(), search);
+
 		model.addAttribute("selectList3", selectList3);
 
 		//후기 개수
@@ -262,6 +269,32 @@ public class MypageController {
 	    model.addAttribute("selectListCount2", selectListCount10);
 		
 		return "mypage/reviewlist";
+	}
+	
+	@RequestMapping(value="/test.do")
+	@ResponseBody
+	public String test() {
+		return "test";
+	}
+	
+	//검색 기능(복붙)
+	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> searchReview(@RequestParam("R_searchValue") String R_searchValue,
+	                                                        @RequestParam("R_searchType") String R_searchType,
+	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+	    int limit = 15; // 페이지당 게시물 수
+	    int start = (page - 1) * limit;
+
+	    List<REVIEW_VO> searchResults = mypageService.searchReview(R_searchValue, R_searchType, start, limit);
+	    int totalRecords =  mypageService.countSearchResults(R_searchValue, R_searchType);
+	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
+
+	    Map<String, Object> responseMap = new HashMap<String, Object>();
+	    responseMap.put("searchResults", searchResults);
+	    responseMap.put("totalPages", totalPages);
+
+	    return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.OK);
 	}
 	
 

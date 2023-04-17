@@ -12,24 +12,67 @@
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
-	<!-- 마이페이지 리뷰 검색  -->
-	<select id="selectList3_R" resultType="reviewVO" parameterType="reviewsearchVO">
-		select *
-			from REVIEW_TB
-			where MEMBER_TB_IDX = #{MEMBER_IDX}
-			<if test = "R_searchType != null and R_searchType eq 'title'">
-  				and REVIEW_TITLE like concat('%',#{r_searchValue},'%')
-  			</if>
-  			<if test = "R_searchType != null and R_searchType eq 'name'">
-  				and PROD_NAME like concat('%',#{r_searchValue},'%')
-  			</if>
-	</select>
-	
 	<!-- 마이페이지 리뷰 개수 -->
 	<select id="selectListCount2" resultType="int">
 		SELECT REVIEW_IDX
 		FROM REVIEW_TB
 		WHERE MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
+	
+	
+	 <!-- 검색(복붙) --> 
+	<select id="search" resultType="reviewVO" parameterType="map">
+	  SELECT * FROM review_tb
+	  		INNER JOIN product_tb
+	  		ON review_tb.product_tb_idx = product_tb.prod_idx
+	  
+	  <where>
+	    <choose>
+	      <when test="R_searchType == 'title'">
+	        <if test="R_searchValue != null and R_searchValue != ''">
+	          and review_title like CONCAT('%', #{R_searchValue}, '%')
+	        </if>
+	      </when>
+	      <when test="R_searchType == 'name'">
+	        <if test="R_searchValue != null and R_searchValue != ''">
+	          AND (review_title LIKE CONCAT('%', #{R_searchValue}, '%') OR prod_name LIKE CONCAT('%', #{R_searchValue}, '%'))
+	        </if>
+	      </when>
+	      <otherwise>
+	        <if test="R_searchValue != null and R_searchValue != ''">
+	          AND (review_title LIKE CONCAT('%', #{R_searchValue}, '%') OR review_title LIKE CONCAT('%', #{R_searchValue}, '%') OR prod_name LIKE CONCAT('%', #{R_searchValue}, '%'))
+	        </if>
+	      </otherwise>
+	    </choose>
+	  </where>
+	  ORDER BY review_idx DESC
+	  LIMIT #{start}, #{limit}
+	</select>
+	
+		<!--  검색된 쿼리의 갯수도 얻어오기위해 사용(복붙) -->
+	<select id="countSearchResults" resultType="int" parameterType="map">
+		  SELECT COUNT(*) FROM review_tb
+		  	INNER JOIN product_tb
+	  		ON review_tb.product_tb_idx = product_tb.prod_idx
+		  <where>
+		    <choose>
+		      <when test="R_searchType == 'title'">
+		        <if test="R_searchValue != null and R_searchValue != ''">
+		          review_title like CONCAT('%', #{R_searchValue}, '%')
+		        </if>
+		      </when>
+		      <when test="R_searchType == 'name'">
+		        <if test="R_searchValue != null and R_searchValue != ''">
+		          (review_title LIKE CONCAT('%', #{R_searchValue}, '%') OR prod_name LIKE CONCAT('%', #{R_searchValue}, '%'))
+		        </if>
+		      </when>
+		      <otherwise>
+		        <if test="R_searchValue != null and R_searchValue != ''">
+		          (review_title LIKE CONCAT('%', #{R_searchValue}, '%') OR review_title LIKE CONCAT('%', #{R_searchValue}, '%') OR prod_name LIKE CONCAT('%', #{R_searchValue}, '%'))
+		        </if>
+		      </otherwise>
+		    </choose>
+		  </where>
+		</select>
 
 </mapper>

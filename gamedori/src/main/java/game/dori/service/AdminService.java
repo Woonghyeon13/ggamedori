@@ -3,6 +3,7 @@ package game.dori.service;
 import java.util.List;
 
 import game.dori.util.ORDER_LIST_VO;
+import game.dori.util.OTO_VO;
 import game.dori.vo.NOTICE_VO;
 
 public interface AdminService {
@@ -24,5 +25,8 @@ public interface AdminService {
 	
 	public List<ORDER_LIST_VO> orderList();
 	
+	public List<OTO_VO> otoList();
+
 	public int countSearchResults(String searchText, String searchOption);
+
 }

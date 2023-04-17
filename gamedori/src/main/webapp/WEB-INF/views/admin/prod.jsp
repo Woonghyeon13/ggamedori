@@ -27,20 +27,6 @@
 			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='' />">판매량 확인</a></li>
 		</ul>
 	</div>
-	<!-- 문의/공지사항 탭  -->
-	<!-- <div class="container">
-    <ul class="nav justify-content-end text-black">
-      <li class="nav-item">
-        <a class="nav-link active text-reset" aria-current="page" href="#">상품 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">1:1 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">공지사항 관리</a>
-      </li>
-    </ul>
-  </div> -->
 	<div class="container mt-1">
 		<!-- 상품 리스트 -->
 		<div class="container">
@@ -74,23 +60,7 @@
 							</td>
 							<td class="col-2">
 								<div class="d-flex justify-content-around">
-									<input type="hidden" value="${pvo.prod_idx}">
-									<input type="hidden" value="${pvo.category_tb_code}">
-									<input type="hidden" value="상품명 : ${pvo.prod_name}">
-									<input type="hidden" value="가격 : ${pvo.prod_price}">
-									<input type="hidden" value="제조사 : ${pvo.prod_co}">
-									<input type="hidden" value="${pvo.prod_rdate}">
-									<input type="hidden" value="재고량 : ${pvo.prod_stock}">
-									<input type="hidden" value="옵션 : ${pvo.prod_opt}">
-									<input type="hidden" value="옵션 : ${pvo.prod_opt}">
-									<input type="hidden" value="옵션 : ${pvo.prod_opt}">
-									<input type="hidden" value="${pvo.prod_rating}">
-									<input type="hidden" value="${pvo.prod_reserv}">
-									<input type="hidden" value="${pvo.prod_imgt}">
-									<input type="hidden" value="${pvo.prod_imgm}">
-									<input type="hidden" value="${pvo.prod_imgd}">
-									<button type="button" onclick="modify(this,'${pvo.prod_idx}')" class="btn btn-outline-secondary btn-sm"
-										data-bs-toggle="modal" data-bs-target="#prodModify">수정</button>
+									<button type="button" onclick="location.href='prodmodify.do?prod_idx=${pvo.prod_idx}'" class="btn btn-outline-secondary btn-sm">수정</button>
 									<form name="frm" action="prodDelete.do" method="post">
 										<input name="prod_idx" type="hidden" value="${pvo.prod_idx}">
 										<button id="prodDel" class="btn btn-outline-secondary btn-sm">삭제</button>
@@ -102,54 +72,6 @@
 				</tbody>
 			</table>
 		</div>
-		<script>
-			<!-- 상품수정 정보 -->
-			function modify(obj,idx){
-				var idx = idx;
-				$("#mprod_idx").val(idx);
-				var cate = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_cate").val(cate);
-				var name = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_name").val(name);
-				var price = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_price").val(price);
-				var co = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_co").val(co);
-				var rdate = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_rdate").val(rdate);
-				var stock = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_stock").val(stock);
-				var opt = $(obj).prev().prev().prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_opt").val(opt);
-				var opt = $(obj).prev().prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_opt").val(opt);
-				var opt = $(obj).prev().prev().prev().prev().prev().prev().val();
-				$("#mprod_opt").val(opt);
-				var rating = $(obj).prev().prev().prev().prev().prev().val();
-				if( rating == '1' )
-				{
-				$(":radio[id='mprod_ratingy'][value='1']").attr('checked', true);
-				}else if( rating == '2' )
-				{
-				$(":radio[id='mprod_ratingn'][value='2']").attr('checked', true);
-				}
-				var reserv = $(obj).prev().prev().prev().prev().val();
-				if( reserv == '1' )
-				{
-				$(":radio[id='mprod_reservy'][value='1']").attr('checked', true);
-				}else if( reserv == '2' )
-				{
-				$(":radio[id='mprod_reservn'][value='2']").attr('checked', true);
-				}
-				var imgt = $(obj).prev().prev().prev().val();
-				$("#mprod_file1").val(imgd);
-				var imgm = $(obj).prev().prev().val();
-				$("#mprod_file2").val(imgd);
-				var imgd = $(obj).prev().val();
-				$("#mprod_file3").val(imgd);
-			};
-			
-		</script>
 		<!-- 상품 수정 -->
 		<div class="modal fade" id="prodModify">
 			<div class="modal-dialog modal-dialog-centered">
@@ -255,104 +177,6 @@
 		<!-- 상품 등록 -->
 		<div class="container d-flex justify-content-end">
 			<button onclick="location.href='prodinsert.do'" type="button" class="btn btn-outline-secondary btn-sm me-4" >상품 등록</button>
-		</div>
-		<div class="modal fade" id="prodWrite">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header d-flex flex-column logo">
-						<div class="mt-2">
-							<h4 class="modal-title fs-5">상품 등록</h4>
-						</div>
-					</div>
-					<div class="modal-body">
-						<form name="prodInsert" method="post" action="prod.do" enctype="multipart/form-data">
-							<div class="form-group d-flex justify-content-around">
-								<select class="category1 form-select form-select-sm"
-									aria-label=".form-select-sm example">
-									<option value="">1차 카테고리</option>
-								</select> 
-								<select name="category_tb_code" class="category2 form-select form-select-sm"
-									aria-label=".form-select-sm example">
-									<option value="">2차 카테고리</option>
-								</select>
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control"
-									placeholder="상품명" name="prod_name">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control"
-									placeholder="가격" name="prod_price">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control"
-									placeholder="제조사" name="prod_co">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="date" class="form-control"
-									placeholder="출시일" name="prod_rdate">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control"
-									placeholder="재고량" name="prod_stock">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control"
-									placeholder="제품옵션1" name="prod_opt">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control"
-									placeholder="제품옵션2" name="prod_opt">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								<input type="text" class="form-control"
-									placeholder="제품옵션3" name="prod_opt">
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								성인등급 여부 <input name="prod_rating" type="radio" value="1">Y <input
-									name="prod_rating" type="radio" value="2">N
-							</div>
-							<div
-								class="form-group mt-2 d-flex justify-content-between align-items-center">
-								예약상품 여부 <input name="prod_reserv" type="radio" value="1">Y <input
-									name="prod_reserv" type="radio" value="2">N
-							</div>
-							<div class="form-group mt-2">
-								<div class="input-group mb-3">
-									<input name="prod_file1" type="file" class="form-control">
-									<label class="input-group-text" for="inputGroupFile02">썸네일</label>
-								</div>
-							</div>
-							<div class="form-group mt-2">
-								<div class="input-group mb-3">
-									<input name="prod_file2" type="file" class="form-control">
-									<label class="input-group-text" for="inputGroupFile02">메인사진</label>
-								</div>
-							</div>
-							<div class="form-group mt-2">
-								<div class="input-group mb-3">
-									<input name="prod_file3" type="file" class="form-control">
-									<label class="input-group-text" for="inputGroupFile02">상세정보</label>
-								</div>
-							</div>
-							<div class="d-grid gap-1 mt-2">
-								<input type="submit"
-									class="btn btn-outline-secondary btn-lg form-control"
-									value="상품등록">
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
 		</div>
 		<!-- 검색폼 -->
 		<div class="container">

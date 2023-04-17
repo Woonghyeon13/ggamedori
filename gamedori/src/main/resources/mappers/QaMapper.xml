@@ -12,6 +12,16 @@
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
-	
+
+	<!-- 1:1문의 리스트 -->
+	<select id="otolist" resultType="otoVO">
+		select * 
+			from
+				qa_tb q,
+				member_tb m
+			where
+				q.member_tb_idx = m.member_idx 
+	</select>
+
 
 </mapper>
