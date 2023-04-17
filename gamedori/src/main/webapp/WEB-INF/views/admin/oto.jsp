@@ -7,9 +7,29 @@
 	width:100%;
 }
 .ck-editor__editable {
-	 min-height: 30vw;
+	 min-height: 20vw;
 }
 </style>
+
+<script>
+	function sessionToModal(idx, title, contents, name, reply){
+	  // 세션 값 가져오기
+	  var otoIdx = idx;
+	  var otoTitle = title;
+	  var otoContents = contents;
+	  var memberName = name;
+	  var otoReply = reply;
+	  
+	  // input 태그에 세션 값 할당
+	  document.getElementById('otoIdx').value = otoIdx;
+	  document.getElementById('otoTitle').value = otoTitle;
+	  document.getElementById('otoContents').value = otoContents;
+	  document.getElementById('memberName').value = memberName;
+	  //document.getElementById('otoReply').value = otoReply;
+
+	 editor.setData(otoReply) ;
+	}
+</script>
 
 <main>
 	<div class="container d-flex justify-content-center mt-2">
@@ -41,32 +61,42 @@
 	<div class="container mt-1">
 
 		<div class="container">
-			<form action="">
+
 				<table class="table">
 					<thead class="table-light">
 						<tr>
-							<th scope="col">문의제목</th>
-							<th scope="col">회원명</th>
-							<th scope="col">작성일자</th>
-							<th scope="col">처리상태</th>
-							<th scope="col" style="width: 80px;">답변</th>
+							<th class="text-center">번호</th>
+							<th class="text-center">제목</th>
+							<th class="text-center">회원명</th>
+							<th class="text-center">작성일자</th>
+							<th class="text-center">처리상태</th>
+							<th class="text-center">답변</th>
 						</tr>
 					</thead>
 					<tbody>
+					<c:forEach var="otolist" items="${otoList }">
 						<tr>
-							<th scope="row">문의제목입니다</th>
-							<td>Mark</td>
-							<td>2023-03-29</td>
-							<td>답변대기</td>
-							<td>
+							<td class="text-center">${otolist.qa_idx }</td>
+							<td class="text-center">${otolist.qa_title }</td>
+							<td class="text-center">${otolist.member_name }</td>
+							<td class="text-center">${otolist.qa_wdate }</td>
+						<c:if test="${otolist.qa_yn == 1 }">
+							<td class="text-center">답변 완료</td>
+						</c:if>	
+						<c:if test="${otolist.qa_yn == 2 }">
+							<td class="text-center">답변 대기 중</td>
+						</c:if>	
+							<td class="text-center">
 								<button type="button" class="btn btn-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#otoRefund">답변</button>
+									data-bs-toggle="modal" data-bs-target="#otoRefund" 
+									onclick="sessionToModal('${otolist.qa_idx }', '${otolist.qa_title }',
+									 '${otolist.qa_contents }', '${otolist.member_name }', '${otolist.qa_reply }')">답변</button>
 							</td>
 						</tr>
+					</c:forEach>
 					</tbody>
 				</table>
 		</div>
-		</form>
 
 		<div class="container">
 			<form class="form-horizontal d-flex justify-content-center"
@@ -90,22 +120,34 @@
 						<h4 class="modal-title fs-5">1:1 문의 관리</h4>
 					</div>
 					<div class="modal-body">
-						<form name="review" method="post" action="">
-							<div class="form-group d-flex flex-column justify-content-center align-items-center">
-								<input type="text" class="form-control" placeholder="1:1 문의 제목">
+						<form name="oto" method="post" action="oto_answer.do">
+							<input type="hidden" id="otoIdx" name="qa_idx">
+							<div class="form-group">
+								<label for="memberName" class="form-label">회원명</label>
+								<input type="text" id="memberName" class="form-control" readonly disabled>
 							</div>
-							<div class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<textarea readonly name="" id="" placeholder="1:1 문의 내용" class="form-control" rows="5"></textarea>
+							<div class="form-group mt-3">
+								<label for="otoTitle" class="form-label">제목</label>
+								<input type="text" id="otoTitle" class="form-control" readonly disabled>
+							</div>
+							<div class="form-group mt-3">
+								<label for="otoContents" class="form-label">문의 내용</label>
+								<textarea id="otoContents" class="form-control" style="resize: none;" readonly disabled></textarea>
 							</div>
 							<hr>
-							<div
-								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<textarea name="" id="otoCon" placeholder="1:1 문의 답변 내용" class="form-control"></textarea>
+							<div class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
+								<textarea id="otoReply" name="qa_reply" placeholder="1:1 문의 답변 내용" class="form-control"></textarea>
 								<script>
-								   	ClassicEditor.create( document.querySelector( '#otoCon' ), {
-								        language: "ko"
-								        
-								      } );
+								
+									let editor;
+								
+									ClassicEditor
+										.create( document.querySelector( '#otoReply' ), {
+								       		language: "ko"
+								     	 } ).then( newEditor => {
+								            editor = newEditor;
+								        } );						
+									
 								</script>
 							</div>
 

@@ -22,12 +22,14 @@
 							</tr>
 						</thead>
 						<tbody>
+						
+							<c:forEach var="vo" items="${CartList}">
 							<tr>
 								<td id="Check"><input type="checkbox" class="item"></td>
-								<td class="text-center align-middle"><a href="#"><img src="<c:url value='/images/ps4 피파23_180x180.jpg' />"></a></td>
+								<td class="text-center align-middle"><a href="#"><img src=></a></td>
 								<td class="align-middle">
 									<ul class="list-unstyled mb-0 ps-2 pe-2">
-										<li><a href="#">PS4 피파23</a></li>
+										<li><a href="#">${vo.prod_name}</a></li>
 										<li style="color: #b9b9b9;">옵션 내용</li>
 										<li><button type="button" class="btn btn-sm btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#option">선택사항수정</button></li>
 									</ul>
@@ -35,24 +37,19 @@
 								<td class="text-center align-middle">1</td>
 								<td class="text-center align-middle">69,800</td>
 								<td class="text-center align-middle">69,800</td>
-								<td class="text-center align-middle">690</td>
+								<td class="text-center align-middle"></td>
+								
+								<script>
+								  var cellValue = document.querySelector('.text-center.align-middle:second-child').textContent; // 셀의 값을 가져옴
+								  var valueWithoutComma = cellValue.replace(',', ''); // 쉼표(,)를 제거함
+								  var parsedValue = parseFloat(valueWithoutComma); // 문자열을 실수형으로 변환함
+								  var onePercent = parsedValue * 0.01; // 1% 값을 계산함
+								  var newCellValue = onePercent.toLocaleString(); // 1% 값을 문자열로 변환함
+								  document.querySelector('.text-center.align-middle:last-child').textContent = newCellValue; // 새로운 셀에 1% 값을 출력함
+								</script>
 							</tr>
-
-							<tr>
-								<td id="Check"><input type="checkbox" class="item"></td>
-								<td class="text-center align-middle"><a href="#"><img src="<c:url value='/images/ps4 피파23_180x180.jpg' />"></a></td>
-								<td class="align-middle">
-									<ul class="list-unstyled mb-0 ps-2 pe-2">
-										<li><a href="#">[상품이름]</a></li>
-										<li style="color: #b9b9b9;">옵션 내용</li>
-										<li><button type="button" class="btn btn-sm btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#option">선택사항수정</button></li>
-									</ul>
-								</td>
-								<td class="text-center align-middle">[0]</td>
-								<td class="text-center align-middle">[10,000]</td>
-								<td class="text-center align-middle">[10,000]</td>
-								<td class="text-center align-middle">[100]</td>
-							</tr>
+							
+							</c:forEach>
 						</tbody>
 					</table>
 					<button type="button" class="btn btn-outline-secondary btn-sm mb-5">선택삭제</button>
@@ -68,7 +65,7 @@
 						<tbody>
 							<tr>
 								<td class="align-middle">178,000원</td>
-								<td class="align-middle">3,000원</td>
+								<td class="align-middle">3,000원</td> <!-- 고정 -->
 								<td class="align-middle" style="color: #dd1111;">181,000원</td>
 							</tr>
 						</tbody>

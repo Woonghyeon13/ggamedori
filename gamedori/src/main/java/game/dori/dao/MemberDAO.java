@@ -54,7 +54,7 @@ public class MemberDAO {
 	
 	//회원 상태(일반, 정지) 변경  ajax
 	public int updateMemberState(MEMBER_VO memberVO) {
-		return sqlSession.update(namespace + "updateMemberState",memberVO);
+		return sqlSession.update(namespace + "updateMemberState", memberVO);
 	
 	}
 	
@@ -70,5 +70,12 @@ public class MemberDAO {
 		return sqlSession.update(namespace + "updateMember", memberVO);
 	}
 
+	
+	//마이페이지 등급 출력
+	public int selectMemberLevelDAO(int member_idx)
+	{
+		return sqlSession.selectOne(namespace+ "selectMemberLevelMapper",member_idx);
+		
+	}
 	
 }

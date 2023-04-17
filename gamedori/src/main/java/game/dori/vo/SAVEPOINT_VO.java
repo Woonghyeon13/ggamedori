@@ -4,9 +4,9 @@ public class SAVEPOINT_VO {
 	
 	private int savept_idx ; //누적적립금 인덱스
 	private int member_tb_idx; //회원인덱스
-	private int savept_amount; //적립되는 금액
-	private int savept_balance; //누적적립금
-	private int savept_created; //적립시점
+	private int savept_amount; //누적적림금
+	private int savept_balance; //잔액적립금
+	private String savept_created; //적립시점
 	
 	public int getSavept_idx() {
 		return savept_idx;
@@ -32,10 +32,10 @@ public class SAVEPOINT_VO {
 	public void setSavept_balance(int savept_balance) {
 		this.savept_balance = savept_balance;
 	}
-	public int getSavept_created() {
+	public String getSavept_created() {
 		return savept_created;
 	}
-	public void setSavept_created(int savept_created) {
+	public void setSavept_created(String savept_created) {
 		this.savept_created = savept_created;
 	}
 	

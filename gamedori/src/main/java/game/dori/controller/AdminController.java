@@ -22,16 +22,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import game.dori.dao.ProdOptDAO;
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
+import game.dori.util.OTO_VO;
+import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
-import game.dori.vo.OPT_VO;
 import game.dori.vo.NOTICE_VO;
+import game.dori.vo.OPT_VO;
 import game.dori.vo.PRODUCT_VO;
 import net.sf.json.JSONArray;
 
@@ -144,14 +146,27 @@ public class AdminController {
 		pvo.setProd_imgd(prod_file3.getOriginalFilename());
 		
 		int result = productService.prodInsert(pvo);
-		
 		rsp.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = rsp.getWriter();
+		
+		String optName = opt.getOpt_name();
+		String[] optNsplit = optName.split(",");
+		String optStock = opt.getOpt_stock();
+		String[] optSsplit = optStock.split(",");
+		String optPrice = opt.getOpt_price();
+		String[] optPsplit = optPrice.split(",");
 		//상품등록 성공
 		if( result > 0 )
 		{
-			opt.setOpt_idx(pvo.getProd_idx());
+			int prodIdx = productService.optIdx();
+			if( optNsplit.length > 0) {
+			for( int i=1; i<optNsplit.length; i++  ) {
+			opt.setProd_tb_idx(prodIdx);
+			opt.setOpt_name(optNsplit[i]);
+			opt.setOpt_stock(optSsplit[i]);
+			opt.setOpt_price(optPsplit[i]);
 			productService.optInsert(opt);
+			}}
 			pw.append("<script>alert('등록 완료');location.href='prod.do'</script>");
 		}else
 		{
@@ -160,19 +175,22 @@ public class AdminController {
 		pw.flush();
 	}
 	
-	
-
 	// 상품수정
 	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.GET )
-	public String prodmodify() {
+	public String prodmodify( CATEGORY_VO cvo, int prod_idx, Model model ) {
+		List<CATEGORY_VO> category = null;
+		category = productService.category();
+		model.addAttribute("category", JSONArray.fromObject(category));
+		PRODUCT_VO pvo = productService.prodSelectOne(prod_idx);
+		model.addAttribute("pvo",pvo);
+		List<OPT_VO> optlist = productService.optSelecet(prod_idx);
+		model.addAttribute("optlist",optlist);
 		return "admin/prodmodify";
 	}
 
-	
-
 	// 상품수정
 	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.POST )
-	public void prodmodify( PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3) throws IllegalStateException, IOException{
+	public void prodmodify( OPT_VO opt, PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3) throws IllegalStateException, IOException{
 		
 		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
 		
@@ -201,12 +219,27 @@ public class AdminController {
 		}
 		
 		int result = productService.prodUpdate(pvo);
-		
+		String optName = opt.getOpt_name();
+		String[] optNsplit = optName.split(",");
+		String optStock = opt.getOpt_stock();
+		String[] optSsplit = optStock.split(",");
+		String optPrice = opt.getOpt_price();
+		String[] optPsplit = optPrice.split(",");
 		rsp.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = rsp.getWriter();
-		//상품등록 성공
+		System.out.println("optNsplit 길이 : " + optNsplit.length);
+		//상품수정 성공
 		if( result > 0 )
 		{
+			productService.optDel(pvo.getProd_idx());
+			for( int i=1; i<optNsplit.length; i++ ) {
+			opt.setProd_tb_idx(pvo.getProd_idx());
+			opt.setOpt_name(optNsplit[i]);
+			opt.setOpt_stock(optSsplit[i]);
+			opt.setOpt_price(optPsplit[i]);
+			System.out.println("옵션이름 ; " +optNsplit[i]);
+			productService.optInsert(opt);
+			}
 			pw.append("<script>alert('수정 완료');location.href='prod.do'</script>");
 		}else
 		{
@@ -217,7 +250,7 @@ public class AdminController {
 	// 상품삭제
 	@RequestMapping( value = "/prodDelete.do", method = RequestMethod.POST )
 	public String prodDelete( int prod_idx ){
-		
+		int optd = productService.optDel(prod_idx);
 		int result = productService.prodDelete(prod_idx);
 		return "redirect:/admin/prod.do";
 	}
@@ -298,30 +331,36 @@ public class AdminController {
 	    return null;
 	}
 	
-	//검색 기능
-	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
-	                                                        @RequestParam("searchOption") String searchOption,
-	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-	    int limit = 15; // 페이지당 게시물 수
-	    int start = (page - 1) * limit;
 
-	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
-	    int totalRecords = adminService.countSearchResults(searchText, searchOption);
-	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
+//검색 기능
 
-	    Map<String, Object> responseMap = new HashMap<String, Object>();
-	    responseMap.put("searchResults", searchResults);
-	    responseMap.put("totalPages", totalPages);
-
-	    return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.OK);
-	}
+//	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+//	@ResponseBody
+//	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
+//	                                                        @RequestParam("searchOption") String searchOption,
+//	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+//	    int limit = 15; // 페이지당 게시물 수
+//	    int start = (page - 1) * limit;
+//
+//	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
+//	    int totalRecords = adminService.countSearchResults(searchText, searchOption);
+//	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
+//
+//	    Map<String, Object> responseMap = new HashMap<String, Object>();
+//	    responseMap.put("searchResults", searchResults);
+//	    responseMap.put("totalPages", totalPages);
+//
+//	    return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.OK);
+//	}
 		
 	
 	// 1:1문의 관리
 	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
 	public String oto(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
+		
+		List<OTO_VO> otoList = AdminService.otoList();
+		model.addAttribute("otoList", otoList);
+		
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
@@ -340,9 +379,32 @@ public class AdminController {
 	    return null;
 	}
 	
+	// 1:1문의 답변
+	@RequestMapping( value = "/oto_answer.do", method = RequestMethod.POST )
+	public void otoAnswer(OTO_VO otoVO, HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
+		
+		int result = adminService.otoAnswer(otoVO);
+		
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if (result > 0) {
+			session.setAttribute("otoVO", otoVO);
+			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+			+ "/admin/oto.do';</script>");
+		}
+	}
+	
+	
+	
+	
 	// 상품문의 관리
 	@RequestMapping( value = "/qaprod.do", method = RequestMethod.GET )
 	public String qaprod(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
+		
+		List<PROD_Q_LIST_VO> pqlist = AdminService.pqlist();
+		model.addAttribute("pqlist", pqlist);
+		
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
@@ -359,6 +421,22 @@ public class AdminController {
 	    pw.flush();
 	    pw.close();
 	    return null;
+	}
+	
+	// 상품문의 답변
+	@RequestMapping( value = "/pq_answer.do", method = RequestMethod.POST )
+	public void pqAnswer(PROD_Q_LIST_VO pqVO, HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
+		
+		int result = adminService.pqAnswer(pqVO);
+		
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if (result > 0) {
+			session.setAttribute("pqVO", pqVO);
+			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+			+ "/admin/qaprod.do';</script>");
+		}
 	}
 	
 	// 메인 화면 관리
@@ -382,9 +460,9 @@ public class AdminController {
 		return null;
 	}
 	
-	
-	//관리자페이지에서 공지사항 글작성
-	@RequestMapping( value = "/notice_white.do", method = RequestMethod.POST )
+
+	//관리자페이지에서 공지사항 작성
+	@RequestMapping( value = "/notice_write.do", method = RequestMethod.POST )
 	public void notice_write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
 		MEMBER_VO member = MemberService.selectByEmail(member_email);
 		
@@ -403,6 +481,7 @@ public class AdminController {
 			session.setAttribute("noticeVO", noticeVO);
 			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
 			+ "/admin/notice.do';</script>");
+
 		}
 	}
 	
@@ -430,9 +509,11 @@ public class AdminController {
 		}
 		return "customersc/view";
 	}
+	
 	// 공지사항 글 수정
+
 	@RequestMapping(value = "/notice_modify.do", method = RequestMethod.POST)
-	public void modfiy(NOTICE_VO noticeVO, String member_email,HttpServletResponse rsp, HttpServletRequest req) throws IOException {	
+	public void modify(NOTICE_VO noticeVO, String member_email,HttpServletResponse rsp, HttpServletRequest req) throws IOException {	
 		
 		MEMBER_VO member = MemberService.selectByEmail(member_email);
 		
@@ -455,8 +536,20 @@ public class AdminController {
 		        + "/admin/notice.do?notice_idx=" + noticeVO.getNotice_idx() + "';</script>");
 		}
 	}	
-	
-	
+
+	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
+	                                                    @RequestParam("searchOption") String searchOption) {
+	    
+		
+
+	List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption,1,1);
+
+
+	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
+	}
+
 	
 	// 메인 화면 관리
 	@RequestMapping( value = "/productPageModify.do", method = RequestMethod.GET )

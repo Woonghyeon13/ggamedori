@@ -24,5 +24,12 @@ public interface ProductService {
 	public PRODUCT_VO prodSelectOne( int prod_idx );
 	// 상품 옵션 등록
 	public int optInsert( OPT_VO opt );
-	
+	// 상품 인덱스
+	public int optIdx();
+	// 상품 옵션 상세
+	public List<OPT_VO> optSelecet( int prod_idx );
+	// 상품 옵션 수정
+	public int optModify( OPT_VO opt );
+	// 상품 옵션 삭제
+	public int optDel( int prod_idx );
 }

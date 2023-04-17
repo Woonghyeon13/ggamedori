@@ -96,14 +96,6 @@
 			</div>
 
 		</section><!-- END:AD -->
-		
-		
-		  <script>
-		    $(document).ready(function() {
-		        $('#summernote').summernote();
-		    });
-		  </script>
-
 	</main>
 
 <%@ include file="./include/foot.jsp" %>
