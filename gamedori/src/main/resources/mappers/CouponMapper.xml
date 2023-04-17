@@ -13,9 +13,10 @@
 	</select>
 	
 	<!-- 마이페이지 쿠폰 개수 -->
-	<select id="selectListCount" resultType="int">
-		SELECT COUNT(*) FROM coupon_tb
-		WHERE MEMBER_TB_IDX = #{MEMBER_IDX}
+	<select id="selectListCount" resultType="int" parameterType="int">
+		SELECT coupon_idx
+		 FROM coupon_tb
+		WHERE member_tb_idx = #{member_idx}
 	</select>
 	
 	

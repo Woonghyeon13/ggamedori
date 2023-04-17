@@ -12,7 +12,7 @@ public class COUPON_VO {
 	private String 	coupon_end; 		//쿠폰 종료일
 	private int 	coupon_min_amount; 	//최소주문금액
 	private int 	coupon_max_amount; 	//최대할인금액
-	
+	private int     coupon_yn;          //쿠폰 사용여부
 	
 	
 	
@@ -23,6 +23,12 @@ public class COUPON_VO {
 	}
 	public void setCoupon_idx(int coupon_idx) {
 		this.coupon_idx = coupon_idx;
+	}
+	public int getCoupon_yn() {
+		return coupon_yn;
+	}
+	public void setCoupon_yn(int coupon_yn) {
+		this.coupon_yn = coupon_yn;
 	}
 	public int getMember_tb_idx() {
 		return member_tb_idx;

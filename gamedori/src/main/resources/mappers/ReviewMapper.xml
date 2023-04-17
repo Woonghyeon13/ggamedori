@@ -14,7 +14,8 @@
 	
 	<!-- 마이페이지 리뷰 개수 -->
 	<select id="selectListCount2" resultType="int">
-		SELECT COUNT(*) FROM REVIEW_TB
+		SELECT REVIEW_IDX
+		FROM REVIEW_TB
 		WHERE MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
