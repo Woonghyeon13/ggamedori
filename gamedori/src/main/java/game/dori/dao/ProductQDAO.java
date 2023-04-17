@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import game.dori.util.OTO_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 
@@ -26,5 +27,9 @@ public class ProductQDAO {
 		return sqlSession.selectList(namespace + "pqlist");
 	}
 	
+	//상품문의 답변
+	public int pqAnswer(PROD_Q_LIST_VO pqVO) {
+		return sqlSession.update(namespace + "pqAnswer", pqVO);
+	}
 	
 }

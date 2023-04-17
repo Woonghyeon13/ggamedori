@@ -101,6 +101,11 @@ public class AdminServiceImpl implements AdminService{
 		return pqDAO.list();
 	}
 
+	@Override
+	public int pqAnswer(PROD_Q_LIST_VO pqVO) {//상품 문의 답변
+		return pqDAO.pqAnswer(pqVO);
+	}
+
 
 	
 

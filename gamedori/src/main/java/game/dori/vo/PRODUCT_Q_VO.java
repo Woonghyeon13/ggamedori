@@ -13,16 +13,9 @@ public class PRODUCT_Q_VO {
 	private String prod_q_wdate;		// 작성 일
 	private int prod_q_yn;				// 답변 여부	[1: y / 2 : n]
 	private	int prod_q_secret;			// 비밀 글 여부	[1: y / 2 : n]
-	private String	product_q_reply;	// 답변내용
+	private String	prod_q_reply;	// 답변내용
 	
 	
-
-	public String getProduct_q_reply() {
-		return product_q_reply;
-	}
-	public void setProduct_q_reply(String product_q_reply) {
-		this.product_q_reply = product_q_reply;
-	}
 	public int getProd_q_idx() {
 		return prod_q_idx;
 	}
@@ -77,6 +70,15 @@ public class PRODUCT_Q_VO {
 	public void setProd_q_secret(int prod_q_secret) {
 		this.prod_q_secret = prod_q_secret;
 	}
+	public String getProd_q_reply() {
+		return prod_q_reply;
+	}
+	public void setProd_q_reply(String prod_q_reply) {
+		this.prod_q_reply = prod_q_reply;
+	}
+	
+	
+
 	
 	
 }

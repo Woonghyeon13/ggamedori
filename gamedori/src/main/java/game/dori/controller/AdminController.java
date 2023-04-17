@@ -416,6 +416,22 @@ public class AdminController {
 	    return null;
 	}
 	
+	// 상품문의 답변
+	@RequestMapping( value = "/pq_answer.do", method = RequestMethod.POST )
+	public void pqAnswer(PROD_Q_LIST_VO pqVO, HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
+		
+		int result = adminService.pqAnswer(pqVO);
+		
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if (result > 0) {
+			session.setAttribute("pqVO", pqVO);
+			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+			+ "/admin/qaprod.do';</script>");
+		}
+	}
+	
 	// 메인 화면 관리
 	@RequestMapping( value = "/mainPageModify.do", method = RequestMethod.GET )
 	public String mainPageModify(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{

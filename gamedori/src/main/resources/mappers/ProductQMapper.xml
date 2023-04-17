@@ -24,4 +24,14 @@
 				pq.member_tb_idx = m.member_idx
 	</select>
 	
+	<!-- 상품문의 답변 -->
+	<update id="pqAnswer" parameterType="pqlistVO">
+		update product_q_tb
+			set
+				prod_q_reply = #{prod_q_reply},
+				prod_q_yn = 1
+			where
+				prod_q_idx = #{prod_q_idx}
+	</update>
+	
 </mapper>

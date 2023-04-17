@@ -7,9 +7,28 @@
 	width:100%;
 }
 .ck-editor__editable {
-	 min-height: 30vw;
+	 min-height: 20vw;
 }
 </style>
+
+<script>
+	function sessionToModal(idx, title, contents, name, reply){
+	  // 세션 값 가져오기
+	  var pqIdx = idx;
+	  var pqTitle = title;
+	  var pqContents = contents;
+	  var memberName = name;
+	  var pqReply = reply;
+	  
+	  // input 태그에 세션 값 할당
+	  document.getElementById('pqIdx').value = pqIdx;
+	  document.getElementById('pqTitle').value = pqTitle;
+	  document.getElementById('pqContents').value = pqContents;
+	  document.getElementById('memberName').value = memberName;
+
+	 editor.setData(pqReply) ;
+	}
+</script>
 
 <main>
 	<div class="container d-flex justify-content-center mt-2">
@@ -77,7 +96,9 @@
 						</c:if>	
 							<td class="text-center">
 								<button type="button" class="btn btn-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#prodRefund">답변</button>
+									data-bs-toggle="modal" data-bs-target="#prodRefund"
+									onclick="sessionToModal('${pqlist.prod_q_idx }', '${pqlist.prod_q_title }', 
+									'${pqlist.prod_q_contents }', '${pqlist.member_name }', '${pqlist.prod_q_reply }' )">답변</button>
 							</td>
 						</tr>
 					</c:forEach>
@@ -108,22 +129,34 @@
 						<h4 class="modal-title fs-5">상품 문의 관리</h4>
 					</div>
 					<div class="modal-body">
-						<form name="review" method="post" action="">
-							<div class="form-group d-flex flex-column justify-content-center align-items-center">
-								<input type="text" class="form-control" placeholder="상품 문의 제목">
+						<form name="pq" method="post" action="pq_answer.do">
+							<input type="hidden" id="pqIdx" name="prod_q_idx">
+							<div class="form-group">
+								<label for="memberName" class="form-label">회원명</label>
+								<input type="text" id="memberName" class="form-control" readonly disabled>
 							</div>
-							<div class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<textarea readonly name="" id="" placeholder="상품 문의 내용" class="form-control" rows="5"></textarea>
+							<div class="form-group mt-3">
+								<label for="pqTitle" class="form-label">제목</label>
+								<input type="text" id="pqTitle" class="form-control" readonly disabled>
+							</div>
+							<div class="form-group mt-3">
+								<label for="pqContents" class="form-label">문의 내용</label>
+								<textarea id="pqContents" class="form-control" style="resize: none;" readonly disabled></textarea>
 							</div>
 							<hr>
-							<div
-								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<textarea name="" id="otoCon" placeholder="상품 문의 답변 내용" class="form-control"></textarea>
+							<div class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
+								<textarea id="pqReply" name="prod_q_reply" placeholder="상품 문의 답변 내용" class="form-control"></textarea>
 								<script>
-								   	ClassicEditor.create( document.querySelector( '#otoCon' ), {
-								        language: "ko"
-								        
-								      } );
+								
+									let editor;
+								
+									ClassicEditor
+										.create( document.querySelector( '#pqReply' ), {
+								       		language: "ko"
+								     	 } ).then( newEditor => {
+								            editor = newEditor;
+								        } );						
+									
 								</script>
 							</div>
 

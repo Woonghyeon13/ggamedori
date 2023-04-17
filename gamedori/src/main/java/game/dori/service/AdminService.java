@@ -32,6 +32,7 @@ public interface AdminService {
 	
 	public int otoAnswer(OTO_VO otoVO); //1:1문의 답변
 	
-	public List<PROD_Q_LIST_VO> pqlist(); //1:1문의 리스트
+	public List<PROD_Q_LIST_VO> pqlist(); //상품 문의 리스트
 
+	public int pqAnswer(PROD_Q_LIST_VO pqVO); //상품 문의 답변
 }

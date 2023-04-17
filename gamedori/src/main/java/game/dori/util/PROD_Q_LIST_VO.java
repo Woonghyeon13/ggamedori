@@ -11,7 +11,7 @@ public class PROD_Q_LIST_VO {
 	private String prod_q_wdate;		// 작성 일
 	private int prod_q_yn;				// 답변 여부	[1: y / 2 : n]
 	private	int prod_q_secret;			// 비밀 글 여부	[1: y / 2 : n]
-	private String	product_q_reply;	// 답변내용
+	private String	prod_q_reply;	// 답변내용
 	
 	private int member_idx ; //유저 인덱스
 	private int member_level ; //회원 등급 1:브론즈 2:실버 3:골드
@@ -42,9 +42,136 @@ public class PROD_Q_LIST_VO {
 	private String prod_imgm;			// 메인 이미지
 	private String prod_imgd;			// 상세정보 이미지
 	private int prod_qtymin;			// 최소구매수량
-	private int prod_qtymax;			// 최대구매수량
+	private int prod_qtymax;
 	
 	
+	
+	public int getProd_q_idx() {
+		return prod_q_idx;
+	}
+	public void setProd_q_idx(int prod_q_idx) {
+		this.prod_q_idx = prod_q_idx;
+	}
+	public int getProduct_tb_idx() {
+		return product_tb_idx;
+	}
+	public void setProduct_tb_idx(int product_tb_idx) {
+		this.product_tb_idx = product_tb_idx;
+	}
+	public int getMember_tb_idx() {
+		return member_tb_idx;
+	}
+	public void setMember_tb_idx(int member_tb_idx) {
+		this.member_tb_idx = member_tb_idx;
+	}
+	public String getProd_q_title() {
+		return prod_q_title;
+	}
+	public void setProd_q_title(String prod_q_title) {
+		this.prod_q_title = prod_q_title;
+	}
+	public String getProd_q_contents() {
+		return prod_q_contents;
+	}
+	public void setProd_q_contents(String prod_q_contents) {
+		this.prod_q_contents = prod_q_contents;
+	}
+	public String getProd_q_writer() {
+		return prod_q_writer;
+	}
+	public void setProd_q_writer(String prod_q_writer) {
+		this.prod_q_writer = prod_q_writer;
+	}
+	public String getProd_q_wdate() {
+		return prod_q_wdate;
+	}
+	public void setProd_q_wdate(String prod_q_wdate) {
+		this.prod_q_wdate = prod_q_wdate;
+	}
+	public int getProd_q_yn() {
+		return prod_q_yn;
+	}
+	public void setProd_q_yn(int prod_q_yn) {
+		this.prod_q_yn = prod_q_yn;
+	}
+	public int getProd_q_secret() {
+		return prod_q_secret;
+	}
+	public void setProd_q_secret(int prod_q_secret) {
+		this.prod_q_secret = prod_q_secret;
+	}
+	public String getProd_q_reply() {
+		return prod_q_reply;
+	}
+	public void setProd_q_reply(String prod_q_reply) {
+		this.prod_q_reply = prod_q_reply;
+	}
+	public int getMember_idx() {
+		return member_idx;
+	}
+	public void setMember_idx(int member_idx) {
+		this.member_idx = member_idx;
+	}
+	public int getMember_level() {
+		return member_level;
+	}
+	public void setMember_level(int member_level) {
+		this.member_level = member_level;
+	}
+	public String getMember_email() {
+		return member_email;
+	}
+	public void setMember_email(String member_email) {
+		this.member_email = member_email;
+	}
+	public String getMember_pw() {
+		return member_pw;
+	}
+	public void setMember_pw(String member_pw) {
+		this.member_pw = member_pw;
+	}
+	public String getMember_phone() {
+		return member_phone;
+	}
+	public void setMember_phone(String member_phone) {
+		this.member_phone = member_phone;
+	}
+	public String getMember_indate() {
+		return member_indate;
+	}
+	public void setMember_indate(String member_indate) {
+		this.member_indate = member_indate;
+	}
+	public int getMember_state() {
+		return member_state;
+	}
+	public void setMember_state(int member_state) {
+		this.member_state = member_state;
+	}
+	public String getMember_name() {
+		return member_name;
+	}
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
+	}
+	public int getMember_email_yn() {
+		return member_email_yn;
+	}
+	public void setMember_email_yn(int member_email_yn) {
+		this.member_email_yn = member_email_yn;
+	}
+	public String getMember_email_key() {
+		return member_email_key;
+	}
+	public void setMember_email_key(String member_email_key) {
+		this.member_email_key = member_email_key;
+	}
+	public int getMember_role() {
+		return member_role;
+	}
+	public void setMember_role(int member_role) {
+		this.member_role = member_role;
+	}
 	public int getProd_idx() {
 		return prod_idx;
 	}
@@ -152,134 +279,7 @@ public class PROD_Q_LIST_VO {
 	}
 	public void setProd_qtymax(int prod_qtymax) {
 		this.prod_qtymax = prod_qtymax;
-	}
-	public int getProd_q_idx() {
-		return prod_q_idx;
-	}
-	public void setProd_q_idx(int prod_q_idx) {
-		this.prod_q_idx = prod_q_idx;
-	}
-	public int getProduct_tb_idx() {
-		return product_tb_idx;
-	}
-	public void setProduct_tb_idx(int product_tb_idx) {
-		this.product_tb_idx = product_tb_idx;
-	}
-	public int getMember_tb_idx() {
-		return member_tb_idx;
-	}
-	public void setMember_tb_idx(int member_tb_idx) {
-		this.member_tb_idx = member_tb_idx;
-	}
-	public String getProd_q_title() {
-		return prod_q_title;
-	}
-	public void setProd_q_title(String prod_q_title) {
-		this.prod_q_title = prod_q_title;
-	}
-	public String getProd_q_contents() {
-		return prod_q_contents;
-	}
-	public void setProd_q_contents(String prod_q_contents) {
-		this.prod_q_contents = prod_q_contents;
-	}
-	public String getProd_q_writer() {
-		return prod_q_writer;
-	}
-	public void setProd_q_writer(String prod_q_writer) {
-		this.prod_q_writer = prod_q_writer;
-	}
-	public String getProd_q_wdate() {
-		return prod_q_wdate;
-	}
-	public void setProd_q_wdate(String prod_q_wdate) {
-		this.prod_q_wdate = prod_q_wdate;
-	}
-	public int getProd_q_yn() {
-		return prod_q_yn;
-	}
-	public void setProd_q_yn(int prod_q_yn) {
-		this.prod_q_yn = prod_q_yn;
-	}
-	public int getProd_q_secret() {
-		return prod_q_secret;
-	}
-	public void setProd_q_secret(int prod_q_secret) {
-		this.prod_q_secret = prod_q_secret;
-	}
-	public String getProduct_q_reply() {
-		return product_q_reply;
-	}
-	public void setProduct_q_reply(String product_q_reply) {
-		this.product_q_reply = product_q_reply;
-	}
-	public int getMember_idx() {
-		return member_idx;
-	}
-	public void setMember_idx(int member_idx) {
-		this.member_idx = member_idx;
-	}
-	public int getMember_level() {
-		return member_level;
-	}
-	public void setMember_level(int member_level) {
-		this.member_level = member_level;
-	}
-	public String getMember_email() {
-		return member_email;
-	}
-	public void setMember_email(String member_email) {
-		this.member_email = member_email;
-	}
-	public String getMember_pw() {
-		return member_pw;
-	}
-	public void setMember_pw(String member_pw) {
-		this.member_pw = member_pw;
-	}
-	public String getMember_phone() {
-		return member_phone;
-	}
-	public void setMember_phone(String member_phone) {
-		this.member_phone = member_phone;
-	}
-	public String getMember_indate() {
-		return member_indate;
-	}
-	public void setMember_indate(String member_indate) {
-		this.member_indate = member_indate;
-	}
-	public int getMember_state() {
-		return member_state;
-	}
-	public void setMember_state(int member_state) {
-		this.member_state = member_state;
-	}
-	public String getMember_name() {
-		return member_name;
-	}
-	public void setMember_name(String member_name) {
-		this.member_name = member_name;
-	}
-	public int getMember_email_yn() {
-		return member_email_yn;
-	}
-	public void setMember_email_yn(int member_email_yn) {
-		this.member_email_yn = member_email_yn;
-	}
-	public String getMember_email_key() {
-		return member_email_key;
-	}
-	public void setMember_email_key(String member_email_key) {
-		this.member_email_key = member_email_key;
-	}
-	public int getMember_role() {
-		return member_role;
-	}
-	public void setMember_role(int member_role) {
-		this.member_role = member_role;
-	}
-	
-	
+	}			// 최대구매수량
 	
 }
+	

@@ -123,7 +123,7 @@
 						<form name="oto" method="post" action="oto_answer.do">
 							<input type="hidden" id="otoIdx" name="qa_idx">
 							<div class="form-group">
-								<label for="memberName" class="form-label">작성자</label>
+								<label for="memberName" class="form-label">회원명</label>
 								<input type="text" id="memberName" class="form-control" readonly disabled>
 							</div>
 							<div class="form-group mt-3">
