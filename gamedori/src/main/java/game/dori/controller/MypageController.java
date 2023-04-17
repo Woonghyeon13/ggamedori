@@ -23,9 +23,9 @@ import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
-import game.dori.vo.REVIEW_Search_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
+import game.dori.vo.WISHLIST_VO;
 
 @RequestMapping( value = "/mypage" )
 @Controller
@@ -163,12 +163,13 @@ public class MypageController {
 		return "mypage/coupon";
 	}
 
-	//찜목록
-	@RequestMapping( value = "/wishlist", method = RequestMethod.GET )
-	public String wishlist()
+	//찜목록 ********************작업중***************************
+	@RequestMapping( value = "/wishlist.do", method = RequestMethod.GET )
+	public String wishlist(Model model, HttpServletRequest req)
 	{
 		return "mypage/wishlist";
 	}
+	//**************************************************
 	
 	//장바구니
 	@RequestMapping( value = "/cart", method = RequestMethod.GET )

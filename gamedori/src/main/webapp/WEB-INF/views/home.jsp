@@ -97,7 +97,7 @@
 
 		</section><!-- END:AD -->
 		
-		<div id="summernote"><p>Hello Summernote</p></div>
+		
 		  <script>
 		    $(document).ready(function() {
 		        $('#summernote').summernote();

@@ -9,4 +9,7 @@ public class WishlistDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
+	
+	
+	
 }
