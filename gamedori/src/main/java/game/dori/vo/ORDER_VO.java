@@ -2,7 +2,11 @@ package game.dori.vo;
 
 public class ORDER_VO {
 	
-	private int order_idx; //주문번호
+
+	private int order_idx; //주문번호 
+	private int order_price; //주문금액 --데이터베이스 추가 
+	private String order_title; //주문상품이름 --데이터베이스 추가
+	private int order_situ; //배송상태--데이터베이스 추가  1:주문완료 2:배송중 3:배송완료
 	private int member_tb_idx; //회원 인덱스
 	private String order_date; // 주문일
 	private String order_addr1; //우편번호
@@ -11,6 +15,29 @@ public class ORDER_VO {
 	private String order_name; //수령자 이름
 	private String order_phone; //수령자 번호
 	private int order_del_type; //배송조건 1:일반 2:도서산간 
+	
+	public int getOrder_price() {
+		return order_price;
+	}
+
+	public String getOrder_title() {
+		return order_title;
+	}
+
+	public void setOrder_title(String order_title) {
+		this.order_title = order_title;
+	}
+
+	public int getOrder_situ() {
+		return order_situ;
+	}
+	public void setOrder_situ(int order_situ) {
+		this.order_situ = order_situ;
+	}
+	public void setOrder_price(int order_price) {
+		this.order_price = order_price;
+	}
+
 	
 	public int getOrder_idx() {
 		return order_idx;

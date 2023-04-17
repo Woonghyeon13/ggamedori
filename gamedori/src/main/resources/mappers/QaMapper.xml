@@ -12,6 +12,7 @@
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
+
 	<!-- 관리자페이지 1:1문의 리스트 -->
 	<select id="otolist" resultType="otoVO">
 		select * 
@@ -31,5 +32,6 @@
 			where
 				qa_idx = #{qa_idx}
 	</update>
+
 
 </mapper>

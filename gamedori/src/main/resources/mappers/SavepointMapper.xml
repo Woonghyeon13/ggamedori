@@ -12,4 +12,11 @@
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
+	<!-- 마이페이지 상단 적립금 출력  -->
+	<select id="selectPointBalance" resultType="int" parameterType="int">
+		select savept_balance
+			from savepoint_tb
+			where MEMBER_TB_IDX = #{MEMBER_IDX}
+	</select>
+	
 </mapper>

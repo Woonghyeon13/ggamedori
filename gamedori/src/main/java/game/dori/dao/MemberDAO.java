@@ -71,4 +71,11 @@ public class MemberDAO {
 	}
 
 	
+	//마이페이지 등급 출력
+	public int selectMemberLevelDAO(int member_idx)
+	{
+		return sqlSession.selectOne(namespace+ "selectMemberLevelMapper",member_idx);
+		
+	}
+	
 }

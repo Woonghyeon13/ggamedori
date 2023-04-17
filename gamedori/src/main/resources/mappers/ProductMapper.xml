@@ -49,9 +49,7 @@
 		, prod_price = #{prod_price}
 		, prod_stock = #{prod_stock}
 		, prod_co = #{prod_co}
-		, prod_opt = #{prod_opt}
 		, prod_rdate = #{prod_rdate}
-		, prod_rating = #{prod_rating}
 		, prod_reserv = #{prod_reserv}
 		, prod_imgt = #{prod_imgt}
 		, prod_imgm = #{prod_imgm}

@@ -63,6 +63,7 @@ public class MemberController {
 	    	MemberVO2.setMember_email(result.getMember_email());
 	    	MemberVO2.setMember_role(result.getMember_role());
 	    	MemberVO2.setMember_name(result.getMember_name());
+	    	MemberVO2.setMember_idx(result.getMember_idx());
 	    	
 	    	rsp.setContentType("text/html; charset=utf-8");
 	        PrintWriter pw = rsp.getWriter();
