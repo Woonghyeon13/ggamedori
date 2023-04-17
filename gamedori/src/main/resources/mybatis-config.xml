@@ -28,6 +28,7 @@
 		<typeAlias type="game.dori.vo.REVIEW_Search_VO" alias="reviewsearchVO"/>
 		<typeAlias type="game.dori.util.ORDER_LIST_VO" alias="orderlistVO"/>
 		<typeAlias type="game.dori.util.OTO_VO" alias="otoVO"/>
+		<typeAlias type="game.dori.util.PROD_Q_LIST_VO" alias="pqlistVO"/>
 		<typeAlias type="game.dori.vo.OPT_VO" alias="optVO"/>
 		<typeAlias type="game.dori.vo.CARTP_VO" alias="cartpVO"/>
 		<typeAlias type="game.dori.vo.OPTLIST_VO" alias="optlistVO"/>

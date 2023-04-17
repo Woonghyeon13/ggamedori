@@ -4,8 +4,29 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="game.dori.mapper.productQMapper">
-
+	<!-- 관리자페이지 상품문의 리스트 출력 -->
+	<select id="pqlist" resultType="pqlistVO">
+		select *
+			from
+				product_q_tb pq,
+				member_tb m,
+				product_tb p
+			where
+				pq.product_tb_idx = p.prod_idx
+				and
+				pq.member_tb_idx = m.member_idx
+	</select>
 	
+	<!-- 상품문의 답변 -->
+	<update id="pqAnswer" parameterType="pqlistVO">
+		update product_q_tb
+			set
+				prod_q_reply = #{prod_q_reply},
+				prod_q_yn = 1
+			where
+				prod_q_idx = #{prod_q_idx}
+	</update>
+
 	<!-- 마이페이지 -상품문의 리스트 출력 -->
 	<select id="selectList" resultType="productqq_VO" parameterType="int">
 		SELECT *
@@ -16,5 +37,6 @@
 		
 	</select>
 		<!-- int 타입의 매개변수 member_idx 값을 받아서 칼럼 전체의 값을 p 객체로 형태로 반환 -->
+
 	
 </mapper>
