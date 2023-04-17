@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import game.dori.dao.NoticeDAO;
 import game.dori.dao.OrderListDAO;
+import game.dori.dao.ProductQDAO;
 import game.dori.dao.QaDAO;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
+import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.NOTICE_VO;
 
 @Service
@@ -23,6 +25,9 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
 	private QaDAO qaDAO;
+	
+	@Autowired
+	private ProductQDAO pqDAO;
 
 	public List<NOTICE_VO> list(int limit, int start) {
         return noticeDAO.list(limit, start);
@@ -56,7 +61,7 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int modify(NOTICE_VO noticeVO) {
 		// TODO Auto-generated method stub
-		return noticeDAO.modfiy(noticeVO);
+		return noticeDAO.modify(noticeVO);
 	}
 
 	@Override
@@ -71,13 +76,13 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<ORDER_LIST_VO> orderList() {
+	public List<ORDER_LIST_VO> orderList() {//주문목록 리스트
 		return orderlistDAO.list();
 	}
 
 	@Override
 
-	public List<OTO_VO> otoList() {
+	public List<OTO_VO> otoList() {//1:1문의 리스트
 		return qaDAO.list();
 	}
 	public int countSearchResults(String searchText, String searchOption) {
@@ -86,8 +91,23 @@ public class AdminServiceImpl implements AdminService{
 
 	}
 
+	@Override
+	public int otoAnswer(OTO_VO otoVO) {//1:1문의 답변
+		return qaDAO.otoAnswer(otoVO);
+	}
+
+	@Override
+	public List<PROD_Q_LIST_VO> pqlist() {//상품문의 리스트
+		return pqDAO.list();
+	}
+
+	@Override
+	public int pqAnswer(PROD_Q_LIST_VO pqVO) {//상품 문의 답변
+		return pqDAO.pqAnswer(pqVO);
+	}
 
 
+	
 
 
 }

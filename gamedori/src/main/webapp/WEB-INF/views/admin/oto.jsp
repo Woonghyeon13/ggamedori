@@ -12,17 +12,22 @@
 </style>
 
 <script>
-	function sessionToModal(title, contents, name){
+	function sessionToModal(idx, title, contents, name, reply){
 	  // 세션 값 가져오기
+	  var otoIdx = idx;
 	  var otoTitle = title;
 	  var otoContents = contents;
 	  var memberName = name;
+	  var otoReply = reply;
 	  
 	  // input 태그에 세션 값 할당
+	  document.getElementById('otoIdx').value = otoIdx;
 	  document.getElementById('otoTitle').value = otoTitle;
 	  document.getElementById('otoContents').value = otoContents;
 	  document.getElementById('memberName').value = memberName;
-	  
+	  //document.getElementById('otoReply').value = otoReply;
+
+	 editor.setData(otoReply) ;
 	}
 </script>
 
@@ -83,7 +88,9 @@
 						</c:if>	
 							<td class="text-center">
 								<button type="button" class="btn btn-secondary btn-sm"
-									data-bs-toggle="modal" data-bs-target="#otoRefund" onclick="sessionToModal('${otolist.qa_title }', '${otolist.qa_contents }', '${otolist.member_name }')">답변</button>
+									data-bs-toggle="modal" data-bs-target="#otoRefund" 
+									onclick="sessionToModal('${otolist.qa_idx }', '${otolist.qa_title }',
+									 '${otolist.qa_contents }', '${otolist.member_name }', '${otolist.qa_reply }')">답변</button>
 							</td>
 						</tr>
 					</c:forEach>
@@ -113,27 +120,34 @@
 						<h4 class="modal-title fs-5">1:1 문의 관리</h4>
 					</div>
 					<div class="modal-body">
-						<form name="review" method="post" action="">
+						<form name="oto" method="post" action="oto_answer.do">
+							<input type="hidden" id="otoIdx" name="qa_idx">
 							<div class="form-group">
 								<label for="memberName" class="form-label">회원명</label>
-								<input type="text" id="memberName" class="form-control" readonly>
+								<input type="text" id="memberName" class="form-control" readonly disabled>
 							</div>
 							<div class="form-group mt-3">
 								<label for="otoTitle" class="form-label">제목</label>
-								<input type="text" id="otoTitle" class="form-control" readonly>
+								<input type="text" id="otoTitle" class="form-control" readonly disabled>
 							</div>
 							<div class="form-group mt-3">
 								<label for="otoContents" class="form-label">문의 내용</label>
-								<textarea id="otoContents" class="form-control" style="resize: none;" readonly></textarea>
+								<textarea id="otoContents" class="form-control" style="resize: none;" readonly disabled></textarea>
 							</div>
 							<hr>
 							<div class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<textarea id="otoCon" placeholder="1:1 문의 답변 내용" class="form-control"></textarea>
+								<textarea id="otoReply" name="qa_reply" placeholder="1:1 문의 답변 내용" class="form-control"></textarea>
 								<script>
-								   	ClassicEditor.create( document.querySelector( '#otoCon' ), {
-								        language: "ko"
-								        
-								      } );
+								
+									let editor;
+								
+									ClassicEditor
+										.create( document.querySelector( '#otoReply' ), {
+								       		language: "ko"
+								     	 } ).then( newEditor => {
+								            editor = newEditor;
+								        } );						
+									
 								</script>
 							</div>
 

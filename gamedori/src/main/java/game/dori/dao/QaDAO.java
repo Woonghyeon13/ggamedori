@@ -27,4 +27,9 @@ public class QaDAO {
 		return sqlSession.selectList(namespace + "otolist");
 	}
 	
+	//1:1문의 답변
+	public int otoAnswer(OTO_VO otoVO) {
+		return sqlSession.update(namespace + "otoAnswer", otoVO);
+	}
+	
 }

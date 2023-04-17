@@ -54,7 +54,7 @@ public class MemberDAO {
 	
 	//회원 상태(일반, 정지) 변경  ajax
 	public int updateMemberState(MEMBER_VO memberVO) {
-		return sqlSession.update(namespace + "updateMemberState",memberVO);
+		return sqlSession.update(namespace + "updateMemberState", memberVO);
 	
 	}
 	

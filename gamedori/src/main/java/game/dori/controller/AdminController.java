@@ -4,7 +4,6 @@ package game.dori.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +29,7 @@ import game.dori.service.MemberService;
 import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
+import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
@@ -331,7 +331,9 @@ public class AdminController {
 	    return null;
 	}
 	
-//	//검색 기능
+
+//검색 기능
+
 //	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
 //	@ResponseBody
 //	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
@@ -377,9 +379,32 @@ public class AdminController {
 	    return null;
 	}
 	
+	// 1:1문의 답변
+	@RequestMapping( value = "/oto_answer.do", method = RequestMethod.POST )
+	public void otoAnswer(OTO_VO otoVO, HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
+		
+		int result = adminService.otoAnswer(otoVO);
+		
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if (result > 0) {
+			session.setAttribute("otoVO", otoVO);
+			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+			+ "/admin/oto.do';</script>");
+		}
+	}
+	
+	
+	
+	
 	// 상품문의 관리
 	@RequestMapping( value = "/qaprod.do", method = RequestMethod.GET )
 	public String qaprod(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
+		
+		List<PROD_Q_LIST_VO> pqlist = AdminService.pqlist();
+		model.addAttribute("pqlist", pqlist);
+		
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
@@ -396,6 +421,22 @@ public class AdminController {
 	    pw.flush();
 	    pw.close();
 	    return null;
+	}
+	
+	// 상품문의 답변
+	@RequestMapping( value = "/pq_answer.do", method = RequestMethod.POST )
+	public void pqAnswer(PROD_Q_LIST_VO pqVO, HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
+		
+		int result = adminService.pqAnswer(pqVO);
+		
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if (result > 0) {
+			session.setAttribute("pqVO", pqVO);
+			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+			+ "/admin/qaprod.do';</script>");
+		}
 	}
 	
 	// 메인 화면 관리
@@ -421,7 +462,7 @@ public class AdminController {
 	
 
 	//관리자페이지에서 공지사항 작성
-	@RequestMapping( value = "/notice_white.do", method = RequestMethod.POST )
+	@RequestMapping( value = "/notice_write.do", method = RequestMethod.POST )
 	public void notice_write(NOTICE_VO noticeVO, HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws IOException {
 		MEMBER_VO member = MemberService.selectByEmail(member_email);
 		
@@ -440,8 +481,9 @@ public class AdminController {
 			session.setAttribute("noticeVO", noticeVO);
 			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
 			+ "/admin/notice.do';</script>");
-			}
+
 		}
+	}
 	
 	//관리자 공지사항 글삭제
 	@RequestMapping(value = "/notice_delete.do", method = RequestMethod.GET)
@@ -471,7 +513,7 @@ public class AdminController {
 	// 공지사항 글 수정
 
 	@RequestMapping(value = "/notice_modify.do", method = RequestMethod.POST)
-	public void modfiy(NOTICE_VO noticeVO, String member_email,HttpServletResponse rsp, HttpServletRequest req) throws IOException {	
+	public void modify(NOTICE_VO noticeVO, String member_email,HttpServletResponse rsp, HttpServletRequest req) throws IOException {	
 		
 		MEMBER_VO member = MemberService.selectByEmail(member_email);
 		
@@ -501,7 +543,9 @@ public class AdminController {
 	                                                    @RequestParam("searchOption") String searchOption) {
 	    
 		
+
 	List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption,1,1);
+
 
 	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
 	}
