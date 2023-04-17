@@ -27,11 +27,12 @@
 		opt_name = #{opt_name},
 		opt_stock = #{opt_stock},
 		opt_price = #{opt_price},
-		where prod_tb_idx = #{prod_idx};
+		where opt_idx = #{opt_idx};
 	</update>
 	
 	<!-- 옵션 삭제 -->
 	<delete id="optDel" parameterType="int">
 		delete from opt_tb where prod_tb_idx = #{prod_idx};
 	</delete>
+	
 </mapper>
