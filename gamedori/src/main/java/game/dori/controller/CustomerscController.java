@@ -71,7 +71,8 @@ public class CustomerscController {
 
 		    return "customersc/main";
 		}
-
+		
+		//검색 기능
 		@RequestMapping(value = "/search.do", method = RequestMethod.GET)
 		@ResponseBody
 		public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,

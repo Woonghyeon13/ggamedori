@@ -47,6 +47,9 @@ public interface MemberService {
 	
 	//멤버 포인트 삭제
 	public int deletePoint(MEMBER_VO MemberVO);
+	
+	//멤버 작성글 전부삭제
+	public int NoticedeleteAll(MEMBER_VO MemberVO);
 
 
 }

@@ -332,27 +332,29 @@ public class AdminController {
 	}
 	
 
-//검색 기능
+	//검색 기능
+		@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+		@ResponseBody
+		public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
+		                                                        @RequestParam("searchOption") String searchOption,
+		                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+		  int limit = 15; // 페이지당 게시물 수
+		  int start = (page - 1) * limit;
 
-//	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-//	@ResponseBody
-//	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
-//	                                                        @RequestParam("searchOption") String searchOption,
-//	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-//	    int limit = 15; // 페이지당 게시물 수
-//	    int start = (page - 1) * limit;
-//
-//	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
-//	    int totalRecords = adminService.countSearchResults(searchText, searchOption);
-//	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
-//
-//	    Map<String, Object> responseMap = new HashMap<String, Object>();
-//	    responseMap.put("searchResults", searchResults);
-//	    responseMap.put("totalPages", totalPages);
-//
-//	    return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.OK);
-//	}
-		
+		  List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
+		  int totalResults = adminService.countSearchResults(searchText, searchOption); // 전체 검색 결과 수
+		  int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
+		  
+		  
+		  System.out.println(totalResults);
+
+		  Map<String, Object> response = new HashMap<>();
+		  response.put("searchResults", searchResults);
+		  response.put("totalPages", totalPages);
+
+		  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+		}
+	
 	
 	// 1:1문의 관리
 	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
@@ -537,19 +539,7 @@ public class AdminController {
 		}
 	}	
 
-	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
-	                                                    @RequestParam("searchOption") String searchOption) {
-	    
-		
-
-	List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption,1,1);
-
-
-	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
-	}
-
+	
 	
 	// 메인 화면 관리
 	@RequestMapping( value = "/productPageModify.do", method = RequestMethod.GET )

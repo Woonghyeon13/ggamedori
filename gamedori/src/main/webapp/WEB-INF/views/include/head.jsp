@@ -190,7 +190,7 @@
 								</tr>
 								<tr>
 									<td>
-										<p style="text-align: center; font-size: 18px;"><a href=#>계정이 없으신가요?</a></p>
+										<p style="text-align: center; font-size: 18px;"><a href="<c:url value='/user/join.do'/>">계정이 없으신가요?회원가입</a></p>
 									</td>
 								</tr>
 							</table>

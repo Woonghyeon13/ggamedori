@@ -253,6 +253,7 @@ public class MemberController {
 		if (addr > 0 ) {
 			MemberService.deleteCupon(MemberVO);
 			MemberService.deletePoint(MemberVO);
+			MemberService.NoticedeleteAll(MemberVO);
 			MemberService.Delete(MemberVO);
 			session.removeAttribute("Login");
 			response.put("result", "1");
