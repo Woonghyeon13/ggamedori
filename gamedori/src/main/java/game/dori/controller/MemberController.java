@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,9 @@ import game.dori.service.AddressService;
 import game.dori.service.MailSendService;
 import game.dori.service.MemberService;
 import game.dori.vo.ADDRESS_VO;
+import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
+import game.dori.vo.SAVEPOINT_VO;
 
 @RequestMapping(value="/user")
 @Controller
@@ -151,6 +155,7 @@ public class MemberController {
 	    // 세션에서 회원 정보와 주소 정보 가져오기
 	    MEMBER_VO memberVO = (MEMBER_VO) session.getAttribute("memberVO");
 	    ADDRESS_VO addr = (ADDRESS_VO) session.getAttribute("addr");
+	 
 
 	    if (memberVO == null || addr == null) {
 	        // 에러 처리
@@ -175,10 +180,20 @@ public class MemberController {
 	        
 	        MemberService.updateyn(memberVO);
 	        if (memberId > 0) {
-	        	
+	        	COUPON_VO couponVO = new COUPON_VO();
 	            addr.setMember_tb_idx(memberVO.getMember_idx());
 	            AddressService.insert(addr);
-	            System.out.println("idx 값 ::" + memberVO.getMember_idx());
+	            couponVO.setMember_tb_idx(memberVO.getMember_idx());
+	            couponVO.setCoupon_date(new Date());
+	            couponVO.setCoupon_yn(2);
+	            Calendar cal = Calendar.getInstance();
+	            cal.setTime(couponVO.getCoupon_date());
+	            cal.add(Calendar.MONTH, 3);
+	            couponVO.setCoupon_end(cal.getTime());
+	           
+	            MemberService.insertCoupon(couponVO);
+	
+	            MemberService.insertPoint(memberVO.getMember_idx());
 	        }
 	        pw.append("<script>alert('회원가입 성공!'); location.href='" + req.getContextPath() + "/'</script>");
 	    }
@@ -230,10 +245,14 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/Member_delete.do", method = RequestMethod.POST)
 	public Map<String, String> memberdelete(MEMBER_VO MemberVO, HttpSession session) {
-		int result = AddressService.delete(MemberVO);
+		int addr = AddressService.delete(MemberVO);
+		
+		
 
 		Map<String, String> response = new HashMap<String, String>();
-		if (result > 0) {
+		if (addr > 0 ) {
+			MemberService.deleteCupon(MemberVO);
+			MemberService.deletePoint(MemberVO);
 			MemberService.Delete(MemberVO);
 			session.removeAttribute("Login");
 			response.put("result", "1");
