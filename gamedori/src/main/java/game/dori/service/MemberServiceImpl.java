@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import game.dori.dao.CouponDAO;
 import game.dori.dao.MemberDAO;
+import game.dori.dao.NoticeDAO;
 import game.dori.dao.SavepointDAO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
@@ -21,6 +22,9 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	private CouponDAO couponDAO;
+	
+	@Autowired
+	private NoticeDAO noticeDAO;
 	
 	@Autowired
 	SavepointDAO savePointDAO;
@@ -100,6 +104,12 @@ public class MemberServiceImpl implements MemberService{
 	public int deletePoint(MEMBER_VO MemberVO) {
 		// TODO Auto-generated method stub
 		return savePointDAO.deletePoint(MemberVO) ;
+	}
+
+	@Override
+	public int NoticedeleteAll(MEMBER_VO MemberVO) {
+		// TODO Auto-generated method stub
+		return noticeDAO.deleteAll(MemberVO);
 	}
 	
 	

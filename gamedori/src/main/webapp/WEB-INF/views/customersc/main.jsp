@@ -76,159 +76,172 @@
 			            </c:if>
 			        </td>
 			    </tr>
-<script>
-var originalTableData = [];
-
-$(document).ready(function () {
-    // 기본 테이블 데이터를 저장합니다.
-    $('#table-body > tr').each(function () {
-        originalTableData.push($(this).clone());
-    });
-    $('.btn_search').click(function (event) {
-        event.preventDefault();
-        // 검색어와 검색 옵션 가져오기
-        var searchText = $('input[name="searchText"]').val();
-        var searchOption = $('select[name="searchOption"]').val();
-        // 검색 옵션 확인
-        if (searchOption === '검색 옵션') {
-            alert('검색 옵션을 선택해주세요.');
-            return;
-        }
-        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
-        if (searchText.trim() === '') {
-            showAll();
-            return;
-        }
-
-        // AJAX 요청 전송
-        searchAndDisplayResults(searchText, searchOption, 1);
-    });
-});
-
-function showAll() {
-    var tableBody = $('#table-body');
-    tableBody.empty(); // tbody의 내용을 지우고
-    // 원래 데이터를 보여줍니다.
-    $.each(originalTableData, function (index, row) {
-        tableBody.append(row);
-    });
-    // 테이블을 보여줍니다.
-    $('table').show();
-}
-
-function searchAndDisplayResults(searchText, searchOption, page) {
-    $.ajax({
-        url: '<%=request.getContextPath()%>/customersc/search.do',
-        method: 'GET',
-        dataType: 'json',
-        data: {
-            searchText: searchText,
-            searchOption: searchOption,
-            page: page
-        },
-        success: function (response) {
-            updateTable(response);
-            updatePagination(response.totalPages, searchText, searchOption);
-        },
-        error: function (xhr, status, error) {
-            console.log('Error:', error);
-        }
-    });
-}
-
-//검색 결과에따른 페이징 처리
-function updatePagination(totalPages) {
-    var pagination = $('.pagination');
-    pagination.empty();
-
-    var searchText = $('input[name="searchText"]').val();
-    var searchOption = $('select[name="searchOption"]').val();
-
-    for (var i = 1; i <= totalPages; i++) {
-        var pageItem = $('<li>').addClass('page-item');
-        var pageLink = $('<a>').addClass('page-link')
-            .attr('href', '#')
-            .attr('data-search-text', searchText)
-            .attr('data-search-option', searchOption)
-            .text(i);
-        pageLink.on('click', function (event) {
-            event.preventDefault();
-            var page = $(this).text();
-            var searchText = $(this).data('searchText');
-            var searchOption = $(this).data('searchOption');
-
-            $.ajax({
-                url: '<%=request.getContextPath()%>/customersc/search.do',
-                method: 'GET',
-                dataType: 'json',
-                data: {
-                    searchText: searchText,
-                    searchOption: searchOption,
-                    page: page
-                },
-                success: function (response) {
-                    updateTable(response.searchResults);
-                    updatePagination(response.totalPages);
-                },
-                error: function (xhr, status, error) {
-                    console.log('Error:', error);
-                }
-            });
-        });
-        pageItem.append(pageLink);
-        pagination.append(pageItem);
-    }
-}
-
-  //테이블 검색한거에 따른 갯수처리
-	function updateTable(response) {
-    var searchResults = response.searchResults;
-    var tableBody = $('#table-body');
-    tableBody.empty(); // 이전 검색 결과를 지우고
-
-    if (searchResults.length === 0) {
-        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
-        $.each(originalTableData, function (index, row) {
-            tableBody.append(row);
-        });
-    } else {
-        // 검색 결과가 있는 경우
-        $.each(searchResults, function (index, result) {
-            var newRow = $('<tr>');
-
-            // 테이블에 행 추가
-            newRow.append($('<td>').text(result.notice_idx));
-            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
-            newRow.append($('<td>').text(result.notice_writer));
-            newRow.append($('<td>').text(result.notice_hit));
-            newRow.append($('<td>').text(result.notice_wdate));
-
-            tableBody.append(newRow);
-        });
-    }
-
-    // 테이블을 보여줍니다.
-    $('table').show();
-}
-  
-  </script>
-		
-	<!-- 페이징 -->
-		
-		<nav aria-label="Page navigation example">
-			  <ul class="pagination justify-content-center">
-			    <c:forEach var="i" begin="1" end="${totalPages}">
-			      <li class="page-item ${param.page == i ? 'active' : ''}">
-			        <a class="page-link" href="?page=${i}" style="${param.page == i ? 'background-color: #dadbdd; border-color: #ffeeeee;' : ''}">
-			          ${i}
-			        </a>
-			      </li>
-			    </c:forEach>
-			  </ul>
-			</nav>
-	</table>
+	<script>
+	var originalTableData = [];
 	
-	</div>
+	function updatePaginationForAll() {
+	    var pagination = $('.pagination');
+	    pagination.find('li').each(function () {
+	        var pageItem = $(this);
+	        var pageLink = pageItem.find('a.page-link');
+	        if (pageItem.hasClass('active')) {
+	            pageLink.css({
+	                'background-color': '218, 219, 221',
+	                'border-color': '#ffeeeee'
+	            });
+	        } else {
+	            pageLink.css({
+	                'background-color': '',
+	                'border-color': ''
+	            });
+	        }
+	        // 페이지 링크 클릭 이벤트를 추가합니다.
+	        pageLink.on('click', function (event) {
+	            event.preventDefault();
+	            var page = $(this).text();
+	            // 전체 목록을 페이지별로 불러옵니다.
+	            searchAndDisplayResults('', '', page);
+	        });
+	    });
+	}
+	
+	$(document).ready(function () {
+	    // 기본 테이블 데이터를 저장합니다.
+	    $('#table-body > tr').each(function () {
+	        originalTableData.push($(this).clone());
+	    });
+	    // 페이징 색상 처리를 추가합니다.
+	    updatePaginationForAll();
+	    $('.btn_search').click(function (event) {
+	        event.preventDefault();
+	        // 검색어와 검색 옵션 가져오기
+	        var searchText = $('input[name="searchText"]').val();
+	        var searchOption = $('select[name="searchOption"]').val();
+	        // 검색 옵션 확인
+	        if (searchOption === '검색 옵션') {
+	            alert('검색 옵션을 선택해주세요.');
+	            return;
+	        }
+	        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
+	        if (searchText.trim() === '') {
+	            showAll();
+	            // 빈 검색어를 입력했을 때 새로고침을 합니다.
+	            location.reload();
+	            return;
+	        }
+	
+	        // AJAX 요청 전송
+	        searchAndDisplayResults(searchText, searchOption, 1);
+	    });
+	});
+	
+	function showAll() {
+	    var tableBody = $('#table-body');
+	    tableBody.empty(); // tbody의 내용을 지우고
+	    // 원래 데이터를 보여줍니다.
+	    $.each(originalTableData, function (index, row) {
+	        tableBody.append(row);
+	    });
+	    // 테이블을 보여줍니다.
+	    $('table').show();
+	    // 전체 목록을 보여주는 경우의 페이징 색상 처리를 추가합니다.
+	    updatePaginationForAll();
+	}
+	
+	function searchAndDisplayResults(searchText, searchOption, page) {
+	    sendAjaxRequest(searchText, searchOption, page, function(response) {
+	        updateTable(response);
+	        updatePagination(response.totalPages, searchText, searchOption, page);
+	    });
+	}
+	
+	function sendAjaxRequest(searchText, searchOption, page, onSuccess) {
+	    $.ajax({
+	        url: '<%=request.getContextPath()%>/customersc/search.do',
+	        method: 'GET',
+	        dataType: 'json',
+	        data: {
+	            searchText: searchText,
+	            searchOption: searchOption,
+	            page: page
+	        },
+	        success: onSuccess,
+	        error: function (xhr, status, error) {
+	            console.log('Error:', error);
+	        }
+	    });
+	}
+	
+	function updatePagination(totalPages, searchText, searchOption, currentPage) {
+	    var pagination = $('.pagination');
+	    pagination.empty();
+	
+	    for (var i = 1; i <= totalPages; i++) {
+	        var isActive = i == currentPage;
+	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
+	        var pageLink = $('<a>').addClass('page-link')
+	            .attr('href', '#')
+	            .text(i);
+	        pageLink.on('click', function (event) {
+	            event.preventDefault();
+	            var page = $(this).text();
+	
+	            searchAndDisplayResults(searchText, searchOption, page);
+	        });
+	        pageItem.append(pageLink);
+	        pagination.append(pageItem);
+	    }
+	}
+	
+	  //테이블 검색한거에 따른 갯수처리
+		function updateTable(response) {
+	    var searchResults = response.searchResults;
+	    var tableBody = $('#table-body');
+	    tableBody.empty(); // 이전 검색 결과를 지우고
+	
+	    if (searchResults.length === 0) {
+	        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
+	        $.each(originalTableData, function (index, row) {
+	            tableBody.append(row);
+	        });
+	    } else {
+	        // 검색 결과가 있는 경우
+	        $.each(searchResults, function (index, result) {
+	            var newRow = $('<tr>');
+	
+	            // 테이블에 행 추가
+	            newRow.append($('<td>').text(result.notice_idx));
+	            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
+	            newRow.append($('<td>').text(result.notice_writer));
+	            newRow.append($('<td>').text(result.notice_hit));
+	            newRow.append($('<td>').text(result.notice_wdate));
+	
+	            tableBody.append(newRow);
+	        });
+	    }
+	
+	    // 테이블을 보여줍니다.
+	    $('table').show();
+	}
+	  
+	  </script>
+			
+		<!-- 페이징 -->
+			
+		<nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
+		    <c:forEach var="i" begin="1" end="${totalPages}">
+		      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+		        <a class="page-link" >
+		          ${i}
+		        </a>
+		      </li>
+		    </c:forEach>
+		  </ul>
+		</nav>
+		</table>
+		
+		</div>
 	<!---------customer 끝-------------------------------------------------------------->
 
 

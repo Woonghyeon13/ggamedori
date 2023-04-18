@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
 
 @Repository
@@ -61,6 +62,11 @@ public class NoticeDAO {
 	public int delete(int notice_idx)
 	{
 		return sqlSession.delete("game.dori.mapper.noticeMapper.delete", notice_idx);
+	}
+	
+	public int deleteAll(MEMBER_VO MemberVO)
+	{
+		return sqlSession.delete("game.dori.mapper.noticeMapper.delete", MemberVO);
 	}
 	
 	
