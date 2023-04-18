@@ -35,7 +35,7 @@
 								<td class="text-center align-middle">${vo.prod_price}</td><!-- 가격 -->
 								<td class="text-center align-middle">
 									<ul class="list-unstyled mb-0">
-										<li><button type="button" class="btn btn-secondary w-35" data-toggle="popover">
+										<li><button type="button" class="addCart_btn btn btn-secondary w-35" data-toggle="popover">
 											장바구니 담기
 										</button></li>
 										<li><button class="btn btn-outline-danger mt-2 w-35">삭제</button></li>
@@ -52,6 +52,38 @@
 			</div>
 		</section>
 	</div>
+	
+	<script> <!-- 카트 담기 ajax -->
+		
+		$("addCart_btn").click(function()
+		{
+			var product_tb_idx = $("#product_tb_idx").val();
+			var data = 
+			{
+				product_tb_idx : product_tb_idx
+			};
+			
+			
+			$.ajax
+			({
+				url: "<%=request.getContextPath()%>/mypage/addCart.do",
+				type: "post",
+				data: data,
+				success: function(result)
+				{
+					if(result != 1){alert("회원만 사용할 수 있는 서비스입니다.");}
+				},
+				error: function(){alert("카트 담기 실패!");}
+				
+			})
+			
+		})
+		
+	
+		
+		
+	</script>
+	
 </main>
 
 

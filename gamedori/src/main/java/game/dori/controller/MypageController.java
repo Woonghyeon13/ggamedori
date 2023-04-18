@@ -333,14 +333,14 @@ public class MypageController {
 		return "mypage/coupon";
 	}
 
-	//찜목록 ********************작업중***************************
+	//찜목록 
 	@RequestMapping( value = "/wishlist.do", method = RequestMethod.GET )
 	public ModelAndView wishlist(ModelAndView model, HttpServletRequest req)
 	{
 		HttpSession session = req.getSession();
 		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
 		
-		//VO객체에 담긴값이 널j이면 경고창 출력 
+		//VO객체에 담긴값이 널이면 경고창 출력 
 		if(MEMBERVO == null ) {
 			model.addObject("message", "회원가입 후 이용해주세요");
 			model.setViewName("mypage/wishlist");
@@ -373,7 +373,6 @@ public class MypageController {
 	}
 	
 	
-	//**************************************************
 	
 	//장바구니
 	@RequestMapping( value = "/cart.do", method = RequestMethod.GET )
