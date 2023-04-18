@@ -20,18 +20,19 @@
 							</tr>
 						</thead>
 						<tbody>
+						<c:forEach items="${selectWishlist}" var="vo" >
 							<tr>
 								<td id="Check"><input type="checkbox" class="item"></td>
 								<!-- img url c태그 -->
-								<c:url value='/images/ps4 피파23_180x180.jpg' var="img"/>
+								<c:url value='/images/${selectWishlist.prod_imgt}' var="img"/>
 								<td class="text-center align-middle"><a href="<c:url value='/prod/detail.do' />"><img src="${img}"></a></td>
 								<td class="align-middle">
 									<ul class="list-unstyled mb-0 ps-2 pe-2">
-										<li><a href="#">PS4 피파23</a></li>
-										<li style="color: #b9b9b9;">옵션 내용</li>
+										<li><a href="#">${selectWishlist.prod_name}</a></li>
+										<li style="color: #b9b9b9;">${selectWishlist.prod_opt}</li>
 									</ul>
 								</td>
-								<td class="text-center align-middle">70,000원</td>
+								<td class="text-center align-middle">${selectWishlist.prod_price}</td>
 								<td class="text-center align-middle">
 									<ul class="list-unstyled mb-0">
 										<li><button type="button" class="btn btn-secondary w-35" data-toggle="popover">
@@ -42,27 +43,7 @@
 								</td>
 								
 							</tr>
-
-							<tr>
-								<td id="Check"><input type="checkbox" class="item"></td>
-								<td class="text-center align-middle"><a href="<c:url value='/prod/detail.do' />"><img src="${img}"></a></td>
-								<td class="align-middle">
-									<ul class="list-unstyled mb-0 ps-2 pe-2">
-										<li><a href="#">PS4 피파23</a></li>
-										<li style="color: #b9b9b9;">옵션 내용</li>
-									</ul>
-								</td>
-								<td class="text-center align-middle">70,000원</td>
-								<td class="text-center align-middle">
-									<ul class="list-unstyled mb-0">
-										<li><button type="button" class="btn btn-secondary w-50" data-toggle="popover">
-											장바구니담기
-										</button></li>
-										<li><button class="btn btn-outline-danger mt-2 w-50">삭제</button></li>
-									</ul>
-								</td>
-						
-							</tr>
+						</c:forEach>
 						</tbody>
 					</table>
 					<button type="button" class="btn btn-outline-secondary btn-sm mb-5">선택삭제</button>

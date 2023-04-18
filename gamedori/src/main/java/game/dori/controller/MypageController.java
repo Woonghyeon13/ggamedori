@@ -14,19 +14,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import game.dori.service.MemberService;
 import game.dori.service.MypageService;
 import game.dori.vo.CARTP_VO;
-import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
-import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
@@ -43,6 +41,7 @@ public class MypageController {
 	private MypageService mypageService;
 	
 	
+	
 	// 마이페이지 첫화면
 	@RequestMapping( value = "/main", method = RequestMethod.GET )
 	public String main(Model model, HttpServletRequest req)
@@ -54,12 +53,10 @@ public class MypageController {
 	    if (memberVO == null) {
 	        return "redirect:/user/join";
 	    }
-	    
-	    
+
 		//상단 등급출력
 	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
 		model.addAttribute("level", selectMemberLevel);
-
 		
 		//상단 적립금
 		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
@@ -68,11 +65,11 @@ public class MypageController {
 		//상단 쿠폰개수출력
 		int selectListCount = mypageService.selectListCount(memberVO.getMember_idx());
 		model.addAttribute("selectListCount", selectListCount);
-			    
+		    
 		//상단 후기 개수
 		int selectListCount2 = mypageService.selectListCount2(memberVO.getMember_idx());
 		model.addAttribute("selectListCount2", selectListCount2);
-			  		
+		
 			    
 		//최근주문내역
 		List<ORDER_VO> selectOrderList = 

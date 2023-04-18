@@ -49,7 +49,7 @@ public interface MypageService {
 	//장바구니
 	public List<CARTP_VO> selectCartListService(int member_idx);
 	
-	//위시리스트(찜목록
+	//위시리스트(찜목록)
 	public List<WISHLIST_VO> selectWishlist(int member_tb_idx);
 	
 }

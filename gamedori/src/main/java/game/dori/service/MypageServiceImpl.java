@@ -103,6 +103,7 @@ public class MypageServiceImpl implements MypageService{
 		return couponDAO.selectListCount(member_tb_idx);
 	}
 
+	
 	//마이페이지 리뷰 개수
 	@Override
 	public int selectListCount2(int member_tb_idx) {
@@ -128,7 +129,6 @@ public class MypageServiceImpl implements MypageService{
 	public List<REVIEW_VO> searchReview(String R_searchValue, String R_searchType, int start, int limit) {
 		return reviewDAO.search(R_searchValue, R_searchType, start, limit);
 	}
-
 	@Override
 	public int countSearchResults(String r_searchValue, String r_searchType) {
 		return reviewDAO.countSearchResults(r_searchValue, r_searchType);

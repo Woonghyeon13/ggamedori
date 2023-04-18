@@ -5,9 +5,9 @@
  
 <mapper namespace="game.dori.mapper.wishlistMapper">
 
-	<select id="selectWishlist" parameterType="int" resultType="wishlistVO">
-		SELECT * FROM wishlist_tb, product_tb, member_tb
-		WHERE wishlist.MEMBER_TB_IDX = member_tb.MEMBER_IDX
+	<select id="selectWishlist" resultType="wishlistVO">
+		SELECT * FROM wishlist_tb, product_tb,
+		WHERE wishlist_tb.MEMBER_TB_IDX = member_tb.MEMBER_IDX
 			and member_tb_idx = #{member_idx}
 	</select>
 
