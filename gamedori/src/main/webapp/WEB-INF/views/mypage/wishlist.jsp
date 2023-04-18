@@ -24,15 +24,15 @@
 							<tr>
 								<td id="Check"><input type="checkbox" class="item"></td>
 								<!-- img url c태그 -->
-								<c:url value='/images/${selectWishlist.prod_imgt}' var="img"/>
+								<c:url value='/images/${vo.prod_imgt}' var="img"/>
 								<td class="text-center align-middle"><a href="<c:url value='/prod/detail.do' />"><img src="${img}"></a></td>
 								<td class="align-middle">
 									<ul class="list-unstyled mb-0 ps-2 pe-2">
-										<li><a href="#">${selectWishlist.prod_name}</a></li>
-										<li style="color: #b9b9b9;">${selectWishlist.prod_opt}</li>
+										<li><a href="#">${vo.prod_name}</a></li><!-- 제품명 -->
+										<li style="color: #b9b9b9;">${vo.prod_opt}</li><!-- 옵션 -->
 									</ul>
 								</td>
-								<td class="text-center align-middle">${selectWishlist.prod_price}</td>
+								<td class="text-center align-middle">${vo.prod_price}</td><!-- 가격 -->
 								<td class="text-center align-middle">
 									<ul class="list-unstyled mb-0">
 										<li><button type="button" class="btn btn-secondary w-35" data-toggle="popover">
