@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="searchTotalPages" value="${searchResults.totalPages}" />
 
 <main>
 
@@ -52,184 +53,182 @@
 		</table>
 
 
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center">
-        <!-- 검색 -->
-        <form class="d-flex align-items-center" role="form">
-            <div class="me-2">
-                <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
-                    <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
-                    <option value="name" selected>제목으로 검색</option>
-                    <option value="content">내용으로 검색</option>
-                    <option value="ncontent">제목+내용으로 검색</option>
-                </select>
-            </div>
-            <div class="me-2">
-                <input class="form-control form-control-sm" type="text" placeholder="제목" name="searchText" aria-label=".form-control-sm example">
-            </div>
-            <div>
-                <button type="submit" class="btn btn-dark btn_search">검색</button>
-            </div>
-        </form>
 
-        <!-- 글쓰기 버튼 -->
-        <c:if test="${sessionScope.Login.member_role == 2}">
-            <form action="notice_write.do" method="GET">
+				
+			 <table class="table" style="clear:both; width: 100%;">
+			    <tr>                        
+			        <td class="d-flex align-items-center justify-content-between">
+			            <form action="search.do" method="GET" class="d-flex align-items-center">
+			                <!-- 검색 옵션 드롭다운 추가 -->
+			                <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
+			                    <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
+			                    <option value="name" selected>이름으로 검색</option>
+			                    <option value="content">내용으로 검색</option>
+			                    <option value="ncontent">이름+내용으로검색</option> 
+			                </select>
+			                <input class="form-control" style="width: 300px;" type="text" name="searchText" aria-label="default input example">
+			                <div>${fn:escapeXml(searchText)}</div>
+			
+			                <button type="submit" class="btn btn-dark btn_search">검색</button>
+			            </form>
+			            <c:if test="${Login.member_role == 2}">
+			                <button type="button" class="btn btn-dark" onclick="location.href='notice_write.do'">글쓰기</button>
+			            </c:if>
+			        </td>
+			    </tr>
+<script>
+var originalTableData = [];
+
+$(document).ready(function () {
+    // 기본 테이블 데이터를 저장합니다.
+    $('#table-body > tr').each(function () {
+        originalTableData.push($(this).clone());
+    });
+    $('.btn_search').click(function (event) {
+        event.preventDefault();
+        // 검색어와 검색 옵션 가져오기
+        var searchText = $('input[name="searchText"]').val();
+        var searchOption = $('select[name="searchOption"]').val();
+        // 검색 옵션 확인
+        if (searchOption === '검색 옵션') {
+            alert('검색 옵션을 선택해주세요.');
+            return;
+        }
+        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
+        if (searchText.trim() === '') {
+            showAll();
+            return;
+        }
+
+        // AJAX 요청 전송
+        searchAndDisplayResults(searchText, searchOption, 1);
+    });
+});
+
+function showAll() {
+    var tableBody = $('#table-body');
+    tableBody.empty(); // tbody의 내용을 지우고
+    // 원래 데이터를 보여줍니다.
+    $.each(originalTableData, function (index, row) {
+        tableBody.append(row);
+    });
+    // 테이블을 보여줍니다.
+    $('table').show();
+}
+
+function searchAndDisplayResults(searchText, searchOption, page) {
+    $.ajax({
+        url: '<%=request.getContextPath()%>/customersc/search.do',
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            searchText: searchText,
+            searchOption: searchOption,
+            page: page
+        },
+        success: function (response) {
+            updateTable(response);
+            updatePagination(response.totalPages, searchText, searchOption);
+        },
+        error: function (xhr, status, error) {
+            console.log('Error:', error);
+        }
+    });
+}
+
+//검색 결과에따른 페이징 처리
+function updatePagination(totalPages) {
+    var pagination = $('.pagination');
+    pagination.empty();
+
+    var searchText = $('input[name="searchText"]').val();
+    var searchOption = $('select[name="searchOption"]').val();
+
+    for (var i = 1; i <= totalPages; i++) {
+        var pageItem = $('<li>').addClass('page-item');
+        var pageLink = $('<a>').addClass('page-link')
+            .attr('href', '#')
+            .attr('data-search-text', searchText)
+            .attr('data-search-option', searchOption)
+            .text(i);
+        pageLink.on('click', function (event) {
+            event.preventDefault();
+            var page = $(this).text();
+            var searchText = $(this).data('searchText');
+            var searchOption = $(this).data('searchOption');
+
+            $.ajax({
+                url: '<%=request.getContextPath()%>/customersc/search.do',
+                method: 'GET',
+                dataType: 'json',
+                data: {
+                    searchText: searchText,
+                    searchOption: searchOption,
+                    page: page
+                },
+                success: function (response) {
+                    updateTable(response.searchResults);
+                    updatePagination(response.totalPages);
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+        pageItem.append(pageLink);
+        pagination.append(pageItem);
+    }
+}
+
+  //테이블 검색한거에 따른 갯수처리
+	function updateTable(response) {
+    var searchResults = response.searchResults;
+    var tableBody = $('#table-body');
+    tableBody.empty(); // 이전 검색 결과를 지우고
+
+    if (searchResults.length === 0) {
+        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
+        $.each(originalTableData, function (index, row) {
+            tableBody.append(row);
+        });
+    } else {
+        // 검색 결과가 있는 경우
+        $.each(searchResults, function (index, result) {
+            var newRow = $('<tr>');
+
+            // 테이블에 행 추가
+            newRow.append($('<td>').text(result.notice_idx));
+            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
+            newRow.append($('<td>').text(result.notice_writer));
+            newRow.append($('<td>').text(result.notice_hit));
+            newRow.append($('<td>').text(result.notice_wdate));
+
+            tableBody.append(newRow);
+        });
+    }
+
+    // 테이블을 보여줍니다.
+    $('table').show();
+}
   
-                <input type="submit" class="btn btn-outline-secondary px-3" value="글쓰기">
-            </form>
-        </c:if>
-    </div>
-</div>
-	
-	<script>
-	var originalTableData = [];
-	
-	$(document).ready(function () {
-	    // 기본 테이블 데이터를 저장합니다.
-	    $('#table-body > tr').each(function () {
-	        originalTableData.push($(this).clone());
-	    });
-
-	    $('.btn_search').click(function (event) {
-	        event.preventDefault();
-
-	        // 검색어와 검색 옵션 가져오기
-	        var searchText = $('input[name="searchText"]').val();
-	        var searchOption = $('select[name="searchOption"]').val();
-
-	        // 검색 옵션 확인
-	        if (searchOption === '검색 옵션') {
-	            alert('검색 옵션을 선택해주세요.');
-	            return;
-	        }
-
-	        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
-	        if (searchText.trim() === '') {
-	            showAll();
-	            return;
-	        }
-	        
-	        // AJAX 요청 전송
-	        $.ajax({
-	            url: '<%=request.getContextPath()%>/admin/search.do',
-	            method: 'GET',
-	            dataType: 'json',
-	            data: {
-	                searchText: searchText,
-	                searchOption: searchOption
-	            },
-	            success: function (response) {
-	                updateTable(response.searchResults);
-	                updatePagination(response.totalPages);
-	            },
-	            error: function (xhr, status, error) {
-	                console.log('Error:', error);
-	            }
-	        });
-	    });
-	});
-
-	function showAll() {
-	    var tableBody = $('#table-body');
-	    tableBody.empty(); // tbody의 내용을 지우고
-
-	    // 원래 데이터를 보여줍니다.
-	    $.each(originalTableData, function (index, row) {
-	        tableBody.append(row);
-	    });
-
-	    // 테이블을 보여줍니다.
-	    $('table').show();
-	}
-	//검색 결과에따른 페이징 처리
-	function updatePagination(totalPages) {
-	    var pagination = $('.pagination');
-	    pagination.empty();
-	
-	    var searchText = $('input[name="searchText"]').val();
-	    var searchOption = $('select[name="searchOption"]').val();
-	
-	    for (var i = 1; i <= totalPages; i++) {
-	        var pageItem = $('<li>').addClass('page-item');
-	        var pageLink = $('<a>').addClass('page-link')
-	            .attr('href', '#')
-	            .attr('data-search-text', searchText)
-	            .attr('data-search-option', searchOption)
-	            .text(i);
-	        pageLink.on('click', function (event) {
-	            event.preventDefault();
-	            var page = $(this).text();
-	            var searchText = $(this).data('searchText');
-	            var searchOption = $(this).data('searchOption');
-	
-	            $.ajax({
-	                url: '<%=request.getContextPath()%>/admin/search.do',
-	                method: 'GET',
-	                dataType: 'json',
-	                data: {
-	                    searchText: searchText,
-	                    searchOption: searchOption,
-	                    page: page
-	                },
-	                success: function (response) {
-	                    updateTable(response.searchResults);
-	                    updatePagination(response.totalPages);
-	                },
-	                error: function (xhr, status, error) {
-	                    console.log('Error:', error);
-	                }
-	            });
-	        });
-	        pageItem.append(pageLink);
-	        pagination.append(pageItem);
-	    }
-	}
-	//테이블 검색한거에 따른 갯수처리
-	function updateTable(results) {
-	    var tableBody = $('#table-body');
-	    tableBody.empty(); // tbody의 내용을 지우고
-	
-	    if (results.length === 0) {
-	        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
-	        $.each(originalTableData, function (index, row) {
-	            tableBody.append(row);
-	        });
-	    } else {
-	        // 검색 결과가 있는 경우
-	        $.each(results, function (index, notice) {
-	            var row = $('<tr>');
-	            row.append($('<td>').text(notice.notice_idx));
-	            row.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + notice.notice_idx).text(notice.notice_title)));
-	            row.append($('<td>').text(notice.notice_writer));
-	            row.append($('<td>').text(notice.notice_hit));
-	            row.append($('<td>').text(notice.notice_wdate));
-	            
-	            tableBody.append(row);
-	        });
-	    }
-	    // 테이블을 보여줍니다.
-	    $('table').show();
-	}
-	  </script>
+  </script>
 		
-		<!-- 페이징 -->
+	<!-- 페이징 -->
 		
 		<nav aria-label="Page navigation example">
-			<ul class="pagination justify-content-center" >
-				<c:forEach var="i" begin="1" end="${totalPages}">
-				    <li class="page-item" class="${param.page == i ? 'active' : ''}">
-				        <a class="page-link" href="?page=${i}" style="${param.page == i ? 'background-color: #dadbdd; border-color: #ffeeeee;' : ''}">
-				            ${i}
-				        </a>
-				    </li>
-				</c:forEach>
-			</ul>
-		</nav>
-	</tr>
+			  <ul class="pagination justify-content-center">
+			    <c:forEach var="i" begin="1" end="${totalPages}">
+			      <li class="page-item ${param.page == i ? 'active' : ''}">
+			        <a class="page-link" href="?page=${i}" style="${param.page == i ? 'background-color: #dadbdd; border-color: #ffeeeee;' : ''}">
+			          ${i}
+			        </a>
+			      </li>
+			    </c:forEach>
+			  </ul>
+			</nav>
 	</table>
+	
 	</div>
-
 	<!---------customer 끝-------------------------------------------------------------->
 
 

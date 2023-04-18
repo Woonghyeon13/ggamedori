@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
 
 
@@ -15,6 +16,7 @@ public class MemberDAO {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
 	private static String namespace = "game.dori.mapper.MemberMapper.";
 	
 	public MEMBER_VO selectByBno(int member_idx)
@@ -69,8 +71,19 @@ public class MemberDAO {
 	{
 		return sqlSession.update(namespace + "updateMember", memberVO);
 	}
-
 	
+	//쿠폰 생성
+    public int insertCoupon(COUPON_VO couponVO)
+    {
+    	
+        return sqlSession.insert("game.dori.mapper.couponMapper.insertcoupon", couponVO);
+    }
+	
+    public int insertSavePoint(int member_idx)
+    {
+    	return sqlSession.insert("game.dori.mapper.savepointMapper.insertSavePoint", member_idx);
+    }
+    
 	//마이페이지 등급 출력
 	public int selectMemberLevelDAO(int member_idx)
 	{

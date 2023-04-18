@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import game.dori.dao.CouponDAO;
 import game.dori.dao.MemberDAO;
+import game.dori.dao.SavepointDAO;
+import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
 
 @Service
@@ -15,6 +18,12 @@ public class MemberServiceImpl implements MemberService{
 
 	@Autowired
 	private MemberDAO memberDAO;
+	
+	@Autowired
+	private CouponDAO couponDAO;
+	
+	@Autowired
+	SavepointDAO savePointDAO;
 
 	MEMBER_VO memverVO;
 
@@ -68,6 +77,32 @@ public class MemberServiceImpl implements MemberService{
 	public void updateMemberState(MEMBER_VO memberVO) {//회원 상태 변경
 		 memberDAO.updateMemberState(memberVO);
 	}
+
+	@Override
+	public int insertCoupon(COUPON_VO couponVO) {
+		// TODO Auto-generated method stub
+		return  memberDAO.insertCoupon(couponVO);
+	}
+
+	@Override
+	public int insertPoint(int member_idx) {
+		// TODO Auto-generated method stub
+		return memberDAO.insertSavePoint(member_idx);
+	}
+
+	@Override
+	public int deleteCupon(MEMBER_VO MemberVO) {
+		// TODO Auto-generated method stub
+		return couponDAO.deleteCoupon(MemberVO);
+	}
+
+	@Override
+	public int deletePoint(MEMBER_VO MemberVO) {
+		// TODO Auto-generated method stub
+		return savePointDAO.deletePoint(MemberVO) ;
+	}
+	
+	
 
 
 

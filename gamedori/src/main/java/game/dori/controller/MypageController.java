@@ -70,8 +70,11 @@ public class MypageController {
 		model.addAttribute("selectListCount", selectListCount);
 			    
 		//상단 후기 개수
-		int selectListCount2 = mypageService.selectListCount2(memberVO.getMember_idx());
-		model.addAttribute("selectListCount2", selectListCount2);
+		/*
+		 * int selectListCount2 =
+		 * mypageService.selectListCount2(memberVO.getMember_idx());
+		 * model.addAttribute("selectListCount2", selectListCount2);
+		 */
 			  		
 			    
 		//최근주문내역
