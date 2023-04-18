@@ -79,7 +79,7 @@ public class COUPON_VO {
 	public void setCoupon_yn(int coupon_yn) {
 		this.coupon_yn = coupon_yn;
 	}
-
+	
 	
 
 	

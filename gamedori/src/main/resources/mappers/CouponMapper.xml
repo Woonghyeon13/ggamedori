@@ -6,17 +6,17 @@
 <mapper namespace="game.dori.mapper.couponMapper">
 	
 	<!-- 마이페이지 쿠폰 리스트 출력  -->
-	<select id="selectList5" resultType="couponVO" parameterType="int">
+	<select id="selectCouponList" resultType="couponVO" parameterType="int">
 		select *
 			from coupon_tb
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
 	<!-- 마이페이지 쿠폰 개수 -->
-	<select id="selectListCount" resultType="int" parameterType="int">
+	<select id="CouponCount" resultType="int" parameterType="int">
 		SELECT coupon_idx
 		 FROM coupon_tb
-		WHERE member_tb_idx = #{member_idx}
+		WHERE MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
 	

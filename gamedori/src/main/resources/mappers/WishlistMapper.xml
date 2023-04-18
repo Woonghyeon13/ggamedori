@@ -5,7 +5,7 @@
  
 <mapper namespace="game.dori.mapper.wishlistMapper">
 
-
+	<!-- 리스트 -->
 	<select id="selectWishlist" resultType="wishlistVO">
 		SELECT
 			row_number() over(order by w.idWISHLIST_TB desc) as num,
@@ -16,5 +16,17 @@
 				on w.PRODUCT_TB_IDX = p.PROD_IDX
 			where w.MEMBER_TB_IDX = #{MEMBER_TB_IDX}
 	</select>
+	
+	<!-- 카트 담기 -->
+	<insert id="addCart">
+		INSERT
+			into Cart_tb (CART_QTY, MEMBER_TB_IDX, PRODUCT_TB_IDX, CART_YN)
+			values (1, #{MEMBER_TB_IDX}, #{PRODUCT_TB_IDX}, 2)
+	</insert>
+
+
+	<!-- 리스트에서 삭제 -->
+
+
 
 </mapper>

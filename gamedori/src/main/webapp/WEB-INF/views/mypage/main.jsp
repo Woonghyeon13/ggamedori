@@ -32,16 +32,16 @@
 				</li>
 				<li>
 					<h4>적립금</h4>
-					<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+					<p><c:if test="${pointBalance == null}">0</c:if><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
 					<!--s_money_check.html -->
 				</li>
 				<li>
 					<h4>쿠폰</h4>
-					<p> <c:out value="${selectListCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
+					<p> <c:out value="${CouponCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
 				</li>
 				<li>
 					<h4>나의 후기</h4>
-					<p><c:out value="${selectListCount2}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
+					<p><c:out value="${ReviewCount}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
 				</li>
 			</ul>
 		</div>
@@ -84,21 +84,21 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach var="selectList" items="${list}">
+								<c:forEach var="Orderlist" items="${Orderlist}">
 									<tr>
-										<th>${selectList.order_title}</th>
-										<td>${selectList.order_date}</td>
-										<td>${selectList.order_idx}</td>
-										<td>${selectList.order_price}</td>
+										<th>${Orderlist.order_title}</th>
+										<td>${Orderlist.order_date}</td>
+										<td>${Orderlist.order_idx}</td>
+										<td>${Orderlist.order_price}</td>
 										<td>			
 										<c:choose>
-											<c:when test="${selectList.order_situ == 1}">
+											<c:when test="${Orderlist.order_situ == 1}">
 											    <c:out value="주문완료" />
 											</c:when>
-											<c:when test="${selectList.order_situ == 2}">
+											<c:when test="${Orderlist.order_situ == 2}">
 											    <c:out value="배송중" />
 											 </c:when>
-											 <c:when test="${selectList.order_situ == 3}">
+											 <c:when test="${Orderlist.order_situ == 3}">
 											    <c:out value="배송완료" />
 											 </c:when>
 										</c:choose>
@@ -133,7 +133,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${selectList}" var="vo">
+									<c:forEach items="${selectQAList}" var="vo">
 									<tr>
 										<th>${vo.prod_q_idx}</th>
 									<td>
@@ -184,7 +184,7 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach items="${selectList2}" var="vo">
+								<c:forEach items="${selectOtoList}" var="vo">
 				                	<tr>				   
 				                    	<th>${vo.qa_idx}</th>
 				                        <td>${vo.qa_title}</td>				             
