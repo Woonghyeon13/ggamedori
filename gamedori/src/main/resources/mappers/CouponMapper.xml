@@ -5,19 +5,34 @@
  
 <mapper namespace="game.dori.mapper.couponMapper">
 	
+	
+	
+	<!--  쿠폰 적립 -->
+	<insert id ="insertcoupon"  parameterType="couponVO">
+		
+		insert into coupon_tb(MEMBER_TB_IDX, COUPON_END,COUPON_YN)
+		value(#{member_tb_idx},#{coupon_end},#{coupon_yn})
+	</insert>
+	
 	<!-- 마이페이지 쿠폰 리스트 출력  -->
-	<select id="selectList5" resultType="couponVO" parameterType="int">
+	<select id="selectCouponList" resultType="couponVO" parameterType="int">
 		select *
 			from coupon_tb
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
 	<!-- 마이페이지 쿠폰 개수 -->
-	<select id="selectListCount" resultType="int" parameterType="int">
+	<select id="CouponCount" resultType="int" parameterType="int">
 		SELECT coupon_idx
 		 FROM coupon_tb
-		WHERE member_tb_idx = #{member_idx}
+		WHERE MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
+	
+	<!--  쿠폰 삭제 -->
+	<delete id="deleteCupon" parameterType="MemberVO">
+	  DELETE FROM coupon_tb
+	  WHERE MEMBER_TB_IDX = (SELECT MEMBER_IDX FROM member_tb WHERE member_email = #{member_email} AND member_pw = #{member_pw})
+	</delete>
 	
 </mapper>

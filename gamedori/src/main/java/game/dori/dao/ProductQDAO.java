@@ -20,8 +20,8 @@ public class ProductQDAO {
 	private static String namespace = "game.dori.mapper.productQMapper.";
 	
 	//마이페이지 상품문의 리스트 출력
-	public List<PRODUCTQQ_VO> selectList(int member_idx) {
-		return sqlSession.selectList("game.dori.mapper.productQMapper.selectList", member_idx); //매개변수릉통해 인자로전달  쿼리에서사용
+	public List<PRODUCTQQ_VO> selectQAList(int member_idx) {
+		return sqlSession.selectList("game.dori.mapper.productQMapper.selectQAList", member_idx); //매개변수릉통해 인자로전달  쿼리에서사용
 	}
 	
 	//관리자 페이지 상품문의 리스트 출력
