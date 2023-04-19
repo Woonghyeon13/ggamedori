@@ -73,6 +73,23 @@ public class MypageController {
 		 * model.addAttribute("ReviewCount", ReviewCount);
 		 */
 		
+
+		//상단 적립금
+		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
+		model.addAttribute("PointBalance", selectPointBalance);
+			
+		//상단 쿠폰개수출력
+		int selectListCount = mypageService.selectListCount(memberVO.getMember_idx());
+		model.addAttribute("selectListCount", selectListCount);
+			    
+		//상단 후기 개수
+		/*
+		 * int selectListCount2 =
+		 * mypageService.selectListCount2(memberVO.getMember_idx());
+		 * model.addAttribute("selectListCount2", selectListCount2);
+		 */
+			  		
+
 			    
 		//최근주문내역
 		List<ORDER_VO> selectOrderList = 
@@ -261,6 +278,7 @@ public class MypageController {
 
 		//검색 포함
 		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
+
 
 		model.addAttribute("selectReviewList", selectReviewList);
 

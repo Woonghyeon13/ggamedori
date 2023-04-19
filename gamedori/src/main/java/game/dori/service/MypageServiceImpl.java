@@ -89,7 +89,8 @@ public class MypageServiceImpl implements MypageService{
 	//마이페이지 상단 적립금 출력
 	@Override
 	public int selectPointBalanceService(int member_tb_idx) {
-		return savepointDAO.selectPointBalanceDAO(member_tb_idx);
+		//return savepointDAO.selectPointBalanceDAO(member_tb_idx);
+		return 0;
 	}
 
 	//마이페이지 쿠폰 리스트출력

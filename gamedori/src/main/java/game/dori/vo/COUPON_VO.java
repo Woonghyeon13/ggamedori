@@ -1,5 +1,7 @@
 package game.dori.vo;
 
+import java.util.Date;
+
 //쿠폰 VO
 public class COUPON_VO {
 	
@@ -7,18 +9,12 @@ public class COUPON_VO {
 	private int 	member_tb_idx; 		//회원 인덱스
 	private String 	coupon_name; 		//쿠폰 이름
 	private double 	coupon_discount; 	//할인율
-	private String 	coupon_date; 		//쿠폰 생성일
-	private String 	coupon_start;		//쿠폰 시작일
-	private String 	coupon_end; 		//쿠폰 종료일
+	private Date 	coupon_date; 		//쿠폰 생성일
+	private Date 	coupon_start;		//쿠폰 시작일
+	private Date 	coupon_end; 		//쿠폰 종료일
 	private int 	coupon_min_amount; 	//최소주문금액
 	private int 	coupon_max_amount; 	//최대할인금액
 	private int		coupon_yn;			//쿠폰 사용여부
-
-	
-	
-	
-	
-	//게터 세터
 	public int getCoupon_idx() {
 		return coupon_idx;
 	}
@@ -43,23 +39,23 @@ public class COUPON_VO {
 	public void setCoupon_discount(double coupon_discount) {
 		this.coupon_discount = coupon_discount;
 	}
-	public String getCoupon_date() {
+	public Date getCoupon_date() {
 		return coupon_date;
 	}
-	public void setCoupon_date(String coupon_date) {
+	public void setCoupon_date(Date coupon_date) {
 		this.coupon_date = coupon_date;
 	}
-	public String getCoupon_start() {
+	public Date getCoupon_start() {
 		return coupon_start;
 	}
-	public void setCoupon_start(String coupon_start) {
-		this.coupon_start = coupon_start;
+	public void setCoupon_start(Date date) {
+		this.coupon_start = date;
 	}
-	public String getCoupon_end() {
+	public Date getCoupon_end() {
 		return coupon_end;
 	}
-	public void setCoupon_end(String coupon_end) {
-		this.coupon_end = coupon_end;
+	public void setCoupon_end(Date date) {
+		this.coupon_end = date;
 	}
 	public int getCoupon_min_amount() {
 		return coupon_min_amount;
@@ -81,7 +77,11 @@ public class COUPON_VO {
 	}
 	
 	
-
+	
+	
+	
+	//게터 세터
+	
 	
 	
 }

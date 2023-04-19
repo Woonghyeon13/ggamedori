@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
 
 @Repository
@@ -44,6 +45,14 @@ public class NoticeDAO {
 	    return sqlSession.selectList("game.dori.mapper.noticeMapper.search", params);
 	}
 	
+	public int countSearchResults(String searchText, String searchOption) {
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("searchText", searchText);
+	    params.put("searchOption", searchOption);
+	    
+	    return sqlSession.selectOne("game.dori.mapper.noticeMapper.countSearchResults", params);
+	}
+	
 	public NOTICE_VO select(int notice_idx)
 	{
 		return sqlSession.selectOne("game.dori.mapper.noticeMapper.select", notice_idx);
@@ -55,6 +64,11 @@ public class NoticeDAO {
 		return sqlSession.delete("game.dori.mapper.noticeMapper.delete", notice_idx);
 	}
 	
+	public int deleteAll(MEMBER_VO MemberVO)
+	{
+		return sqlSession.delete("game.dori.mapper.noticeMapper.delete", MemberVO);
+	}
+	
 	
 	public int modify(NOTICE_VO noticeVO)
 	{		
@@ -64,13 +78,6 @@ public class NoticeDAO {
 	public int update_Hit(NOTICE_VO noticeVO)
 	{
 		return sqlSession.update("game.dori.mapper.noticeMapper.updateHit", noticeVO);
-	}
-	public int countSearchResults(String searchText, String searchOption) {
-	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("searchText", searchText);
-	    params.put("searchOption", searchOption);
-	    
-	    return sqlSession.selectOne("game.dori.mapper.noticeMapper.countSearchResults", params);
 	}
 	
 }
