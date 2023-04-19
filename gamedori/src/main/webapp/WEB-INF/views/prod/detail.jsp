@@ -4,6 +4,7 @@
 <%@ include file="../include/head.jsp" %>
 <main>
 	<!-- 상품 정보 -------------------------------------------->
+	<input type="hidden" name="member_idx" value="${Login.member_idx}">
 	<div class="container inner">
 		<div class="container mt-5">
 			<div class="row">
@@ -136,10 +137,10 @@
 						<form name="" action="" method="">
 							<div
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
-								<button class="btn btn-secondary"
+								<button class="btn btn-secondary" type="button"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
 								<button type="button" class="btn btn-outline-light login"
-									style="width: 280px; height: 60px;" onclick="location.href='<c:url value='/prod/orderForm.do'/>';">바로 구매하기</button>
+									style="width: 280px; height: 60px;" onclick="location.href='<c:url value='/prod/orderForm.do?prod_idx=${pvo.prod_idx}'/>';">바로 구매하기</button>
 							</div>
 						</form>
 					</div>
@@ -652,5 +653,19 @@ $("#ct_qty5").val(this_qty5);
 $("#it_pay").val(show_total_amount);
 $("#total_amount").html(show_total_amount.format());
 }
+
+$("#numSum1").change(function(){
+	$.ajax({
+		url : '<%=request.getContextPath()%>/prod/numSum.do',
+		type : post,
+		data : {},
+		success : function(data){
+			$("#total_amount").html(data);
+		}
+		
+	});
+});
+
+
 </script>
 <%@ include file="../include/foot.jsp" %>

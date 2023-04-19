@@ -16,4 +16,10 @@
 		FROM order_tb  
 		where member_tb_idx =#{member_tb_idx}
 	</select>
+	
+	<!-- 주문인덱스 생성 -->
+	<insert id="insertOrder" parameterType="orderVO">
+		insert into order_tb ( member_tb_idx, order_addr1, order_addr2, order_addr3, order_name, order_phone, order_memo)
+		 values( #{member_idx}, #{order_addr1}, #{order_addr2}, #{order_addr3}, #{order_name}, #{order_phone}, #{order_memo})
+	</insert>
 </mapper>

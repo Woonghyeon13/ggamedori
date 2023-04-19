@@ -3,30 +3,32 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="game.dori.mapper.addressMapper">
- 
-  <insert id="insert" parameterType="addressVO">
-  INSERT INTO address_tb (addr_1, addr_2, addr_3, member_tb_idx)
-  VALUES (#{addr_1}, #{addr_2}, #{addr_3}, #{member_tb_idx})
-</insert>
-  <!--  주소 삽입 sql문 -->
-  
-  
-  
- <!-- 관련된 주소 데이터 삭제 -->
-<delete id="delete_address" parameterType="MemberVO">
-  DELETE FROM address_tb
-  WHERE MEMBER_TB_IDX = (SELECT MEMBER_IDX FROM member_tb WHERE member_email = #{member_email} AND member_pw = #{member_pw})
-</delete>
 
+	<insert id="insert" parameterType="addressVO">
+		INSERT INTO address_tb (addr_1, addr_2, addr_3, member_tb_idx)
+		VALUES (#{addr_1}, #{addr_2}, #{addr_3}, #{member_tb_idx})
+	</insert>
+	<!-- 주소 삽입 sql문 -->
 
-<update id="updateAddress" parameterType="addressVO">
-    UPDATE address_tb
-    SET
-        addr_1 = #{addr_1},
-        addr_2 = #{addr_2},
-        addr_3 = #{addr_3}
-    WHERE
-        member_tb_idx = #{member_tb_idx}
-</update>
-  
+	<!-- 관련된 주소 데이터 삭제 -->
+	<delete id="delete_address" parameterType="memberVO">
+		DELETE FROM address_tb
+		WHERE MEMBER_TB_IDX = (SELECT MEMBER_IDX FROM member_tb WHERE member_email
+		= #{member_email} AND member_pw = #{member_pw})
+	</delete>
+
+	<update id="updateAddress" parameterType="addressVO">
+		UPDATE address_tb
+		SET
+		addr_1 = #{addr_1},
+		addr_2 = #{addr_2},
+		addr_3 = #{addr_3}
+		WHERE
+		member_tb_idx = #{member_tb_idx}
+	</update>
+
+	<!-- 회원 주소 꺼내오기 -->
+	<select id="selectMemAddr" resultType="addressVO" parameterType="int">
+		select * from address_tb where member_tb_idx = ${member_idx}
+	</select>
 </mapper>

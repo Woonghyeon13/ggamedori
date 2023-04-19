@@ -91,4 +91,8 @@ public class MemberDAO {
 		
 	}
 	
+	//회원 주문정보
+	public MEMBER_VO orderMem( MEMBER_VO memberVO ) {
+		return sqlSession.selectOne("game.dori.mapper.MemberMapper.orderMem",memberVO);
+	}
 }

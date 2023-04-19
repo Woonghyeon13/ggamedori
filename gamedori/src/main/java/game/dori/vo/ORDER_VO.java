@@ -14,7 +14,8 @@ public class ORDER_VO {
 	private String order_addr3; //상세주소
 	private String order_name; //수령자 이름
 	private String order_phone; //수령자 번호
-	private int order_del_type; //배송조건 1:일반 2:도서산간 
+	private int order_del_type; //배송조건 1:일반 2:도서산간
+	private String order_memo; //배송메모
 	
 	public int getOrder_price() {
 		return order_price;
@@ -93,4 +94,13 @@ public class ORDER_VO {
 	public void setOrder_del_type(int order_del_type) {
 		this.order_del_type = order_del_type;
 	}
+
+	public String getOrder_memo() {
+		return order_memo;
+	}
+
+	public void setOrder_memo(String order_memo) {
+		this.order_memo = order_memo;
+	}
+	
 }

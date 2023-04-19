@@ -3,8 +3,11 @@ package game.dori.service;
 import java.util.List;
 
 import game.dori.util.PROD_Q_LIST_VO;
+import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
+import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
+import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 
@@ -46,4 +49,11 @@ public interface ProductService {
 	public List<PROD_Q_LIST_VO> prodQlist( int prod_idx );
 	// 상품 문의 목록 카운트
 	public int prodQlistCnt( int prod_idx );
+	// 회원 주소정보 
+	public ADDRESS_VO selectMemAddr( MEMBER_VO memberVO );
+	// 회원 주문 정보
+	public MEMBER_VO orderMem( MEMBER_VO memberVO );
+	
+	// 주문 인덱스 생성
+	public int insertOrder( ORDER_VO ovo );
 }
