@@ -79,8 +79,8 @@ public class MypageController {
 		model.addAttribute("PointBalance", selectPointBalance);
 			
 		//상단 쿠폰개수출력
-		int selectListCount = mypageService.selectListCount(memberVO.getMember_idx());
-		model.addAttribute("selectListCount", selectListCount);
+		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+		model.addAttribute("CouponCount", CouponCount);
 			    
 		//상단 후기 개수
 		/*
@@ -278,7 +278,6 @@ public class MypageController {
 
 		//검색 포함
 
-		List<REVIEW_VO> selectList3 = mypageService.selectList3(memberVO.getMember_idx());
 		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
 
 

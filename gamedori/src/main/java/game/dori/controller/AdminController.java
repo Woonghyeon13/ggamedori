@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import game.dori.dao.ProdOptDAO;
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
@@ -413,7 +412,7 @@ public class AdminController {
 		  
 		  System.out.println(totalResults);
 
-		  Map<String, Object> response = new HashMap<>();
+		  Map<String, Object> response = new HashMap<String, Object>();
 		  response.put("searchResults", searchResults);
 		  response.put("totalPages", totalPages);
 

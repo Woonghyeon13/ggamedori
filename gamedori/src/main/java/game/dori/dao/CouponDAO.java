@@ -26,7 +26,6 @@ public class CouponDAO {
 	
 	//마이페이지 쿠폰 총 개수
 	public int CouponCount(int member_td_idx){
-		
 		return sqlSession.selectOne("game.dori.mapper.couponMapper.CouponCount", member_td_idx);
 	}
 	

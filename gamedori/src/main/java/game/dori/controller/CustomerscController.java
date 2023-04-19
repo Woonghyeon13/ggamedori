@@ -88,7 +88,7 @@ public class CustomerscController {
 		  
 		  System.out.println(totalResults);
 
-		  Map<String, Object> response = new HashMap<>();
+		  Map<String, Object> response = new HashMap<String, Object>();
 		  response.put("searchResults", searchResults);
 		  response.put("totalPages", totalPages);
 
@@ -197,7 +197,7 @@ public class CustomerscController {
 	}
 	
 	
-	// 공지사항 자주묻는 질문
+	// 공지사항 자주묻는 질문 수정
 	@RequestMapping( value = "/faq.do", method = RequestMethod.GET )
 	public String faq()
 	{
