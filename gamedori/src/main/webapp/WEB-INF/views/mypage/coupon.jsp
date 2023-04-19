@@ -39,11 +39,11 @@
 					</li>
 					<li>
 						<h4>쿠폰</h4>
-						<p> <c:out value="${selectListCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
+						<p> <c:out value="${CouponCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
 					</li>
 					<li>
 						<h4>나의 후기</h4>
-						<p><c:out value="${selectListCount2}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
+						<p><c:out value="${ReviewCount}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
 					</li>
 				</ul>
 			</div>
@@ -86,7 +86,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<c:forEach items="${selectList5}" var="vo">
+							<c:forEach items="${selectCouponList}" var="vo">
 							<th>${vo.coupon_idx}</th>
 							<td>${vo.coupon_date}</td>
 							<td>${vo.coupon_end}</td>

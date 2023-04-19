@@ -68,12 +68,14 @@ public class PRODUCT_Q_VO {
 	public void setProd_q_secret(int prod_q_secret) {
 		this.prod_q_secret = prod_q_secret;
 	}
+
 	public String getProduct_q_reply() {
 		return product_q_reply;
 	}
 	public void setProduct_q_reply(String product_q_reply) {
 		this.product_q_reply = product_q_reply;
 	}
+
 	
 
 

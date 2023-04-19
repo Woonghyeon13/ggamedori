@@ -28,7 +28,7 @@
 	</update>
 
 	<!-- 마이페이지 -상품문의 리스트 출력 -->
-	<select id="selectList" resultType="productqq_VO" parameterType="int">
+	<select id="selectQAList" resultType="productqq_VO" parameterType="int">
 		SELECT *
 			FROM product_q_tb q
 			INNER JOIN product_tb p

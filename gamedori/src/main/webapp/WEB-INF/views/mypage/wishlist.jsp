@@ -20,21 +20,22 @@
 							</tr>
 						</thead>
 						<tbody>
+						<c:forEach items="${selectWishlist}" var="vo" >
 							<tr>
 								<td id="Check"><input type="checkbox" class="item"></td>
 								<!-- img url c태그 -->
-								<c:url value='/images/ps4 피파23_180x180.jpg' var="img"/>
+								<c:url value='/images/${vo.prod_imgt}' var="img"/>
 								<td class="text-center align-middle"><a href="<c:url value='/prod/detail.do' />"><img src="${img}"></a></td>
 								<td class="align-middle">
 									<ul class="list-unstyled mb-0 ps-2 pe-2">
-										<li><a href="#">PS4 피파23</a></li>
-										<li style="color: #b9b9b9;">옵션 내용</li>
+										<li><a href="#">${vo.prod_name}</a></li><!-- 제품명 -->
+										<li style="color: #b9b9b9;">${vo.prod_opt}</li><!-- 옵션 -->
 									</ul>
 								</td>
-								<td class="text-center align-middle">70,000원</td>
+								<td class="text-center align-middle">${vo.prod_price}</td><!-- 가격 -->
 								<td class="text-center align-middle">
 									<ul class="list-unstyled mb-0">
-										<li><button type="button" class="btn btn-secondary w-35" data-toggle="popover">
+										<li><button type="button" class="addCart_btn btn btn-secondary w-35" data-toggle="popover">
 											장바구니 담기
 										</button></li>
 										<li><button class="btn btn-outline-danger mt-2 w-35">삭제</button></li>
@@ -42,27 +43,7 @@
 								</td>
 								
 							</tr>
-
-							<tr>
-								<td id="Check"><input type="checkbox" class="item"></td>
-								<td class="text-center align-middle"><a href="<c:url value='/prod/detail.do' />"><img src="${img}"></a></td>
-								<td class="align-middle">
-									<ul class="list-unstyled mb-0 ps-2 pe-2">
-										<li><a href="#">PS4 피파23</a></li>
-										<li style="color: #b9b9b9;">옵션 내용</li>
-									</ul>
-								</td>
-								<td class="text-center align-middle">70,000원</td>
-								<td class="text-center align-middle">
-									<ul class="list-unstyled mb-0">
-										<li><button type="button" class="btn btn-secondary w-50" data-toggle="popover">
-											장바구니담기
-										</button></li>
-										<li><button class="btn btn-outline-danger mt-2 w-50">삭제</button></li>
-									</ul>
-								</td>
-						
-							</tr>
+						</c:forEach>
 						</tbody>
 					</table>
 					<button type="button" class="btn btn-outline-secondary btn-sm mb-5">선택삭제</button>
@@ -71,6 +52,38 @@
 			</div>
 		</section>
 	</div>
+	
+	<script> <!-- 카트 담기 ajax -->
+		
+		$("addCart_btn").click(function()
+		{
+			var product_tb_idx = $("#product_tb_idx").val();
+			var data = 
+			{
+				product_tb_idx : product_tb_idx
+			};
+			
+			
+			$.ajax
+			({
+				url: "<%=request.getContextPath()%>/mypage/addCart.do",
+				type: "post",
+				data: data,
+				success: function(result)
+				{
+					if(result != 1){alert("회원만 사용할 수 있는 서비스입니다.");}
+				},
+				error: function(){alert("카트 담기 실패!");}
+				
+			})
+			
+		})
+		
+	
+		
+		
+	</script>
+	
 </main>
 
 

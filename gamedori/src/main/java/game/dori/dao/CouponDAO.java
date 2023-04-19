@@ -20,14 +20,14 @@ public class CouponDAO {
    
 	
 	//마이페이지 쿠폰 리스트 출력
-	public List<COUPON_VO> selectList5(int member_td_idx) {
-		return sqlSession.selectList("game.dori.mapper.couponMapper.selectList5", member_td_idx);
+	public List<COUPON_VO> selectCouponList(int member_td_idx) {
+		return sqlSession.selectList("game.dori.mapper.couponMapper.selectCouponList", member_td_idx);
 	}	
 	
 	//마이페이지 쿠폰 총 개수
-	public int selectListCount(int member_td_idx){
+	public int CouponCount(int member_td_idx){
 		
-		return sqlSession.selectOne("game.dori.mapper.couponMapper.selectListCount", member_td_idx);
+		return sqlSession.selectOne("game.dori.mapper.couponMapper.CouponCount", member_td_idx);
 	}
 	
 	//쿠폰 삭제 
