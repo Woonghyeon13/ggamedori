@@ -57,7 +57,7 @@ ClassicEditor
     } );
 
 function validateForm(event) {
-    // 검색어와 검색 옵션 가져오기
+    // 제목과 내용 가져오기
     var noticeTitle = $('.noticetitle').val();
     var noticeContents = ''; // 변수 초기화
 

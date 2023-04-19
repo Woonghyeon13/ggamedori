@@ -63,6 +63,12 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		return noticeDAO.modify(noticeVO);
 	}
+	public int countSearchResults(String searchText, String searchOption) {
+		// TODO Auto-generated method stub
+		return noticeDAO.countSearchResults(searchText, searchOption);
+
+	}
+
 
 	@Override
 	public List<NOTICE_VO> searchNotices(String searchText, String searchOption, int start, int limit) {
@@ -85,11 +91,7 @@ public class AdminServiceImpl implements AdminService{
 	public List<OTO_VO> otoList() {//1:1문의 리스트
 		return qaDAO.list();
 	}
-	public int countSearchResults(String searchText, String searchOption) {
-		// TODO Auto-generated method stub
-		return noticeDAO.countSearchResults(searchText, searchOption);
-
-	}
+	
 
 	@Override
 	public int otoAnswer(OTO_VO otoVO) {//1:1문의 답변

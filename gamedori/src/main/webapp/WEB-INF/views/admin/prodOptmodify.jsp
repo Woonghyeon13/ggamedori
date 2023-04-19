@@ -32,88 +32,39 @@
 		<ul class="nav justify-content-end text-black">
 			<li class="nav-item"><a
 				class="nav-link active text-reset fw-bold" aria-current="page"
-				href="<c:url value='/admin/prodmodify.do?prod_idx=${pvo.prod_idx}' />">상품 정보 수정</a></li>
+				href="<c:url value='/admin/prodmodify.do?prod_idx=${opt.prod_tb_idx}' />">상품 정보 수정</a></li>
 			<li class="nav-item"><a class="nav-link text-reset"
-				href="<c:url value='/admin/prodOptlist.do?prod_idx=${pvo.prod_idx}' />">상품 옵션 수정</a></li>
+				href="<c:url value='/admin/prodOptlist.do?prod_idx=${opt.prod_tb_idx}' />">상품 옵션 수정</a></li>
 		</ul>
 	</div>
-	<div class="container mt-1">
-		<!-- 상품 리스트 -->
-		<div class="container w-75">
-			<!-- 상품 등록 -->
-			<form name="prodModify" method="post" action="prodmodify.do"
-				enctype="multipart/form-data">
-				<div class="form-group d-flex justify-content-around">
-					<select class="category1 form-select form-select-sm"
-						aria-label=".form-select-sm example" name="prodCate1">
-						<option value="">1차 카테고리</option>
-					</select> <select name="category_tb_code"
-						class="category2 form-select form-select-sm"
-						aria-label=".form-select-sm example">
-						<option value="">2차 카테고리</option>
-					</select>
-				</div>
-				<div
-					class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
-					<span class="input-group-text" id="basic-addon1">상품명</span>
-					<input type="hidden" name="opt_name" value="">
-					<input type="hidden" value="${pvo.prod_idx}" class="form-control" name="prod_idx">
-					<input type="text" value="${pvo.prod_name}" class="form-control" name="prod_name">
-				</div>
-				<div
-					class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
-					<span class="input-group-text" id="basic-addon1">가격</span>
-					<input type="text" value="${pvo.prod_price}" class="form-control" name="prod_price">
-				</div>
-				<div
-					class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
-					<span class="input-group-text" id="basic-addon1">제조사</span>
-					<input type="text" value="${pvo.prod_co}" class="form-control" name="prod_co">
-				</div>
-				<div
-					class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
-					<span class="input-group-text" id="basic-addon1">출시일</span>
-					<input type="date" value="${pvo.prod_rdate}" class="form-control" name="prod_rdate">
-				</div>
-				<div
-					class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
-					<span class="input-group-text" id="basic-addon1">재고량</span>
-					<input type="text" value="${pvo.prod_stock}" class="form-control" name="prod_stock">
-				</div>
-				<div class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
-					<span class="input-group-text">최소 구매수량</span> 
-					<input value="${pvo.prod_qtymin}" name="prod_qtymin" type="text" aria-label="최소 구매" class="form-control">
-					<span class="input-group-text">최대 구매수량</span> 
-					<input value="${pvo.prod_qtymax}" name="prod_qtymax" type="text" aria-label="최대 구매" class="form-control">
-				</div>
-				<div
-					class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
-					<span class="input-group-text" id="basic-addon1">예약상품 여부</span>
-					<input name="prod_reserv" type="radio" value="1">Y
-					<input name="prod_reserv" type="radio" value="2">N
-				</div>
-				<div class="form-group mt-2">
-					<div class="input-group mb-3">
-						<input name="prod_file1" type="file" class="form-control">
-						<label class="input-group-text" for="inputGroupFile02">썸네일</label>
-					</div>
-				</div>
-				<div class="form-group mt-2">
-					<div class="input-group mb-3">
-						<input name="prod_file2" type="file" class="form-control">
-						<label class="input-group-text" for="inputGroupFile02">메인사진</label>
-					</div>
-				</div>
-				<div class="form-group mt-2">
-					<div class="input-group mb-3">
-						<input name="prod_file3" type="file" class="form-control">
-						<label class="input-group-text" for="inputGroupFile02">상세정보</label>
-					</div>
-				</div>
-				<div class="d-grid gap-1 mt-2">
-					<input type="submit" onclick="return prodcheck()" class="btn btn-outline-secondary btn-lg form-control" value="수정하기">
-				</div>
-			</form>
+	<div class="container w-75">
+			<div class="container w-50">
+		<!-- 옵션 수정 -->
+		<form name="prodInsert" method="post" action="prodOptmodify.do">
+			<input type="hidden" name="opt_idx" value="${opt.opt_idx}">
+			<input type="hidden" name="prod_idx" value="${opt.prod_tb_idx}">
+			<div
+				class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
+				<span class="input-group-text" id="basic-addon1">옵션명</span>
+				<input type="text" class="form-control" placeholder=""
+					name="opt_name" value="${opt.opt_name}">
+			</div>
+			<div
+				class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
+				<span class="input-group-text" id="basic-addon1">옵션재고량</span>
+				<input type="text" class="form-control" placeholder=""
+					name="opt_stock" value="${opt.opt_stock}">
+			</div>
+			<div
+				class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
+				<span class="input-group-text" id="basic-addon1">옵션금액</span>
+				<input type="text" class="form-control" placeholder=""
+					name="opt_price" value="${opt.opt_price}">
+			</div>
+			<div class="d-grid gap-1 mt-2">
+				<input type="submit" onclick="return prodcheck()" class="btn btn-outline-secondary btn-lg form-control" value="옵션수정">
+			</div>
+		</form>
 		</div>
 	</div>
 </main>

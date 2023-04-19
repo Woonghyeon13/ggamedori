@@ -22,6 +22,7 @@
 	<!-- 폰트 -->
 	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 	
 	<!--jquery-->
 	<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
@@ -94,6 +95,9 @@
 							</c:if>
 							<c:if test="${sessionScope.Login.member_role == 2}">
 								<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/admin/orderList.do'/>">관리자페이지</a></button></li>
+							</c:if>
+							<c:if test="${sessionScope.Login.member_role == 2}">
+								<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/test/payment'/>">테스트 결제 페이지</a></button></li>
 							</c:if>
 						</c:if>
 						<li><a href="<c:url value='/mypage/cart.do'/>" class="nav-link me-2 mt-1 text-muted" title="장바구니"><i class="xi-cart-o xi-2x"></i></a></li>
@@ -190,7 +194,7 @@
 								</tr>
 								<tr>
 									<td>
-										<p style="text-align: center; font-size: 18px;"><a href=#>계정이 없으신가요?</a></p>
+										<p style="text-align: center; font-size: 18px;"><a href="<c:url value='/user/join.do'/>">계정이 없으신가요?회원가입</a></p>
 									</td>
 								</tr>
 							</table>

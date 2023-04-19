@@ -2,7 +2,10 @@ package game.dori.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,49 +44,57 @@ public class CustomerscController {
 	@Autowired
 	private MemberService MemberService;
 	
-	
 
-	
 	// 공지사항 리스트
-	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String main(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
-	                   @RequestParam(value = "searchText", required = false) String searchText,
-	                   @RequestParam(value = "searchOption", required = false) String searchOption) throws Exception {
-	    int limit = 15; // 페이지당 게시물 수
-	    int start = (page - 1) * limit;
+		@RequestMapping(value = "/main.do", method = RequestMethod.GET)
+		public String main(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
+		                   @RequestParam(value = "searchText", required = false) String searchText,
+		                   @RequestParam(value = "searchOption", required = false) String searchOption) throws Exception {
+		    int limit = 15; // 페이지당 게시물 수
+		    int start = (page - 1) * limit;
 
-	    List<NOTICE_VO> noticeList;
-	    int totalRecords;
+		    List<NOTICE_VO> noticeList;
+		    int totalRecords;
 
-	    if (searchText != null && searchOption != null) {
-	        noticeList = adminService.searchNotices(searchText, searchOption, start, limit);
-	        totalRecords = adminService.countSearchResults(searchText, searchOption);
-	    } else {
-	        noticeList = adminService.list(limit, start);
-	        totalRecords = adminService.countAll();
-	    }
+		    if (searchText != null && searchOption != null) {
+		        noticeList = adminService.searchNotices(searchText, searchOption, start, limit);
+		        totalRecords = adminService.countSearchResults(searchText, searchOption);
+		    } else {
+		        noticeList = adminService.list(limit, start);
+		        totalRecords = adminService.countAll();
+		    }
 
-	    model.addAttribute("notice", noticeList);
+		    model.addAttribute("notice", noticeList);
 
-	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
-	    model.addAttribute("totalPages", totalPages);
+		    int totalPages = (int) Math.ceil((double) totalRecords / limit);
+		    model.addAttribute("totalPages", totalPages);
 
-	    return "customersc/main";
-	}
+		    return "customersc/main";
+		}
+		
+		//검색 기능
+		@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+		@ResponseBody
+		public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
+		                                                        @RequestParam("searchOption") String searchOption,
+		                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+		  int limit = 15; // 페이지당 게시물 수
+		  int start = (page - 1) * limit;
 
-	// 검색 기능
-	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
-	                                                    @RequestParam("searchOption") String searchOption,
-	                                                    @RequestParam(value = "page", defaultValue = "1") int page) {
-	    int limit = 15; // 페이지당 게시물 수
-	    int start = (page - 1) * limit;
+		  List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
+		  int totalResults = adminService.countSearchResults(searchText, searchOption); // 전체 검색 결과 수
+		  int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
+		  
+		  
+		  System.out.println(totalResults);
 
-	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
-	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
-	}
-	
+		  Map<String, Object> response = new HashMap<>();
+		  response.put("searchResults", searchResults);
+		  response.put("totalPages", totalPages);
+
+		  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+		}
+		
 	// 공지사항 작성
 	@RequestMapping(value = "/notice_write.do", method = RequestMethod.GET)
 	public String write() {

@@ -6,7 +6,7 @@
 <mapper namespace="game.dori.mapper.qaMapper">
 
 	<!-- 마이페이지 1:1문의 리스트 출력  -->
-	<select id="selectList2" resultType="qaVO" parameterType="int">
+	<select id="selectOtoList" resultType="qaVO" parameterType="int">
 		select *
 			from QA_TB
 			where MEMBER_TB_IDX = #{MEMBER_IDX}

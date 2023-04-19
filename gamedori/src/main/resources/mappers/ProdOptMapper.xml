@@ -17,8 +17,12 @@
 	</select>
 	
 	<!-- 옵션 정보 -->
-	<select id="optSelecet" resultType="optVO" parameterType="int">
+	<select id="optSelect" resultType="optVO" parameterType="int">
 		select * from opt_tb where prod_tb_idx = #{prod_idx}
+	</select>
+	<!-- 옵션 선택 정보 -->
+	<select id="optSelectOne" resultType="optVO" parameterType="int">
+		select * from opt_tb where opt_idx = #{opt_idx}
 	</select>
 	
 	<!-- 옵션 수정 -->
@@ -26,13 +30,21 @@
 		update opt_tb set 
 		opt_name = #{opt_name},
 		opt_stock = #{opt_stock},
-		opt_price = #{opt_price},
+		opt_price = #{opt_price}
 		where opt_idx = #{opt_idx};
 	</update>
+	<!-- 옵션 상태 수정 -->
+	<update id="updateOptState" parameterType="optVO">
+		update opt_tb set opt_state = #{opt_state} where opt_idx = #{opt_idx}
+	</update>
 	
-	<!-- 옵션 삭제 -->
+	<!-- 상품 옵션 전체 삭제 -->
 	<delete id="optDel" parameterType="int">
 		delete from opt_tb where prod_tb_idx = #{prod_idx};
+	</delete>
+	<!-- 옵션 삭제 -->
+	<delete id="optDelOne" parameterType="int">
+		delete from opt_tb where opt_idx = #{opt_idx};
 	</delete>
 	
 </mapper>
