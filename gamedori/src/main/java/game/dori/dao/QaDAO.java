@@ -19,10 +19,6 @@ public class QaDAO {
 	
 	
 
-	// 1 : 1문의사항 리스트 출력
-	public List<QA_VO> selectList2(int member_idx){
-		return sqlSession.selectList("game.dori.mapper.qaMapper.selectList2", member_idx);
-
 	//마이페이지 1:1문의 리스트 출력
 	public List<QA_VO> selectOtoList(int member_idx){
 		return sqlSession.selectList("game.dori.mapper.qaMapper.selectOtoList", member_idx);

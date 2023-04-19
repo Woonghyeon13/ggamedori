@@ -19,6 +19,7 @@ import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
+import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
@@ -184,12 +185,6 @@ public class MypageServiceImpl implements MypageService{
 		return productQDAO.prod_select(member_tb_idx);
 	}
 
-	/*-------------------------------------------------------------------------------*/
-	@Override
-	public List<REVIEW_VO> selectList3(int member_idx, REVIEW_Search_VO search) {
-		// TODO Auto-generated method stub
-		return reviewDAO.selectList3(member_idx);
-	}
 
 
 	//위시리스트(찜목록)

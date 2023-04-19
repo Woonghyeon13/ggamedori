@@ -22,14 +22,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import game.dori.service.MemberService;
 import game.dori.service.MypageService;
 import game.dori.vo.CARTP_VO;
+import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 //github.com/Gunyoung2/ggamedori.git
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
+import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
@@ -78,23 +81,6 @@ public class MypageController {
 		 */
 		
 
-		//상단 적립금
-		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		model.addAttribute("PointBalance", selectPointBalance);
-			
-		//상단 쿠폰개수출력
-		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
-		model.addAttribute("CouponCount", CouponCount);
-			    
-		//상단 후기 개수
-		/*
-		 * int ReviewCount =
-		 * mypageService.ReviewCount(memberVO.getMember_idx());
-		 * model.addAttribute("ReviewCount", ReviewCount);
-		 */
-			  		
-
-			    
 		//최근주문내역
 		List<ORDER_VO> selectOrderList = 
 		mypageService.selectOrderListService(memberVO.getMember_idx());
@@ -116,36 +102,6 @@ public class MypageController {
 		
 	}
 
-	// 마이페이지 1 : 1 문의사항 리스트 출력
-	@RequestMapping( value = "/main.do", method = RequestMethod.GET )
-	public String main_oto(Model model, HttpServletRequest req)
-	{
-		
-		HttpSession session = req.getSession();
-		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
-		
-		//상단 등급출력
-	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
-		model.addAttribute("level", selectMemberLevel);
-		
-		//상단 적립금
-		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		model.addAttribute("PointBalance", selectPointBalance);
-			
-		//상단 쿠폰개수출력
-		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
-		model.addAttribute("CouponCount", CouponCount);
-			    
-		//상단 후기 개수
-		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
-		model.addAttribute("ReviewCount", ReviewCount);
-		
-		//마이페이지-상세페이지-1:1문의리스트 출력
-		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx() );
-		model.addAttribute("selectOtoList", selectOtoList);
-		
-		return "mypage/main";
-	}
 	
 //	// 1 : 1 문의 사항 페이징
 //	@RequestMapping(value = "/main.do" , method = RequestMethod.GET)
@@ -255,8 +211,8 @@ public class MypageController {
 		HttpSession session = req.getSession();
 		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
 		
-		List<QA_VO> selectList2 = mypageService.selectList2(MEMBERVO.getMember_idx() );
-		model.addAttribute("selectList2", selectList2);
+		List<QA_VO> selectOtoList = mypageService.selectOtoList(MEMBERVO.getMember_idx() );
+		model.addAttribute("selectOtoList", selectOtoList);
 		
 		return "mypage/oto";
 	}
@@ -478,26 +434,6 @@ public class MypageController {
 	    return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.OK);
 	}
 	
-
-
-//	// 쿠폰 리스트 출력
-//	@RequestMapping( value = "/coupon.do", method = RequestMethod.GET )
-//	public String coupon(Model model,HttpServletRequest req)
-//	{
-//		HttpSession session = req.getSession();
-//		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
-//		
-//		//리스트 조회
-//		List<COUPON_VO> selectList5 = mypageService.selectList5(MEMBERVO.getMember_idx() );
-//		model.addAttribute("selectList5", selectList5);
-//		
-//		
-//		//쿠폰 개수
-//		int selectListCount = mypageService.selectListCount(MEMBERVO.getMember_idx());
-//	    model.addAttribute("selectListCount", selectListCount);
-//		
-//		return "mypage/coupon";
-//	}
 
 	// 쿠폰 리스트 출력
 	@RequestMapping( value = "/coupon.do", method = RequestMethod.GET )

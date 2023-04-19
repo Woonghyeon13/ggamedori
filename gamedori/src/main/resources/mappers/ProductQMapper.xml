@@ -5,12 +5,6 @@
 
 <mapper namespace="game.dori.mapper.productQMapper">
 
-<!-- 	 상품 문의사항 리스트 출력 
-	<select parameterType="int" resultType="PRODUCT_Q_VO" id="selectList">
-		SELECT *
-			FROM PRODUCT_Q_TB
-			WHERE MEMBER_TB_IDX = #{MEMBER_IDX} 
-	</select> -->
 	
 	<!-- 관리자페이지 상품문의 리스트 출력 -->
 	<select resultType="pqlistVO" id="pqlist">
@@ -66,7 +60,7 @@
 		SELECT *
 			FROM 
 				product_q_tb q
-			INNER JOIN product_tb pon 
+			INNER JOIN product_tb p on 
 				q.product_tb_idx = p.prod_idx
 			WHERE 
 				member_tb_idx = #{member_idx}
