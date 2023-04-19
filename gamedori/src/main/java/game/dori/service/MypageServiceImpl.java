@@ -89,22 +89,31 @@ public class MypageServiceImpl implements MypageService{
 		return savepointDAO.selectPointBalanceDAO(member_tb_idx);
 	}
 
-	//마이페이지 쿠폰 리스트출력
-	@Override
-	public List<COUPON_VO> selectList5(int member_tb_idx) {
-		return couponDAO.selectList5(member_tb_idx);
-	}
-
-	//마이페이지 쿠폰 개수
-	@Override
-	public int selectListCount(int member_tb_idx) {
-		return couponDAO.selectListCount(member_tb_idx);
-	}
+//	//마이페이지 쿠폰 리스트출력
+//	@Override
+//	public List<COUPON_VO> selectList5(int member_tb_idx) {
+//		return couponDAO.selectList5(member_tb_idx);
+//	}
+//
+//	//마이페이지 쿠폰 개수
+//	@Override
+//	public int selectListCount(int member_tb_idx) {
+//		return couponDAO.selectListCount(member_tb_idx);
+//	}
 
 	//마이페이지 리뷰 개수
 	@Override
 	public int selectListCount2(int member_tb_idx) {
 		return reviewDAO.selectListCount2(member_tb_idx);
+	}
+
+	/*-------------------------------------------------------------------------------*/
+	
+	// 1 : 1 문의 사항 글 등록
+	@Override
+	public int oto_insert(QA_VO qaVO) {
+		// TODO Auto-generated method stub
+		return qaDAO.oto_insert(qaVO);
 	}
 
 	//마에피이지 주문내역 출력
@@ -132,6 +141,62 @@ public class MypageServiceImpl implements MypageService{
 		return reviewDAO.countSearchResults(r_searchValue, r_searchType);
 	}
 
+	// 1 : 1 문의 사항 글 삭제
+	@Override
+	public int oto_delete(int qa_idx) {
+		// TODO Auto-generated method stub
+		return qaDAO.oto_delete(qa_idx);
+	}
+	
+	// 1 : 1 문의 사항 상세보기
+	@Override
+	public QA_VO oto_select(int member_tb_idx) {
+		// TODO Auto-generated method stub
+		return qaDAO.oto_select(member_tb_idx);
+	}
 
+	@Override
+	public int oto_countAll() {
+		// TODO Auto-generated method stub
+		return qaDAO.oto_countAll();
+	}
+
+	
+	/*-------------------------------------------------------------------------------*/
+	
+	// 상품 문의 사항 글 등록
+	@Override
+	public int prod_insert(PRODUCT_Q_VO product_Q_VO) {
+		// TODO Auto-generated method stub
+		return productQDAO.prod_insert(product_Q_VO);
+	}
+
+	// 상품 문의 사항 상세보기
+	@Override
+	public PRODUCT_Q_VO prod_select(int member_tb_idx) {
+		// TODO Auto-generated method stub
+		return productQDAO.prod_select(member_tb_idx);
+	}
+
+	/*-------------------------------------------------------------------------------*/
+	@Override
+	public List<REVIEW_VO> selectList3(int member_idx, REVIEW_Search_VO search) {
+		// TODO Auto-generated method stub
+		return reviewDAO.selectList3(member_idx);
+	}
+
+
+	@Override
+	public List<COUPON_VO> selectList5(int member_tb_idx) {
+		// TODO Auto-generated method stub
+		return couponDAO.selectList5(member_tb_idx);
+	}
+
+
+	@Override
+	public int selectListCount(int member_tb_idx) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

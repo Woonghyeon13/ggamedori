@@ -69,52 +69,45 @@
             <div id="one_to_one_inner" class="col-8">     
                 <p><strong>${sessionScope.Login.member_name}</strong>님의 1 : 1 문의 내역</p>            
                 <table id="one_to_one_t" class="table table-hover" style="width:100%; border-top:1px solid #000;">
-                    <thead>
-                        <tr>
-                            <th scope="col">번호</th>
-                            <th scope="col">문의 제목</th>
-                            <th scope="col">작성자</th>
-                            <th scope="col">작성 일자</th>
-                            <th scope="col">처리 상태</th>
-                          
-                        </tr>
-                    </thead>
+                
+                			<thead style="background:#000; color:#fff;">
+								<tr>
+									<th width="10%" style="text-align:center;">번호</th>
+									<th width="45%" style="text-align:center;">문의 제목</th>
+									<th width="10%"  style="text-align:center;">작성자</th>
+									<th width="20%"  style="text-align:center;">작성 일자</th>
+									<th width="15%"  style="text-align:center;">처리 상태</th>
+								</tr>
+							</thead>
+							
                     <tbody>
-                    	<c:forEach items="${selectList2}" var="vo">
-                        <tr>
-                            <th>${vo.qa_idx}</th>
-                            <td>${vo.qa_title}</td>
-                            <td>${vo.qa_writer}</td>
-                            <td>${vo.qa_wdate}</td>
-                            <td>${vo.qa_yn}</td>
-                        </tr> 
+                    	<c:forEach items="${selectList2}" var="qaVO">
+	                        <tr>
+	                            <td>${qaVO.qa_idx}</td>
+	                            <td><a href="oto_view.do?qa_idx=${qaVO.qa_idx}">${qaVO.qa_title}</a></td>
+	                            <td>${qaVO.qa_writer}</td>
+	                            <td>${qaVO.qa_wdate}</td>
+	                            <td>${qaVO.qa_yn == 1 ? '답변 완료' : '답변 처리중'}</td>
+	                        </tr> 
                         </c:forEach>
                     </tbody>   
                 </div> <!-- end:#enquiry_inner -->
-            </table>
+
+            </table>    
+             <c:if test="${Login.member_role == 1}">
+	 	           <button onclick="location.href='${pageContext.request.contextPath}/mypage/oto_write.do'" style="float:right; margin-top:20px;">문의하기</button>
+			</c:if>  
+            
 			<div id="paging" class="container">
 				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center text-black">
-					<li class="page-item">
-						<a class="page-link text-reset" href="#" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-					<li class="page-item"><a class="page-link text-reset" href="#">1</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">2</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">3</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">4</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">5</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">6</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">7</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">8</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">9</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">10</a></li>
-					<li class="page-item">
-						<a class="page-link text-reset" href="#" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
+					<ul class="pagination justify-content-center" >
+						<c:forEach var="i" begin="1" end="${totalPages}">
+						    <li class="page-item" class="${param.page == i ? 'active' : ''}">
+						        <a class="page-link" href="?page=${i}" style="${param.page == i ? 'background-color: #dadbdd; border-color: #ffeeeee;' : ''}">
+						            ${i}
+						        </a>
+						    </li>
+						</c:forEach>
 					</ul>
 				</nav>
 			</div>

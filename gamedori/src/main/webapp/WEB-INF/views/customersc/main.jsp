@@ -51,11 +51,6 @@
 			
 		</table>
 
-
-
-				
-			
-
 	<!-- 검색 -->
 	<div class="container">
 	    <form class="d-flex justify-content-center align-items-center" role="form">

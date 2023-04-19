@@ -1,42 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="game.dori.mapper.productQMapper">
+
+<!-- 	 상품 문의사항 리스트 출력 
+	<select parameterType="int" resultType="PRODUCT_Q_VO" id="selectList">
+		SELECT *
+			FROM PRODUCT_Q_TB
+			WHERE MEMBER_TB_IDX = #{MEMBER_IDX} 
+	</select> -->
+	
 	<!-- 관리자페이지 상품문의 리스트 출력 -->
-	<select id="pqlist" resultType="pqlistVO">
-		select *
+	<select resultType="pqlistVO" id="pqlist">
+		select * 
 			from
 				product_q_tb pq,
 				member_tb m,
 				product_tb p
 			where
 				pq.product_tb_idx = p.prod_idx
-				and
-				pq.member_tb_idx = m.member_idx
+			and 
+				pq.member_tb_idx = m.member_idx 
 	</select>
+	
+	
+	<!-- 상품 문의 사항 글 번호를 받아와 그 해당하는 글을 선택하는 쿼리문 -->
+	<select parameterType="product_Q_VO" resultType="product_Q_VO" id="prod_select">
+		SELECT * 
+			FROM PRODUCT_Q_TB 
+			WHERE prod_q_idx = #{prod_q_idx} 
+	</select>
+	
+	<!-- 상품 문의사항 글 등록 -->
+	<insert parameterType="product_Q_VO" id="prod_insert">
+		INSERT INTO 
+			PRODUCT_Q_TB (
+				MEMBER_TB_IDX, 
+				PROD_Q_TITLE, 
+				PROD_Q_CONTENTS, 
+				PROD_Q_WRITER
+			)VALUES(
+				#{member_tb_idx},
+				#{prod_q_title},
+				#{prod_q_contents},
+				(SELECT member_name FROM member_tb WHERE member_idx = #{member_tb_idx})
+			); 
+	</insert>
 	
 	<!-- 상품문의 답변 -->
-	<update id="pqAnswer" parameterType="pqlistVO">
-		update product_q_tb
-			set
-				prod_q_reply = #{prod_q_reply},
-				prod_q_yn = 1
-			where
-				prod_q_idx = #{prod_q_idx}
+	<update parameterType="pqlistVO" id="pqAnswer">
+		update 
+			product_q_tb
+		set
+			prod_q_reply = #{prod_q_reply},
+			prod_q_yn = 1
+		where
+			prod_q_idx = #{prod_q_idx}
 	</update>
-
-	<!-- 마이페이지 -상품문의 리스트 출력 -->
-	<select id="selectList" resultType="productqq_VO" parameterType="int">
-		SELECT *
-			FROM product_q_tb q
-			INNER JOIN product_tb p
-			 on q.product_tb_idx = p.prod_idx
-			WHERE member_tb_idx = #{member_idx}
-		
-	</select>
-		<!-- int 타입의 매개변수 member_idx 값을 받아서 칼럼 전체의 값을 p 객체로 형태로 반환 -->
-
 	
+	<!-- 마이페이지 -상품문의 리스트 출력 -->
+	<select parameterType="int" resultType="productqq_VO" id="selectList">
+		SELECT *
+			FROM 
+				product_q_tb q
+			INNER JOIN product_tb pon 
+				q.product_tb_idx = p.prod_idx
+			WHERE 
+				member_tb_idx = #{member_idx}
+	</select>
+	
+	<!-- int 타입의 매개변수 member_idx 값을 받아서 칼럼 전체의 값을 p 객체로 형태로 반환 -->
+
+
 </mapper>

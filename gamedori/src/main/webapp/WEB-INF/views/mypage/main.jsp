@@ -57,8 +57,7 @@
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
-					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의
-							후기</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의후기</a></li>
 					<!-- review_list.html -->
 					<li class="list-group-item"><a href="<c:url value='/user/modify.do' />">회원정보수정</a></li>
 					<li class="list-group-item"><a href="<c:url value='/user/withdraw.do' />">탈퇴하기</a></li>
@@ -149,10 +148,10 @@
 									<td>
 									<c:choose>
 										<c:when test="${vo.prod_q_yn == 1}">
-											<c:out value="접수완료" />
+											<c:out value="답변완료" />
 										</c:when>
 										<c:when test="${vo.prod_q_yn == 2}">
-											<c:out value="답변완료" />
+											<c:out value="접수완료" />
 										</c:when>
 									</c:choose>
 									</td>
