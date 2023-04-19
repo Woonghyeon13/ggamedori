@@ -27,15 +27,27 @@ public class ProdOptDAO {
 		return sqlSession.selectOne("game.dori.mapper.prodOptMapper.optIdx");
 	}
 	// 상품 옵션 조회
-	public List<OPT_VO> optSelecet( int prod_idx ) {
-		return sqlSession.selectList("game.dori.mapper.prodOptMapper.optSelecet",prod_idx);
+	public List<OPT_VO> optSelect( int prod_idx ) {
+		return sqlSession.selectList("game.dori.mapper.prodOptMapper.optSelect",prod_idx);
+	}
+	// 상품 선택 옵션 조회
+	public OPT_VO optSelectOne( int opt_idx ) {
+		return sqlSession.selectOne("game.dori.mapper.prodOptMapper.optSelectOne",opt_idx);
 	}
 	// 상품 옵션 업데이트
 	public int optModify( OPT_VO opt ) {
 		return sqlSession.update("game.dori.mapper.prodOptMapper.optModify",opt);
 	}
+	// 상품 옵션상태 업데이트
+	public int optStateModify( OPT_VO opt ) {
+		return sqlSession.update("game.dori.mapper.prodOptMapper.updateOptState",opt);
+	}
 	// 상품 옵션 삭제
 	public int optDel( int prod_idx ) {
 		return sqlSession.delete("game.dori.mapper.prodOptMapper.optDel",prod_idx);
+	}
+	// 상품 옵션 삭제
+	public int optDelOne( int opt_idx ) {
+		return sqlSession.delete("game.dori.mapper.prodOptMapper.optDelOne",opt_idx);
 	}
 }

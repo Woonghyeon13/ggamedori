@@ -36,7 +36,24 @@
 			WHERE member_tb_idx = #{member_idx}
 		
 	</select>
-		<!-- int 타입의 매개변수 member_idx 값을 받아서 칼럼 전체의 값을 p 객체로 형태로 반환 -->
-
+	<!-- int 타입의 매개변수 member_idx 값을 받아서 칼럼 전체의 값을 p 객체로 형태로 반환 -->
 	
+	<!-- 상품문의 작성 -->
+	<insert id="prodQinsert" parameterType="product_Q_VO">
+		insert into product_q_tb ( product_tb_idx, member_tb_idx, prod_q_title, prod_q_contents, prod_q_secret )
+		 values ( #{product_tb_idx}, #{member_tb_idx}, #{prod_q_title}, #{prod_q_contents}, #{prod_q_secret} )
+	</insert>
+	
+	<!-- 상품문의목록 -->
+	<select id="prodQlist" resultType="pqlistVO" parameterType="int">
+		select *
+		 from product_q_tb q, member_tb m
+		  where q.member_tb_idx = m.member_idx and product_tb_idx = #{prod_idx}
+	</select>
+	<!-- 상품문의목록카운트 -->
+	<select id="prodQlistCnt" resultType="int" parameterType="int">
+		select count(*)
+		 from product_q_tb q, member_tb m
+		  where q.member_tb_idx = m.member_idx and product_tb_idx = #{prod_idx}
+	</select>
 </mapper>

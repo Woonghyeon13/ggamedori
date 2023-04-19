@@ -44,7 +44,7 @@ public class MypageController {
 	
 	
 	// 마이페이지 첫화면
-	@RequestMapping( value = "/main", method = RequestMethod.GET )
+	@RequestMapping( value = "/main.do", method = RequestMethod.GET )
 	public String main(Model model, HttpServletRequest req)
 	{
 		HttpSession session = req.getSession();
@@ -277,6 +277,8 @@ public class MypageController {
 		
 
 		//검색 포함
+
+		List<REVIEW_VO> selectList3 = mypageService.selectList3(memberVO.getMember_idx());
 		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
 
 

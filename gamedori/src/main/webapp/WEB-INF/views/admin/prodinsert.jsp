@@ -152,30 +152,6 @@
 	        	$("#optTable tr:last").remove();
 	        });
 		</script>
-		<!-- <script>
-	        $("#prodOptbtn").on("click", function() {
-	            $("#prodOpt1").show();
-	            $("#prodOpt2").show();
-	            $("#prodOpt3").show();
-	            $("#prodOpt4").show();
-	            $("#prodOpt5").show();
-	        });
-	        $(document).on("click", "#prodOptx1", function() {
-	        	$("#prodOpt1").hide();
-	        });
-	        $(document).on("click", "#prodOptx2", function() {
-	        	$("#prodOpt2").hide();
-	        });
-	        $(document).on("click", "#prodOptx3", function() {
-	        	$("#prodOpt3").hide();
-	        });
-	        $(document).on("click", "#prodOptx4", function() {
-	        	$("#prodOpt4").hide();
-	        });
-	        $(document).on("click", "#prodOptx5", function() {
-	        	$("#prodOpt5").hide();
-	        });
-		</script> -->
 	</div>
 </main>
 <!-- 유효성검사 -->

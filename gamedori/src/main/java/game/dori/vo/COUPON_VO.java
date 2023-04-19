@@ -83,5 +83,5 @@ public class COUPON_VO {
 	//게터 세터
 	
 	
-	
+
 }

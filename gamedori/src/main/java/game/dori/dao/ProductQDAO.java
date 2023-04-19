@@ -34,6 +34,19 @@ public class ProductQDAO {
 		return sqlSession.update(namespace + "pqAnswer", pqVO);
 	}
 	
+	//상품문의 작성
+	public int prodQinsert( PRODUCT_Q_VO pqvo ) {
+		return sqlSession.insert("game.dori.mapper.productQMapper.prodQinsert",pqvo);
+	}
+	
+	//상품문의 목록
+	public List<PROD_Q_LIST_VO> prodQlist( int prod_idx ){
+		return sqlSession.selectList("game.dori.mapper.productQMapper.prodQlist",prod_idx);
+	}
+	//상품문의 목록 카운트
+	public int prodQlistCnt( int prod_idx ){
+		return sqlSession.selectOne("game.dori.mapper.productQMapper.prodQlistCnt",prod_idx);
+	}
 }
 
 // vo를 참조자료형으로사용해서 member_idx를 인자로 mapper를 호출해 쿼리문을실행 
