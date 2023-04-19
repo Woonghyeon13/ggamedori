@@ -74,14 +74,14 @@
 								<tr>
 									<th width="10%" style="text-align:center;">번호</th>
 									<th width="45%" style="text-align:center;">문의 제목</th>
-									<th width="10%"  style="text-align:center;">작성자</th>
-									<th width="20%"  style="text-align:center;">작성 일자</th>
-									<th width="15%"  style="text-align:center;">처리 상태</th>
+									<th width="10%" style="text-align:center;">작성자</th>
+									<th width="20%" style="text-align:center;">작성 일자</th>
+									<th width="15%" style="text-align:center;">처리 상태</th>
 								</tr>
 							</thead>
 							
                     <tbody>
-                    	<c:forEach items="${selectList2}" var="qaVO">
+                    	<c:forEach items="${oto}" var="qaVO">
 	                        <tr>
 	                            <td>${qaVO.qa_idx}</td>
 	                            <td><a href="oto_view.do?qa_idx=${qaVO.qa_idx}">${qaVO.qa_title}</a></td>

@@ -35,52 +35,60 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired
 	private PageModifyDAO pmDAO;
 
+	
+	// 공지사항 페이징
 	public List<NOTICE_VO> list(int limit, int start) {
         return noticeDAO.list(limit, start);
     }
 
+	// 공지사항 글 등록
 	@Override
 	public int insert(NOTICE_VO vo){
 		
 		return noticeDAO.insert(vo);	
 	}
 	
+	// 공지사항 글 개수
 	@Override
 	public int countAll() {
 	    return noticeDAO.countAll();
 	}
 
+	// 공지사항 상세보기
 	@Override
 	public NOTICE_VO select(int member_tb_idx) {
 		// TODO Auto-generated method stub
 		return noticeDAO.select(member_tb_idx);
 	}
 
+	// 공지사항 글 삭제
 	@Override
 	public int delete(int notice_idx) {
 		// TODO Auto-generated method stub
 		return noticeDAO.delete(notice_idx);
 	}
-	
-	
 
+	// 공지사항 글 수정
 	@Override
 	public int modify(NOTICE_VO noticeVO) {
 		// TODO Auto-generated method stub
 		return noticeDAO.modify(noticeVO);
 	}
+	
+	// 공지사항 글 검색기능
 	public int countSearchResults(String searchText, String searchOption) {
 		// TODO Auto-generated method stub
 		return noticeDAO.countSearchResults(searchText, searchOption);
 
 	}
 
-
+	// 공지사항 글 검색후 페이징
 	@Override
 	public List<NOTICE_VO> searchNotices(String searchText, String searchOption, int start, int limit) {
 	    return noticeDAO.search(searchText, searchOption, start, limit);
 	}
 
+	// 공지사항 조회수
 	@Override
 	public int notice_Hit(NOTICE_VO noticeVO) {
 		// TODO Auto-generated method stub

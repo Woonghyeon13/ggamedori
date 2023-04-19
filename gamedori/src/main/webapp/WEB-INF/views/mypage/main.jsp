@@ -79,7 +79,7 @@
 								<tbody>
 								<c:forEach var="Orderlist" items="${Orderlist}">
 									<tr>
-										<th>${Orderlist.order_title}</th>
+										<td>${Orderlist.order_title}</td>
 										<td>${Orderlist.order_date}</td>
 										<td>${Orderlist.order_idx}</td>
 										<td>${Orderlist.order_price}</td>
@@ -128,7 +128,7 @@
 								<tbody>
 									<c:forEach items="${selectQAList}" var="vo">
 									<tr>
-										<th>${vo.prod_q_idx}</th>
+										<td>${vo.prod_q_idx}</td>
 									<td>
 									<c:choose>
 										<c:when test="${vo.prod_q_yn == 1}">
@@ -177,23 +177,25 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach items="${selectOtoList}" var="vo">
-				                	<tr>				   
-				                    	<th>${vo.qa_idx}</th>
-				                        <td>${vo.qa_title}</td>				             
-				                        <td>${vo.qa_wdate}</td>
-				                        <td>
-				                        <c:choose>
-											<c:when test="${vo.qa_yn == 1}">
-												<c:out value="접수완료" />
-											</c:when>
-											<c:when test="${vo.qa_yn == 2}">
-												<c:out value="답변완료" />
-											</c:when>
-										</c:choose>
-										</td>
-				                  	</tr> 
-                       			</c:forEach>
+								<c:forEach items="${selectOtoListD}" var="vo" varStatus="status">
+								    <c:if test="${status.index < 4}">
+								        <tr>				   
+								            <td>${vo.qa_idx}</td>
+								            <td>${vo.qa_title}</td>				             
+								            <td>${vo.qa_wdate}</td>
+								            <td>
+								                <c:choose>
+								                    <c:when test="${vo.qa_yn == 1}">
+								                        <c:out value="답변완료" />
+								                    </c:when>
+								                    <c:when test="${vo.qa_yn == 2}">
+								                        <c:out value="접수완료" />
+								                    </c:when>
+								                </c:choose>
+								            </td>
+								        </tr>
+								    </c:if>
+								</c:forEach>
 								
 								</tbody>
 							</table>
@@ -222,7 +224,7 @@
 								</thead>
 								<tbody>
 									<tr>
-										<th>1</th>
+										<td>1</td>
 										<td>게임 1</td>
 										<td>후기 제목입니다.</td>
 										<td>abc1234</td>

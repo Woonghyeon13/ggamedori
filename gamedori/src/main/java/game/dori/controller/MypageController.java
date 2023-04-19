@@ -28,8 +28,8 @@ import game.dori.service.MypageService;
 import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
-//github.com/Gunyoung2/ggamedori.git
 import game.dori.vo.MEMBER_VO;
+import game.dori.vo.NOTICE_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
@@ -91,8 +91,12 @@ public class MypageController {
 		model.addAttribute("selectQAList", selectQAList);
 		
 		//1:1문의내역
-		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx() );
+		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx());
 		model.addAttribute("selectOtoList", selectOtoList);
+		
+		// 1 : 1 문의 내역 역순
+		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx());
+		model.addAttribute("selectOtoListD",selectOtoListD);
 		
 		//나의후기
 		
@@ -102,63 +106,118 @@ public class MypageController {
 		
 	}
 
-	
-//	// 1 : 1 문의 사항 페이징
-//	@RequestMapping(value = "/main.do" , method = RequestMethod.GET)
-//	public String oto_list(Model model, @RequestParam(value = "oto_page", defaultValue = "1") int oto_page,
-//			@RequestParam(value = "oto_searchText", required = false) String oto_searchText,
-//			@RequestParam(value = "oto_searchOption", required = false) String oto_searchOption) throws Exception 
-//	{
-//		int oto_limit = 15;		// 페이지 당 게시물 수
-//		int oto_start = (oto_page - 1) * oto_limit;
-//		
-//		List<QA_VO> oto_LIst;
-//		int oto_totalRecords;
-//		
-//		if (oto_searchText != null && oto_searchOption != null) {
-//			oto_LIst = adminService.searchNotices(oto_searchText, oto_searchOption, oto_start, oto_limit);
-//	        oto_totalRecords = adminService.countSearchResults(oto_searchText, oto_searchOption);
-//	    } else {
-//	    	oto_LIst = adminService.list(oto_limit, oto_start);
-//	        oto_totalRecords = adminService.countAll();
-//	    }
-//
-//		
-//		return "mypage/oto";
-//	}
+
 			
 	
 	/*-------------------------------------------------------------------------------*/
 
 	// 상품 문의 리스트 출력
 	@RequestMapping( value = "/prodqa.do", method = RequestMethod.GET )
-	public String prodqa(Model model,HttpServletRequest req)
+	public String prodqa(Model model, HttpServletRequest req)
 	{	
-		HttpSession session = req.getSession();
-		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
-		
-		//상단 등급출력
-	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
-		model.addAttribute("level", selectMemberLevel);
-
-		//상단 적립금
-		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		model.addAttribute("PointBalance", selectPointBalance);
-			
-		//상단 쿠폰개수출력
-		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
-		model.addAttribute("CouponCount", CouponCount);
-			    
-		//상단 후기 개수
-		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
-		model.addAttribute("ReviewCount", ReviewCount);
-		
-		//마이페이지-상세페이지-상품문의 리스트 
-		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
-		model.addAttribute("selectQAList", selectQAList);
+//		HttpSession session = req.getSession();
+//		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
+//		
+//		//상단 등급출력
+//	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
+//		model.addAttribute("level", selectMemberLevel);
+//
+//		//상단 적립금
+//		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
+//		model.addAttribute("PointBalance", selectPointBalance);
+//			
+//		//상단 쿠폰개수출력
+//		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+//		model.addAttribute("CouponCount", CouponCount);
+//			    
+//		//상단 후기 개수
+//		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
+//		model.addAttribute("ReviewCount", ReviewCount);
+//		
+//		//마이페이지-상세페이지-상품문의 리스트 
+//		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
+//		model.addAttribute("selectQAList", selectQAList);
 		
 		return "mypage/prodqa";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	// 상품 문의사항 리스트
+//	@RequestMapping(value = "/prodqa.do", method = RequestMethod.GET)
+//	public String main(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
+//	                   @RequestParam(value = "searchText", required = false) String searchText,
+//	                   @RequestParam(value = "searchOption", required = false) String searchOption) throws Exception 
+//	{
+//	    int limit = 15; // 페이지당 게시물 수
+//	    int start = (page - 1) * limit;
+//
+//	    List<NOTICE_VO> noticeList;
+//	    int totalRecords;
+//
+//	    if (searchText != null && searchOption != null) {
+//	        noticeList = mypageServicesearchNotices(searchText, searchOption, start, limit);
+//	        totalRecords = adminService.countSearchResults(searchText, searchOption);
+//	    } else {
+//	        noticeList = adminService.list(limit, start);
+//	        totalRecords = adminService.countAll();
+//	    }
+//
+//	    model.addAttribute("notice", noticeList);
+//
+//	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
+//	    model.addAttribute("totalPages", totalPages);
+//
+//	    return "customersc/main";
+//	}
+//	
+// 	// 상품 문의사항 검색 기능
+//	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+//	@ResponseBody
+//	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
+//	                                                        @RequestParam("searchOption") String searchOption,
+//	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+//	  int limit = 15; // 페이지당 게시물 수
+//	  int start = (page - 1) * limit;
+//
+//	  List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
+//	  int totalResults = adminService.countSearchResults(searchText, searchOption); // 전체 검색 결과 수
+//	  int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
+//	  
+//	  
+//	  System.out.println(totalResults);
+//
+//	  Map<String, Object> response = new HashMap<String, Object>();
+//	  response.put("searchResults", searchResults);
+//	  response.put("totalPages", totalPages);
+//
+//	  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 상품  문의 사항 글 등록
 	@RequestMapping(value = "/prod_q_write.do", method = RequestMethod.GET)
@@ -197,25 +256,114 @@ public class MypageController {
 	public String view(Model model, @RequestParam("prod_q_idx") int prod_q_idx)
 	{
 		PRODUCT_Q_VO product_Q_VO = mypageService.prod_select(prod_q_idx);
+		model.addAttribute("product_Q_VO", product_Q_VO);
 
 		return "mypage/prod_q_view";
 	}
 	
 	/*-------------------------------------------------------------------------------*/
 	
-	// 1:1 문의 리스트 출력
-	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
-	public String oto(Model model, HttpServletRequest req)
+//	// 1:1 문의 리스트 출력
+//	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
+//	public String oto(Model model, HttpServletRequest req)
+//	{		
+//		HttpSession session = req.getSession();
+//		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
+//		
+//		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(MEMBERVO.getMember_idx() );
+//		model.addAttribute("selectOtoListD", selectOtoListD);
+//		
+//		return "mypage/oto";
+//	}
+	
+	// 1 : 1 문의사항 리스트
+	@RequestMapping(value = "/oto.do", method = RequestMethod.GET)
+	public String oto(Model model, HttpServletRequest req,
+					@RequestParam(value = "oto_page", defaultValue = "1") int oto_page,
+					@RequestParam(value = "oto_searchText", required = false) String oto_searchText,
+					@RequestParam(value = "oto_searchOption", required = false) String oto_searchOption) throws Exception 
 	{
+//		HttpSession session = req.getSession();
+//		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
+//		
+//		//상단 등급출력
+//	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
+//		model.addAttribute("level", selectMemberLevel);
+//
+//		//상단 적립금
+//		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
+//		model.addAttribute("PointBalance", selectPointBalance);
+//			
+//		//상단 쿠폰개수출력
+//		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+//		model.addAttribute("CouponCount", CouponCount);
+//			    
+//		//상단 후기 개수
+//		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
+//		model.addAttribute("ReviewCount", ReviewCount);
+//		
+//		//마이페이지-상세페이지-상품문의 리스트 
+//		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
+//		model.addAttribute("selectQAList", selectQAList);
 		
-		HttpSession session = req.getSession();
-		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
-		
-		List<QA_VO> selectOtoList = mypageService.selectOtoList(MEMBERVO.getMember_idx() );
-		model.addAttribute("selectOtoList", selectOtoList);
-		
-		return "mypage/oto";
+	    int oto_limit = 15; // 페이지당 게시물 수
+	    int oto_start = (oto_page - 1) * oto_limit;
+
+	    List<QA_VO> oto_List;
+	    int oto_totalRecords;
+
+	    if (oto_searchText != null && oto_searchOption != null) {
+	    	oto_List = mypageService.oto_search(oto_searchText, oto_searchOption, oto_start, oto_limit);
+	    	oto_totalRecords = mypageService.oto_countSearchResults(oto_searchText, oto_searchOption);
+	    } else {
+	    	oto_List = mypageService.oto_list(oto_limit, oto_start);
+	    	oto_totalRecords = mypageService.oto_countAll();
+	    }
+
+	    model.addAttribute("oto", oto_List);
+
+	    int totalPages = (int) Math.ceil((double) oto_totalRecords / oto_limit);
+	    model.addAttribute("totalPages", totalPages);
+
+	    return "mypage/oto";
 	}
+			
+	// 1 : 1 문의사항 검색 기능
+	@RequestMapping(value = "/oto_search.do", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> oto_search(@RequestParam("oto_searchText") String oto_searchText,
+	                                                        @RequestParam("oto_searchOption") String oto_searchOption,
+	                                                        @RequestParam(value = "oto_page", defaultValue = "1") int oto_page) {
+	  int oto_limit = 15; // 페이지당 게시물 수
+	  int oto_start = (oto_page - 1) * oto_limit;
+
+	  List<QA_VO> oto_searchResults = mypageService.oto_search(oto_searchText, oto_searchOption, oto_start, oto_limit);
+	  int oto_totalResults = mypageService.oto_countSearchResults(oto_searchText, oto_searchOption); // 전체 검색 결과 수
+	  int oto_totalPages = (int) Math.ceil((double) oto_totalResults / oto_limit); // 전체 페이지 수 계산
+	  
+	  
+	  System.out.println(oto_totalResults);
+
+	  Map<String, Object> response = new HashMap<String, Object>();
+	  response.put("oto_searchResults", oto_searchResults);
+	  response.put("oto_totalPages", oto_totalPages);
+
+	  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 1 : 1 문의 사항 글 등록
 	@RequestMapping(value = "/oto_write.do", method = RequestMethod.GET)
@@ -290,6 +438,9 @@ public class MypageController {
 		return "mypage/oto_view";
 	}
 	
+	
+
+	
 	/*-------------------------------------------------------------------------------*/
 	
 	
@@ -304,7 +455,6 @@ public class MypageController {
 		//상단 등급출력
 	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
 		model.addAttribute("level", selectMemberLevel);
-
 		
 		//상단 적립금
 		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
@@ -316,8 +466,7 @@ public class MypageController {
 			    
 		//상단 후기 개수
 		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
-		model.addAttribute("ReviewCount", ReviewCount);
-		
+		model.addAttribute("ReviewCount", ReviewCount);		
 		
 		//마이페이지-상세페이지-주문목록리스트출력
 		List<ORDER_VO> selectOrderList = 

@@ -49,7 +49,8 @@ public class CustomerscController {
 		@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 		public String main(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
 		                   @RequestParam(value = "searchText", required = false) String searchText,
-		                   @RequestParam(value = "searchOption", required = false) String searchOption) throws Exception {
+		                   @RequestParam(value = "searchOption", required = false) String searchOption) throws Exception 
+		{
 		    int limit = 15; // 페이지당 게시물 수
 		    int start = (page - 1) * limit;
 
@@ -72,7 +73,7 @@ public class CustomerscController {
 		    return "customersc/main";
 		}
 		
-		//검색 기능
+	// 공지사항 검색 기능
 		@RequestMapping(value = "/search.do", method = RequestMethod.GET)
 		@ResponseBody
 		public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
@@ -102,9 +103,6 @@ public class CustomerscController {
 		return "customersc/notice_write";
 		
 	}	
-	
-	
-	
 	
 	//공지사항 글 등록
 	@RequestMapping(value = "/notice_write.do", method = RequestMethod.POST)
