@@ -2,8 +2,10 @@ package game.dori.service;
 
 import java.util.List;
 
+import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.OPT_VO;
+import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 
 public interface ProductService {
@@ -27,9 +29,21 @@ public interface ProductService {
 	// 상품 인덱스
 	public int optIdx();
 	// 상품 옵션 상세
-	public List<OPT_VO> optSelecet( int prod_idx );
+	public List<OPT_VO> optSelect( int prod_idx );
+	// 상품 선택 옵션 상세
+	public OPT_VO optSelectOne( int opt_idx );
 	// 상품 옵션 수정
 	public int optModify( OPT_VO opt );
-	// 상품 옵션 삭제
+	// 상품 옵션상태 수정
+	public int optStateModify( OPT_VO opt );
+	// 상품 옵션 전체 삭제
 	public int optDel( int prod_idx );
+	// 상품 옵션 삭제
+	public int optDelOne( int opt_idx );
+	// 상품 문의 등록
+	public int prodQinsert( PRODUCT_Q_VO pqvo );
+	// 상품 문의 목록
+	public List<PROD_Q_LIST_VO> prodQlist( int prod_idx );
+	// 상품 문의 목록 카운트
+	public int prodQlistCnt( int prod_idx );
 }

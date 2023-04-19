@@ -3,12 +3,6 @@
 <%@ include file="../include/head.jsp" %>
 <main>
 	<!-- 마이페이지 클릭 시 첫 화면 ------------------------------------------------------------------------------------------------->
-	<script><!-- 마이페이지 적립금 계산 -->
-		let savept_balance = ${vo.savept_balance};
-		et pt_used_amount = ${vo.pt_used_amount};
-					  	
-		let result = savept_balance - pt_used_amount;
-	</script><!-- 마이페이지 적립금 계산 END -->
 	<div id="mypage_inner" class="container">
 		<h3>마이페이지</h3>
 		<div id="mypage_1" class="col">

@@ -20,7 +20,14 @@ public class PRODUCT_VO {
 	private String prod_imgd;			// 상세정보 이미지
 	private int prod_qtymin;			// 최소구매수량
 	private int prod_qtymax;			// 최대구매수량
+	private int prod_reserv;			// 예약
 	
+	public int getProd_reserv() {
+		return prod_reserv;
+	}
+	public void setProd_reserv(int prod_reserv) {
+		this.prod_reserv = prod_reserv;
+	}
 	public int getProd_qtymin() {
 		return prod_qtymin;
 	}
