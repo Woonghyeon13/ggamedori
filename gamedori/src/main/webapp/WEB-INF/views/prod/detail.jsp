@@ -138,8 +138,8 @@
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
 								<button class="btn btn-secondary"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
-								<button class="btn btn-outline-light login"
-									style="width: 280px; height: 60px;">바로 구매하기</button>
+								<button type="button" class="btn btn-outline-light login"
+									style="width: 280px; height: 60px;" onclick="location.href='<c:url value='/prod/orderForm.do'/>';">바로 구매하기</button>
 							</div>
 						</form>
 					</div>

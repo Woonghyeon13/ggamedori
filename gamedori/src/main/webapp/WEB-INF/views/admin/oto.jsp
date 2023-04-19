@@ -138,15 +138,36 @@
 							<div class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
 								<textarea id="otoReply" name="qa_reply" placeholder="1:1 문의 답변 내용" class="form-control"></textarea>
 								<script>
-								
+									//ck에디터 적용 및 한글 설정, 내용 없을 시에 submit막기까지 구현
 									let editor;
-								
-									ClassicEditor
-										.create( document.querySelector( '#otoReply' ), {
-								       		language: "ko"
-								     	 } ).then( newEditor => {
-								            editor = newEditor;
-								        } );						
+	
+									ClassicEditor.create(document.querySelector('#otoReply'), {
+									  language: 'ko'
+									}).then(newEditor => {
+									  editor = newEditor;
+									  
+									  editor.model.document.on('change:data', () => {
+									    const textareaValue = editor.getData().trim();
+									    const submitBtn = document.querySelector('input[type="submit"]');
+	
+									    if (textareaValue === '') {
+									      submitBtn.disabled = true;
+									    } else {
+									      submitBtn.disabled = false;
+									    }
+									  });
+									}).catch(error => {
+									  console.error(error);
+									});
+	
+									document.querySelector('form').addEventListener('submit', event => {
+									  const textareaValue = editor.getData().trim();
+	
+									  if (textareaValue === '') {
+									    event.preventDefault();
+									    alert('상품 문의 답변 내용을 입력해주세요.');
+									  }
+									});			
 									
 								</script>
 							</div>

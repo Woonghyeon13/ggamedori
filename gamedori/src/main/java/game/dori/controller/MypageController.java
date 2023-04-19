@@ -439,6 +439,7 @@ public class MypageController {
 		
 
 		//검색 포함
+
 		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
 
 

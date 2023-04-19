@@ -32,6 +32,8 @@
 		<typeAlias type="game.dori.vo.OPT_VO" alias="optVO"/>
 		<typeAlias type="game.dori.vo.CARTP_VO" alias="cartpVO"/>
 		<typeAlias type="game.dori.vo.OPTLIST_VO" alias="optlistVO"/>
+		<typeAlias type="game.dori.vo.CAROUSEL_VO" alias="carouselVO"/>
+		<typeAlias type="game.dori.vo.AD_VO" alias="adVO"/>
 	</typeAliases>
 
 </configuration>
