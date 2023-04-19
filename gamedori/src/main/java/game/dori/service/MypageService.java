@@ -13,6 +13,7 @@ import game.dori.vo.SAVEPOINT_VO;
 import game.dori.vo.WISHLIST_VO;
 
 public interface MypageService {
+	
 	//마이페이지 상품문의 리스트 출력
 	public List<PRODUCTQQ_VO> selectQAList(int member_idx);
 	
@@ -20,11 +21,14 @@ public interface MypageService {
 	public List<QA_VO> selectOtoList(int member_idx);
 	
 	//마이페이지 리뷰 리스트 출력, 검색포함
+
 	public List<REVIEW_VO> selectReviewList(int member_idx);
 	//마이페이지 리뷰 카운트
 	public int ReviewCount(int member_tb_idx);
+
 	//복붙해온 검색기능
 	List<REVIEW_VO> searchReview(String R_searchValue, String R_searchType, int start, int limit);
+	
 	//복붙해온 검색기능2
 	public int countSearchResults(String R_searchValue, String R_searchType);
 	
@@ -32,6 +36,34 @@ public interface MypageService {
 	//마이페이지 적립금 리스트 출력
 	public List<SAVEPOINT_VO> selectSavePointList(int member_tb_idx);
 	
+
+//	//마이페이지 쿠폰 리스트 출력
+//	public List<COUPON_VO> selectList5(int member_tb_idx);
+//	
+//	//마이페이지 쿠폰 카운트
+//	public int selectListCount(int member_tb_idx);
+	
+	/*-------------------------------------------------------------------------------*/
+	
+	// 1 : 1 문의 사항 글 등록
+	public int oto_insert(QA_VO qaVO);
+	
+	// 1 : 1 문의 사항 글 삭제
+	public int oto_delete(int qa_idx);
+	
+	// 1 : 1 문의 사항 상세보기
+	public QA_VO oto_select(int member_tb_idx);
+	
+	public int oto_countAll();
+	
+	/*-------------------------------------------------------------------------------*/
+	
+	// 상품 문의 사항 글 등록
+	public int prod_insert(PRODUCT_Q_VO product_Q_VO);
+	
+	// 상품 문의 사항 상세보기
+	public PRODUCT_Q_VO prod_select(int member_tb_idx);
+
 	//마이페이지 상단 적립금 출력
 	public int selectPointBalanceService(int member_tb_idx);
 	
@@ -43,6 +75,7 @@ public interface MypageService {
 	//마이페이지 주문내역 리스트 출력
 	public List<ORDER_VO> selectOrderListService(int memeber_tb_idx);
 	
+
 	
 	//마이페이지 등급
 	public int selectMemberLevelService(int member_idx);

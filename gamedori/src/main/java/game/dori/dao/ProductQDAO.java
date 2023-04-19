@@ -11,6 +11,7 @@ import game.dori.util.OTO_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
+import game.dori.vo.QA_VO;
 
 @Repository
 public class ProductQDAO {
@@ -32,6 +33,17 @@ public class ProductQDAO {
 	//상품문의 답변
 	public int pqAnswer(PROD_Q_LIST_VO pqVO) {
 		return sqlSession.update(namespace + "pqAnswer", pqVO);
+	}
+	
+
+	// 상품 문의사항 글 등록
+	public int prod_insert(PRODUCT_Q_VO product_Q_VO) {
+		return sqlSession.insert("game.dori.mapper.productQMapper.prod_insert",product_Q_VO);
+	}
+	
+	// 상품 문의사항 상세보기
+	public PRODUCT_Q_VO prod_select(int prod_q_idx) {
+		return sqlSession.selectOne("game.dori.mapper.productQMapper.prod_select", prod_q_idx);
 	}
 	
 	//상품문의 작성

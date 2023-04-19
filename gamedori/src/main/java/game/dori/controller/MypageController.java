@@ -1,10 +1,14 @@
 package game.dori.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
+//github.com/Gunyoung2/ggamedori.git
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +16,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import game.dori.service.MemberService;
 import game.dori.service.MypageService;
 import game.dori.vo.CARTP_VO;
-import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
+//github.com/Gunyoung2/ggamedori.git
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
@@ -36,10 +40,10 @@ import game.dori.vo.WISHLIST_VO;
 public class MypageController {
 	
 	@Autowired
-	private MemberService memberService;
+	private MypageService mypageService;
 	
 	@Autowired
-	private MypageService mypageService;
+	private MemberService memberService;
 	
 	
 	
@@ -110,21 +114,19 @@ public class MypageController {
 	    
 		return "mypage/main";
 		
-		
-		
 	}
-	
-	// 1:1 문의 리스트 출력
-	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
-	public String oto(Model model, HttpServletRequest req)
+
+	// 마이페이지 1 : 1 문의사항 리스트 출력
+	@RequestMapping( value = "/main.do", method = RequestMethod.GET )
+	public String main_oto(Model model, HttpServletRequest req)
 	{
+		
 		HttpSession session = req.getSession();
 		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
 		
 		//상단 등급출력
 	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
 		model.addAttribute("level", selectMemberLevel);
-
 		
 		//상단 적립금
 		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
@@ -142,8 +144,35 @@ public class MypageController {
 		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx() );
 		model.addAttribute("selectOtoList", selectOtoList);
 		
-		return "mypage/oto";
+		return "mypage/main";
 	}
+	
+//	// 1 : 1 문의 사항 페이징
+//	@RequestMapping(value = "/main.do" , method = RequestMethod.GET)
+//	public String oto_list(Model model, @RequestParam(value = "oto_page", defaultValue = "1") int oto_page,
+//			@RequestParam(value = "oto_searchText", required = false) String oto_searchText,
+//			@RequestParam(value = "oto_searchOption", required = false) String oto_searchOption) throws Exception 
+//	{
+//		int oto_limit = 15;		// 페이지 당 게시물 수
+//		int oto_start = (oto_page - 1) * oto_limit;
+//		
+//		List<QA_VO> oto_LIst;
+//		int oto_totalRecords;
+//		
+//		if (oto_searchText != null && oto_searchOption != null) {
+//			oto_LIst = adminService.searchNotices(oto_searchText, oto_searchOption, oto_start, oto_limit);
+//	        oto_totalRecords = adminService.countSearchResults(oto_searchText, oto_searchOption);
+//	    } else {
+//	    	oto_LIst = adminService.list(oto_limit, oto_start);
+//	        oto_totalRecords = adminService.countAll();
+//	    }
+//
+//		
+//		return "mypage/oto";
+//	}
+			
+	
+	/*-------------------------------------------------------------------------------*/
 
 	// 상품 문의 리스트 출력
 	@RequestMapping( value = "/prodqa.do", method = RequestMethod.GET )
@@ -174,6 +203,139 @@ public class MypageController {
 		
 		return "mypage/prodqa";
 	}
+	
+	// 상품  문의 사항 글 등록
+	@RequestMapping(value = "/prod_q_write.do", method = RequestMethod.GET)
+	public String prod_q_write() {
+		
+		return "mypage/prod_q_write";
+	}
+	
+	@RequestMapping(value = "/prod_q_write.do", method = RequestMethod.POST)
+	public void prod_q_write(@ModelAttribute PRODUCT_Q_VO product_Q_VO,HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws Exception {
+		
+		MEMBER_VO member = memberService.selectByEmail(member_email);
+		
+		int result = 0;
+		if (member.getMember_role() == 1) {
+			product_Q_VO.setMember_tb_idx(member.getMember_idx());
+			result = mypageService.prod_insert(product_Q_VO);
+			
+			System.out.println(product_Q_VO.getMember_tb_idx());
+		}
+		
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if (result > 0) {
+			session.setAttribute("product_Q_VO", product_Q_VO);
+			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+			+ "/mypage/prodqa.do';</script>");
+		}
+		
+	}	
+	
+	
+	// 상품문의 상세보기
+	@RequestMapping( value = "/prdo_q_view.do", method = RequestMethod.GET )
+	public String view(Model model, @RequestParam("prod_q_idx") int prod_q_idx)
+	{
+		PRODUCT_Q_VO product_Q_VO = mypageService.prod_select(prod_q_idx);
+
+		return "mypage/prod_q_view";
+	}
+	
+	/*-------------------------------------------------------------------------------*/
+	
+	// 1:1 문의 리스트 출력
+	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
+	public String oto(Model model, HttpServletRequest req)
+	{
+		
+		HttpSession session = req.getSession();
+		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
+		
+		List<QA_VO> selectList2 = mypageService.selectList2(MEMBERVO.getMember_idx() );
+		model.addAttribute("selectList2", selectList2);
+		
+		return "mypage/oto";
+	}
+	
+	// 1 : 1 문의 사항 글 등록
+	@RequestMapping(value = "/oto_write.do", method = RequestMethod.GET)
+	public String oto_write() {
+		
+		return "mypage/oto_write";
+	}
+	
+	@RequestMapping(value = "/oto_write.do", method = RequestMethod.POST)
+	public void oto_write(@ModelAttribute QA_VO qaVO,HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws Exception {
+		
+		MEMBER_VO member = memberService.selectByEmail(member_email);
+		
+		int result = 0;
+		if (member.getMember_role() == 1) {
+			qaVO.setMember_tb_idx(member.getMember_idx());
+			result = mypageService.oto_insert(qaVO);
+			
+			System.out.println(qaVO.getMember_tb_idx());
+		}
+		
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if (result > 0) {
+			session.setAttribute("qaVO", qaVO);
+			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+			+ "/mypage/oto.do';</script>");
+		}
+		
+	}
+	
+	// 1 : 1 문의사항 글 삭제
+	@RequestMapping(value = "/oto_delete.do", method = RequestMethod.GET)
+	public void oto_delete(@RequestParam("qa_idx") int qa_idx, HttpServletResponse rsp, HttpServletRequest req) throws IOException {
+	    
+	    System.out.println(qa_idx);
+	    
+	    HttpSession session = req.getSession();
+	    session.setAttribute("qa_idx", qa_idx); // qa_idx 값을 세션에 저장
+
+	    int result = mypageService.oto_delete(qa_idx);
+	    
+	    rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+
+	    if(result > 0) {
+	    	session.setAttribute("qa_idx", qa_idx);
+	        pw.append("<script>alert('글 삭제 성공'); location.href='" + req.getContextPath()
+	            + "/mypage/oto.do';</script>");
+	    } else {
+	        pw.append("<script>alert('글 삭제 실패'); location.href='" + req.getContextPath()
+	            + "/mypage/oto_view.do?qa_idx=" + qa_idx + "';</script>");
+	    }
+	}
+
+
+
+	// 1 : 1 문의 사항 상세보기
+	@RequestMapping( value = "/oto_view.do", method = RequestMethod.GET )
+	public String oto_view(Model model,@RequestParam("qa_idx") int qa_Idx)
+	{
+		QA_VO qaVO = mypageService.oto_select(qa_Idx);
+		
+		System.out.println(qaVO.getQa_idx());
+		System.out.println(qaVO.getQa_title());
+		System.out.println(qaVO.getQa_contents());
+		
+		model.addAttribute("qaVO", qaVO);
+		
+
+		return "mypage/oto_view";
+	}
+	
+	/*-------------------------------------------------------------------------------*/
+	
 	
 	// 주문목록 
 	@RequestMapping( value = "/prodlist", method = RequestMethod.GET )
@@ -277,8 +439,6 @@ public class MypageController {
 		
 
 		//검색 포함
-
-		List<REVIEW_VO> selectList3 = mypageService.selectList3(memberVO.getMember_idx());
 		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
 
 
@@ -318,6 +478,26 @@ public class MypageController {
 	}
 	
 
+
+//	// 쿠폰 리스트 출력
+//	@RequestMapping( value = "/coupon.do", method = RequestMethod.GET )
+//	public String coupon(Model model,HttpServletRequest req)
+//	{
+//		HttpSession session = req.getSession();
+//		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
+//		
+//		//리스트 조회
+//		List<COUPON_VO> selectList5 = mypageService.selectList5(MEMBERVO.getMember_idx() );
+//		model.addAttribute("selectList5", selectList5);
+//		
+//		
+//		//쿠폰 개수
+//		int selectListCount = mypageService.selectListCount(MEMBERVO.getMember_idx());
+//	    model.addAttribute("selectListCount", selectListCount);
+//		
+//		return "mypage/coupon";
+//	}
+
 	// 쿠폰 리스트 출력
 	@RequestMapping( value = "/coupon.do", method = RequestMethod.GET )
 	public String coupon(Model model,HttpServletRequest req)
@@ -352,6 +532,7 @@ public class MypageController {
 	    model.addAttribute("CouponCount2", CouponCount2);
 		return "mypage/coupon";
 	}
+
 
 	//찜목록 
 	@RequestMapping( value = "/wishlist.do", method = RequestMethod.GET )
