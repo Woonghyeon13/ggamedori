@@ -62,23 +62,27 @@ public class MypageController {
 	        return "redirect:/user/join";
 	    }
 
-		/*
-		 * //상단 등급출력 int selectMemberLevel =
-		 * mypageService.selectMemberLevelService(memberVO.getMember_idx());
-		 * model.addAttribute("level", selectMemberLevel);
-		 * 
-		 * //상단 적립금 int selectPointBalance =
-		 * mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		 * model.addAttribute("PointBalance", selectPointBalance);
-		 * 
-		 * //상단 쿠폰개수출력 int CouponCount =
-		 * mypageService.CouponCount(memberVO.getMember_idx());
-		 * model.addAttribute("CouponCount", CouponCount);
-		 * 
-		 * //상단 후기 개수 int ReviewCount =
-		 * mypageService.ReviewCount(memberVO.getMember_idx());
-		 * model.addAttribute("ReviewCount", ReviewCount);
-		 */
+		
+		 //상단 등급출력 
+	     int selectMemberLevel =
+		 mypageService.selectMemberLevelService(memberVO.getMember_idx());
+		 model.addAttribute("level", selectMemberLevel);
+		 
+		 //상단 적립금 
+		 int selectPointBalance =
+		 mypageService.selectPointBalanceService(memberVO.getMember_idx());
+		 model.addAttribute("PointBalance", selectPointBalance);
+		 
+		 //상단 쿠폰개수출력 
+		 int CouponCount =
+		 mypageService.CouponCount(memberVO.getMember_idx());
+		 model.addAttribute("CouponCount", CouponCount);
+		 
+		 //상단 후기 개수 
+		 int ReviewCount =
+		 mypageService.ReviewCount(memberVO.getMember_idx());
+		 model.addAttribute("ReviewCount", ReviewCount);
+		
 		
 
 		//최근주문내역
@@ -394,16 +398,10 @@ public class MypageController {
 		model.addAttribute("ReviewCount", ReviewCount);
 		
 
-		//검색 포함
-
+		//리스트 출력
 		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
-
-
 		model.addAttribute("selectReviewList", selectReviewList);
 
-		//후기 개수
-		int ReviewCount2 = mypageService.ReviewCount(memberVO.getMember_idx());
-	    model.addAttribute("ReviewCount", ReviewCount2);
 		
 		return "mypage/reviewlist";
 	}

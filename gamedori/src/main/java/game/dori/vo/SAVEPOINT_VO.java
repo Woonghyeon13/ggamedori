@@ -8,6 +8,8 @@ public class SAVEPOINT_VO {
 	private int savept_balance; //잔액적립금
 	private String savept_created; //적립시점
 	
+	
+	
 	public int getSavept_idx() {
 		return savept_idx;
 	}
