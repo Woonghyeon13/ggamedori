@@ -79,12 +79,6 @@ public class COUPON_VO {
 	public void setCoupon_max_amount(int coupon_max_amount) {
 		this.coupon_max_amount = coupon_max_amount;
 	}
-	public int getCoupon_yn() {
-		return coupon_yn;
-	}
-	public void setCoupon_yn(int coupon_yn) {
-		this.coupon_yn = coupon_yn;
-	}
 
 	
 

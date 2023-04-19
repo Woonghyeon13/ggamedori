@@ -17,19 +17,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import game.dori.dao.ProdOptDAO;
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
 import game.dori.util.PROD_Q_LIST_VO;
+import game.dori.vo.CAROUSEL_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
@@ -55,6 +56,7 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService AdminService;
+	
 	
 	// 회원관리
 	@RequestMapping( value = "/member.do", method = RequestMethod.GET )
@@ -612,4 +614,43 @@ public class AdminController {
 			return "home";
 		}
 	}
+	
+	// 메인페이지 캐러셀1 변경
+	@RequestMapping(value = "/carouselInsert.do", method = RequestMethod.POST )
+	public void carouselInsert(CAROUSEL_VO cavo, HttpServletRequest req, HttpServletResponse rsp, MultipartFile carousel_img_file) throws IllegalStateException, IOException{
+		
+		String path = req.getSession().getServletContext().getRealPath("/resources/images/carousel");
+		
+		File dir = new File(path);
+		if(!dir.exists()) { 
+			dir.mkdirs();
+		}
+		
+		rsp.setContentType("text/html;charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		String newFileName = "";
+		if(!carousel_img_file.getOriginalFilename().isEmpty()) { 
+			String FileName = System.currentTimeMillis()+carousel_img_file.getOriginalFilename();
+			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
+			carousel_img_file.transferTo(new File(path,newFileName));	
+		}else {
+		pw.append("<script>alert('등록 실패');location.href='mainPageModify.do'</script>");
+		}
+		
+		cavo.setCarousel_img_name(carousel_img_file.getOriginalFilename());
+		
+		int result = AdminService.carouselInsert(cavo);
+		
+		//상품등록 성공
+		if( result > 0 )
+		{
+			pw.append("<script>alert('등록 완료');location.href='mainPageModify.do'</script>");
+		}else
+		{
+			pw.append("<script>alert('등록 실패');location.href='mainPageModify.do'</script>");
+		}
+		pw.flush();
+	}
+		
 }

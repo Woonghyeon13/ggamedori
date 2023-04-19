@@ -82,14 +82,14 @@
 								</div>
 								<!--옵션선택에 따른 영억 block-->
 								<script>
-                  function num(value){
-                  
-                    for(i=1; i<=4 ;i++){
-                    document.getElementById(i).style.display="none";
-                    }
-                    document.getElementById(value).style.display="block";
-                  }
-                  </script>
+				                  function num(value){
+				                  
+				                    for(i=1; i<=4 ;i++){
+				                    document.getElementById(i).style.display="none";
+				                    }
+				                    document.getElementById(value).style.display="block";
+				                  }
+				                 </script>
 								<div class="col-9">
 									<select class="form-select" onchange="num(this.value)"
 										aria-label="Default select example">
@@ -130,8 +130,8 @@
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
 								<button class="btn btn-secondary"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
-								<button class="btn btn-outline-light login"
-									style="width: 280px; height: 60px;">바로 구매하기</button>
+								<button type="button" class="btn btn-outline-light login"
+									style="width: 280px; height: 60px;" onclick="location.href='<c:url value='/prod/orderForm.do'/>';">바로 구매하기</button>
 							</div>
 						</form>
 					</div>

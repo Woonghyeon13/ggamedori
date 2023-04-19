@@ -2,6 +2,10 @@ package game.dori.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +44,13 @@ public class ProductController {
 		PRODUCT_VO pvo = productService.prodSelectOne(prod_idx);
 		model.addAttribute("pvo",pvo);
 		return "prod/detail";
+	}
+	
+	// 주문폼
+	@RequestMapping( value = "/orderForm.do", method = RequestMethod.GET )
+	public String orderForm(){
+
+		return "prod/orderForm";
 	}
 
 }

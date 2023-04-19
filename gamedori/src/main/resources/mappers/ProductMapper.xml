@@ -8,8 +8,8 @@
 	<!-- 상품 등록 -->
 	<insert id="prodInsert" parameterType="productVO">
 		INSERT INTO 
-		product_tb (category_tb_code, prod_name, prod_price, prod_stock, prod_co, prod_rdate, prod_rating, prod_reserv, prod_imgt, prod_imgm, prod_imgd, prod_qtymin, prod_qtymax) 
-		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_rdate}, #{prod_rating}, #{prod_reserv}, #{prod_imgt}, #{prod_imgm}, #{prod_imgd}, #{prod_qtymin}, #{prod_qtymax});
+		product_tb (category_tb_code, prod_name, prod_price, prod_stock, prod_co, prod_rdate, prod_reserv, prod_imgt, prod_imgm, prod_imgd, prod_qtymin, prod_qtymax) 
+		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_rdate}, #{prod_reserv}, #{prod_imgt}, #{prod_imgm}, #{prod_imgd}, #{prod_qtymin}, #{prod_qtymax});
 	</insert>
 	
 	<!-- 상품 리스트 -->

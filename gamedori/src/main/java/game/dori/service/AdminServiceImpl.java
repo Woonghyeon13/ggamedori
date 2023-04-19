@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 
 import game.dori.dao.NoticeDAO;
 import game.dori.dao.OrderListDAO;
+import game.dori.dao.PageModifyDAO;
 import game.dori.dao.ProductQDAO;
 import game.dori.dao.QaDAO;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
 import game.dori.util.PROD_Q_LIST_VO;
+import game.dori.vo.AD_VO;
+import game.dori.vo.CAROUSEL_VO;
 import game.dori.vo.NOTICE_VO;
 
 @Service
@@ -28,6 +31,9 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
 	private ProductQDAO pqDAO;
+	
+	@Autowired
+	private PageModifyDAO pmDAO;
 
 	public List<NOTICE_VO> list(int limit, int start) {
         return noticeDAO.list(limit, start);
@@ -104,6 +110,16 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int pqAnswer(PROD_Q_LIST_VO pqVO) {//상품 문의 답변
 		return pqDAO.pqAnswer(pqVO);
+	}
+
+	@Override
+	public int carouselInsert(CAROUSEL_VO cavo) {//캐러셀 수정
+		return pmDAO.carouselInsert(cavo);
+	}
+
+	@Override
+	public int adModify(AD_VO advo) {//광고 수정
+		return pmDAO.adModify(advo);
 	}
 
 

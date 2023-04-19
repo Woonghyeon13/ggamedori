@@ -33,6 +33,8 @@
 	
 	<!--자바스크립트-->
 	<script src="<c:url value='/resources/js/script.js'/>"></script>
+	
+	<!-- CKEditor -->
 	<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 	<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/translations/ko.js"></script>
 

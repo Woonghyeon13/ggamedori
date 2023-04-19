@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+<style>
+.ck.ck-editor {
+	width:100%;
+}
+.ck-editor__editable {
+	 min-height: 20vw;
+}
+</style>
+
 <main>
 	<div class="container d-flex justify-content-center mt-2">
 		<h3 class="fw-bold">관리자 페이지</h3>
@@ -26,128 +35,132 @@
 			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/productPageModify.do' />">상품 페이지</a></li>
 		</ul>
 	</div>
-	<!-- 문의/공지사항 탭  -->
-	<!-- <div class="container">
-    <ul class="nav justify-content-end text-black">
-      <li class="nav-item">
-        <a class="nav-link active text-reset" aria-current="page" href="#">상품 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">1:1 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">공지사항 관리</a>
-      </li>
-    </ul>
-  </div> -->
 	<div class="container mt-1">
-
-		<div class="container">
-			<table class="table table-sm">
-				<thead class="table-light">
-					<tr>
-						<th scope="col">반품신청일</th>
-						<th scope="col">주문번호</th>
-						<th scope="col">상품명</th>
-						<th scope="col">주문자</th>
-						<th scope="col">상태</th>
-						<th style="width: 120px;" scope="col">반품처리</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>2023-03-29</td>
-						<td>ere2185152</td>
-						<td>ㄴㅇㄹㅇㄴㅇ</td>
-						<td>Mark</td>
-						<td>반품접수</td>
-						<td>
-							<button type="button" class="btn btn-secondary btn-sm"
-								data-bs-toggle="modal" data-bs-target="#prodRefund">반품정보</button>
-						</td>
-					</tr>
-
-				</tbody>
-			</table>
-		</div>
-
-		<!-- 반품 관리 -->
-		<div class="modal fade" id="prodRefund">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header d-flex flex-column logo">
-						<div class="mt-2">
-							<h4 class="modal-title fs-5">반품 정보</h4>
+		<div class="container w-50">
+			<div class="mb-5">
+				<div class="mb-3">
+					<h4 class="text-center">캐러셀 이미지 추가</h4>
+				</div>
+				<form name="carouselInsert" method="post" action="carouselInsert.do" enctype="multipart/form-data">
+					<div class="form-group mt-2 mb-4">
+						<div class="input-group">
+							<input name="carousel_img_file" type="file" class="form-control" onchange="checkFileSelected()">
+							<button class="btn btn-secondary" id="submitBtn">저장</button>
 						</div>
 					</div>
-					<div class="modal-body">
-						<form name="review" method="post" action="loginAction.jsp">
-							<div
-								class="form-group d-flex flex-column justify-content-center align-items-center">
-								<div>반품 신청 제목</div>
-								<input type="text" class="form-control">
-							</div>
-							<div
-								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<div>반품 신청 사유</div>
-								<textarea name="" id="" class="form-control" cols="30" rows="10"></textarea>
-							</div>
-							<div
-								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<div>반품 승인/거절 사유</div>
-								<textarea name="" id="" class="form-control" cols="30" rows="10"></textarea>
-							</div>
-
-							<div class="d-flex gap-1 mt-2">
-								<input type="submit"
-									class="btn btn-outline-secondary btn-lg form-control"
-									value="승인"> <input type="submit"
-									class="btn btn-outline-secondary btn-lg form-control"
-									value="거절">
-							</div>
-						</form>
+				</form>			
+			</div>
+			<hr>
+			<div class="mt-5 mb-5">
+				<div class="mt-5 mb-5">
+					<h4 class="text-center">광고영역 변경</h4>
+				</div>
+				<div class="d-flex justify-content-evenly">
+					<div>
+						<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ad1">광고 1 변경</button>
+					</div>
+					<div>
+						<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ad2">광고 2 변경</button>
 					</div>
 				</div>
 			</div>
 		</div>
-
-
-		<!-- 검색폼 -->
-		<div class="container">
-			<form class="form-horizontal d-flex justify-content-center mt-3"
-				role="form">
-				<div>
-					<select class="form-select form-select-sm"
-						aria-label=".form-select-sm example">
-						<option value="1">상품명</option>
-						<option value="2">상품분류</option>
-					</select>
+	</div>
+	
+	<!-- 광고1 모달 -->
+	<div class="modal fade" tabindex="-1" id="ad1" data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header d-flex flex-column">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<h4 class="modal-title fs-5">광고 1 변경</h4>
 				</div>
-				<div class="mx-2">
-					<input class="form-control form-control-sm" type="text"
-						placeholder="" aria-label=".form-control-sm example">
-				</div>
-				<div>
-					<button type="button" class="btn btn-outline-secondary btn-sm">검색</button>
-				</div>
-			</form>
-		</div>
-		<div class="container d-flex justify-content-center mt-3">
-			<nav aria-label="Page navigation example">
-				<ul class="pagination text-black">
-					<li class="page-item"><a class="page-link text-reset" href="#"
-						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-					</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">1</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">2</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">3</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#"
-						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-					</a></li>
-				</ul>
-			</nav>
+				<div class="modal-body">
+					<form name="ad1" method="post" action="adModify.do" enctype="multipart/form-data">
+					<input type="hidden" name="ad_type" value="1">
+						<div class="input-group">
+							<input name="ad_img_b" type="file" class="form-control">
+							<label class="input-group-text" for="adImage1">큰 이미지</label>
+						</div>
+						<div class="input-group mt-2">
+							<input name="ad_img_s" type="file" class="form-control">
+							<label class="input-group-text" for="adImage2">작은 이미지</label>
+						</div>
+						<div class="input-group mt-2">
+							  <span class="input-group-text">광고 링크</span>
+							  <input name="ad_link" type="text" class="form-control" placeholder="링크">
+						</div>
+						<div class="input-group mt-2">
+							  <span class="input-group-text">광고 제목</span>
+							  <input name="ad_title" type="text" class="form-control" placeholder="제목">
+						</div>
+						<div class="mt-2">
+							<textarea name="ad_contents" id="ad1Text" class="form-control" placeholder="내용"></textarea>
+							<script>
+								let editor;
+	
+								ClassicEditor.create(document.querySelector('#ad1Text'), {
+								  language: 'ko'
+								}).then(newEditor => {
+								  editor = newEditor;
+							  	});	
+							</script>
+						</div>
+						<div class="d-flex gap-1 mt-2">
+							<input type="submit" class="btn btn-outline-secondary btn-lg form-control" value="답변등록">
+						</div>
+					</form>
+				</div>	
+			</div>
 		</div>
 	</div>
+	
+	<!-- 광고2 모달 -->
+	<div class="modal fade" tabindex="-1" id="ad2" data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header d-flex flex-column">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<h4 class="modal-title fs-5">광고 2 변경</h4>
+				</div>
+				<div class="modal-body">
+					<form name="ad2" method="post" action="adModify.do" enctype="multipart/form-data">
+					<input type="hidden" name="ad_type" value="2">
+						<div class="input-group">
+							<input name="ad_img_b" type="file" class="form-control">
+							<label class="input-group-text" for="adImage1">큰 이미지</label>
+						</div>
+						<div class="input-group mt-2">
+							<input name="ad_img_s" type="file" class="form-control">
+							<label class="input-group-text" for="adImage2">작은 이미지</label>
+						</div>
+						<div class="input-group mt-2">
+							  <span class="input-group-text">광고 링크</span>
+							  <input name="ad_link" type="text" class="form-control" placeholder="링크">
+						</div>
+						<div class="input-group mt-2">
+							  <span class="input-group-text">광고 제목</span>
+							  <input name="ad_title" type="text" class="form-control" placeholder="제목">
+						</div>
+						<div class="mt-2">
+							<textarea name="ad_contents" id="ad2Text" class="form-control" placeholder="내용"></textarea>
+							<script>
+								ClassicEditor.create(document.querySelector('#ad2Text'), {
+								  language: 'ko'
+								}).then(newEditor => {
+								  editor = newEditor;
+							  	});	
+							</script>
+						</div>
+						<div class="d-flex gap-1 mt-2">
+							<input type="submit" class="btn btn-outline-secondary btn-lg form-control" value="답변등록">
+						</div>
+					</form>
+				</div>	
+			</div>
+		</div>
+	</div>
+	
 </main>
 
 

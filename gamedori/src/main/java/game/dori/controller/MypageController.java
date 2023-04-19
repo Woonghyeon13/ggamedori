@@ -260,7 +260,7 @@ public class MypageController {
 		
 
 		//검색 포함
-		List<REVIEW_VO> selectList3 = mypageService.selectList3(memberVO.getMember_idx(), search);
+		List<REVIEW_VO> selectList3 = mypageService.selectList3(memberVO.getMember_idx());
 
 		model.addAttribute("selectList3", selectList3);
 

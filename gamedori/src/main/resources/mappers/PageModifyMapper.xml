@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="game.dori.mapper.pageModifyMapper">
+	<!-- 캐러셀 이미지 등록 -->
+	<insert id="carouselInsert" parameterType="carouselVO">
+		insert 
+			into
+				carousel_img_tb(carousel_img_name)
+			values
+				(#{carousel_img_name})
+	</insert>
+	
+	<!-- 광고 수정 -->
+	<update id="adModify" parameterType="adVO">
+		update ad_tb
+			set
+				ad_img_b = #{ad_img_b}
+			  , ad_ing_s = #{ad_ing_s}
+			  , ad_link = #{ad_link}
+			  , ad_title = #{ad_title}
+			  , ad_contents = #{ad_contents}
+			where
+				ad_type = #{ad_type}
+	</update>
+</mapper>

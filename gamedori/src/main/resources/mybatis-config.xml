@@ -15,11 +15,9 @@
 		<typeAlias type="game.dori.vo.ORDER_VO" alias="orderVO" />
 		<typeAlias type="game.dori.vo.PAY_VO" alias="payVO" />
 		<typeAlias type="game.dori.vo.POINT_USED_VO" alias="pointUsedVO" />
-		<typeAlias type="game.dori.vo.PRODUCT_A_VO" alias="productAVO" />
 		<typeAlias type="game.dori.vo.PRODUCT_Q_VO" alias="product_Q_VO" />
 		<typeAlias type="game.dori.vo.PRODUCTQQ_VO" alias="productqq_VO" />
 		<typeAlias type="game.dori.vo.PRODUCT_VO" alias="productVO" />
-		<typeAlias type="game.dori.vo.QA_A_VO" alias="qaAVO" />
 		<typeAlias type="game.dori.vo.QA_VO" alias="qaVO" />
 		<typeAlias type="game.dori.vo.REFUND_VO" alias="refundVO" />
 		<typeAlias type="game.dori.vo.REVIEW_VO" alias="reviewVO" />
@@ -34,6 +32,8 @@
 		<typeAlias type="game.dori.vo.OPT_VO" alias="optVO"/>
 		<typeAlias type="game.dori.vo.CARTP_VO" alias="cartpVO"/>
 		<typeAlias type="game.dori.vo.OPTLIST_VO" alias="optlistVO"/>
+		<typeAlias type="game.dori.vo.CAROUSEL_VO" alias="carouselVO"/>
+		<typeAlias type="game.dori.vo.AD_VO" alias="adVO"/>
 	</typeAliases>
 
 </configuration>

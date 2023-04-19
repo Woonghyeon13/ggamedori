@@ -5,6 +5,8 @@ import java.util.List;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
 import game.dori.util.PROD_Q_LIST_VO;
+import game.dori.vo.AD_VO;
+import game.dori.vo.CAROUSEL_VO;
 import game.dori.vo.NOTICE_VO;
 
 public interface AdminService {
@@ -35,4 +37,8 @@ public interface AdminService {
 	public List<PROD_Q_LIST_VO> pqlist(); //상품 문의 리스트
 
 	public int pqAnswer(PROD_Q_LIST_VO pqVO); //상품 문의 답변
+	
+	public int carouselInsert(CAROUSEL_VO cavo); //캐러셀 수정
+	
+	public int adModify(AD_VO advo); //광고 수정
 }
