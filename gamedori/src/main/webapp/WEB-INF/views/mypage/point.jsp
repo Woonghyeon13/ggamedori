@@ -84,9 +84,9 @@
 					<tbody>
 						<c:forEach items="${selectSavePointList}" var="vo">
 						<tr>
-							<th>${vo.pt_used_idx}</th>
+							<th>${vo.savept_idx}</th>
 							<td>${vo.savept_created}</td>
-							<td>+${vo.savept_amount}</td>
+							<td>${vo.savept_amount}</td>
 						</tr>
 						</c:forEach>
 					</tbody>
@@ -128,17 +128,19 @@
 				<!-- end:#paging-->
 				<div id="money_contents" class="container">
 					<ul>
-						<li>보유 적립금</li>
-						<li>사용 금액</li>
+						<li>누적 적립금</li>
+						<li>사용 적립금</li>
 						<li>남은 적립금</li>
 					</ul>
 				</div>
 				<hr>
 				<div id="use_money" class="container">
 					<ul>
-						<li>${vo.savept_balance}</li>
-						<li>${vo.pt_used_amount}</li>
-						<li>${result}</li>
+					<c:forEach items="${selectSavePointList}" var="vo">
+						<li>${vo.savept_amount}</li>
+						<li>${vo.savept_amount - vo.savept_balance}</li> <!-- 누적적립금  - 잔여적립금 -->
+						<li>${vo.savept_balance}</li> <!-- 잔여적립금 -->
+					</c:forEach>
 					</ul>
 				</div>
 			</div>

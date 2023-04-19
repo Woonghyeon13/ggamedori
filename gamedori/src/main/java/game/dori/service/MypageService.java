@@ -21,8 +21,7 @@ public interface MypageService {
 	//마이페이지 1:1문의 리스트 출력
 	public List<QA_VO> selectOtoList(int member_idx);
 	
-	//마이페이지 리뷰 리스트 출력, 검색포함
-
+	//마이페이지 리뷰 리스트 출력
 	public List<REVIEW_VO> selectReviewList(int member_idx);
 	//마이페이지 리뷰 카운트
 	public int ReviewCount(int member_tb_idx);
@@ -53,7 +52,7 @@ public interface MypageService {
 	/*-------------------------------------------------------------------------------*/
 	
 	// 상품 문의 사항 글 등록
-	public int prod_insert(PRODUCT_Q_VO product_Q_VO);
+	public int prod_insert(PRODUCT_Q_VO p0roduct_Q_VO);
 	
 	// 상품 문의 사항 상세보기
 	public PRODUCT_Q_VO prod_select(int member_tb_idx);

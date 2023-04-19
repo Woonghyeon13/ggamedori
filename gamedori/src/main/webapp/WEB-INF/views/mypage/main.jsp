@@ -26,7 +26,7 @@
 				</li>
 				<li>
 					<h4>적립금</h4>
-					<p><c:if test="${pointBalance == null}">0</c:if><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+					<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
 					<!--s_money_check.html -->
 				</li>
 				<li>

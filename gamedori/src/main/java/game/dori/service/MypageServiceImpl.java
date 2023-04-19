@@ -106,8 +106,6 @@ public class MypageServiceImpl implements MypageService{
 	public int CouponCount(int member_tb_idx) {
 		return couponDAO.CouponCount(member_tb_idx);
 	}
-
-
 	
 	//마이페이지 리뷰 개수
 	@Override

@@ -27,7 +27,6 @@ import game.dori.service.MemberService;
 import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
-import game.dori.vo.SAVEPOINT_VO;
 
 @RequestMapping(value="/user")
 @Controller
@@ -324,7 +323,6 @@ public class MemberController {
 	
 	    
 	    return token;
-	}
-
+	}	
 	
 }

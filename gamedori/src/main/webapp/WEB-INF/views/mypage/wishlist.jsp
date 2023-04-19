@@ -29,10 +29,11 @@
 								<td class="align-middle">
 									<ul class="list-unstyled mb-0 ps-2 pe-2">
 										<li><a href="#">${vo.prod_name}</a></li><!-- 제품명 -->
-										<li style="color: #b9b9b9;">${vo.prod_opt}</li><!-- 옵션 -->
+										<li style="color: #b9b9b9;">${vo.opt_name}</li><!-- 옵션 -->
+						
 									</ul>
 								</td>
-								<td class="text-center align-middle">${vo.prod_price}</td><!-- 가격 -->
+								<td class="text-center align-middle">${vo.prod_price + vo.opt_price}</td><!-- 가격 -->
 								<td class="text-center align-middle">
 									<ul class="list-unstyled mb-0">
 										<li><button type="button" class="addCart_btn btn btn-secondary w-35" data-toggle="popover">

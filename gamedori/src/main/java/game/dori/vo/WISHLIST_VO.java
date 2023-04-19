@@ -8,11 +8,12 @@ public class WISHLIST_VO {
 	private int member_tb_idx;		// 회원 인덱스
 	private int product_tb_idx;		// 상품 인덱스
 	
-	private String prod_imgt;			// 썸네일 이미지
-	private String prod_name;			// 상품 명
-	private int prod_price;				// 상품 가격
-	private String prod_opt;			// 제품 옵션
+	private String prod_imgt;		// 썸네일 이미지
+	private String prod_name;		// 상품 명
+	private int prod_price;			// 상품 가격
 	
+	private String opt_name;		//옵션 이름
+	private String opt_price;		//옵션가격
 	
 	
 	public int getIdwishlist_tb() {
@@ -51,12 +52,19 @@ public class WISHLIST_VO {
 	public void setProd_price(int prod_price) {
 		this.prod_price = prod_price;
 	}
-	public String getProd_opt() {
-		return prod_opt;
+	public String getOpt_name() {
+		return opt_name;
 	}
-	public void setProd_opt(String prod_opt) {
-		this.prod_opt = prod_opt;
+	public void setOpt_name(String opt_name) {
+		this.opt_name = opt_name;
 	}
+	public String getOpt_price() {
+		return opt_price;
+	}
+	public void setOpt_price(String opt_price) {
+		this.opt_price = opt_price;
+	}
+
 	
 	
 }

@@ -50,6 +50,9 @@ public interface MemberService {
 	
 	//멤버 작성글 전부삭제
 	public int NoticedeleteAll(MEMBER_VO MemberVO);
+	
+	//적립금에 따른 등급업
+	void memberLevelUP(int member_idx);
 
 
 }

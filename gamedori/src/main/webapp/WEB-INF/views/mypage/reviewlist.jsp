@@ -99,7 +99,7 @@
 						</tr>
 					</thead>
 					<tbody id="table-body">
-						<c:forEach items="${ReviewCount}" var="vo">
+						<c:forEach items="${selectReviewList}" var="vo">
 						<tr>
 							<th scope="row">${vo.review_idx}</th>
 							<td>${vo.product_tb_idx}</td>
@@ -232,13 +232,13 @@
 					        });
 					    } else {
 					        // 검색 결과가 있는 경우
-					        $.each(results, function (index, selectList3) {
+					        $.each(results, function (index, selectReviewList) {
 					            var row = $('<tr>');
-					            row.append($('<th>').text(selectList3.review_idx));
-					            row.append($('<td>').text(selectList3.product_tb_idx));
-					            row.append($('<td>').text(selectList3.review_title));
-					            row.append($('<td>').text(selectList3.review_writer));
-					            row.append($('<td>').text(selectList3.review_wdate));
+					            row.append($('<th>').text(selectReviewList.review_idx)); 
+					            row.append($('<td>').text(selectReviewList.product_tb_idx));
+					            row.append($('<td>').text(selectReviewList.review_title));
+					            row.append($('<td>').text(selectReviewList.review_writer));
+					            row.append($('<td>').text(selectReviewList.review_wdate));
 					            tableBody.append(row);
 					        });
 					    }

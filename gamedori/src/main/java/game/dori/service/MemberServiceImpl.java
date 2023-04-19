@@ -111,6 +111,12 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return noticeDAO.deleteAll(MemberVO);
 	}
+
+	//적립금에 따른 등급업
+	@Override
+	public void memberLevelUP(int member_idx) {
+		memberDAO.memberLevelUP(member_idx);
+	}
 	
 	
 
