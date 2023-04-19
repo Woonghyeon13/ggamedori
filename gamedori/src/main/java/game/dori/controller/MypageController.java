@@ -79,14 +79,14 @@ public class MypageController {
 		model.addAttribute("PointBalance", selectPointBalance);
 			
 		//상단 쿠폰개수출력
-		int selectListCount = mypageService.selectListCount(memberVO.getMember_idx());
-		model.addAttribute("selectListCount", selectListCount);
+		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+		model.addAttribute("CouponCount", CouponCount);
 			    
 		//상단 후기 개수
 		/*
-		 * int selectListCount2 =
-		 * mypageService.selectListCount2(memberVO.getMember_idx());
-		 * model.addAttribute("selectListCount2", selectListCount2);
+		 * int ReviewCount =
+		 * mypageService.ReviewCount(memberVO.getMember_idx());
+		 * model.addAttribute("ReviewCount", ReviewCount);
 		 */
 			  		
 
