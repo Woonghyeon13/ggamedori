@@ -342,10 +342,10 @@
 			</div>
 			<table class="w-100 table table-hover recruit mt-3">
 				<thead class="text-center">
-					<th class="col-1 fw-bold">답변상태</th>
-					<th class="col-8 fw-bold">제목</th>
-					<th class="col-1 fw-bold">이름</th>
-					<th class="col-1 fw-bold">작성일</th>
+					<th class="col-1 fw-bold">답변바꿈상태</th>
+					<th class="col-8 fw-bold">제목바꿈</th>
+					<th class="col-1 fw-bold">이름바꿈</th>
+					<th class="col-1 fw-bold">작성일바꿈</th>
 				</thead>
 				<tbody>
 					<c:if test="${not empty pqllist}">
