@@ -415,7 +415,7 @@ public class AdminController {
 		  
 		  System.out.println(totalResults);
 
-		  Map<String, Object> response = new HashMap<>();
+		  Map<String, Object> response = new HashMap<String, Object>();
 		  response.put("searchResults", searchResults);
 		  response.put("totalPages", totalPages);
 

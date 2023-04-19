@@ -7,10 +7,10 @@
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://jjezen.cafe24.com:3307/ggamdori?serverTimezone=UTC" />
-		<property name="username" value="ggamdori_user" />
-		<property name="password" value="ggamdori1234!!" />
-	</bean>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/gamedori?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=UTC" />
+		<property name="username" value="root" />
+		<property name="password" value="1234"/>
+	</bean>	
 	
 	
 	<!-- mybaits 객체 등록 -->
