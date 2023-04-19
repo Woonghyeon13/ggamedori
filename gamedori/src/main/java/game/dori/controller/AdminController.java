@@ -119,7 +119,6 @@ public class AdminController {
 	public void prodinsert( OPT_VO opt, PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3 ) throws IllegalStateException, IOException{
 		
 		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
-		
 		File dir = new File(path);
 		if(!dir.exists()) { 
 			dir.mkdirs();
@@ -129,23 +128,24 @@ public class AdminController {
 			String FileName = System.currentTimeMillis()+prod_file1.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
 			prod_file1.transferTo(new File(path,newFileName));
+			pvo.setProd_imgt(newFileName);
 			
 		}else
 		if(!prod_file2.getOriginalFilename().isEmpty()) { 
 			String FileName = System.currentTimeMillis()+prod_file2.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
 			prod_file2.transferTo(new File(path,newFileName));
+			pvo.setProd_imgm(newFileName);
 			
 		}else
 		if(!prod_file3.getOriginalFilename().isEmpty()) { 
 			String FileName = System.currentTimeMillis()+prod_file3.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
 			prod_file3.transferTo(new File(path,newFileName));
+			pvo.setProd_imgd(newFileName);
 			
 		}
-		pvo.setProd_imgt(prod_file1.getOriginalFilename());
-		pvo.setProd_imgm(prod_file2.getOriginalFilename());
-		pvo.setProd_imgd(prod_file3.getOriginalFilename());
+//		pvo.setProd_imgt(prod_file1.getOriginalFilename());
 		
 		int result = productService.prodInsert(pvo);
 		rsp.setContentType("text/html;charset=utf-8");
@@ -175,6 +175,8 @@ public class AdminController {
 			pw.append("<script>alert('등록 실패');location.href='prod.do'</script>");
 		}
 		pw.flush();
+	    pw.close();
+
 	}
 	
 	// 상품수정
@@ -185,7 +187,7 @@ public class AdminController {
 		model.addAttribute("category", JSONArray.fromObject(category));
 		PRODUCT_VO pvo = productService.prodSelectOne(prod_idx);
 		model.addAttribute("pvo",pvo);
-		List<OPT_VO> optlist = productService.optSelecet(prod_idx);
+		List<OPT_VO> optlist = productService.optSelect(prod_idx);
 		model.addAttribute("optlist",optlist);
 		return "admin/prodmodify";
 	}
@@ -249,12 +251,75 @@ public class AdminController {
 		}
 		pw.flush();
 	}
+	// 상품 옵션 목록
+	@RequestMapping( value = "/prodOptlist.do", method = RequestMethod.GET )
+	public String prodOptlist( int prod_idx, Model model ) {
+		PRODUCT_VO pvo = productService.prodSelectOne(prod_idx);
+		model.addAttribute("pvo",pvo);
+		List<OPT_VO> optlist = productService.optSelect(prod_idx);
+		model.addAttribute("optlist",optlist);
+		return "admin/prodOptlist";
+	}
+	// 상품 옵션 등록
+	@RequestMapping( value = "/prodOptlist.do", method = RequestMethod.POST )
+	public void prodOptlist( int prod_idx, OPT_VO opt, HttpServletResponse rsp ) throws IOException {
+		int result = productService.optInsert(opt);
+		rsp.setContentType("text/html;charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		if( result > 0 ){
+			pw.append("<script>alert('등록 완료');location.href='prodOptlist.do?prod_idx="+prod_idx+"'</script>");
+		}else{
+			pw.append("<script>alert('등록 실패');location.href='prodOptlist.do?prod_idx="+prod_idx+"'</script>");
+		}
+		pw.flush();
+		
+	}
+	// 상품 옵션 수정
+	@RequestMapping( value = "/prodOptmodify.do", method = RequestMethod.GET )
+	public String prodOptmodify( int opt_idx, Model model ){
+		OPT_VO opt = productService.optSelectOne(opt_idx);
+		model.addAttribute("opt",opt);
+		return "admin/prodOptmodify";
+	}
+	// 상품 옵션 수정
+	@RequestMapping( value = "/prodOptmodify.do", method = RequestMethod.POST )
+	public void prodOptmodify( OPT_VO opt, int prod_idx, HttpServletResponse rsp ) throws IOException {
+		int result = productService.optModify(opt);
+		
+		rsp.setContentType("text/html;charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		if( result > 0 ){
+			pw.append("<script>alert('수정 완료');location.href='prodOptlist.do?prod_idx="+prod_idx+"'</script>");
+		}else{
+			pw.append("<script>alert('수정 실패');location.href='prodOptlist.do?prod_idx="+prod_idx+"'</script>");
+		}
+		pw.flush();
+	}
+	// 상품 옵션상태 수정
+	@RequestMapping( value = "/updateOptState.do", method = RequestMethod.POST )
+	public void updateOptState( OPT_VO opt ) {
+		productService.optStateModify(opt);
+	}
 	// 상품삭제
 	@RequestMapping( value = "/prodDelete.do", method = RequestMethod.POST )
 	public String prodDelete( int prod_idx ){
 		int optd = productService.optDel(prod_idx);
 		int result = productService.prodDelete(prod_idx);
 		return "redirect:/admin/prod.do";
+	}
+	// 상품 옵션 삭제
+	@RequestMapping( value = "/prodOptDelete.do", method = RequestMethod.POST )
+	public void prodOptDelete( int prod_idx, int opt_idx, HttpServletResponse rsp ) throws IOException{
+		int result = productService.optDelOne(opt_idx);
+		rsp.setContentType("text/html;charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if( result > 0 ) {
+			pw.append("<script>alert('삭제 완료');location.href='prodOptlist.do?prod_idx="+prod_idx+"'</script>");
+		}else {
+			pw.append("<script>alert('삭제 실패');location.href='prod.do'</script>");
+		}
+		pw.flush();
 	}
 	
 	// 반품관리
@@ -334,27 +399,29 @@ public class AdminController {
 	}
 	
 
-//검색 기능
+	//검색 기능
+		@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+		@ResponseBody
+		public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
+		                                                        @RequestParam("searchOption") String searchOption,
+		                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+		  int limit = 15; // 페이지당 게시물 수
+		  int start = (page - 1) * limit;
 
-//	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-//	@ResponseBody
-//	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
-//	                                                        @RequestParam("searchOption") String searchOption,
-//	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-//	    int limit = 15; // 페이지당 게시물 수
-//	    int start = (page - 1) * limit;
-//
-//	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
-//	    int totalRecords = adminService.countSearchResults(searchText, searchOption);
-//	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
-//
-//	    Map<String, Object> responseMap = new HashMap<String, Object>();
-//	    responseMap.put("searchResults", searchResults);
-//	    responseMap.put("totalPages", totalPages);
-//
-//	    return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.OK);
-//	}
-		
+		  List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
+		  int totalResults = adminService.countSearchResults(searchText, searchOption); // 전체 검색 결과 수
+		  int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
+		  
+		  
+		  System.out.println(totalResults);
+
+		  Map<String, Object> response = new HashMap<>();
+		  response.put("searchResults", searchResults);
+		  response.put("totalPages", totalPages);
+
+		  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+		}
+	
 	
 	// 1:1문의 관리
 	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
@@ -539,19 +606,7 @@ public class AdminController {
 		}
 	}	
 
-	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<List<NOTICE_VO>> searchNotice(@RequestParam("searchText") String searchText,
-	                                                    @RequestParam("searchOption") String searchOption) {
-	    
-		
-
-	List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption,1,1);
-
-
-	    return new ResponseEntity<List<NOTICE_VO>>(searchResults, HttpStatus.OK);
-	}
-
+	
 	
 	// 메인 화면 관리
 	@RequestMapping( value = "/productPageModify.do", method = RequestMethod.GET )

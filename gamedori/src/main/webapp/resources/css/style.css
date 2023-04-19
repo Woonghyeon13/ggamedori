@@ -1434,6 +1434,120 @@ main #ready {
     margin-left: 0;
   }
 }
+/* 별점 */
+main .starCnt{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+main .starRating-wrap{
+	max-width: 480px;
+	margin: auto;
+	text-align: center;
+}
+
+main #starCenter{
+	width: 162px; 
+	margin: auto;
+}
+
+main .starRating{
+	border: none;
+	float: left;
+}
+
+main .starRating > input{
+	display: none;
+}
+
+main .starRating > label:before{
+	content: '\f005';
+	font-family: FontAwesome;
+	margin: 5px;
+	font-size: 1.5rem;
+	display: inline-block;
+	cursor: pointer;
+}
+
+main .starRating > .half:before{
+	content: '\f089';
+	position: absolute;
+	cursor: pointer;
+}
+
+main .starRating > label{
+	color: #ddd;
+	float: right;
+	cursor: pointer;
+}
+
+main .starRating > input:checked ~ label{
+	color: #ffd400;
+}
+/* 별점 밸류 */
+main .starCntVt{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+main .starRating-wrapVt{
+	max-width: 480px;
+	margin: auto;
+	text-align: center;
+}
+
+main #starCenterVt{
+	width: 162px; 
+	margin: auto;
+}
+
+main .starRatingVt{
+	border: none;
+	float: left;
+}
+
+main .starRatingVt > input{
+	display: none;
+}
+
+main .starRatingVt > label:before{
+	content: '\f005';
+	font-family: FontAwesome;
+	margin: 5px;
+	font-size: 1.5rem;
+	display: inline-block;
+	cursor: pointer;
+}
+
+main .starRatingVt > .half:before{
+	content: '\f089';
+	position: absolute;
+	cursor: pointer;
+}
+
+
+main .starRatingVt > label{
+	color: #ddd;
+	float: right;
+	cursor: pointer;
+}
+
+main .starRatingVt > input:checked ~ label,
+main .starRatingVt:not(:checked) > label:hover, 
+main .starRatingVt:not(:checked) > label:hover ~ label{
+	color: #ffd400;
+}
+
+main .starRatingVt > input:checked + label:hover,
+main .starRatingVt > input:checked ~ label:hover,
+main .starRatingVt > label:hover ~ input:checked ~ label,
+main .starRatingVt > input:checked ~ label:hover ~ label{
+	color: #ffd400;
+}
 
 
 footer {

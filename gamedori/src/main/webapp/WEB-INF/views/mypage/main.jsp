@@ -3,12 +3,6 @@
 <%@ include file="../include/head.jsp" %>
 <main>
 	<!-- 마이페이지 클릭 시 첫 화면 ------------------------------------------------------------------------------------------------->
-	<script><!-- 마이페이지 적립금 계산 -->
-		let savept_balance = ${vo.savept_balance};
-		et pt_used_amount = ${vo.pt_used_amount};
-					  	
-		let result = savept_balance - pt_used_amount;
-	</script><!-- 마이페이지 적립금 계산 END -->
 	<div id="mypage_inner" class="container">
 		<h3>마이페이지</h3>
 		<div id="mypage_1" class="col">
@@ -32,16 +26,16 @@
 				</li>
 				<li>
 					<h4>적립금</h4>
-					<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+					<p><c:if test="${pointBalance == null}">0</c:if><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
 					<!--s_money_check.html -->
 				</li>
 				<li>
 					<h4>쿠폰</h4>
-					<p> <c:out value="${selectListCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
+					<p> <c:out value="${CouponCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
 				</li>
 				<li>
 					<h4>나의 후기</h4>
-					<p><c:out value="${selectListCount2}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
+					<p><c:out value="${ReviewCount}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
 				</li>
 			</ul>
 		</div>
@@ -57,8 +51,7 @@
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
-					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의
-							후기</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의후기</a></li>
 					<!-- review_list.html -->
 					<li class="list-group-item"><a href="<c:url value='/user/modify.do' />">회원정보수정</a></li>
 					<li class="list-group-item"><a href="<c:url value='/user/withdraw.do' />">탈퇴하기</a></li>
@@ -84,21 +77,21 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach var="selectList" items="${list}">
+								<c:forEach var="Orderlist" items="${Orderlist}">
 									<tr>
-										<th>${selectList.order_title}</th>
-										<td>${selectList.order_date}</td>
-										<td>${selectList.order_idx}</td>
-										<td>${selectList.order_price}</td>
+										<th>${Orderlist.order_title}</th>
+										<td>${Orderlist.order_date}</td>
+										<td>${Orderlist.order_idx}</td>
+										<td>${Orderlist.order_price}</td>
 										<td>			
 										<c:choose>
-											<c:when test="${selectList.order_situ == 1}">
+											<c:when test="${Orderlist.order_situ == 1}">
 											    <c:out value="주문완료" />
 											</c:when>
-											<c:when test="${selectList.order_situ == 2}">
+											<c:when test="${Orderlist.order_situ == 2}">
 											    <c:out value="배송중" />
 											 </c:when>
-											 <c:when test="${selectList.order_situ == 3}">
+											 <c:when test="${Orderlist.order_situ == 3}">
 											    <c:out value="배송완료" />
 											 </c:when>
 										</c:choose>
@@ -133,7 +126,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${selectList}" var="vo">
+									<c:forEach items="${selectQAList}" var="vo">
 									<tr>
 										<th>${vo.prod_q_idx}</th>
 									<td>
@@ -149,10 +142,10 @@
 									<td>
 									<c:choose>
 										<c:when test="${vo.prod_q_yn == 1}">
-											<c:out value="접수완료" />
+											<c:out value="답변완료" />
 										</c:when>
 										<c:when test="${vo.prod_q_yn == 2}">
-											<c:out value="답변완료" />
+											<c:out value="접수완료" />
 										</c:when>
 									</c:choose>
 									</td>
@@ -184,7 +177,7 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach items="${selectList2}" var="vo">
+								<c:forEach items="${selectOtoList}" var="vo">
 				                	<tr>				   
 				                    	<th>${vo.qa_idx}</th>
 				                        <td>${vo.qa_title}</td>				             

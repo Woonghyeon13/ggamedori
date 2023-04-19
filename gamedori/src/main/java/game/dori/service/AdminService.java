@@ -11,19 +11,28 @@ import game.dori.vo.NOTICE_VO;
 
 public interface AdminService {
 
+	// 공지사항 리스트
 	public List<NOTICE_VO> list(int limit, int start);
+	
+	// 공지사항 글 등록
 	public int insert(NOTICE_VO noticeVO);
 	
+	// 공지사항 뷰 상세보기
 	public NOTICE_VO select(int member_tb_idx);
 	
+	// 공지사항 글 삭제
 	public int delete(int notice_idx);
 	
+	// 공지사항 글 수정
 	public int modify(NOTICE_VO noticeVO);
 	
+	// 공지사항 글 개수
 	public int countAll();
 	
+	// 공지사항 글 검색기능
 	List<NOTICE_VO> searchNotices(String searchText, String searchOption, int start, int limit);
 	
+	// 공지사항 조회수
 	public int notice_Hit(NOTICE_VO noticeVO);
 	
 	public List<ORDER_LIST_VO> orderList(); //주문목록 리스트

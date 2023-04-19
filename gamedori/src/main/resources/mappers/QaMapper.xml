@@ -6,7 +6,7 @@
 <mapper namespace="game.dori.mapper.qaMapper">
 
 	<!-- 마이페이지 1:1문의 리스트 출력  -->
-	<select id="selectList2" resultType="qaVO" parameterType="int">
+	<select id="selectOtoList" resultType="qaVO" parameterType="int">
 		select *
 			from QA_TB
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
@@ -32,6 +32,47 @@
 			where
 				qa_idx = #{qa_idx}
 	</update>
+	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	 
+	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
+	<select id="oto_countAll" resultType="int">
+		SELECT COUNT(*) FROM QA_TB
+	</select>
+	
+	<!--  1 : 1 문의사항 글 작성  -->
+	<insert id="oto_insert" parameterType="qaVO">
+	   INSERT INTO QA_TB (MEMBER_TB_IDX, QA_TITLE, QA_CONTENTS, QA_WRITER) 
+	   VALUES (
+	       #{member_tb_idx}, 
+	       #{qa_title},
+	       #{qa_contents}, 
+	       (SELECT member_name FROM member_tb WHERE member_idx = #{member_tb_idx}) 
+  	 );
+	</insert>
+	
+	<!-- 1 : 1 문의사항 글 삭제 -->
+	<delete id="oto_delete" parameterType="int">
+		delete from QA_TB where qa_idx = #{qa_idx}
+	</delete>
+	
+	<!-- 1 : 1 문의사항 글 검색 -->
+	<select id="oto_search" resultType="qaVO" parameterType="map">
+		SELECT * FROM QA_TB
+		<where>
+			<choose>
+				<when test="oto_searchOption == 'name'">
+					<if test="oto_searchText != null and oto_searchText != ''">
+						AND qa_title LIKE CONCAT('%',#{oto_searchText},'%')
+					</if>
+				</when>
+			</choose>
+		</where>
+	
+	</select>
+	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
 
 
 </mapper>

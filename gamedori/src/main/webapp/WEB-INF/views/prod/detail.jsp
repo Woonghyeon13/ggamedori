@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ include file="../include/head.jsp" %>
 <main>
 	<!-- 상품 정보 -------------------------------------------->
@@ -47,7 +48,6 @@
 							</div>
 						</div>
 						<hr>
-						<form name="" action="" method="">
 							<div class="row align-items-start">
 								<div class="col-3">
 									<p class="fw-semibold">제조사</p>
@@ -69,7 +69,21 @@
 									<p class="fw-semibold">기종</p>
 								</div>
 								<div class="col-9">
-									<p>${pvo.category_tb_code}</p>
+									<c:if test="${pvo.category_tb_code eq '100' or pvo.category_tb_code eq '101' or pvo.category_tb_code eq '102' or pvo.category_tb_code eq '103' or pvo.category_tb_code eq '104'}">
+										닌텐도 Switch
+									</c:if>
+									<c:if test="${param.cate_refcode eq '200' or pvo.category_tb_code eq '201' or pvo.category_tb_code eq '202' or pvo.category_tb_code eq '203'}">
+										PlayStation5
+									</c:if>
+									<c:if test="${param.cate_refcode eq '300' or pvo.category_tb_code eq '301' or pvo.category_tb_code eq '302' or pvo.category_tb_code eq '303'}">
+										PlayStation4
+									</c:if>
+									<c:if test="${pvo.category_tb_code eq '400' or pvo.category_tb_code eq '401' or pvo.category_tb_code eq '402' or pvo.category_tb_code eq '403'}">
+										XBOX
+									</c:if>
+									<c:if test="${pvo.category_tb_code eq '500'}">
+										GOODS
+									</c:if>
 								</div>
 							</div>
 							<p style="font-size: 12px;">
@@ -81,44 +95,37 @@
 									<p class="fw-semibold">제품옵션</p>
 								</div>
 								<!--옵션선택에 따른 영억 block-->
-								<script>
-				                  function num(value){
-				                  
-				                    for(i=1; i<=4 ;i++){
-				                    document.getElementById(i).style.display="none";
-				                    }
-				                    document.getElementById(value).style.display="block";
-				                  }
-				                 </script>
 								<div class="col-9">
-									<select class="form-select" onchange="num(this.value)"
-										aria-label="Default select example">
+									<select id="optSel" class="form-select" aria-label="Default select example">
 										<option selected>선택</option>
-										<option value="1">${pvo.prod_opt}</option>
+										<c:forEach var="opt" items="${optlist}" varStatus="status">
+										<option value="${status.count}">${opt.opt_name}</option>
+										</c:forEach>
 									</select>
-
 									<div class="choice_product mt-3" style="margin: auto 0;">
-										<div class="border-top border-bottom mx-2" id="1"
+										<c:forEach var="optt" items="${optlist}" varStatus="status">
+										<input type="hidden" id="optPrice${status.count}" value="${optt.opt_price}">
+										<div class="border-top border-bottom mx-2" id="optSel${status.count}"
 											style="display: none;">
 											<div class="d-flex justify-content-between">
 												<div class="mt-3">
-													<p>${pvo.prod_name} : ${pvo.prod_opt}</p>
+													<p>${pvo.prod_name} : ${optt.opt_name}</p>
 												</div>
-												<!--선택한 옵션 이름나오게 해주세요-->
 												<div class="btn-group btn-group-sm my-3" role="group">
 													<button type="button" class="btn btn-secondary"
-														style="width: 2vw;" onclick="change_qty2('m')">-</button>
-													<input type="text" name="ct_qty" id="ct_qty" value="1"
+														style="width: 2vw;" onclick="change_qty${status.count}('m')">-</button>
+													<input type="text" name="ct_qty1" id="ct_qty${status.count}" value="1"
 														readonly="readonly" class="text-center"
 														style="width: 3vw;">
 													<button type="button" class="btn btn-secondary"
-														style="width: 2vw;" onclick="change_qty2('p')">+</button>
+														style="width: 2vw;" onclick="change_qty${status.count}('p')">+</button>
+												</div>
+												<div class="mt-3">
+													<button class="btn" id="optClo${status.count}">x</button>
 												</div>
 											</div>
 										</div>
-										<div id="2" style="display: none">2</div>
-										<div id="3" style="display: none">3</div>
-										<div id="4" style="display: none">4</div>
+										</c:forEach>
 									</div>
 								</div>
 							</div>
@@ -126,6 +133,7 @@
 								총 금액<span class="fs-3 me-1 ms-2 fw-bold" id="total_amount"
 									style="color: #ee4a44;">${pvo.prod_price}</span>원
 							</p>
+						<form name="" action="" method="">
 							<div
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
 								<button class="btn btn-secondary"
@@ -196,9 +204,26 @@
 			</div>
 			<table class="table w-100 text-center">
 				<tr>
-					<td class="col-1 ps-3"><span class="star"> ★★★★★ <span
-							style="width: 50%;">★★★★★</span>
-					</span></td>
+					<td class="col-1 ps-3">
+					<div class="starCnt">
+						<div class="starRating-wrap">
+							<div id="starCenter">
+								<fieldset class="starRating">
+									<input type="radio" id="star5" name="review_star" value="10" onclick="return(false);"/><label for="star5" class="full" title="Awesome"></label>
+									<input type="radio" id="star4.5" name="review_star" value="9" onclick="return(false);"/><label for="star4.5" class="half"></label>
+									<input type="radio" id="star4" name="review_star" value="8" onclick="return(false);"/><label for="star4" class="full"></label>
+									<input type="radio" id="star3.5" name="review_star" value="7" onclick="return(false);" checked="checked"/><label for="star3.5" class="half"></label>
+									<input type="radio" id="star3" name="review_star" value="6" onclick="return(false);"/><label for="star3" class="full"></label>
+									<input type="radio" id="star2.5" name="review_star" value="5" onclick="return(false);"/><label for="star2.5" class="half"></label>
+									<input type="radio" id="star2" name="review_star" value="4" onclick="return(false);"/><label for="star2" class="full"></label>
+									<input type="radio" id="star1.5" name="review_star" value="3" onclick="return(false);"/><label for="star1.5" class="half"></label>
+									<input type="radio" id="star1" name="review_star" value="2" onclick="return(false);"/><label for="star1" class="full"></label>
+									<input type="radio" id="star0.5" name="review_star" value="1" onclick="return(false);"/><label for="star0.5" class="half"></label>
+								</fieldset>
+							</div>
+						</div>
+					</div>
+					</td>
 					<td class="col-1 align-bottom"><p>작성자</p></td>
 					<td class="col-10 align-bottom" style="text-align: left;"><p>작성일</p></td>
 				</tr>
@@ -254,12 +279,25 @@
 										<textarea class="form-control h-25" rows="10"
 											id="review_contents" placeholder="내용" name="review_contents"></textarea>
 									</div>
-									<div
-										class="form-group mt-2 d-flex justify-content-between align-items-center">
-										<span>별점</span> <span class="star"> ★★★★★ <span>★★★★★</span>
-											<input name="review_star" type="range"
-											oninput="drawStar(this)" value="1" step="1" min="0" max="10">
-										</span>
+										<div class="form-group mt-2 d-flex justify-content-between align-items-center">
+											<div class="starCntVt">
+											<div class="starRating-wrapVt">
+												<div id="starCenterVt">
+													<fieldset class="starRatingVt">
+														<input type="radio" id="star5" name="review_star" value="10" /><label for="star5" class="full" title="Awesome"></label>
+														<input type="radio" id="star4.5" name="review_star" value="9" /><label for="star4.5" class="half"></label>
+														<input type="radio" id="star4" name="review_star" value="8"/><label for="star4" class="full"></label>
+														<input type="radio" id="star3.5" name="review_star" value="7"/><label for="star3.5" class="half"></label>
+														<input type="radio" id="star3" name="review_star" value="6"/><label for="star3" class="full"></label>
+														<input type="radio" id="star2.5" name="review_star" value="5"/><label for="star2.5" class="half"></label>
+														<input type="radio" id="star2" name="review_star" value="4"/><label for="star2" class="full"></label>
+														<input type="radio" id="star1.5" name="review_star" value="3"/><label for="star1.5" class="half"></label>
+														<input type="radio" id="star1" name="review_star" value="2"/><label for="star1" class="full"></label>
+														<input type="radio" id="star0.5" name="review_star" value="1"/><label for="star0.5" class="half"></label>
+													</fieldset>
+												</div>
+											</div>
+										</div>
 									</div>
 									<div class="form-group mt-2">
 										<div class="input-group mb-3">
@@ -296,7 +334,7 @@
 		<div class="container mt-5">
 			<div class="d-flex align-items-end"
 				style="border-bottom: 2px solid #000;">
-				<h2>상품문의(0)</h2>
+				<h2>상품문의(${pqlCnt})</h2>
 				<h6 class="ms-3">
 					상품의 취소/반품/교환/환불 및 배송관련 문의는 <a href="#"><strong>1:1문의</strong></a>를
 					이용해 주세요.
@@ -310,49 +348,38 @@
 					<th class="col-1 fw-bold">작성일</th>
 				</thead>
 				<tbody>
-					<tr class="text-center qa_item" style="cursor: pointer;">
-						<td>답변완료</td>
-						<td style="text-align: left;">제목</td>
-						<td>이름</td>
-						<td>작성일</td>
-					</tr>
-					<tr class="hide">
-						<td></td>
-						<td colspan="4">문의내용 <br>
-							<hr> <i class="xi-subdirectory"></i><i class="xi-message"></i>
-							답변내용
-						</td>
-					</tr>
-					<tr class="text-center qa_item" style="cursor: pointer;">
-						<td>답변완료</td>
-						<td style="text-align: left;">제목</td>
-						<td>이름</td>
-						<td>작성일</td>
-					</tr>
-					<tr class="hide">
-						<td></td>
-						<td colspan="4">문의내용 <br>
-							<hr> <i class="xi-subdirectory"></i><i class="xi-message"></i>
-							답변내용
-						</td>
-					</tr>
-					<tr class="text-center qa_item" style="cursor: pointer;">
-						<td>답변완료</td>
-						<td style="text-align: left;"><i class="xi-lock-o"></i>제목</td>
-						<td>이름</td>
-						<td>작성일</td>
-					</tr>
-					<tr class="hide">
-						<td></td>
-						<td colspan="4">문의내용 <br>
-							<hr> <i class="xi-subdirectory"></i><i class="xi-message"></i>
-							답변내용
-						</td>
-					</tr>
-					<!-- 문의 없음 -->
-					<!-- <tr>
-            <td class="py-5">등록된 문의가 없습니다.</td>
-          </tr> -->
+					<c:if test="${not empty pqllist}">
+						<c:forEach var="pql" items="${pqllist}">
+						<tr class="text-center qa_item border-bottom" style="cursor: pointer;">
+							<td style="text-align:center;">
+								<c:if test="${pql.prod_q_yn eq '1'}">답변완료</c:if>
+								<c:if test="${pql.prod_q_yn eq '2'}">미답변</c:if>
+							</td>
+							<td style="text-align: left;">${pql.prod_q_title}
+								<c:if test="${pql.prod_q_secret eq '1'}">
+								<i style="vertical-align: middle;" class="xi-lock-o"></i>
+								</c:if>
+							</td>
+							<td style="text-align:center;">${pql.member_name}</td>
+							<c:set var="pqlwdate" value="${pql.prod_q_wdate}" />
+							<c:set var="pqlwdates" value="${fn:substring(pqlwdate,0,10)}" />
+							<td style="text-align:center;">${pqlwdates}</td>
+						</tr>
+						<tr class="hide border-bottom">
+							<td></td>
+							<td colspan="4">${pql.prod_q_contents} <br>
+								<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
+								${pql.prod_q_reply}
+							</td>
+						</tr>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty pqllist}">
+						<tr>
+							<td></td>
+							<td class="py-5">등록된 문의가 없습니다.</td>
+						</tr>
+					</c:if>
 				</tbody>
 			</table>
 			<div class="container d-flex justify-content-between">
@@ -384,20 +411,21 @@
 								</div>
 							</div>
 							<div class="modal-body">
-								<form name="qa" method="post" action="loginAction.jsp">
+								<form name="qa" method="post" action="detail.do">
+									<input value="${pvo.prod_idx}" type="hidden" name="product_tb_idx" >
+									<input value="${Login.member_idx}" type="hidden" name="member_tb_idx" >
 									<div class="form-group">
-										<input type="text" class="form-control" id="qa_title"
-											placeholder="제목" name="qa_title">
+										<input type="text" class="form-control"	placeholder="제목" name="prod_q_title">
 									</div>
 									<div class="form-group mt-2 col">
-										<textarea class="form-control h-25" rows="10" id="qa_contents"
-											placeholder="내용" name="qa_contents"></textarea>
+										<textarea class="form-control h-25" rows="10"
+											placeholder="내용" name="prod_q_contents"></textarea>
 									</div>
 									<div class="d-grid gap-1 mt-2 d-flex align-items-center">
 										<span>비밀글여부</span>
 										<div>
 											<input class="form-check-input" type="checkbox"
-												id="checkboxNoLabel" value="" aria-label="...">
+												id="prod_q_secret" name="prod_q_secret" value="" aria-label="...">
 										</div>
 									</div>
 									<div class="d-grid gap-1 mt-2">
@@ -414,9 +442,65 @@
 		</div>
 	</div>
 </main>
-
-
 <script>
+	if($("#prod_q_secret").prop("checked")){
+		$("#prod_q_secret").val(1);
+	}else{
+		$("#prod_q_secret").val(2);
+	}
+
+	let star = document.querySelectorAll('input');
+	for (let i = 0; i < star.length; i++) {
+		star[i].addEventListener('click', function() {
+			i = this.value;
+		});
+	}
+	// 상품문의 답변
+	$(function(){  
+		var article = (".recruit .show");  
+		$(".recruit .qa_item  td").click(function() {  
+			var myArticle =$(this).parents().next("tr");  
+	
+			if($(myArticle).hasClass('hide')) {  
+				$(article).removeClass('show').addClass('hide');  
+				$(myArticle).removeClass('hide').addClass('show');  
+			}else {
+				$(myArticle).addClass('hide').removeClass('show');  
+			}
+		});
+	});
+</script>
+<script>
+//옵션창 
+$("#optSel").change(function() {
+	var optVal = $("#optSel option:selected").val();
+	if (optVal == "1") {
+		$("#optSel1").show();
+	}else if(optVal == "2"){
+		$("#optSel2").show();
+	}else if(optVal == "3"){
+		$("#optSel3").show();
+	}else if(optVal == "4"){
+		$("#optSel4").show();
+	}else if(optVal == "5"){
+		$("#optSel5").show();
+	}
+});
+$("#optClo1").on("click",function(){
+	$("#optSel1").hide();
+});
+$("#optClo2").on("click",function(){
+	$("#optSel2").hide();
+});
+$("#optClo3").on("click",function(){
+	$("#optSel3").hide();
+});
+$("#optClo4").on("click",function(){
+	$("#optSel4").hide();
+});
+$("#optClo5").on("click",function(){
+	$("#optSel5").hide();
+});
   //제품수량
   function fnCalCount(type, ths){
     var $input =  $(ths).parent("td").find("input[name='pop_out']");
@@ -428,47 +512,145 @@
       if(tCount >0) $input.val(Number(tCount)-1);
     }
   }
-          //수량 버튼 스크립트
-            Number.prototype.format = function(){
-            if(this==0) return 0;
-            var reg = /(^[+-]?\d+)(\d{3})/;
-            var n = (this + '');
-            while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
-            return n;
-            };
-            
-            String.prototype.format = function(){
-            var num = parseFloat(this);
-            if( isNaN(num) ) return "0";
-            return num.format();
-            };
-              
-            var basic_amount = parseInt('52000');
-            function change_qty2(t){
-            //var min_qty = '수량버튼'*1;
-            var min_qty = 1;
-            var this_qty = $("#ct_qty").val()*1;
-            var max_qty = '2'; // 최대 구매 수량
-            if(t=="m"){
-              this_qty -= 1;
-              if(this_qty<min_qty){
-              //alert("최소구매수량 이상만 구매할 수 있습니다.");
-              alert("수량은 1개 이상 입력해 주십시오.");
-              return;
-              }
-              }
-              else if(t=="p"){
-              this_qty += 1;
-              if(this_qty>max_qty){
-                alert("최대 구매가능 수량을 초과하였습니다");
-                return;
-                }
-              }
-            var show_total_amount = basic_amount * this_qty;
-            //$("#ct_qty_txt").text(this_qty); 
-            $("#ct_qty").val(this_qty);
-            $("#it_pay").val(show_total_amount);
-            $("#total_amount").html(show_total_amount.format());
-            }
-        </script>
+//수량 버튼 스크립트
+Number.prototype.format = function(){
+	if(this==0) return 0;
+	var reg = /(^[+-]?\d+)(\d{3})/;
+	var n = (this + '');
+	while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+	return n;
+};
+
+String.prototype.format = function(){
+	var num = parseFloat(this);
+	if( isNaN(num) ) return "0";
+	return num.format();
+};
+//1번 옵션
+var basic_amount1 = $("#optPrice1").val();
+function change_qty1(t){
+	//var min_qty = '수량버튼'*1;
+	var min_qty1 = 1;
+	var this_qty1 = $("#ct_qty1").val()*1;
+	var max_qty1 = 2; // 최대 구매 수량
+	if(t=="m"){
+		this_qty1 -= 1;
+		if(this_qty1<min_qty1){
+		alert("수량은 1개 이상 입력해 주십시오.");
+		return;
+		}
+	}else if(t=="p"){
+		this_qty1 += 1;
+		if(this_qty1>max_qty1){
+			alert("최대 구매가능 수량을 초과하였습니다");
+			return;
+		}
+	}
+var show_total_amount = basic_amount1 * this_qty1;
+//$("#ct_qty_txt").text(this_qty); 
+$("#ct_qty1").val(this_qty1);
+$("#it_pay").val(show_total_amount);
+$("#total_amount").html(show_total_amount.format());
+}
+//2번 옵션
+var basic_amount2 = $("#optPrice2").val();
+function change_qty2(t){
+	//var min_qty = '수량버튼'*1;
+	var min_qty2 = 1;
+	var this_qty2 = $("#ct_qty2").val()*1;
+	var max_qty2 = 2; // 최대 구매 수량
+	if(t=="m"){
+		this_qty2 -= 1;
+		if(this_qty2<min_qty2){
+		alert("수량은 1개 이상 입력해 주십시오.");
+		return;
+		}
+	}else if(t=="p"){
+		this_qty2 += 1;
+		if(this_qty2>max_qty2){
+			alert("최대 구매가능 수량을 초과하였습니다");
+			return;
+		}
+	}
+var show_total_amount = basic_amount2 * this_qty2;
+$("#ct_qty2").val(this_qty2);
+$("#it_pay").val(show_total_amount);
+$("#total_amount").html(show_total_amount.format());
+}
+//3번 옵션
+var basic_amount3 = $("#optPrice3").val();
+function change_qty3(t){
+	//var min_qty = '수량버튼'*1;
+	var min_qty3 = 1;
+	var this_qty3 = $("#ct_qty3").val()*1;
+	var max_qty3 = 2; // 최대 구매 수량
+	if(t=="m"){
+		this_qty3 -= 1;
+		if(this_qty3<min_qty3){
+		alert("수량은 1개 이상 입력해 주십시오.");
+		return;
+		}
+	}else if(t=="p"){
+		this_qty3 += 1;
+		if(this_qty3>max_qty3){
+			alert("최대 구매가능 수량을 초과하였습니다");
+			return;
+		}
+	}
+var show_total_amount = basic_amount3 * this_qty3;
+$("#ct_qty3").val(this_qty3);
+$("#it_pay").val(show_total_amount);
+$("#total_amount").html(show_total_amount.format());
+}
+//4번 옵션
+var basic_amount4 = $("#optPrice4").val();
+function change_qty4(t){
+	//var min_qty = '수량버튼'*1;
+	var min_qty4 = 1;
+	var this_qty4 = $("#ct_qty4").val()*1;
+	var max_qty4 = 2; // 최대 구매 수량
+	if(t=="m"){
+		this_qty4 -= 1;
+		if(this_qty4<min_qty4){
+		alert("수량은 1개 이상 입력해 주십시오.");
+		return;
+		}
+	}else if(t=="p"){
+		this_qty4 += 1;
+		if(this_qty4>max_qty4){
+			alert("최대 구매가능 수량을 초과하였습니다");
+			return;
+		}
+	}
+var show_total_amount = basic_amount4 * this_qty4;
+$("#ct_qty4").val(this_qty4);
+$("#it_pay").val(show_total_amount);
+$("#total_amount").html(show_total_amount.format());
+}
+//5번 옵션
+var basic_amount5 = $("#optPrice5").val();
+function change_qty5(t){
+	//var min_qty = '수량버튼'*1;
+	var min_qty5 = 1;
+	var this_qty5 = $("#ct_qty5").val()*1;
+	var max_qty5 = 2; // 최대 구매 수량
+	if(t=="m"){
+		this_qty5 -= 1;
+		if(this_qty5<min_qty5){
+		alert("수량은 1개 이상 입력해 주십시오.");
+		return;
+		}
+	}else if(t=="p"){
+		this_qty5 += 1;
+		if(this_qty5>max_qty5){
+			alert("최대 구매가능 수량을 초과하였습니다");
+			return;
+		}
+	}
+var show_total_amount = basic_amount5 * this_qty5;
+$("#ct_qty5").val(this_qty5);
+$("#it_pay").val(show_total_amount);
+$("#total_amount").html(show_total_amount.format());
+}
+</script>
 <%@ include file="../include/foot.jsp" %>
