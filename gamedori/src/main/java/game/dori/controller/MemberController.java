@@ -59,7 +59,8 @@ public class MemberController {
 		MEMBER_VO result = MemberService.Login(MemberVO);
 	    if (result != null) {
 	        // 로그인 성공
-	    	
+	    	if(result.getMember_state() == 1)
+	    	{
 	    	System.out.println("로그인성공");
 	    	MEMBER_VO MemberVO2 = new MEMBER_VO();
 	    	MemberVO2.setMember_email(result.getMember_email());
@@ -71,7 +72,20 @@ public class MemberController {
 	        PrintWriter pw = rsp.getWriter();
 	        pw.append("<script> location.href='"+req.getContextPath()+"'</script>");
 	    	session.setAttribute("Login", MemberVO2);
-	        
+	    	
+	    	}
+	    	else if(result.getMember_state() == 2) {
+		    	rsp.setContentType("text/html; charset=utf-8");
+		        PrintWriter pw = rsp.getWriter();
+		        model.addAttribute("message", "정지된 회원입니다.");
+		        pw.append("<script>alert('정지된 회원입니다.'); history.back();</script>");
+		    }
+		    else if(result.getMember_state() == 3) {
+		    	rsp.setContentType("text/html; charset=utf-8");
+		        PrintWriter pw = rsp.getWriter();
+		        model.addAttribute("message", "탈퇴처리된 회원입니다.");
+		        pw.append("<script>alert('탈퇴된 회원입니다.'); history.back();</script>");
+		    }
 	    	
 	    } else {
 	        // 로그인 실패
@@ -309,26 +323,38 @@ public class MemberController {
 	//멤버 삭제
 	@ResponseBody
 	@RequestMapping(value = "/Member_delete.do", method = RequestMethod.POST)
-	public Map<String, String> memberdelete(MEMBER_VO MemberVO, HttpSession session) {
-		int addr = AddressService.delete(MemberVO);
-		
-		
+	public Map<String, String> memberdelete(MEMBER_VO MemberVO, HttpSession session ) throws IOException {
+		//int addr = AddressService.delete(MemberVO);
 
+		/*
+		 * Map<String, String> response = new HashMap<String, String>(); if (addr > 0 )
+		 * { MemberService.deleteCupon(MemberVO); MemberService.deletePoint(MemberVO);
+		 * MemberService.NoticedeleteAll(MemberVO); MemberService.Delete(MemberVO);
+		 * session.removeAttribute("Login"); response.put("result", "1"); } else {
+		 * System.out.println(MemberVO.getMember_email());
+		 * System.out.println(MemberVO.getMember_pw()); System.out.println("탈퇴 실패");
+		 * response.put("result", "2"); }
+		 */
+		MEMBER_VO result = MemberService.selectByEmail(MemberVO.getMember_email());
+
+	
+		result.setMember_state(3);
+		
+		int result1 = MemberService.updateMemberState(result);
+		
 		Map<String, String> response = new HashMap<String, String>();
-		if (addr > 0 ) {
-			MemberService.deleteCupon(MemberVO);
-			MemberService.deletePoint(MemberVO);
-			MemberService.NoticedeleteAll(MemberVO);
-			MemberService.Delete(MemberVO);
-			session.removeAttribute("Login");
-			response.put("result", "1");
-		} else {
-			System.out.println(MemberVO.getMember_email());
-			System.out.println(MemberVO.getMember_pw());
-			System.out.println("탈퇴 실패");
+		
+		System.out.println(result);
+	    if(result1 > 0)
+		{
+			 session.removeAttribute("Login");
+			 response.put("result", "1");
+		}
+		else
+		{
 			response.put("result", "2");
 		}
-
+	
 		return response;
 	}
 	

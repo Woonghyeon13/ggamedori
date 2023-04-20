@@ -27,7 +27,7 @@ public interface MemberService {
 
 	public List<MEMBER_VO> list(); //회원 리스트
 	
-	public void updateMemberState(MEMBER_VO memberVO); //회원 상태
+	public int updateMemberState(MEMBER_VO memberVO); //회원 상태
 
 	//회원탈퇴
 	public int Delete(MEMBER_VO MemberVO);
