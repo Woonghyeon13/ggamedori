@@ -15,6 +15,11 @@ public class REVIEW_VO{
 	private int review_star;		// 별점
 	private String review_img;		// 이미지
 	
+	private String prod_name;		// 상품 이름
+	
+	private String R_searchType;	// 검색 타입
+	private String R_searchValue;	// 검색 값
+	
 	
 	public int getReview_idx() {
 		return review_idx;
@@ -76,6 +81,25 @@ public class REVIEW_VO{
 	public void setReview_img(String review_img) {
 		this.review_img = review_img;
 	}
+	public String getProd_name() {
+		return prod_name;
+	}
+	public void setProd_name(String prod_name) {
+		this.prod_name = prod_name;
+	}
+	public String getR_searchType() {
+		return R_searchType;
+	}
+	public void setR_searchType(String r_searchType) {
+		R_searchType = r_searchType;
+	}
+	public String getR_searchValue() {
+		return R_searchValue;
+	}
+	public void setR_searchValue(String r_searchValue) {
+		R_searchValue = r_searchValue;
+	}
+	
 	
 	
 	

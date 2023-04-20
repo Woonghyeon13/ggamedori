@@ -80,7 +80,7 @@
 								<c:forEach var="Orderlist" items="${Orderlist}">
 									<tr>
 										<th>${Orderlist.order_title}</th>
-										<td>${Orderlist.order_date}</td>
+										<td class="wdate">${Orderlist.order_date}</td>
 										<td>${Orderlist.order_idx}</td>
 										<td>${Orderlist.order_price}</td>
 										<td>			
@@ -138,7 +138,7 @@
 									</td>
 									<td>${vo.prod_name}</td>
 									<td>${vo.prod_q_title}</td>	
-									<td>${vo.prod_q_wdate}</td>
+									<td class="wdate">${vo.prod_q_wdate}</td>
 									<td>
 									<c:choose>
 										<c:when test="${vo.prod_q_yn == 1}">
@@ -181,7 +181,7 @@
 				                	<tr>				   
 				                    	<th>${vo.qa_idx}</th>
 				                        <td>${vo.qa_title}</td>				             
-				                        <td>${vo.qa_wdate}</td>
+				                        <td class="wdate">${vo.qa_wdate}</td>
 				                        <td>
 				                        <c:choose>
 											<c:when test="${vo.qa_yn == 1}">
@@ -226,7 +226,7 @@
 										<td>게임 1</td>
 										<td>후기 제목입니다.</td>
 										<td>abc1234</td>
-										<td>2023-03-08</td>
+										<td class="wdate">2023-03-08</td>
 										<td>★★★★★</td>
 									</tr>
 

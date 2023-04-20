@@ -15,6 +15,8 @@ public class COUPON_VO {
 	private int 	coupon_min_amount; 	//최소주문금액
 	private int 	coupon_max_amount; 	//최대할인금액
 	private int		coupon_yn;			//쿠폰 사용여부
+
+	
 	public int getCoupon_idx() {
 		return coupon_idx;
 	}
@@ -39,24 +41,6 @@ public class COUPON_VO {
 	public void setCoupon_discount(double coupon_discount) {
 		this.coupon_discount = coupon_discount;
 	}
-	public Date getCoupon_date() {
-		return coupon_date;
-	}
-	public void setCoupon_date(Date coupon_date) {
-		this.coupon_date = coupon_date;
-	}
-	public Date getCoupon_start() {
-		return coupon_start;
-	}
-	public void setCoupon_start(Date date) {
-		this.coupon_start = date;
-	}
-	public Date getCoupon_end() {
-		return coupon_end;
-	}
-	public void setCoupon_end(Date date) {
-		this.coupon_end = date;
-	}
 	public int getCoupon_min_amount() {
 		return coupon_min_amount;
 	}
@@ -75,13 +59,27 @@ public class COUPON_VO {
 	public void setCoupon_yn(int coupon_yn) {
 		this.coupon_yn = coupon_yn;
 	}
+	public Date getCoupon_date() {
+		return coupon_date;
+	}
+	public void setCoupon_date(Date coupon_date) {
+		this.coupon_date = coupon_date;
+	}
+	public Date getCoupon_start() {
+		return coupon_start;
+	}
+	public void setCoupon_start(Date coupon_start) {
+		this.coupon_start = coupon_start;
+	}
+	public Date getCoupon_end() {
+		return coupon_end;
+	}
+	public void setCoupon_end(Date coupon_end) {
+		this.coupon_end = coupon_end;
+	}
 
-	
-	
-	
-	
-	
-	//게터 세터
+
+
 	
 	
 

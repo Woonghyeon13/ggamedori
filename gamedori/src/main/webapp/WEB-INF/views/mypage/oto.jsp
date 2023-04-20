@@ -4,12 +4,7 @@
 <main>		
 
     <!-- 1 : 1 문의 전체보기 ---------------------------------------------------- -->
-	<script><!-- 마이페이지 적립금 계산 -->
-		let savept_balance = ${vo.savept_balance};
-		et pt_used_amount = ${vo.pt_used_amount};
-					  	
-		let result = savept_balance - pt_used_amount;
-	</script><!-- 마이페이지 적립금 계산 END -->
+
 	
     <div class="container mypage_inner">
         <h4>1 : 1 문의 전체보기</h4>
@@ -81,12 +76,12 @@
 							</thead>
 							
                     <tbody>
-                    	<c:forEach items="${selectList2}" var="qaVO">
+                    	<c:forEach items="${selectOtoList}" var="qaVO">
 	                        <tr>
-	                            <td>${qaVO.qa_idx}</td>
+	                            <td class="table_number"></td>
 	                            <td><a href="oto_view.do?qa_idx=${qaVO.qa_idx}">${qaVO.qa_title}</a></td>
 	                            <td>${qaVO.qa_writer}</td>
-	                            <td>${qaVO.qa_wdate}</td>
+	                            <td class="wdate">${qaVO.qa_wdate}</td>
 	                            <td>${qaVO.qa_yn == 1 ? '답변 완료' : '답변 처리중'}</td>
 	                        </tr> 
                         </c:forEach>

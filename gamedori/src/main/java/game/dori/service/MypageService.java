@@ -28,13 +28,14 @@ public interface MypageService {
 
 	//복붙해온 검색기능
 	List<REVIEW_VO> searchReview(String R_searchValue, String R_searchType, int start, int limit);
-	
 	//복붙해온 검색기능2
 	public int countSearchResults(String R_searchValue, String R_searchType);
 	
-	
 	//마이페이지 적립금 리스트 출력
 	public List<SAVEPOINT_VO> selectSavePointList(int member_tb_idx);
+	//마이페이지 누적 적립금 출력
+	public int selectPointAmount(int member_td_idx);
+	
 	
 	/*-------------------------------------------------------------------------------*/
 	
@@ -75,10 +76,6 @@ public interface MypageService {
 	
 	//장바구니
 	public List<CARTP_VO> selectCartListService(int member_idx);
-	
-	//위시리스트(찜목록)
-	public List<WISHLIST_VO> selectWishlist(int member_tb_idx);
-	//찜목록에서 카트담기
-	public void addCart(CART_VO cart);
+
 	
 }

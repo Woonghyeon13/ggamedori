@@ -213,9 +213,27 @@ public class MypageController {
 	{
 		
 		HttpSession session = req.getSession();
-		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
+		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
 		
-		List<QA_VO> selectOtoList = mypageService.selectOtoList(MEMBERVO.getMember_idx() );
+		
+		//상단 등급출력
+	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
+		model.addAttribute("level", selectMemberLevel);
+
+		//상단 적립금
+		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
+		model.addAttribute("PointBalance", selectPointBalance);
+			
+		//상단 쿠폰개수출력
+		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+		model.addAttribute("CouponCount", CouponCount);
+			    
+		//상단 후기 개수
+		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
+		model.addAttribute("ReviewCount", ReviewCount);
+		
+		
+		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx() );
 		model.addAttribute("selectOtoList", selectOtoList);
 		
 		return "mypage/oto";
@@ -366,6 +384,11 @@ public class MypageController {
 		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
 		model.addAttribute("ReviewCount", ReviewCount);
 		
+		//누적 적립금
+		int selectPointAmount = mypageService.selectPointAmount(memberVO.getMember_idx());
+		model.addAttribute("selectPointAmount", selectPointAmount);
+		
+		//리스트
 		List<SAVEPOINT_VO> selectSavePointList = mypageService.selectSavePointList(memberVO.getMember_idx() );
 		model.addAttribute("selectSavePointList", selectSavePointList);
 		
@@ -469,46 +492,6 @@ public class MypageController {
 	}
 
 
-	//찜목록 
-	@RequestMapping( value = "/wishlist.do", method = RequestMethod.GET )
-	public ModelAndView wishlist(ModelAndView model, HttpServletRequest req)
-	{
-		HttpSession session = req.getSession();
-		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
-		
-		//VO객체에 담긴값이 널이면 경고창 출력 
-		if(MEMBERVO == null ) {
-			model.addObject("message", "회원가입 후 이용해주세요");
-			model.setViewName("mypage/wishlist");
-		}else {
-			//리스트 조회
-			List<WISHLIST_VO> selectWishlist = mypageService.selectWishlist(MEMBERVO.getMember_idx() );
-			model.addObject("selectWishlist", selectWishlist);
-			model.setViewName("mypage/wishlist");
-		}
-		
-		return model;
-	}
-	
-	//찜목록 > 장바구니
-	@ResponseBody
-	@RequestMapping( value = "/addCart.do", method = RequestMethod.POST)
-	public int addCart(CART_VO cart, HttpSession session) throws Exception{
-	
-		int result = 0;
-		
-		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
-		
-		if(memberVO != null) {
-			cart.setMember_tb_idx(memberVO.getMember_idx() );
-			mypageService.addCart(cart);
-			result = 1;
-		}
-		
-		return result;
-	}
-	
-	
 	
 	//장바구니
 	@RequestMapping( value = "/cart.do", method = RequestMethod.GET )
