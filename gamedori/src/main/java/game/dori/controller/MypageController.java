@@ -99,6 +99,8 @@ public class MypageController {
 		model.addAttribute("selectOtoList", selectOtoList);
 		
 		//나의후기
+		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
+		model.addAttribute("selectReviewList", selectReviewList);
 		
 		
 	    
