@@ -9,9 +9,8 @@
 
 	<!--  회원가입 아이디 중복체크 용 sql문 -->
 	<select id="selectByEmail" resultType="memberVO">
-    SELECT * FROM member_tb WHERE member_email = #{email}
-	</select>
-	 
+    	SELECT * FROM member_tb WHERE member_email = #{email}
+	</select>	 
 	 
 	 <!--  login sql 구문 -->
 	 <select id ="Login" resultType="memberVO">

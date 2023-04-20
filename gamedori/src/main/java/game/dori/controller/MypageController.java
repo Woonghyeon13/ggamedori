@@ -111,147 +111,117 @@ public class MypageController {
 	
 	/*-------------------------------------------------------------------------------*/
 
-	// 상품 문의 리스트 출력
-	@RequestMapping( value = "/prodqa.do", method = RequestMethod.GET )
-	public String prodqa(Model model, HttpServletRequest req)
-	{	
-//		HttpSession session = req.getSession();
-//		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
-//		
-//		//상단 등급출력
-//	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
-//		model.addAttribute("level", selectMemberLevel);
-//
-//		//상단 적립금
-//		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-//		model.addAttribute("PointBalance", selectPointBalance);
-//			
-//		//상단 쿠폰개수출력
-//		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
-//		model.addAttribute("CouponCount", CouponCount);
-//			    
-//		//상단 후기 개수
-//		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
-//		model.addAttribute("ReviewCount", ReviewCount);
-//		
-//		//마이페이지-상세페이지-상품문의 리스트 
-//		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
-//		model.addAttribute("selectQAList", selectQAList);
+	
+	// 상품 문의사항 리스트 + 페이징
+	@RequestMapping(value = "/prodqa.do", method = RequestMethod.GET)
+	public String prodqa(Model model,  HttpServletRequest req,
+						@RequestParam(value = "prod_page", defaultValue = "1") int prod_page,
+						@RequestParam(value = "prod_searchText", required = false) String prod_searchText,
+						@RequestParam(value = "prod_searchOption", required = false) String prod_searchOption) throws Exception 
+	{
 		
-		return "mypage/prodqa";
+		HttpSession session = req.getSession();
+		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
+		
+		//상단 등급출력
+	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
+		model.addAttribute("level", selectMemberLevel);
+
+		//상단 적립금
+		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
+		model.addAttribute("PointBalance", selectPointBalance);
+			
+		//상단 쿠폰개수출력
+		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+		model.addAttribute("CouponCount", CouponCount);
+			    
+		//상단 후기 개수
+		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
+		model.addAttribute("ReviewCount", ReviewCount);
+		
+		//마이페이지-상세페이지-상품문의 리스트 
+		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
+		model.addAttribute("selectQAList", selectQAList);
+		
+	    int prod_limit = 15; // 페이지당 게시물 수
+	    int prod_start = (prod_page - 1) * prod_limit;
+
+	    List<PRODUCT_Q_VO> prod_List;
+	    int prod_totalRecords;
+
+	    if (prod_searchText != null && prod_searchOption != null) {
+	    	prod_List = mypageService.prod_search(prod_searchText, prod_searchOption, prod_start, prod_limit);
+	    	prod_totalRecords = mypageService.prod_countSearchResults(prod_searchText, prod_searchOption);
+	    } else {
+	    	prod_List = mypageService.prod_list(prod_limit, prod_start);
+	    	prod_totalRecords = mypageService.prod_countAll();
+	    }
+
+	    model.addAttribute("product", prod_List);
+
+	    int prod_totalPages = (int) Math.ceil((double) prod_totalRecords / prod_limit);
+	    model.addAttribute("prod_totalPages", prod_totalPages);
+
+	    return "mypage/prodqa";
 	}
 	
+ 	// 상품 문의사항 검색 기능
+	@RequestMapping(value = "/prod_search.do", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> prod_search(@RequestParam("prod_searchText") String prod_searchText,
+	                                                        @RequestParam("prod_searchOption") String prod_searchOption,
+	                                                        @RequestParam(value = "prod_page", defaultValue = "1") int prod_page) {
+	  int prod_limit = 15; // 페이지당 게시물 수
+	  int prod_start = (prod_page - 1) * prod_limit;
+
+	  List<PRODUCT_Q_VO> prod_searchResults = mypageService.prod_search(prod_searchText, prod_searchOption, prod_start, prod_limit);
+	  int prod_totalResults = mypageService.prod_countSearchResults(prod_searchText, prod_searchOption); // 전체 검색 결과 수
+	  int prod_totalPages = (int) Math.ceil((double) prod_totalResults / prod_limit); // 전체 페이지 수 계산	  
+	  
+	  System.out.println(prod_totalResults);
+
+	  Map<String, Object> response = new HashMap<String, Object>();
+	  response.put("prod_searchResults", prod_searchResults);
+	  response.put("prod_totalPages", prod_totalPages);
+
+	  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-//	// 상품 문의사항 리스트
-//	@RequestMapping(value = "/prodqa.do", method = RequestMethod.GET)
-//	public String main(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
-//	                   @RequestParam(value = "searchText", required = false) String searchText,
-//	                   @RequestParam(value = "searchOption", required = false) String searchOption) throws Exception 
-//	{
-//	    int limit = 15; // 페이지당 게시물 수
-//	    int start = (page - 1) * limit;
-//
-//	    List<NOTICE_VO> noticeList;
-//	    int totalRecords;
-//
-//	    if (searchText != null && searchOption != null) {
-//	        noticeList = mypageServicesearchNotices(searchText, searchOption, start, limit);
-//	        totalRecords = adminService.countSearchResults(searchText, searchOption);
-//	    } else {
-//	        noticeList = adminService.list(limit, start);
-//	        totalRecords = adminService.countAll();
-//	    }
-//
-//	    model.addAttribute("notice", noticeList);
-//
-//	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
-//	    model.addAttribute("totalPages", totalPages);
-//
-//	    return "customersc/main";
+//	// 상품 문의사항 작성
+//	@RequestMapping(value = "/prod_q_write.do", method = RequestMethod.GET)
+//	public String prod_q_write() {
+//		
+//		return "mypage/prod_q_write";
 //	}
 //	
-// 	// 상품 문의사항 검색 기능
-//	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-//	@ResponseBody
-//	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
-//	                                                        @RequestParam("searchOption") String searchOption,
-//	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-//	  int limit = 15; // 페이지당 게시물 수
-//	  int start = (page - 1) * limit;
-//
-//	  List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
-//	  int totalResults = adminService.countSearchResults(searchText, searchOption); // 전체 검색 결과 수
-//	  int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
-//	  
-//	  
-//	  System.out.println(totalResults);
-//
-//	  Map<String, Object> response = new HashMap<String, Object>();
-//	  response.put("searchResults", searchResults);
-//	  response.put("totalPages", totalPages);
-//
-//	  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-//	}
+//	// 상품  문의사항 글 등록
+//	@RequestMapping(value = "/prod_q_write.do", method = RequestMethod.POST)
+//	public void prod_q_write(@ModelAttribute PRODUCT_Q_VO product_Q_VO,HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws Exception {
+//		
+//		MEMBER_VO member = memberService.selectByEmail(member_email);
+//		
+//		int result = 0;
+//		if (member.getMember_role() == 1) {
+//			product_Q_VO.setMember_tb_idx(member.getMember_idx());
+//			result = mypageService.prod_insert(product_Q_VO);
+//			
+//			System.out.println(product_Q_VO.getMember_tb_idx());
+//		}
+//		
+//		rsp.setContentType("text/html; charset=utf-8");
+//		PrintWriter pw = rsp.getWriter();
+//		
+//		if (result > 0) {
+//			session.setAttribute("product_Q_VO", product_Q_VO);
+//			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+//			+ "/mypage/prodqa.do';</script>");
+//		}
+//		
+//	}	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 상품  문의 사항 글 등록
-	@RequestMapping(value = "/prod_q_write.do", method = RequestMethod.GET)
-	public String prod_q_write() {
-		
-		return "mypage/prod_q_write";
-	}
-	
-	@RequestMapping(value = "/prod_q_write.do", method = RequestMethod.POST)
-	public void prod_q_write(@ModelAttribute PRODUCT_Q_VO product_Q_VO,HttpServletResponse rsp, String member_email, HttpServletRequest req, HttpSession session) throws Exception {
-		
-		MEMBER_VO member = memberService.selectByEmail(member_email);
-		
-		int result = 0;
-		if (member.getMember_role() == 1) {
-			product_Q_VO.setMember_tb_idx(member.getMember_idx());
-			result = mypageService.prod_insert(product_Q_VO);
-			
-			System.out.println(product_Q_VO.getMember_tb_idx());
-		}
-		
-		rsp.setContentType("text/html; charset=utf-8");
-		PrintWriter pw = rsp.getWriter();
-		
-		if (result > 0) {
-			session.setAttribute("product_Q_VO", product_Q_VO);
-			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
-			+ "/mypage/prodqa.do';</script>");
-		}
-		
-	}	
-	
-	
-	// 상품문의 상세보기
+	// 상품 문의사항 상세보기
 	@RequestMapping( value = "/prdo_q_view.do", method = RequestMethod.GET )
 	public String view(Model model, @RequestParam("prod_q_idx") int prod_q_idx)
 	{
@@ -276,12 +246,12 @@ public class MypageController {
 //		return "mypage/oto";
 //	}
 	
-	// 1 : 1 문의사항 리스트
+	// 1 : 1 문의사항 리스트 + 페이징
 	@RequestMapping(value = "/oto.do", method = RequestMethod.GET)
 	public String oto(Model model, HttpServletRequest req,
-					@RequestParam(value = "oto_page", defaultValue = "1") int oto_page,
-					@RequestParam(value = "oto_searchText", required = false) String oto_searchText,
-					@RequestParam(value = "oto_searchOption", required = false) String oto_searchOption) throws Exception 
+					@RequestParam(value = "page", defaultValue = "1") int page,
+					@RequestParam(value = "searchText", required = false) String searchText,
+					@RequestParam(value = "searchOption", required = false) String searchOption) throws Exception 
 	{
 //		HttpSession session = req.getSession();
 //		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
@@ -306,23 +276,23 @@ public class MypageController {
 //		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
 //		model.addAttribute("selectQAList", selectQAList);
 		
-	    int oto_limit = 15; // 페이지당 게시물 수
-	    int oto_start = (oto_page - 1) * oto_limit;
+	    int limit = 15; // 페이지당 게시물 수
+	    int start = (page - 1) * limit;
 
 	    List<QA_VO> oto_List;
-	    int oto_totalRecords;
+	    int totalRecords;
 
-	    if (oto_searchText != null && oto_searchOption != null) {
-	    	oto_List = mypageService.oto_search(oto_searchText, oto_searchOption, oto_start, oto_limit);
-	    	oto_totalRecords = mypageService.oto_countSearchResults(oto_searchText, oto_searchOption);
+	    if (searchText != null && searchOption != null) {
+	    	oto_List = mypageService.oto_search(searchText, searchOption, start, limit);
+	    	totalRecords = mypageService.countSearchResults(searchText, searchOption);
 	    } else {
-	    	oto_List = mypageService.oto_list(oto_limit, oto_start);
-	    	oto_totalRecords = mypageService.oto_countAll();
+	    	oto_List = mypageService.oto_list(limit, start);
+	    	totalRecords = mypageService.oto_countAll();
 	    }
 
 	    model.addAttribute("oto", oto_List);
 
-	    int totalPages = (int) Math.ceil((double) oto_totalRecords / oto_limit);
+	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
 	    model.addAttribute("totalPages", totalPages);
 
 	    return "mypage/oto";
@@ -331,36 +301,25 @@ public class MypageController {
 	// 1 : 1 문의사항 검색 기능
 	@RequestMapping(value = "/oto_search.do", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> oto_search(@RequestParam("oto_searchText") String oto_searchText,
-	                                                        @RequestParam("oto_searchOption") String oto_searchOption,
-	                                                        @RequestParam(value = "oto_page", defaultValue = "1") int oto_page) {
-	  int oto_limit = 15; // 페이지당 게시물 수
-	  int oto_start = (oto_page - 1) * oto_limit;
+	public ResponseEntity<Map<String, Object>> oto_search(@RequestParam("searchText") String searchText,
+	                                                        @RequestParam("searchOption") String searchOption,
+	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+	  int limit = 15; // 페이지당 게시물 수
+	  int start = (page - 1) * limit;
 
-	  List<QA_VO> oto_searchResults = mypageService.oto_search(oto_searchText, oto_searchOption, oto_start, oto_limit);
-	  int oto_totalResults = mypageService.oto_countSearchResults(oto_searchText, oto_searchOption); // 전체 검색 결과 수
-	  int oto_totalPages = (int) Math.ceil((double) oto_totalResults / oto_limit); // 전체 페이지 수 계산
+	  List<QA_VO> searchResults = mypageService.oto_search(searchText, searchOption, start, limit);
+	  int totalResults = mypageService.oto_countSearchResults(searchText, searchOption); // 전체 검색 결과 수
+	  int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
 	  
 	  
-	  System.out.println(oto_totalResults);
+	  System.out.println(totalResults);
 
 	  Map<String, Object> response = new HashMap<String, Object>();
-	  response.put("oto_searchResults", oto_searchResults);
-	  response.put("oto_totalPages", oto_totalPages);
+	  response.put("searchResults", searchResults);
+	  response.put("totalPages", totalPages);
 
 	  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 	
 	
 	
@@ -390,7 +349,7 @@ public class MypageController {
 		
 		if (result > 0) {
 			session.setAttribute("qaVO", qaVO);
-			pw.append("<script>alert('글작성 성공'); location.href='" + req.getContextPath()
+			pw.append("<script>alert('문의사항이 등록되었습니다.'); location.href='" + req.getContextPath()
 			+ "/mypage/oto.do';</script>");
 		}
 		
@@ -412,10 +371,10 @@ public class MypageController {
 
 	    if(result > 0) {
 	    	session.setAttribute("qa_idx", qa_idx);
-	        pw.append("<script>alert('글 삭제 성공'); location.href='" + req.getContextPath()
+	        pw.append("<script>alert('삭제되었습니다.'); location.href='" + req.getContextPath()
 	            + "/mypage/oto.do';</script>");
 	    } else {
-	        pw.append("<script>alert('글 삭제 실패'); location.href='" + req.getContextPath()
+	        pw.append("<script>alert('삭제가 되지않았습니다.'); location.href='" + req.getContextPath()
 	            + "/mypage/oto_view.do?qa_idx=" + qa_idx + "';</script>");
 	    }
 	}

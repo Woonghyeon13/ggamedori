@@ -55,7 +55,7 @@
 	<select id="oto_selectAll" resultType="qaVO" parameterType="map">
 	    SELECT * FROM QA_TB
 	    ORDER BY qa_idx DESC
-	    LIMIT #{oto_limit} OFFSET #{oto_start}
+	    LIMIT #{limit} OFFSET #{start}
 	</select>  
 	 
 	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
@@ -89,25 +89,25 @@
 	  SELECT * FROM QA_TB
 	  <where>
 	    <choose>
-	      <when test="oto_searchOption == 'name'">
-	        <if test="oto_searchText != null and oto_searchText != ''">
-	          and qa_title like CONCAT('%', #{oto_searchText}, '%')
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          and qa_title like CONCAT('%', #{searchText}, '%')
 	        </if>
 	      </when>
-	      <when test="oto_searchOption == 'content'">
-	        <if test="oto_searchText != null and oto_searchText != ''">
-	          AND (qa_title LIKE CONCAT('%', #{oto_searchText}, '%') OR qa_contents LIKE CONCAT('%', #{oto_searchText}, '%'))
+	      <when test="searchOption == 'content'">
+	        <if test="searchText != null and searchText != ''">
+	          AND (qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
 	        </if>
 	      </when>
 	      <otherwise>
-	        <if test="oto_searchText != null and oto_searchText != ''">
-	          AND (qa_writer LIKE CONCAT('%', #{oto_searchText}, '%') OR qa_title LIKE CONCAT('%', #{oto_searchText}, '%') OR qa_contents LIKE CONCAT('%', #{oto_searchText}, '%'))
+	        <if test="searchText != null and searchText != ''">
+	          AND (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
 	        </if>
 	      </otherwise>
 	    </choose>
 	  </where>
 	  ORDER BY qa_idx DESC
-	  LIMIT #{oto_start}, #{oto_limit}
+	  LIMIT #{start}, #{limit}
 	</select>
 	
 	<!--  1 : 1 문의사항 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
@@ -115,19 +115,19 @@
 		  SELECT COUNT(*) FROM QA_TB
 		  <where>
 		    <choose>
-		      <when test="oto_searchOption == 'name'">
-		        <if test="oto_searchText != null and oto_searchText != ''">
-		          qa_title like CONCAT('%', #{oto_searchText}, '%')
+		      <when test="searchOption == 'name'">
+		        <if test="searchText != null and searchText != ''">
+		          qa_title like CONCAT('%', #{searchText}, '%')
 		        </if>
 		      </when>
-		      <when test="oto_searchOption == 'content'">
-		        <if test="oto_searchText != null and oto_searchText != ''">
-		          (qa_title LIKE CONCAT('%', #{oto_searchText}, '%') OR qa_contents LIKE CONCAT('%', #{oto_searchText}, '%'))
+		      <when test="searchOption == 'content'">
+		        <if test="searchText != null and searchText != ''">
+		          (qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
 		        </if>
 		      </when>
 		      <otherwise>
-		        <if test="oto_searchText != null and oto_searchText != ''">
-		          (qa_writer LIKE CONCAT('%', #{oto_searchText}, '%') OR qa_title LIKE CONCAT('%', #{oto_searchText}, '%') OR qa_contents LIKE CONCAT('%', #{oto_searchText}, '%'))
+		        <if test="searchText != null and searchText != ''">
+		          (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
 		        </if>
 		      </otherwise>
 		    </choose>

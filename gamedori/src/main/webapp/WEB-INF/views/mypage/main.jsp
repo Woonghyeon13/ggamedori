@@ -126,30 +126,33 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${selectQAList}" var="vo">
-									<tr>
-										<td>${vo.prod_q_idx}</td>
-									<td>
-									<c:choose>
-										<c:when test="${vo.prod_q_yn == 1}">
-											<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
-										</c:when>
-									</c:choose>
-									</td>
-									<td>${vo.prod_name}</td>
-									<td>${vo.prod_q_title}</td>	
-									<td>${vo.prod_q_wdate}</td>
-									<td>
-									<c:choose>
-										<c:when test="${vo.prod_q_yn == 1}">
-											<c:out value="답변완료" />
-										</c:when>
-										<c:when test="${vo.prod_q_yn == 2}">
-											<c:out value="접수완료" />
-										</c:when>
-									</c:choose>
-									</td>
-									</c:forEach>
+								<c:forEach items="${selectQAList}" var="vo">
+									<c:if test="${status.index < 4}">
+										<tr>
+											<td>${vo.prod_q_idx}</td>
+										<td>
+										<c:choose>
+											<c:when test="${vo.prod_q_yn == 1}">
+												<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
+											</c:when>
+										</c:choose>
+										</td>
+										<td>${vo.prod_name}</td>
+										<td>${vo.prod_q_title}</td>	
+										<td>${vo.prod_q_wdate}</td>
+										<td>
+										<c:choose>
+											<c:when test="${vo.prod_q_yn == 1}">
+												<c:out value="답변완료" />
+											</c:when>
+											<c:when test="${vo.prod_q_yn == 2}">
+												<c:out value="접수완료" />
+											</c:when>
+										</c:choose>
+										</td>
+										</tr>
+									</c:if>
+								</c:forEach>
 								</tbody>
 							</table>
 							<p id="breakdown1">
@@ -186,10 +189,10 @@
 								            <td>
 								                <c:choose>
 								                    <c:when test="${vo.qa_yn == 1}">
-								                        <c:out value="답변완료" />
+								                        <c:out value="답변 완료" />
 								                    </c:when>
 								                    <c:when test="${vo.qa_yn == 2}">
-								                        <c:out value="접수완료" />
+								                        <c:out value="답변 처리중" />
 								                    </c:when>
 								                </c:choose>
 								            </td>

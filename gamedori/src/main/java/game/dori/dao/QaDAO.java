@@ -56,30 +56,30 @@ public class QaDAO {
 	}
 	
 	// 1 : 1 문의사항 페이징
-	public List<QA_VO> list(int oto_limit, int oto_start) {
+	public List<QA_VO> list(int limit, int start) {
 	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("oto_limit", oto_limit);
-	    params.put("oto_start", oto_start);
+	    params.put("limit", limit);
+	    params.put("start", start);
 
 	    return sqlSession.selectList("game.dori.mapper.qaMapper.oto_selectAll", params);
 	}
 	
 	// 1 : 1 문의사항 검색 기능
-	public int oto_countSearchResults(String oto_searchText, String oto_searchOption) {
+	public int oto_countSearchResults(String searchText, String searchOption) {
 	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("oto_searchText", oto_searchText);
-	    params.put("oto_searchOption", oto_searchOption);
+	    params.put("searchText", searchText);
+	    params.put("searchOption", searchOption);
 	    
 	    return sqlSession.selectOne("game.dori.mapper.qaMapper.oto_countSearchResults", params);
 	}	
 	
 	// 1 : 1 문의사항 글 검색 후 페이징
-	public List<QA_VO> oto_search(String oto_searchText, String oto_searchOption, int oto_start, int oto_limit) {
+	public List<QA_VO> oto_search(String searchText, String searchOption, int start, int limit) {
 	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("oto_searchText", oto_searchText);
-	    params.put("oto_searchOption", oto_searchOption);
-	    params.put("oto_start", oto_start);
-	    params.put("oto_limit", oto_limit);
+	    params.put("searchText", searchText);
+	    params.put("searchOption", searchOption);
+	    params.put("start", start);
+	    params.put("limit", limit);
 
 	    return sqlSession.selectList("game.dori.mapper.qaMapper.oto_search", params);
 	}

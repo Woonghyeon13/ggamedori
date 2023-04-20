@@ -43,22 +43,22 @@ public interface MypageService {
 	
 	/*-------------------------------------------------------------------------------*/
 	
-	// 1 : 1 문의 사항 리스트
-	public List<QA_VO> oto_list(int oto_limit, int oto_start);
+	// 1 : 1 문의사항 리스트
+	public List<QA_VO> oto_list(int limit, int start);
 	
-	// 1 : 1 문의 사항 글 등록
+	// 1 : 1 문의사항 글 등록
 	public int oto_insert(QA_VO qaVO);
 	
-	// 1 : 1 문의 사항 글 삭제
+	// 1 : 1 문의사항 글 삭제
 	public int oto_delete(int qa_idx);
 	
-	// 1 : 1 문의 사항 상세보기
+	// 1 : 1 문의사항 상세보기
 	public QA_VO oto_select(int member_tb_idx);
 	
-	// 1 : 1  글 검색기능
-	public int oto_countSearchResults(String oto_searchText, String oto_searchOption);
+	// 1 : 1 문의사항 글 검색기능
+	public int oto_countSearchResults(String searchText, String searchOption);
 	
-	List<QA_VO> oto_search(String oto_searchText, String oto_searchOption, int oto_start, int oto_limit);
+	List<QA_VO> oto_search(String searchText, String searchOption, int start, int limit);
 	
 	// 1 : 1 문의사항 글 개수	
 	public int oto_countAll();
@@ -68,14 +68,22 @@ public interface MypageService {
 	// 상품 문의사항 리스트
 	public List<PRODUCT_Q_VO> prod_list(int prod_limit, int prod_start);
 	
-	// 상품 문의 사항 글 등록
+	// 상품 문의사항 글 등록
 	public int prod_insert(PRODUCT_Q_VO product_Q_VO);
 	
-	// 상품 문의 사항 글 삭제
+	// 상품 문의사항 글 삭제
 	public int prod_delete(int prod_q_idx);
 	
-	// 상품 문의 사항 상세보기
+	// 상품 문의사항 상세보기
 	public PRODUCT_Q_VO prod_select(int member_tb_idx);
+	
+	// 상품 문의사항 글 검색 기능
+	public int prod_countSearchResults(String prod_searchText, String prod_searchOption);
+	
+	List<PRODUCT_Q_VO> prod_search(String prod_searchText, String prod_searchOption, int prod_start, int prod_limit);
+	
+	// 상품 문의사항 글 개수
+	public int prod_countAll();
 	
 	/*-------------------------------------------------------------------------------*/
 
