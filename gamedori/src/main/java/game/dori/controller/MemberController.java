@@ -54,10 +54,6 @@ public class MemberController {
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public void Login( MEMBER_VO MemberVO ,  HttpServletResponse rsp ,HttpServletRequest req , HttpSession session, Model model) throws IOException
 	{
-		
-		
-		System.out.println(MemberVO.getMember_email());
-		System.out.println(MemberVO.getMember_pw());
 		MEMBER_VO result = MemberService.Login(MemberVO);
 	    if (result != null) {
 	        // 로그인 성공
