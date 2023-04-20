@@ -8,21 +8,34 @@
 	<insert id="carouselInsert" parameterType="carouselVO">
 		insert 
 			into
-				carousel_img_tb(carousel_img_name)
+				carousel_img_tb(carousel_img_name, carousel_prod_link)
 			values
-				(#{carousel_img_name})
+				(#{carousel_img_name}, #{carousel_prod_link})
 	</insert>
 	
-	<!-- 광고 수정 -->
-	<update id="adModify" parameterType="adVO">
-		update ad_tb
-			set
-				ad_img_b = #{ad_img_b}
-			  , ad_ing_s = #{ad_ing_s}
-			  , ad_link = #{ad_link}
-			  , ad_title = #{ad_title}
-			  , ad_contents = #{ad_contents}
-			where
-				ad_type = #{ad_type}
-	</update>
+	<!-- 캐러셀 이미지 리스트 -->
+	<select id="carouselList" resultType="carouselVO">
+		select * 
+			from 
+				carousel_img_tb
+			order by carousel_img_idx desc limit 5
+	</select>
+	
+	<!-- 광고 등록 -->
+	<insert id="adInsert" parameterType="adVO">
+		insert
+			into
+				ad_tb(ad_img_b, ad_img_s, ad_link, ad_title, ad_contents)
+			values
+				(#{ad_img_b}, #{ad_img_s}, #{ad_link}, #{ad_title}, #{ad_contents})
+	</insert>
+	
+	<!-- 광고 리스트 -->
+	<select id="adlist" resultType="adVO">
+		select * 
+			from 
+				ad_tb
+			order by ad_idx desc limit 2
+	</select>
+	
 </mapper>
