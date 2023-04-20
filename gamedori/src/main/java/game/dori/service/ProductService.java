@@ -2,6 +2,7 @@ package game.dori.service;
 
 import java.util.List;
 
+import game.dori.util.PRODOPT_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
@@ -56,4 +57,6 @@ public interface ProductService {
 	
 	// 주문 인덱스 생성
 	public int insertOrder( ORDER_VO ovo );
+	// 상품 옵션 상세 정보
+	public List<PRODOPT_VO> prodOptList( PRODOPT_VO povo );
 }

@@ -47,4 +47,11 @@
 		delete from opt_tb where opt_idx = #{opt_idx};
 	</delete>
 	
+	<!-- 상품정보 옵션크로스 -->
+	<select id="prodOptSelect" resultType="prodoptVO" parameterType="optVO">
+		select * from product_tb p, opt_tb o
+			where p.prod_idx = o.prod_tb_idx
+			 and opt_idx = #{opt_idx}
+	</select>
+	
 </mapper>

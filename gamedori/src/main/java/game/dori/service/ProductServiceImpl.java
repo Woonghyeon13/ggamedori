@@ -12,6 +12,7 @@ import game.dori.dao.OrderDAO;
 import game.dori.dao.ProdOptDAO;
 import game.dori.dao.ProductDAO;
 import game.dori.dao.ProductQDAO;
+import game.dori.util.PRODOPT_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
@@ -169,6 +170,12 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public int insertOrder(ORDER_VO ovo) {
 		return orderDAO.insertOrder(ovo);
+	}
+
+	// 상품 옵션 상세 정보리스트
+	@Override
+	public List<PRODOPT_VO> prodOptList(PRODOPT_VO povo) {
+		return prodOptDAO.prodOptList(povo);
 	}
 
 }

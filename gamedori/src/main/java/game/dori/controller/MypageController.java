@@ -328,7 +328,7 @@ public class MypageController {
 	}
 
 	// 주문상세
-	@RequestMapping( value = "/orderdetail", method = RequestMethod.GET )
+	@RequestMapping( value = "/orderdetail.do", method = RequestMethod.GET )
 	public String orderdetail(Model model, HttpServletRequest req)
 	{
 		HttpSession session = req.getSession();

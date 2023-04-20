@@ -1,7 +1,5 @@
 package game.dori.util;
 
-import java.util.Date;
-
 public class ORDER_LIST_VO {
 
 	private int order_idx; //주문번호

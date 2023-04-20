@@ -3,7 +3,7 @@ package game.dori.vo;
 public class PAY_VO {
 	
 	private int		pay_idx;  			// 결제정보 인덱스
-	private int		orderd_tb_idx;  	// 주문상세 인덱스
+	private int		order_tb_idx;  		// 주문 인덱스
 	private int 	savepoint_tb_idx;  	// 누적적립금 인덱스
 	private int 	pay_type; 			// 결제수단
 	private String 	pay_date; 			// 결제(입금)일자
@@ -17,12 +17,6 @@ public class PAY_VO {
 	}
 	public void setPay_idx(int pay_idx) {
 		this.pay_idx = pay_idx;
-	}
-	public int getOrderd_tb_idx() {
-		return orderd_tb_idx;
-	}
-	public void setOrderd_tb_idx(int orderd_tb_idx) {
-		this.orderd_tb_idx = orderd_tb_idx;
 	}
 	public int getSavepoint_tb_idx() {
 		return savepoint_tb_idx;
@@ -66,4 +60,11 @@ public class PAY_VO {
 	public void setPay_bank(int pay_bank) {
 		this.pay_bank = pay_bank;
 	}
+	public int getOrder_tb_idx() {
+		return order_tb_idx;
+	}
+	public void setOrder_tb_idx(int order_tb_idx) {
+		this.order_tb_idx = order_tb_idx;
+	}
+	
 }
