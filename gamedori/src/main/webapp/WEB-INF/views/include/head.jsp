@@ -217,7 +217,7 @@
 						<p class="text-center" id="logo">GAMEDORI</p>
 					</div>
 					<div class="modal-body">
-						<form>
+						<form action="<c:url value='/user/passwordsearch.do'/>" method="post">
 							<table>
 								<tr>
 									<td style="width: 500px;">

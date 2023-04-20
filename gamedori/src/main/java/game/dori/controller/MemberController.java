@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,11 +82,78 @@ public class MemberController {
 	        pw.append("<script>alert('로그인 실패 아이디와 비밀번호가 맞는지 확인해주세요.'); history.back();</script>");
 	        pw.flush();
 	        pw.close();
-	    }
-	    
-	    
+	    }   
 	}
 	
+	@RequestMapping(value = "/passwordsearch.do", method = RequestMethod.POST)
+	public void passwordsearch(MEMBER_VO MemberVO, HttpServletResponse rsp, HttpServletRequest req, HttpSession session, Model model) throws IOException {
+		
+		
+		String email = MemberVO.getMember_email();
+		System.out.println(email);
+	    MEMBER_VO result = MemberService.selectByEmail(email);
+	    
+	    
+	 
+	    System.out.println("비밀번호 찾기 시작");
+	    rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+	    if(result != null) {
+	        // 이메일 인증 링크 생성
+	        String token = generateToken();
+	        session.setAttribute("emailToken", token); // 세션에 토큰 저장
+	        pw.append("<script>alert('이메일이 전송되었습니다 입력한 이메일을 확인해주세요'); location.href='" + req.getContextPath() + "/'</script>");
+	        // 이메일 전송
+	        mailService.sendpasswordSearch(MemberVO.getMember_email(), token);
+	    }
+	    else {
+	    	pw.append("<script>alert('잘못된 이메일입니다'); location.href='" + req.getContextPath() + "/'</script>");
+	    }
+	}
+	@RequestMapping(value = "/passwordEmail.do", method = RequestMethod.GET)
+	public void passwordEmail(@RequestParam("email") String email, @RequestParam("token") String token,
+	                        HttpServletResponse rsp, HttpServletRequest req, HttpSession session) throws IOException {
+
+	    String storedToken = (String) session.getAttribute("emailToken"); // 세션에서 토큰 가져오기
+	   
+	    rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+
+	    if (storedToken == null || !storedToken.equalsIgnoreCase(token)) {
+	        // 토큰 값이 null이거나 일치하지 않는 경우
+	        // 에러 처리
+	        pw.append("<script>alert('이메일 인증 코드가 다릅니다!'); location.href='" + req.getContextPath()
+	                + "/'</script>");
+	    } else {
+	    	pw.append("<script>alert('새 비밀번호를 입력해주세요'); location.href='" + req.getContextPath() + "/user/newpassword?email=" + email + "'</script>");
+	    }
+	}
+	
+	@RequestMapping(value = "/newpassword", method = RequestMethod.GET)
+	public String newpassword()
+	{
+		return "user/newpassword";
+		
+	}
+	@RequestMapping(value = "/newpassword" , method = RequestMethod.POST)
+    @ResponseBody
+    public void updatePassword(@RequestParam("email") String email, @RequestParam("membernpw") String newPassword, HttpServletResponse rsp, HttpServletRequest req) {
+        try {
+           int result =  MemberService.updatePasswordByEmail(email, newPassword);
+           
+           rsp.setContentType("text/html; charset=utf-8");
+           PrintWriter pw = rsp.getWriter();
+           if(result > 0)
+           {
+        	   pw.append("<script>alert('비밀번호가 변경되었습니다'); location.href='" + req.getContextPath()
+               + "/'</script>");
+           }
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+           
+        }
+    }
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
 	public void logout(HttpSession session ,HttpServletResponse rsp ,HttpServletRequest req) throws IOException {
 	    session.invalidate(); // 세션 삭제
@@ -93,7 +162,7 @@ public class MemberController {
 		
 		pw.append("<script>alert('로그아웃 되었습니다'); location.href='"+req.getContextPath()+"'</script>");
 
-	 
+		
 	}
 
 		

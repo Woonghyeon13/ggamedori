@@ -1,5 +1,6 @@
 package game.dori.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -111,6 +112,11 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return noticeDAO.deleteAll(MemberVO);
 	}
+
+	 public int updatePasswordByEmail(String email, String newPassword) {
+	     
+	        return memberDAO.updatePasswordByEmail(email, newPassword);
+	    }
 	
 	
 
