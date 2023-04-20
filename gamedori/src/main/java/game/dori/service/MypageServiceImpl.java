@@ -15,7 +15,6 @@ import game.dori.dao.ReviewDAO;
 import game.dori.dao.SavepointDAO;
 import game.dori.dao.WishlistDAO;
 import game.dori.vo.CARTP_VO;
-import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
@@ -23,7 +22,6 @@ import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
-import game.dori.vo.WISHLIST_VO;
 
 @Service
 public class MypageServiceImpl implements MypageService{
@@ -90,10 +88,14 @@ public class MypageServiceImpl implements MypageService{
 	//마이페이지 상단 적립금 출력
 	@Override
 	public int selectPointBalanceService(int member_tb_idx) {
-		//return savepointDAO.selectPointBalanceDAO(member_tb_idx);
-		return 0;
+		return savepointDAO.selectPointBalanceService(member_tb_idx);
 	}
-
+	
+	//누적 적립금
+	@Override
+	public int selectPointAmount(int member_td_idx) {
+		return savepointDAO.selectPointAmount(member_td_idx);
+	}
 
 	//마이페이지 쿠폰 리스트출력
 	@Override
@@ -185,17 +187,6 @@ public class MypageServiceImpl implements MypageService{
 
 
 
-	//위시리스트(찜목록)
-	@Override 
-	public List<WISHLIST_VO> selectWishlist(int member_tb_idx) {
-		return wishlistDAO.selectWishlist(member_tb_idx);
-	}
-
-	//찜목록에서 카드담기
-	@Override
-	public void addCart(CART_VO cart) {
-		wishlistDAO.addCart(cart);
-	}
 
 
 

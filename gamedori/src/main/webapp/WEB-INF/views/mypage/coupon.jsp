@@ -4,12 +4,7 @@
 <main>
 
 	<!-- 쿠폰 확인------------------------------------------------------------ -->
-	<script><!-- 마이페이지 적립금 계산 -->
-		let savept_balance = ${vo.savept_balance};
-		et pt_used_amount = ${vo.pt_used_amount};
-					  	
-		let result = savept_balance - pt_used_amount;
-	</script><!-- 마이페이지 적립금 계산 END -->
+
 	
 	<div id="mypage_inner" class="container">
 		<h4>쿠폰 전체보기</h4>
@@ -87,12 +82,22 @@
 					<tbody>
 						<tr>
 							<c:forEach items="${selectCouponList}" var="vo">
-							<th>${vo.coupon_idx}</th>
-							<td>${vo.coupon_date}</td>
-							<td>${vo.coupon_end}</td>
+							<th class="table_number"></th>
+							<td><fmt:formatDate value="${vo.coupon_date}" pattern="yy-MM-dd" /></td>
+							<td><fmt:formatDate value="${vo.coupon_end}" pattern="yy-MM-dd" /></td></td>
 							<td>${vo.coupon_name}</td>
-							<td>- ${vo.coupon_max_amount}</td>
-							<td>O</td>
+							<td>${vo.coupon_max_amount}</td>
+							<td>
+								<c:choose>
+									<c:when test="${vo.coupon_yn == 1}">
+										<c:out value="사용완료"/>
+									</c:when>
+									<c:when test="${vo.coupon_yn == 2}">
+										<c:out value="사용가능"/>
+									</c:when>
+								</c:choose>
+								
+							</td>
 						</tr>
 						</c:forEach>
 					</tbody>

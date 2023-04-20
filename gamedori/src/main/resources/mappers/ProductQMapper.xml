@@ -55,15 +55,16 @@
 	</update>
 	
 	<!-- 마이페이지 -상품문의 리스트 출력 -->
-
-	<select id="selectQAList" resultType="productqq_VO" parameterType="int">
-		SELECT *
-			FROM 
-				product_q_tb q
-			INNER JOIN product_tb p on 
-				q.product_tb_idx = p.prod_idx
-			WHERE 
-				member_tb_idx = #{member_idx}
+	<select id="selectQAList" resultType="product_Q_VO" parameterType="int">
+		select * 
+			from
+				product_q_tb pq,
+				member_tb m,
+				product_tb p
+			where
+				pq.product_tb_idx = p.prod_idx
+			and 
+				pq.member_tb_idx = m.member_idx 
 	</select>
 
 	<!-- int 타입의 매개변수 member_idx 값을 받아서 칼럼 전체의 값을 p 객체로 형태로 반환 -->
