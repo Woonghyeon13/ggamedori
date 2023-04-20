@@ -128,10 +128,15 @@ window.onload = function () {
 	
 	//유나, 마이페이지 테이블에 index쓰면 번호 지저분해서... 페이지 내에서 글번호 붙도록함
 	  $(document).ready(function() {
-    $('.table_number').each(function(index) {
-      $(this).text(index + 1);
-    	});
- 	 });
+		  $('table.table').each(function() {
+		    var index = 1;
+		    $(this).find('.table_number').each(function() {
+		      $(this).text(index);
+		      index++;
+		    });
+		  });
+		});
+
 	
 	
 
