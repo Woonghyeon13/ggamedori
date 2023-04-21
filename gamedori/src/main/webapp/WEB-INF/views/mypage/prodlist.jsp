@@ -62,9 +62,9 @@
 			</div>
 			<div id="product_inner" class="col-8">
 				<p>
-					<strong>닉네임</strong>님의 구매목록
+					<strong>닉네임</strong>님의 주문내역
 				</p>
-				<table id="product_t" class="table table-hover"
+				<table id="product_t" class="table table-hover text-center"
 					style="width: 100%; border-top: 1px solid #000;">
 					<thead>
 						<tr>
@@ -78,9 +78,9 @@
 					<tbody>
 					<c:forEach var="selectList" items="${list}">
 						<tr>
-							<td><a href='<c:url value="/mypage/orderdetail.do" />'>${selectList.order_idx}</a></td>
-							<td>${selectList.order_date}</td>
-							<td>${selectList.order_date}</td>
+							<th><a href='<c:url value="/mypage/orderdetail.do" />'>${selectList.order_idx}</a></th>
+							<td class="wdate">${selectList.order_date}</td>
+							<td>${selectList.order_idx}</td>
 							<td>${selectList.order_price}</td>
 							<td>			
 							<c:choose>

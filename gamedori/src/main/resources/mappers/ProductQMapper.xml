@@ -4,7 +4,6 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="game.dori.mapper.productQMapper">
-
 	
 	<!-- 관리자페이지 상품문의 리스트 출력 -->
 	<select resultType="pqlistVO" id="pqlist">
@@ -17,14 +16,34 @@
 				pq.product_tb_idx = p.prod_idx
 			and 
 				pq.member_tb_idx = m.member_idx 
-	</select>
-	
+	</select>	
 	
 	<!-- 상품 문의 사항 글 번호를 받아와 그 해당하는 글을 선택하는 쿼리문 -->
 	<select parameterType="product_Q_VO" resultType="product_Q_VO" id="prod_select">
 		SELECT * 
 			FROM PRODUCT_Q_TB 
 			WHERE prod_q_idx = #{prod_q_idx} 
+	</select>
+	
+	<!--  마이페이지 prod_list가 역순으로 출력 -->
+	<select id="prod_selectD" resultType="product_Q_VO" parameterType="int">
+		SELECT *
+			FROM PRODUCT_Q_TB
+			WHERE MEMBER_TB_IDX = #{MEMBER_TB_IDX}
+			ORDER BY MEMBER_TB_IDX DESC
+	</select>
+	
+	<!--  상품 문의사항 selectall QA_TB 에있는 모든데이터를 선택해서 저장 -->
+	<select id="prod_selectAll" resultType="product_Q_VO" parameterType="map">
+	    SELECT * 
+		    FROM PRODUCT_Q_TB
+		    ORDER BY prod_q_idx DESC
+		    LIMIT #{prod_limit} OFFSET #{prod_start}
+	</select>  
+	
+	<!-- 상품 문의사항 페이징 처리를 위한 QA_TB -->
+	<select id="prod_countAll" resultType="int">
+		SELECT COUNT(*) FROM PRODUCT_Q_TB
 	</select>
 	
 	<!-- 상품 문의사항 글 등록 -->
@@ -43,6 +62,61 @@
 			); 
 	</insert>
 	
+	<!-- 상품 문의사항 글 삭제 -->
+	<delete id="prod_delete" parameterType="int">
+		delete from PRODUCT_Q_TB where prod_q_idx = #{prod_q_idx}
+	</delete>
+	
+	<!-- 상품 문의사항 글 검색 -->
+	<select id="prod_search" resultType="product_Q_VO" parameterType="map">
+	  SELECT * FROM PRODUCT_Q_TB
+	  <where>
+	    <choose>
+	      <when test="prod_searchOption == 'name'">
+	        <if test="prod_searchText != null and prod_searchText != ''">
+	          and prod_q_title like CONCAT('%', #{prod_searchText}, '%')
+	        </if>
+	      </when>
+	      <when test="prod_searchOption == 'content'">
+	        <if test="prod_searchText != null and prod_searchText != ''">
+	          AND (prod_q_title LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{prod_searchText}, '%'))
+	        </if>
+	      </when>
+	      <otherwise>
+	        <if test="prod_searchText != null and prod_searchText != ''">
+	          AND (prod_q_writer LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_title LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{prod_searchText}, '%'))
+	        </if>
+	      </otherwise>
+	    </choose>
+	  </where>
+	  ORDER BY prod_q_idx DESC
+	  LIMIT #{prod_start}, #{prod_limit}
+	</select>
+	
+	<!--  상품 문의사항 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+	<select id="prod_countSearchResults" resultType="int" parameterType="map">
+		  SELECT COUNT(*) FROM PRODUCT_Q_TB
+		  <where>
+		    <choose>
+		      <when test="prod_searchOption == 'name'">
+		        <if test="prod_searchText != null and prod_searchText != ''">
+		          prod_q_title like CONCAT('%', #{prod_searchText}, '%')
+		        </if>
+		      </when>
+		      <when test="prod_searchOption == 'content'">
+		        <if test="prod_searchText != null and prod_searchText != ''">
+		          (prod_q_title LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{prod_searchText}, '%'))
+		        </if>
+		      </when>
+		      <otherwise>
+		        <if test="prod_searchText != null and prod_searchText != ''">
+		          (prod_q_writer LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_title LIKE CONCAT('%', #{prod_searchText}, '%') OR prod__qcontents LIKE CONCAT('%', #{prod_searchText}, '%'))
+		        </if>
+		      </otherwise>
+		    </choose>
+		  </where>
+	</select>	
+	
 	<!-- 상품문의 답변 -->
 	<update parameterType="pqlistVO" id="pqAnswer">
 		update 
@@ -55,15 +129,16 @@
 	</update>
 	
 	<!-- 마이페이지 -상품문의 리스트 출력 -->
-
-	<select id="selectQAList" resultType="productqq_VO" parameterType="int">
-		SELECT *
-			FROM 
-				product_q_tb q
-			INNER JOIN product_tb p on 
-				q.product_tb_idx = p.prod_idx
-			WHERE 
-				member_tb_idx = #{member_idx}
+	<select id="selectQAList" resultType="product_Q_VO" parameterType="int">
+		select * 
+			from
+				product_q_tb pq,
+				member_tb m,
+				product_tb p
+			where
+				pq.product_tb_idx = p.prod_idx
+			and 
+				pq.member_tb_idx = m.member_idx 
 	</select>
 
 	<!-- int 타입의 매개변수 member_idx 값을 받아서 칼럼 전체의 값을 p 객체로 형태로 반환 -->

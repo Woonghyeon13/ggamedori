@@ -4,13 +4,6 @@
 <main>
 
 	<!-- 리뷰 전체보기 --------------------------------------------------------- -->
-		
-	<script><!-- 마이페이지 적립금 계산 -->
-		let savept_balance = '${vo.savept_balance}';
-		let pt_used_amount = '${vo.pt_used_amount}';
-					  	
-		let result = savept_balance - pt_used_amount;
-	</script><!-- 마이페이지 적립금 계산 END -->
 	
 	<div class="container mypage_inner">
 		<h4>후기 전체보기</h4>
@@ -88,7 +81,7 @@
 					</div>
 						</form>
 				</div>
-				<table id="review_t" class="table table-hover" style="border-top: 1px solid #000;">
+				<table id="review_t" class="table table-hover text-center" style="border-top: 1px solid #000;">
 					<thead>
 						<tr>
 							<th scope="col">번호</th>
@@ -99,13 +92,13 @@
 						</tr>
 					</thead>
 					<tbody id="table-body">
-						<c:forEach items="${ReviewCount}" var="vo">
+						<c:forEach items="${selectReviewList}" var="vo">
 						<tr>
-							<th scope="row">${vo.review_idx}</th>
-							<td>${vo.product_tb_idx}</td>
+							<th scope="row" class="table_number"></th>
+							<td>${vo.prod_name}</td>
 							<td>${vo.review_title}</td>
 							<td>${vo.review_writer}</td>
-							<td>${vo.review_wdate}</td>
+							<td class="wdate">${vo.review_wdate}</td>
 						</tr>
 						</c:forEach>
 					</tbody>
@@ -232,13 +225,13 @@
 					        });
 					    } else {
 					        // 검색 결과가 있는 경우
-					        $.each(results, function (index, selectList3) {
+					        $.each(results, function (index, selectReviewList) {
 					            var row = $('<tr>');
-					            row.append($('<th>').text(selectList3.review_idx));
-					            row.append($('<td>').text(selectList3.product_tb_idx));
-					            row.append($('<td>').text(selectList3.review_title));
-					            row.append($('<td>').text(selectList3.review_writer));
-					            row.append($('<td>').text(selectList3.review_wdate));
+					            row.append($('<th>').text(selectReviewList.review_idx) ); 
+					            row.append($('<td>').text(selectReviewList.prod_name) );
+					            row.append($('<td>').text(selectReviewList.review_title));
+					            row.append($('<td>').text(selectReviewList.review_writer));
+					            row.append($('<td>').text(selectReviewList.review_wdate));
 					            tableBody.append(row);
 					        });
 					    }

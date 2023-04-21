@@ -5,7 +5,7 @@
  
 <mapper namespace="game.dori.mapper.qaMapper">
 
-	<!-- 마이페이지 1:1문의 리스트 출력  -->
+	<!-- 마이페이지 1:1 문의 리스트 출력  -->
 	<select id="selectOtoList" resultType="qaVO" parameterType="int">
 		select *
 			from QA_TB
@@ -34,6 +34,29 @@
 	</update>
 	
 	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
+	<!--  1 : 1 문의사항 글 번호를 받아와 그 해당하는 글을 선택하는 쿼리문 -->
+	<select id="oto_select" resultType="qaVO" parameterType="qaVO">
+		select * 
+			from QA_TB 
+			where qa_idx = #{qa_idx}
+	</select>
+	
+	<!-- 마이페이지 oto_list가 역순으로 출력-->
+	<select id="selectOtoListD" resultType="qaVO" parameterType="int">
+	    SELECT * 
+	   		FROM QA_TB 
+	    	WHERE MEMBER_TB_IDX = #{MEMBER_TB_IDX}
+	    	ORDER BY MEMBER_TB_IDX DESC
+	</select>
+	
+	
+	<!--  1 : 1 문의사항 selectall QA_TB 에있는 모든데이터를 선택해서 저장 -->
+	<select id="oto_selectAll" resultType="qaVO" parameterType="map">
+	    SELECT * FROM QA_TB
+	    ORDER BY qa_idx DESC
+	    LIMIT #{limit} OFFSET #{start}
+	</select>  
 	 
 	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
 	<select id="oto_countAll" resultType="int">
@@ -42,7 +65,12 @@
 	
 	<!--  1 : 1 문의사항 글 작성  -->
 	<insert id="oto_insert" parameterType="qaVO">
-	   INSERT INTO QA_TB (MEMBER_TB_IDX, QA_TITLE, QA_CONTENTS, QA_WRITER) 
+	   	INSERT INTO 
+	   		QA_TB (
+	   		MEMBER_TB_IDX, 
+	   		QA_TITLE, 
+	   		QA_CONTENTS, 
+	   		QA_WRITER) 
 	   VALUES (
 	       #{member_tb_idx}, 
 	       #{qa_title},
@@ -56,19 +84,54 @@
 		delete from QA_TB where qa_idx = #{qa_idx}
 	</delete>
 	
-	<!-- 1 : 1 문의사항 글 검색 -->
+	 <!-- 1 : 1 문의사항 글 검색 -->
 	<select id="oto_search" resultType="qaVO" parameterType="map">
-		SELECT * FROM QA_TB
-		<where>
-			<choose>
-				<when test="oto_searchOption == 'name'">
-					<if test="oto_searchText != null and oto_searchText != ''">
-						AND qa_title LIKE CONCAT('%',#{oto_searchText},'%')
-					</if>
-				</when>
-			</choose>
-		</where>
+	  SELECT * FROM QA_TB
+	  <where>
+	    <choose>
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          and qa_title like CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	      <when test="searchOption == 'content'">
+	        <if test="searchText != null and searchText != ''">
+	          AND (qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+	        </if>
+	      </when>
+	      <otherwise>
+	        <if test="searchText != null and searchText != ''">
+	          AND (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+	        </if>
+	      </otherwise>
+	    </choose>
+	  </where>
+	  ORDER BY qa_idx DESC
+	  LIMIT #{start}, #{limit}
+	</select>
 	
+	<!--  1 : 1 문의사항 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+	<select id="oto_countSearchResults" resultType="int" parameterType="map">
+		  SELECT COUNT(*) FROM QA_TB
+		  <where>
+		    <choose>
+		      <when test="searchOption == 'name'">
+		        <if test="searchText != null and searchText != ''">
+		          qa_title like CONCAT('%', #{searchText}, '%')
+		        </if>
+		      </when>
+		      <when test="searchOption == 'content'">
+		        <if test="searchText != null and searchText != ''">
+		          (qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+		        </if>
+		      </when>
+		      <otherwise>
+		        <if test="searchText != null and searchText != ''">
+		          (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+		        </if>
+		      </otherwise>
+		    </choose>
+		  </where>
 	</select>
 	
 	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->

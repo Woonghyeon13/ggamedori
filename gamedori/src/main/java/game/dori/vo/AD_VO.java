@@ -3,7 +3,6 @@ package game.dori.vo;
 public class AD_VO {
 
 	private int ad_idx;
-	private int ad_type;
 	private String ad_img_b;
 	private String ad_img_s;
 	private String ad_link;
@@ -15,12 +14,6 @@ public class AD_VO {
 	}
 	public void setAd_idx(int ad_idx) {
 		this.ad_idx = ad_idx;
-	}
-	public int getAd_type() {
-		return ad_type;
-	}
-	public void setAd_type(int ad_type) {
-		this.ad_type = ad_type;
 	}
 	public String getAd_img_b() {
 		return ad_img_b;

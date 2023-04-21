@@ -4,12 +4,7 @@
 <main>
 
 	<!-- 상품 문의 전체보기 ----------------------------------------------------- -->
-	<script><!-- 마이페이지 적립금 계산 -->
-		let savept_balance = ${vo.savept_balance};
-		et pt_used_amount = ${vo.pt_used_amount};
-					  	
-		let result = savept_balance - pt_used_amount;
-	</script><!-- 마이페이지 적립금 계산 END -->
+
 	
 	<div class="container mypage_inner">
 		<h4>상품 문의 전체보기</h4>
@@ -70,34 +65,32 @@
 				<p>
 					<strong>${sessionScope.Login.member_name}</strong>님의 상품문의 내역
 				</p>
-				<table id="enquiry_t" class="table table-hover"
+				<table id="enquiry_t" class="table table-hover text-center"
 					style="width: 100%; border-top: 1px solid #000;">
 					<thead>
 						<tr>
 							<th scope="col">번호</th>
-							<th scope="col">비밀글여부</th>
 							<th scope="col">상품 정보</th>
 							<th scope="col">문의 제목</th>
-							<th scope="col">주문 번호</th>
 							<th scope="col">작성 일자</th>
 							<th scope="col">처리 상태</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${selectQAList}" var="vo">
+						<c:forEach items="${prod}" var="vo">
 							<tr>
-								<th>${vo.prod_q_idx}</th>
+								<th class="table_number"></th>
 								<td>
-								<c:choose>
+									<c:choose>
 									<c:when test="${vo.prod_q_yn == 1}">
 										<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
 									</c:when>
-								</c:choose>
+									</c:choose>
+									${vo.prod_name}
 								</td>
-									<td>${vo.prod_name}</td>
-									<td>${vo.prod_q_title}</td>	
-									<td>${vo.prod_q_wdate}</td>
-									<td>
+								<td>${vo.prod_q_title}</td>	
+								<td class="wdate">${vo.prod_q_wdate}</td>
+								<td>
 									<c:choose>
 										<c:when test="${vo.prod_q_yn == 1}">
 											<c:out value="접수완료" />
@@ -107,40 +100,32 @@
 										</c:when>
 									</c:choose>
 								</td>
+							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
-			<!-- end:#enquiry_inner -->
+			<c:if test="${Login.member_role == 1}">
+	 	           <button onclick="location.href='${pageContext.request.contextPath}/mypage/prod_q_write.do'" style="float:right; margin-top:20px;">문의하기</button>
+			</c:if> 
 
-		</div>
-		<!-- end:#mypage_inner2 -->
-
-		<div id="paging" class="container">
-			<nav aria-label="Page navigation example">
-				<ul class="pagination justify-content-center text-black">
-					<li class="page-item"><a class="page-link text-reset" href="#"
-						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-					</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">1</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">2</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">3</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">4</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">5</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">6</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">7</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">8</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">9</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">10</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#"
-						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-					</a></li>
-				</ul>
-			</nav>
-		</div>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center" >
+							<c:forEach var="i" begin="1" end="${prod_totalPages}">
+							    <li class="page-item" class="${param.page == i ? 'active' : ''}">
+							        <a class="page-link" href="?page=${i}" style="${param.page == i ? 'background-color: #dadbdd; border-color: #ffeeeee;' : ''}">
+							            ${i}
+							        </a>
+							    </li>
+							</c:forEach>
+						</ul>
+					</nav>
 
 
-	</div>
-	<!-- end:#mypage_inner -->
+			</div>	<!-- end:#enquiry_inner -->
+		</div>	<!-- end:#mypage_inner2 -->
+		
+	</div>	<!-- end:#mypage_inner -->
+	
 	<!---------------------------------------------------------------------------->
 
 
