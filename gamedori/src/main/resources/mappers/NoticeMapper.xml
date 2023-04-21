@@ -67,7 +67,7 @@
 		      </otherwise>
 		    </choose>
 		  </where>
-		</select>
+	</select>
 
 	<!--  공지사항 글 작성  -->
 	<insert id="insert" parameterType="noticeVO">

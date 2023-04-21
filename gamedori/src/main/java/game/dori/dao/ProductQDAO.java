@@ -1,6 +1,8 @@
 package game.dori.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,60 @@ public class ProductQDAO {
 	public int prod_insert(PRODUCT_Q_VO product_Q_VO) {
 		return sqlSession.insert("game.dori.mapper.productQMapper.prod_insert",product_Q_VO);
 	}
+	
+	// 상품 문의사항 글 삭제
+	public int prod_delete(int prod_q_idx) {
+		return sqlSession.delete("game.dori.mapper.productQMapper.prod_delete",prod_q_idx);
+	}
+	
+	// 상품 문의사항 글 개수 카운트
+	public int prod_countAll()
+	{
+		return sqlSession.selectOne("game.dori.mapper.productQMapper.prod_countAll");
+	}
+	
+	// 상품 문의사항 페이징
+	public List<PRODUCT_Q_VO> prod_list(int prod_limit, int prod_start) {
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("prod_limit", prod_limit);
+	    params.put("prod_start", prod_start);
+
+	    return sqlSession.selectList("game.dori.mapper.productQMapper.prod_selectAll", params);
+	}
+	
+	// 상품 문의사항 검색 기능
+	public int prod_countSearchResults(String prod_searchText, String prod_searchOption) {
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("prod_searchText", prod_searchText);
+	    params.put("prod_searchOption", prod_searchOption);
+	    
+	    return sqlSession.selectOne("game.dori.mapper.productQMapper.prod_countSearchResults", params);
+	}	
+	
+	// 상품 문의사항 글 검색 후 페이징
+	public List<PRODUCT_Q_VO> prod_search(String prod_searchText, String prod_searchOption, int prod_start, int prod_limit) {
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("prod_searchText", prod_searchText);
+	    params.put("prod_searchOption", prod_searchOption);
+	    params.put("prod_start", prod_start);
+	    params.put("prod_limit", prod_limit);
+
+	    return sqlSession.selectList("game.dori.mapper.productQMapper.prod_search", params);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 상품 문의사항 상세보기
 	public PRODUCT_Q_VO prod_select(int prod_q_idx) {

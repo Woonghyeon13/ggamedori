@@ -1,13 +1,14 @@
 package game.dori.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import game.dori.util.OTO_VO;
-import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
 
 @Repository
@@ -19,10 +20,14 @@ public class QaDAO {
 	
 	
 
-	//마이페이지 1:1문의 리스트 출력
+	//마이페이지 1:1문의사항 리스트 출력
 	public List<QA_VO> selectOtoList(int member_idx){
 		return sqlSession.selectList("game.dori.mapper.qaMapper.selectOtoList", member_idx);
-
+	}
+	
+	// 마이페이지 1 : 1 문의사항 리스트 역순으로 출력
+	public List<QA_VO> selectOtoListD(int qa_idx){
+		return sqlSession.selectList("game.dori.mapper.qaMapper.selectOtoListD", qa_idx);
 	}
 	
 	// 1 : 1 문의사항 글 등록
@@ -45,16 +50,47 @@ public class QaDAO {
 	{
 		return sqlSession.selectOne("game.dori.mapper.qaMapper.oto_countAll");
 	}
-	//1:1문의 리스트 출력
+	// 1 : 1 문의사항 리스트 출력
 	public List<OTO_VO> list(){
 		return sqlSession.selectList(namespace + "otolist");
 	}
 	
-	//1:1문의 답변
+	// 1 : 1 문의사항 페이징
+	public List<QA_VO> list(int limit, int start) {
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("limit", limit);
+	    params.put("start", start);
+
+	    return sqlSession.selectList("game.dori.mapper.qaMapper.oto_selectAll", params);
+	}
+	
+	// 1 : 1 문의사항 검색 기능
+	public int oto_countSearchResults(String searchText, String searchOption) {
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("searchText", searchText);
+	    params.put("searchOption", searchOption);
+	    
+	    return sqlSession.selectOne("game.dori.mapper.qaMapper.oto_countSearchResults", params);
+	}	
+	
+	// 1 : 1 문의사항 글 검색 후 페이징
+	public List<QA_VO> oto_search(String searchText, String searchOption, int start, int limit) {
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("searchText", searchText);
+	    params.put("searchOption", searchOption);
+	    params.put("start", start);
+	    params.put("limit", limit);
+
+	    return sqlSession.selectList("game.dori.mapper.qaMapper.oto_search", params);
+	}
+	
+
+	// 1 : 1문의사항 답변
 	public int otoAnswer(OTO_VO otoVO) {
 		return sqlSession.update(namespace + "otoAnswer", otoVO);
-
 	}
+	
+
 	
 	
 }

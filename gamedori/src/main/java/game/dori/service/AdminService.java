@@ -8,6 +8,7 @@ import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.AD_VO;
 import game.dori.vo.CAROUSEL_VO;
 import game.dori.vo.NOTICE_VO;
+import game.dori.vo.QA_VO;
 
 public interface AdminService {
 
@@ -35,24 +36,36 @@ public interface AdminService {
 	// 공지사항 조회수
 	public int notice_Hit(NOTICE_VO noticeVO);
 	
-	public List<ORDER_LIST_VO> orderList(); //주문목록 리스트
+	/*---------------------------------------------*/
 	
-	public List<OTO_VO> otoList(); //1:1문의 리스트
+	// 주문목록 리스트
+	public List<ORDER_LIST_VO> orderList(); 
+	
+	// 1 : 1문의 리스트
+	public List<OTO_VO> otoList(); 
 
 	public int countSearchResults(String searchText, String searchOption);
 	
-	public int otoAnswer(OTO_VO otoVO); //1:1문의 답변
+	// 1 : 1문의 답변
+	public int otoAnswer(OTO_VO otoVO); 
 	
-	public List<PROD_Q_LIST_VO> pqlist(); //상품 문의 리스트
+	// 상품 문의 리스트
+	public List<PROD_Q_LIST_VO> pqlist(); 
 
-	public int pqAnswer(PROD_Q_LIST_VO pqVO); //상품 문의 답변
+	// 상품 문의 답변
+	public int pqAnswer(PROD_Q_LIST_VO pqVO); 
 	
-	public int carouselInsert(CAROUSEL_VO cavo); //캐러셀 수정
+	// 캐러셀 수정
+	public int carouselInsert(CAROUSEL_VO cavo); 
 	
+
+	// 광고 수정
+	public int adModify(AD_VO advo);
+
 	public List<CAROUSEL_VO> clist();//캐러셀 리스트
 
 	public int adInsert(AD_VO advo); //광고 수정
 	
 	public List<AD_VO> adlist(); //광고 리스트
-	
+
 }
