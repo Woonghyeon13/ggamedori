@@ -1,5 +1,6 @@
 package game.dori.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,8 +79,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void updateMemberState(MEMBER_VO memberVO) {//회원 상태 변경
-		 memberDAO.updateMemberState(memberVO);
+	public int updateMemberState(MEMBER_VO memberVO) {//회원 상태 변경
+		 return memberDAO.updateMemberState(memberVO);
 	}
 
 	@Override
@@ -112,11 +113,18 @@ public class MemberServiceImpl implements MemberService{
 		return noticeDAO.deleteAll(MemberVO);
 	}
 
+
+	 public int updatePasswordByEmail(String email, String newPassword) {
+	     
+	        return memberDAO.updatePasswordByEmail(email, newPassword);
+	    }
+
 	//적립금에 따른 등급업
 	@Override
 	public void memberLevelUP(int member_idx) {
 		memberDAO.memberLevelUP(member_idx);
 	}
+
 	
 	
 

@@ -14,12 +14,13 @@
 	 
 	 
 	 <!--  login sql 구문 -->
-	 <select id ="Login" resultType="memberVO">
-	 	
-	 	select * from member_tb where member_email = #{member_email} and member_pw = #{member_pw}
+<select id="Login" resultType="memberVO">
+    SELECT * FROM member_tb
+    WHERE
+        member_email = #{member_email}
+        AND member_pw = #{member_pw}
+</select>
 
-	 </select>
-	 
 	<!--  회원가입 정보 멤버 sql 구문 -->
 	<insert id="insertMember" parameterType="memberVO" useGeneratedKeys="true" keyProperty="member_idx">
 	    INSERT INTO member_tb(MEMBER_EMAIL, MEMBER_EMAIL_KEY, MEMBER_PW, MEMBER_NAME, MEMBER_PHONE)
@@ -41,6 +42,8 @@
 			from member_tb where member_role = "1"
 	</select>
 	
+	
+	<!--  멤버 상태  -->
 	<update id="updateMemberState" parameterType="memberVO">
 	    UPDATE member_tb
 	    SET
@@ -50,12 +53,14 @@
 	</update>
 	
 
-	
+	<!--  멤버 삭제 구현만해둠 지금은안씀 -->
 	<delete id="delete_member" parameterType="MemberVO">
 	  DELETE FROM member_tb
 	  WHERE member_email = #{member_email} AND member_pw = #{member_pw}
 	</delete>
 	
+	
+	<!--  멤버정보 업데이트 -->
 	<update id="updateMember" parameterType="MemberVO">
 	    UPDATE member_tb
 	    SET
@@ -64,6 +69,17 @@
 	    WHERE
 	        member_idx = #{member_idx}
 	</update>
+	
+	
+	<!--  비밀번호 찾기 -->
+	 <update id="updatePassword" parameterType="map">
+        UPDATE member_tb
+        SET
+            member_pw = #{newPassword}
+        WHERE
+            member_email = #{email}
+    </update>
+	
 	
 	<!-- 마이페이지 등급  -->
 	<select id="selectMemberLevelMapper" parameterType="int" resultType="int">
