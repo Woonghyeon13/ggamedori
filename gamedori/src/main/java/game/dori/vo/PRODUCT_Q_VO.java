@@ -92,11 +92,4 @@ public class PRODUCT_Q_VO {
 		this.prod_name = prod_name;
 	}
 
-	public String getProd_q_reply() {
-		return prod_q_reply;
-	}
-	public void setProd_q_reply(String prod_q_reply) {
-		this.prod_q_reply = prod_q_reply;
-	}
-
 }

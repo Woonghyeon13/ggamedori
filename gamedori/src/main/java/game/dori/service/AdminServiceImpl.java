@@ -142,6 +142,12 @@ public class AdminServiceImpl implements AdminService{
 		return pmDAO.adlist();
 	}
 
+	@Override
+	public int adModify(AD_VO advo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 	
 
