@@ -4,12 +4,7 @@
 <main>
 
 	<!-- 상품 문의 전체보기 ----------------------------------------------------- -->
-	<script><!-- 마이페이지 적립금 계산 -->
-		let savept_balance = ${vo.savept_balance};
-		et pt_used_amount = ${vo.pt_used_amount};
-					  	
-		let result = savept_balance - pt_used_amount;
-	</script><!-- 마이페이지 적립금 계산 END -->
+
 	
 	<div class="container mypage_inner">
 		<h4>상품 문의 전체보기</h4>
@@ -70,15 +65,13 @@
 				<p>
 					<strong>${sessionScope.Login.member_name}</strong>님의 상품문의 내역
 				</p>
-				<table id="enquiry_t" class="table table-hover"
+				<table id="enquiry_t" class="table table-hover text-center"
 					style="width: 100%; border-top: 1px solid #000;">
 					<thead>
 						<tr>
 							<th scope="col">번호</th>
-							<th scope="col">비밀글여부</th>
 							<th scope="col">상품 정보</th>
 							<th scope="col">문의 제목</th>
-							<th scope="col">주문 번호</th>
 							<th scope="col">작성 일자</th>
 							<th scope="col">처리 상태</th>
 						</tr>
@@ -86,18 +79,18 @@
 					<tbody>
 						<c:forEach items="${selectQAList}" var="vo">
 							<tr>
-								<th>${vo.prod_q_idx}</th>
+								<th class="table_number"></th>
 								<td>
-								<c:choose>
+									<c:choose>
 									<c:when test="${vo.prod_q_yn == 1}">
 										<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
 									</c:when>
-								</c:choose>
+									</c:choose>
+									${vo.prod_name}
 								</td>
-									<td>${vo.prod_name}</td>
-									<td>${vo.prod_q_title}</td>	
-									<td>${vo.prod_q_wdate}</td>
-									<td>
+								<td>${vo.prod_q_title}</td>	
+								<td class="wdate">${vo.prod_q_wdate}</td>
+								<td>
 									<c:choose>
 										<c:when test="${vo.prod_q_yn == 1}">
 											<c:out value="접수완료" />
@@ -107,6 +100,7 @@
 										</c:when>
 									</c:choose>
 								</td>
+							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -115,7 +109,7 @@
 		</div>
 		<!-- end:#mypage_inner2 -->
 
-		<div id="paging" class="container">
+		<div id="paging" class="container ">
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center text-black">
 					<li class="page-item"><a class="page-link text-reset" href="#"

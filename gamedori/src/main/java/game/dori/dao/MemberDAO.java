@@ -91,6 +91,14 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace+ "selectMemberLevelMapper",member_idx);
 		
 	}
+
+	//누적적립금에 따른 등급업
+	public int memberLevelUP(int member_idx)
+	{
+		return sqlSession.update(namespace+ "memberLevelUP",member_idx);
+	}
+	
+	
 	
 	public int updatePasswordByEmail(String email, String newPassword) {
         Map<String, String> paramMap = new HashMap<String, String>();

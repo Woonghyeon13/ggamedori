@@ -51,8 +51,13 @@ public interface MemberService {
 	//멤버 작성글 전부삭제
 	public int NoticedeleteAll(MEMBER_VO MemberVO);
 	
+
 	//멤버 비밀번호만 변경
 	 public int updatePasswordByEmail(String email, String newPassword);
+
+	//적립금에 따른 등급업
+	void memberLevelUP(int member_idx);
+
 
 
 }

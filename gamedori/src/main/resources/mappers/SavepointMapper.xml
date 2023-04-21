@@ -24,6 +24,12 @@
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
+	<!-- 마이페이지 적립금 페이지의 누적 적립금 출력 -->
+	<select id="selectPointAmount" resultType="int" parameterType="int">
+		select savept_amount
+			from savepoint_tb
+			where MEMBER_TB_IDX = #{MEMBER_IDX}
+	</select>
 	
 	
 	<!--  포인트 삭제 -->

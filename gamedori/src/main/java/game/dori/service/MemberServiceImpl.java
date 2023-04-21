@@ -113,10 +113,18 @@ public class MemberServiceImpl implements MemberService{
 		return noticeDAO.deleteAll(MemberVO);
 	}
 
+
 	 public int updatePasswordByEmail(String email, String newPassword) {
 	     
 	        return memberDAO.updatePasswordByEmail(email, newPassword);
 	    }
+
+	//적립금에 따른 등급업
+	@Override
+	public void memberLevelUP(int member_idx) {
+		memberDAO.memberLevelUP(member_idx);
+	}
+
 	
 	
 

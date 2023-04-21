@@ -21,21 +21,21 @@ public interface MypageService {
 	//마이페이지 1:1문의 리스트 출력
 	public List<QA_VO> selectOtoList(int member_idx);
 	
-	//마이페이지 리뷰 리스트 출력, 검색포함
-
+	//마이페이지 리뷰 리스트 출력
 	public List<REVIEW_VO> selectReviewList(int member_idx);
 	//마이페이지 리뷰 카운트
 	public int ReviewCount(int member_tb_idx);
 
 	//복붙해온 검색기능
 	List<REVIEW_VO> searchReview(String R_searchValue, String R_searchType, int start, int limit);
-	
 	//복붙해온 검색기능2
 	public int countSearchResults(String R_searchValue, String R_searchType);
 	
-	
 	//마이페이지 적립금 리스트 출력
 	public List<SAVEPOINT_VO> selectSavePointList(int member_tb_idx);
+	//마이페이지 누적 적립금 출력
+	public int selectPointAmount(int member_td_idx);
+	
 	
 	/*-------------------------------------------------------------------------------*/
 	
@@ -53,7 +53,7 @@ public interface MypageService {
 	/*-------------------------------------------------------------------------------*/
 	
 	// 상품 문의 사항 글 등록
-	public int prod_insert(PRODUCT_Q_VO product_Q_VO);
+	public int prod_insert(PRODUCT_Q_VO p0roduct_Q_VO);
 	
 	// 상품 문의 사항 상세보기
 	public PRODUCT_Q_VO prod_select(int member_tb_idx);
@@ -76,10 +76,6 @@ public interface MypageService {
 	
 	//장바구니
 	public List<CARTP_VO> selectCartListService(int member_idx);
-	
-	//위시리스트(찜목록)
-	public List<WISHLIST_VO> selectWishlist(int member_tb_idx);
-	//찜목록에서 카트담기
-	public void addCart(CART_VO cart);
+
 	
 }

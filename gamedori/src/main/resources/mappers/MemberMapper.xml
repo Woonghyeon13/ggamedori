@@ -87,6 +87,21 @@
 		FROM member_tb
 		WHERE member_idx = #{member_idx}
 	</select>
+	
+	<!-- 누적적립금에 따른 등급업 -->
+	<update id="MemberLevelUP">
+		UPDATE member_tb
+		SET member.level =
+			CASE
+				WHEN savept_amount >= 3000 THEN 2 	<!-- 누적적립금 30만원(삼천점) 이상 실버 -->
+				WHEN savept_amount >= 10000 THEN 3 	<!-- 누적적립금 100만원(만점) 이상 골드 -->
+				ELSE 1
+			END
+		FROM savepoint_tb
+		WHERE savepoint_tb.member_tb_idx = member_tb.idx
+		AND savepoint_tb.member_tb_idx = #{member_idx}
+	</update>
+	
 
 </mapper>
 

@@ -26,7 +26,7 @@
 				</li>
 				<li>
 					<h4>적립금</h4>
-					<p><c:if test="${pointBalance == null}">0</c:if><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+					<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
 					<!--s_money_check.html -->
 				</li>
 				<li>
@@ -77,26 +77,28 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach var="Orderlist" items="${Orderlist}">
-									<tr>
-										<th>${Orderlist.order_title}</th>
-										<td>${Orderlist.order_date}</td>
-										<td>${Orderlist.order_idx}</td>
-										<td>${Orderlist.order_price}</td>
-										<td>			
-										<c:choose>
-											<c:when test="${Orderlist.order_situ == 1}">
-											    <c:out value="주문완료" />
-											</c:when>
-											<c:when test="${Orderlist.order_situ == 2}">
-											    <c:out value="배송중" />
-											 </c:when>
-											 <c:when test="${Orderlist.order_situ == 3}">
-											    <c:out value="배송완료" />
-											 </c:when>
-										</c:choose>
-										</td>
-									</tr>
+								<c:forEach var="Orderlist" items="${Orderlist}" varStatus="status">
+									<c:if test="${status.index < 4}">
+										<tr>
+											<th>${Orderlist.order_title}</th>
+											<td class="wdate">${Orderlist.order_date}</td>
+											<td>${Orderlist.order_idx}</td>
+											<td>${Orderlist.order_price}</td>
+											<td>			
+											<c:choose>
+												<c:when test="${Orderlist.order_situ == 1}">
+												    <c:out value="주문완료" />
+												</c:when>
+												<c:when test="${Orderlist.order_situ == 2}">
+												    <c:out value="배송중" />
+												 </c:when>
+												 <c:when test="${Orderlist.order_situ == 3}">
+												    <c:out value="배송완료" />
+												 </c:when>
+											</c:choose>
+											</td>
+										</tr>
+									</c:if>
 								</c:forEach>
 								</tbody>
 							</table>
@@ -117,7 +119,6 @@
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
-										<th scope="col">비밀글여부</th>
 										<th scope="col">상품 정보</th>
 										<th scope="col">문의 제목</th>
 										<th scope="col">주문 번호</th>
@@ -126,29 +127,32 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${selectQAList}" var="vo">
-									<tr>
-										<th>${vo.prod_q_idx}</th>
-									<td>
-									<c:choose>
-										<c:when test="${vo.prod_q_yn == 1}">
-											<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
-										</c:when>
-									</c:choose>
-									</td>
-									<td>${vo.prod_name}</td>
-									<td>${vo.prod_q_title}</td>	
-									<td>${vo.prod_q_wdate}</td>
-									<td>
-									<c:choose>
-										<c:when test="${vo.prod_q_yn == 1}">
-											<c:out value="답변완료" />
-										</c:when>
-										<c:when test="${vo.prod_q_yn == 2}">
-											<c:out value="접수완료" />
-										</c:when>
-									</c:choose>
-									</td>
+									<c:forEach items="${selectQAList}" var="vo" varStatus="status">
+										<c:if test="${status.index < 4}">
+											<tr>
+												<th class="table_number"></th>
+												<td>
+													<c:choose>
+													<c:when test="${vo.prod_q_yn == 1}">
+														<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
+													</c:when>
+													</c:choose>
+													${vo.prod_name}
+												</td>
+												<td>${vo.prod_q_title}</td>	
+												<td class="wdate">${vo.prod_q_wdate}</td>
+												<td>
+												<c:choose>
+													<c:when test="${vo.prod_q_yn == 1}">
+														<c:out value="답변완료" />
+													</c:when>
+													<c:when test="${vo.prod_q_yn == 2}">
+														<c:out value="접수완료" />
+													</c:when>
+												</c:choose>
+												</td>
+											</tr>
+										</c:if>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -177,22 +181,24 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach items="${selectOtoList}" var="vo">
-				                	<tr>				   
-				                    	<th>${vo.qa_idx}</th>
-				                        <td>${vo.qa_title}</td>				             
-				                        <td>${vo.qa_wdate}</td>
-				                        <td>
-				                        <c:choose>
-											<c:when test="${vo.qa_yn == 1}">
-												<c:out value="접수완료" />
-											</c:when>
-											<c:when test="${vo.qa_yn == 2}">
-												<c:out value="답변완료" />
-											</c:when>
-										</c:choose>
-										</td>
-				                  	</tr> 
+								<c:forEach items="${selectOtoList}" var="vo" varStatus="status">
+									<c:if test="${status.index < 4}">			   
+				                		<tr>	
+					                    	<th class="table_number"></th>
+					                        <td>${vo.qa_title}</td>				             
+					                        <td class="wdate">${vo.qa_wdate}</td>
+					                        <td>
+					                        <c:choose>
+												<c:when test="${vo.qa_yn == 1}">
+													<c:out value="접수완료" />
+												</c:when>
+												<c:when test="${vo.qa_yn == 2}">
+													<c:out value="답변완료" />
+												</c:when>
+											</c:choose>
+											</td>
+				                  		</tr> 
+									</c:if>
                        			</c:forEach>
 								
 								</tbody>
@@ -221,15 +227,23 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<th>1</th>
-										<td>게임 1</td>
-										<td>후기 제목입니다.</td>
-										<td>abc1234</td>
-										<td>2023-03-08</td>
-										<td>★★★★★</td>
-									</tr>
-
+									<c:forEach items="${selectReviewList}" var="vo" varStatus="status">
+									<c:if test="${status.index < 4}">
+										<tr>
+											<th scope="row" class="table_number"></th>
+											<td>${vo.prod_name}</td>
+											<td>${vo.review_title}</td>
+											<td>${vo.review_writer}</td>
+											<td class="wdate">${vo.review_wdate}</td>
+											<td>
+												<c:set var="star" value="★" />
+												<c:forEach begin="1" end="${vo.review_star}">
+												 ${star}
+												</c:forEach>
+											</td>
+										</tr>
+									</c:if>
+									</c:forEach>
 								</tbody>
 							</table>
 							<p id="breakdown1">
