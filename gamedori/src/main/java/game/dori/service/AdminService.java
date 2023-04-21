@@ -58,6 +58,14 @@ public interface AdminService {
 	// 캐러셀 수정
 	public int carouselInsert(CAROUSEL_VO cavo); 
 	
+
 	// 광고 수정
 	public int adModify(AD_VO advo);
+
+	public List<CAROUSEL_VO> clist();//캐러셀 리스트
+
+	public int adInsert(AD_VO advo); //광고 수정
+	
+	public List<AD_VO> adlist(); //광고 리스트
+
 }

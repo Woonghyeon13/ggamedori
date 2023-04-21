@@ -108,5 +108,36 @@ window.onload = function () {
 
 	});
 	//주원 전체선택, 팝오버
+	
+	
+	//유나, date 포맷(yy년 MM월 dd일)
+	$(document).ready(function() {
+	  $('.wdate').each(function() {
+	    var date = new Date($(this).text());
+	    var formattedDate = formatDate(date, 'yy-MM-dd');
+	    $(this).text(formattedDate);
+	  });
+	});
+	
+	function formatDate(date, format) {
+	  var year = date.getFullYear().toString().substring(2);
+	  var month = (date.getMonth() + 1).toString().padStart(2, '0');
+	  var day = date.getDate().toString().padStart(2, '0');
+	  return format.replace('yy', year).replace('MM', month).replace('dd', day);
+	}
+	
+	//유나, 마이페이지 테이블에 index쓰면 번호 지저분해서... 페이지 내에서 글번호 붙도록함
+	  $(document).ready(function() {
+		  $('table.table').each(function() {
+		    var index = 1;
+		    $(this).find('.table_number').each(function() {
+		      $(this).text(index);
+		      index++;
+		    });
+		  });
+		});
+
+	
+	
 
 }

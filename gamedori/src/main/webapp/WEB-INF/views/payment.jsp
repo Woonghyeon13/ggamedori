@@ -1,44 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="./include/head.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>결제 테스트</title>
-    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-    <script>
-        
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+        var IMP = window.IMP; 
+        IMP.init("imp32745085"); 
+    
         function requestPay() {
-        	const IMP = window.IMP; // 생략 가능
-            IMP.init("imp32745085"); // 예: imp00000000a
-            
-            IMP.request_pay({
-                pg: "payco",
-                pay_method: "card",
-                merchant_uid: "ORD" + new Date().getTime(), // 주문번호를 중복되지 않게 설정합니다.
-                name: "노르웨이 회전 의자",
-                amount: 64900, // 숫자 타입
-                buyer_email: "gildong@gmail.com",
-                buyer_name: "홍길동",
-                buyer_tel: "010-4242-4242",
-                buyer_addr: "서울특별시 강남구 신사동",
-                buyer_postcode: "01181"
-            }, function (rsp) { // callback
+        	IMP.request_pay({
+        	    pg : 'nice',
+        	    pay_method : 'card',
+        	    merchant_uid: "order_no_0001", //상점에서 생성한 고유 주문번호
+        	    name : '주문명:결제테스트',
+        	    amount : 14000,
+        	    buyer_email : 'iamport@siot.do',
+        	    buyer_name : '구매자이름',
+        	    buyer_tel : '010-1234-5678',
+        	    buyer_addr : '서울특별시 강남구 삼성동',
+        	    buyer_postcode : '123-456',
+        	    m_redirect_url : '{모바일에서 결제 완료 후 리디렉션 될 URL}', // 예: https://www.my-service.com/payments/complete/mobile
+        		niceMobileV2 : true // 신규 모바일 버전 적용 시 설정
+        	}, function (rsp) { // callback
                 if (rsp.success) {
-                    // 결제 성공 시 로직
-                    console.log("결제 성공");
+                    console.log(rsp);
                 } else {
-                    // 결제 실패 시 로직
-                    console.log("결제 실패");
+                    console.log(rsp);
                 }
             });
         }
     </script>
+    <meta charset="UTF-8">
+    <title>Sample Payment</title>
 </head>
 <body>
-    <h1>결제 테스트</h1>
-    <button onclick="requestPay()">결제하기</button>
+    <button onclick="requestPay()">결제하기</button> <!-- 결제하기 버튼 생성 -->
 </body>
 </html>

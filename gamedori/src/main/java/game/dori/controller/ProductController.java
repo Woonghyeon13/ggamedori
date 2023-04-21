@@ -2,8 +2,9 @@ package game.dori.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import game.dori.service.ProductService;
 import game.dori.util.PROD_Q_LIST_VO;
@@ -23,6 +26,7 @@ import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.OPT_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
+import net.sf.json.JSONArray;
 
 @RequestMapping( value = "/prod")
 @Controller
@@ -68,7 +72,10 @@ public class ProductController {
 
 		return "prod/orderForm";
 	}
-
+	
+	
+	
+	
 	// 상품 문의 등록
 	@RequestMapping( value = "/detail.do", method = RequestMethod.POST )
 	public void detail( PRODUCT_Q_VO pqvo, HttpServletResponse rsp ) throws IOException {

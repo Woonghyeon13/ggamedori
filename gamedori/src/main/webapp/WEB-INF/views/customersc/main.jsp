@@ -68,14 +68,24 @@
 			                </select>
 			                <input class="form-control" style="width: 300px;" type="text" name="searchText" aria-label="default input example">
 			                <div>${fn:escapeXml(searchText)}</div>
+	    <form class="d-flex justify-content-center align-items-center" role="form">
+	        <div class="me-2">
+	            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
+	                <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
+	                <option value="name" selected>제목으로 검색</option>
+	                <option value="content">내용으로 검색</option>
+	                <option value="ncontent">제목+내용으로검색</option>
+	            </select>
+	        </div>
+	        <div class="me-2">
+	            <input class="form-control form-control-sm" type="text" placeholder="제목"  name="searchText"aria-label=".form-control-sm example">
+	        </div>
+	        <div>
+	            <button type="submit" class="btn btn-dark btn_search">검색</button>
+	        </div>
+	    </form>
+	</div>
 			
-			                <button type="submit" class="btn btn-dark btn_search">검색</button>
-			            </form>
-			            <c:if test="${Login.member_role == 2}">
-			                <button type="button" class="btn btn-dark" onclick="location.href='notice_write.do'">글쓰기</button>
-			            </c:if>
-			        </td>
-			    </tr>
 	<script>
 	var originalTableData = [];
 	

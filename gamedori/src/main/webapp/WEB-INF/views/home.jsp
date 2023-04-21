@@ -5,21 +5,36 @@
 		<!--메인뷰-->	
 		<div id="carouselExampleDark" class="inner carousel slide shadow-drop-center" data-bs-ride="carousel">
 			<div class="carousel-indicators">
-			<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-			<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-			<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+			<c:forEach var="clist" items="${clist }" varStatus="cnt">
+				<c:choose>
+					<c:when test="${(cnt.count - 1) == 0 }">
+						<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"></button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="${cnt.count - 1 }"></button>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
 			</div>
-
 			<div class="carousel-inner">
-				<div class="carousel-item active" data-bs-interval="10000">
-					<img src="<c:url value='/images/mainview_1.jpg' />" class="d-block w-100" alt="...">
-				</div>
-				<div class="carousel-item" data-bs-interval="2000">
-					<img src="<c:url value='/images/mainview_2.jpg' />" class="d-block w-100" alt="...">
-				</div>
-				<div class="carousel-item">
-					<img src="<c:url value='/images/mainview_3.jpg' />" class="d-block w-100" alt="...">
-				</div>
+				<c:forEach var="clist" items="${clist }" varStatus="cnt">
+					<c:choose>
+						<c:when test="${cnt.count == 1 }">
+							<div class="carousel-item active" data-bs-interval="8000">
+								<a href="<c:url value='${clist.carousel_prod_link }'/>">
+									<img src="<c:url value='/images/carousel/${clist.carousel_img_name }' />" class="d-block w-100" alt="...">
+								</a>
+							</div>
+						</c:when>
+						<c:otherwise>	
+							<div class="carousel-item" data-bs-interval="8000">
+								<a href="<c:url value='${clist.carousel_prod_link }'/>">
+									<img src="<c:url value='/images/carousel/${clist.carousel_img_name }' />" class="d-block w-100" alt="...">
+								</a>
+							</div>
+						</c:otherwise>
+					</c:choose>	
+				</c:forEach>
 			</div>
 
 			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
@@ -35,27 +50,21 @@
 
 		<!--광고영역-->
 		<section id="AD">
-			
+			<c:forEach var="adlist" items="${adlist }">
 			<div id="index_1" class="inner container">
-				<img id="index_1_img" src="<c:url value='/images/index_img.png' />" class="mt-4"/>
-				<img id="index_1_img2" src="<c:url value='/images/index_img2.webp' />" />
+				<img id="index_1_img" src="<c:url value='/images/ad/${adlist.ad_img_b }' />" class="mt-4"/>
+				<img id="index_1_img2" src="<c:url value='/images/ad/${adlist.ad_img_s }' />" />
 				<div id="index_1_text" class="fade-in">
-					<h3>갓 오브 워 라그나로크</h3>
-					<p>Santa Monica Studios가 호평을 받은 God of War(2018)의 후속작을 소개합니다. 핌불의 겨울이 다가옵니다. 크레토스와 아트레우스는 아홉영역을 탐험하며 답을 구하고, 아스가르드의 군세는 세상을 종말로 이끌 것이라 예언된 전쟁에 대비합니다.</p>
-					<button type="button" class="btn btn-outline-dark btn-sm MC">자세히 보기</button>
+					<h3>${adlist.ad_title }</h3>
+					<div>${adlist.ad_contents }</div>
+					<button type="button" class="btn btn-outline-dark btn-sm MC">
+						<a href="<c:url value='${adlist.ad_link }' />">자세히 보기</a>
+					</button>
 				</div>
 			</div>
-			
-			<div id="index_1" class="inner container">
-				<img id="index_1_img" src="<c:url value='/images/index_img3.png' />" class="mt-4"/>
-				<img id="index_1_img2" src="<c:url value='/images/index_img4.jpg' />" />
-				<div id="index_1_text" class="fade-in">
-					<h3>젤다의 전설 티어스 오브 더 킹덤</h3>
-					<p>끝없는 모험의 무대가 하늘로 넓어진다.<br>하늘에 떠 있는 섬들, 처음 보는 무기, 신기한 탈것... 도대체 하이랄에 무슨 일이 일어난 것인가?<br>당신만의 끝없는 모험이 다시 시작됩니다.</p>
-					<button type="button" class="btn btn-outline-dark btn-sm MC">자세히 보기</button>
-				</div>
-			</div>
+			</c:forEach>
 
+			<!-- 조회수 기준 hot -->
 			<div id="index_3"class="container">
 				<h3 class="text-center" style="margin-bottom:70px">HOT</h3>
 				<div class="row row-cols-5" style="margin-bottom:100px">

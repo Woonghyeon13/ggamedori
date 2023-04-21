@@ -128,8 +128,18 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int adModify(AD_VO advo) {//광고 수정
-		return pmDAO.adModify(advo);
+	public int adInsert(AD_VO advo) {//광고 수정
+		return pmDAO.adInsert(advo);
+	}
+
+	@Override
+	public List<CAROUSEL_VO> clist() {//캐러셀 리스트
+		return pmDAO.list();
+	}
+
+	@Override
+	public List<AD_VO> adlist() {//광고 리스트
+		return pmDAO.adlist();
 	}
 
 

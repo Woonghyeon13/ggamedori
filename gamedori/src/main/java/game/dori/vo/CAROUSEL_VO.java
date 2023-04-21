@@ -4,7 +4,15 @@ public class CAROUSEL_VO {
 
 	private int carousel_img_idx;
 	private String carousel_img_name;
+	private String carousel_prod_link;
 	
+	
+	public String getCarousel_prod_link() {
+		return carousel_prod_link;
+	}
+	public void setCarousel_prod_link(String carousel_prod_link) {
+		this.carousel_prod_link = carousel_prod_link;
+	}
 	public int getCarousel_img_idx() {
 		return carousel_img_idx;
 	}

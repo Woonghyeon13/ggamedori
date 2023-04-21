@@ -26,7 +26,7 @@
 				</li>
 				<li>
 					<h4>적립금</h4>
-					<p><c:if test="${pointBalance == null}">0</c:if><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+					<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
 					<!--s_money_check.html -->
 				</li>
 				<li>
@@ -117,7 +117,6 @@
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
-										<th scope="col">비밀글여부</th>
 										<th scope="col">상품 정보</th>
 										<th scope="col">문의 제목</th>
 										<th scope="col">주문 번호</th>
@@ -199,7 +198,7 @@
 								        </tr>
 								    </c:if>
 								</c:forEach>
-								
+
 								</tbody>
 							</table>
 							<p id="breakdown1">
@@ -234,7 +233,23 @@
 										<td>2023-03-08</td>
 										<td>★★★★★</td>
 									</tr>
-
+									<c:forEach items="${selectReviewList}" var="vo" varStatus="status">
+									<c:if test="${status.index < 4}">
+										<tr>
+											<th scope="row" class="table_number"></th>
+											<td>${vo.prod_name}</td>
+											<td>${vo.review_title}</td>
+											<td>${vo.review_writer}</td>
+											<td class="wdate">${vo.review_wdate}</td>
+											<td>
+												<c:set var="star" value="★" />
+												<c:forEach begin="1" end="${vo.review_star}">
+												 ${star}
+												</c:forEach>
+											</td>
+										</tr>
+									</c:if>
+									</c:forEach>
 								</tbody>
 							</table>
 							<p id="breakdown1">

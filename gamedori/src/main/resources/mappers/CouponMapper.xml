@@ -23,7 +23,7 @@
 	
 	<!-- 마이페이지 쿠폰 개수 -->
 	<select id="CouponCount" resultType="int" parameterType="int">
-		SELECT coupon_idx
+		SELECT COUNT(COUPON_IDX)
 		 FROM coupon_tb
 		WHERE MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>

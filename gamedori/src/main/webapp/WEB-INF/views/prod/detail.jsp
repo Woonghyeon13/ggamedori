@@ -96,12 +96,12 @@
 								</div>
 								<!--옵션선택에 따른 영억 block-->
 								<div class="col-9">
-									<select id="optSel" class="form-select" aria-label="Default select example">
-										<option selected>선택</option>
-										<c:forEach var="opt" items="${optlist}" varStatus="status">
-										<option value="${status.count}">${opt.opt_name}</option>
-										</c:forEach>
-									</select>
+									  <select id="optSel" class="form-select" aria-label="Default select example">
+							            <option>선택</option>
+							            <c:forEach var="opt" items="${optlist}" varStatus="status">
+							                <option value="${status.count}" ${status.count == 1 ? 'selected' : ''}>${opt.opt_name}</option>
+							            </c:forEach>
+							        </select>
 									<div class="choice_product mt-3" style="margin: auto 0;">
 										<c:forEach var="optt" items="${optlist}" varStatus="status">
 										<input type="hidden" id="optPrice${status.count}" value="${optt.opt_price}">
@@ -112,13 +112,13 @@
 													<p>${pvo.prod_name} : ${optt.opt_name}</p>
 												</div>
 												<div class="btn-group btn-group-sm my-3" role="group">
-													<button type="button" class="btn btn-secondary"
-														style="width: 2vw;" onclick="change_qty${status.count}('m')">-</button>
-													<input type="text" name="ct_qty1" id="ct_qty${status.count}" value="1"
-														readonly="readonly" class="text-center"
-														style="width: 3vw;">
-													<button type="button" class="btn btn-secondary"
-														style="width: 2vw;" onclick="change_qty${status.count}('p')">+</button>
+												  <button type="button" class="btn btn-secondary"
+												    style="width: 2vw;" onclick="change_qty(${status.count}, 'm')">-</button>
+												  <input type="text" name="ct_qty1" id="ct_qty${status.count}" value="1"
+												    readonly="readonly" class="text-center"
+												    style="width: 3vw;">
+												  <button type="button" class="btn btn-secondary"
+												    style="width: 2vw;" onclick="change_qty(${status.count}, 'p')">+</button>
 												</div>
 												<div class="mt-3">
 													<button class="btn" id="optClo${status.count}">x</button>
@@ -472,19 +472,40 @@
 </script>
 <script>
 //옵션창 
+$(document).ready(function() {
+    initializeOption(1);
+});
+
+function initializeOption(optVal) {
+    $("#optSel" + optVal).show();
+    $("#ct_qty" + optVal).val(0);
+    change_qty(optVal, "p");
+}
+
 $("#optSel").change(function() {
-	var optVal = $("#optSel option:selected").val();
-	if (optVal == "1") {
-		$("#optSel1").show();
-	}else if(optVal == "2"){
-		$("#optSel2").show();
-	}else if(optVal == "3"){
-		$("#optSel3").show();
-	}else if(optVal == "4"){
-		$("#optSel4").show();
-	}else if(optVal == "5"){
-		$("#optSel5").show();
-	}
+    var optVal = $("#optSel option:selected").val();
+    
+    if (optVal == "1") {
+        $("#optSel1").show();
+        $("#ct_qty1").val(1);
+        change_qty(1, "p");
+    } else if (optVal == "2") {
+        $("#optSel2").show();
+        $("#ct_qty2").val(0);
+        change_qty(2, "p");
+    } else if (optVal == "3") {
+        $("#optSel3").show();
+        $("#ct_qty3").val(0);
+        change_qty(3, "p");
+    } else if (optVal == "4") {
+        $("#optSel4").show();
+        $("#ct_qty4").val(0);
+        change_qty(4, "p");
+    } else if (optVal == "5") {
+        $("#optSel5").show();
+        $("#ct_qty5").val(0);
+        change_qty(5, "p");
+    }
 });
 $("#optClo1").on("click",function(){
 	$("#optSel1").hide();
@@ -501,156 +522,68 @@ $("#optClo4").on("click",function(){
 $("#optClo5").on("click",function(){
 	$("#optSel5").hide();
 });
-  //제품수량
-  function fnCalCount(type, ths){
-    var $input =  $(ths).parent("td").find("input[name='pop_out']");
-    var tCount = Number($input.val());
-    var tEqCount = Number($(ths).parents("tr").find("td.bseq_ea").html());
-    if(type=='p'){
-      if(tCount < tEqCount) $input.val(Number(tCount)+1);
-    }else{
-      if(tCount >0) $input.val(Number(tCount)-1);
-    }
-  }
-//수량 버튼 스크립트
-Number.prototype.format = function(){
-	if(this==0) return 0;
-	var reg = /(^[+-]?\d+)(\d{3})/;
-	var n = (this + '');
-	while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
-	return n;
-};
 
-String.prototype.format = function(){
-	var num = parseFloat(this);
-	if( isNaN(num) ) return "0";
-	return num.format();
-};
-//1번 옵션
-var basic_amount1 = $("#optPrice1").val();
-function change_qty1(t){
-	//var min_qty = '수량버튼'*1;
-	var min_qty1 = 1;
-	var this_qty1 = $("#ct_qty1").val()*1;
-	var max_qty1 = 2; // 최대 구매 수량
-	if(t=="m"){
-		this_qty1 -= 1;
-		if(this_qty1<min_qty1){
-		alert("수량은 1개 이상 입력해 주십시오.");
-		return;
-		}
-	}else if(t=="p"){
-		this_qty1 += 1;
-		if(this_qty1>max_qty1){
-			alert("최대 구매가능 수량을 초과하였습니다");
-			return;
-		}
-	}
-var show_total_amount = basic_amount1 * this_qty1;
-//$("#ct_qty_txt").text(this_qty); 
-$("#ct_qty1").val(this_qty1);
-$("#it_pay").val(show_total_amount);
-$("#total_amount").html(show_total_amount.format());
+function updateTotalAmount() {
+    var total_amount = 0;
+    var opt_count = $("input[id^='optPrice']").length;
+
+    for (var i = 1; i <= opt_count; i++) {
+        var opt_price = parseInt($("#optPrice" + i).val());
+        var qty = parseInt($("#ct_qty" + i).val());
+        var isVisible = $("#optSel" + i).is(":visible");
+        
+        if (isVisible) {
+            total_amount += opt_price * qty;
+        }
+    }
+
+    $("#total_amount").text(total_amount.toLocaleString());
 }
-//2번 옵션
-var basic_amount2 = $("#optPrice2").val();
-function change_qty2(t){
-	//var min_qty = '수량버튼'*1;
-	var min_qty2 = 1;
-	var this_qty2 = $("#ct_qty2").val()*1;
-	var max_qty2 = 2; // 최대 구매 수량
-	if(t=="m"){
-		this_qty2 -= 1;
-		if(this_qty2<min_qty2){
-		alert("수량은 1개 이상 입력해 주십시오.");
-		return;
-		}
-	}else if(t=="p"){
-		this_qty2 += 1;
-		if(this_qty2>max_qty2){
-			alert("최대 구매가능 수량을 초과하였습니다");
-			return;
-		}
-	}
-var show_total_amount = basic_amount2 * this_qty2;
-$("#ct_qty2").val(this_qty2);
-$("#it_pay").val(show_total_amount);
-$("#total_amount").html(show_total_amount.format());
+
+function closeOption(optionIndex) {
+    $("#optSel" + optionIndex).hide();
+    $("#ct_qty" + optionIndex).val(0);
+    updateTotalAmount();
 }
-//3번 옵션
-var basic_amount3 = $("#optPrice3").val();
-function change_qty3(t){
-	//var min_qty = '수량버튼'*1;
-	var min_qty3 = 1;
-	var this_qty3 = $("#ct_qty3").val()*1;
-	var max_qty3 = 2; // 최대 구매 수량
-	if(t=="m"){
-		this_qty3 -= 1;
-		if(this_qty3<min_qty3){
-		alert("수량은 1개 이상 입력해 주십시오.");
-		return;
-		}
-	}else if(t=="p"){
-		this_qty3 += 1;
-		if(this_qty3>max_qty3){
-			alert("최대 구매가능 수량을 초과하였습니다");
-			return;
-		}
-	}
-var show_total_amount = basic_amount3 * this_qty3;
-$("#ct_qty3").val(this_qty3);
-$("#it_pay").val(show_total_amount);
-$("#total_amount").html(show_total_amount.format());
-}
-//4번 옵션
-var basic_amount4 = $("#optPrice4").val();
-function change_qty4(t){
-	//var min_qty = '수량버튼'*1;
-	var min_qty4 = 1;
-	var this_qty4 = $("#ct_qty4").val()*1;
-	var max_qty4 = 2; // 최대 구매 수량
-	if(t=="m"){
-		this_qty4 -= 1;
-		if(this_qty4<min_qty4){
-		alert("수량은 1개 이상 입력해 주십시오.");
-		return;
-		}
-	}else if(t=="p"){
-		this_qty4 += 1;
-		if(this_qty4>max_qty4){
-			alert("최대 구매가능 수량을 초과하였습니다");
-			return;
-		}
-	}
-var show_total_amount = basic_amount4 * this_qty4;
-$("#ct_qty4").val(this_qty4);
-$("#it_pay").val(show_total_amount);
-$("#total_amount").html(show_total_amount.format());
-}
-//5번 옵션
-var basic_amount5 = $("#optPrice5").val();
-function change_qty5(t){
-	//var min_qty = '수량버튼'*1;
-	var min_qty5 = 1;
-	var this_qty5 = $("#ct_qty5").val()*1;
-	var max_qty5 = 2; // 최대 구매 수량
-	if(t=="m"){
-		this_qty5 -= 1;
-		if(this_qty5<min_qty5){
-		alert("수량은 1개 이상 입력해 주십시오.");
-		return;
-		}
-	}else if(t=="p"){
-		this_qty5 += 1;
-		if(this_qty5>max_qty5){
-			alert("최대 구매가능 수량을 초과하였습니다");
-			return;
-		}
-	}
-var show_total_amount = basic_amount5 * this_qty5;
-$("#ct_qty5").val(this_qty5);
-$("#it_pay").val(show_total_amount);
-$("#total_amount").html(show_total_amount.format());
+
+$("#optClo1").on("click", function() {
+    closeOption(1);
+});
+$("#optClo2").on("click", function() {
+    closeOption(2);
+});
+$("#optClo3").on("click", function() {
+    closeOption(3);
+});
+$("#optClo4").on("click", function() {
+    closeOption(4);
+});
+$("#optClo5").on("click", function() {
+    closeOption(5);
+});
+
+function change_qty(optionIndex, t) {
+    var min_qty = 1;
+    var max_qty = 2;
+    var ct_qty = $("#ct_qty" + optionIndex);
+    var this_qty = ct_qty.val() * 1;
+
+    if (t == "m") {
+        this_qty -= 1;
+        if (this_qty < min_qty) {
+            alert("수량은 1개 이상 입력해 주십시오.");
+            return;
+        }
+    } else if (t == "p") {
+        this_qty += 1;
+        if (this_qty > max_qty) {
+            alert("최대 구매가능 수량을 초과하였습니다");
+            return;
+        }
+    }
+
+    ct_qty.val(this_qty);
+    updateTotalAmount();
 }
 </script>
 <%@ include file="../include/foot.jsp" %>

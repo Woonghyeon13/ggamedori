@@ -5,12 +5,6 @@
 
 	<!-- 적립금 확인------------------------------------------------------------ -->
 
-	<script><!-- 마이페이지 적립금 계산 -->
-		let savept_balance = ${vo.savept_balance};
-		et pt_used_amount = ${vo.pt_used_amount};
-					  	
-		let result = savept_balance - pt_used_amount;
-	</script><!-- 마이페이지 적립금 계산 END -->
 
 	<div id="mypage_inner" class="container">
 		<h4>적립금 확인</h4>
@@ -84,9 +78,9 @@
 					<tbody>
 						<c:forEach items="${selectSavePointList}" var="vo">
 						<tr>
-							<th>${vo.pt_used_idx}</th>
-							<td>${vo.savept_created}</td>
-							<td>+${vo.savept_amount}</td>
+							<th class="table_number"></th>
+							<td class="wdate">${vo.savept_created}</td>
+							<td>${vo.savept_amount}</td>
 						</tr>
 						</c:forEach>
 					</tbody>
@@ -128,17 +122,17 @@
 				<!-- end:#paging-->
 				<div id="money_contents" class="container">
 					<ul>
-						<li>보유 적립금</li>
-						<li>사용 금액</li>
+						<li>누적 적립금</li>
+						<li>사용 적립금</li>
 						<li>남은 적립금</li>
 					</ul>
 				</div>
 				<hr>
 				<div id="use_money" class="container">
 					<ul>
-						<li>${vo.savept_balance}</li>
-						<li>${vo.pt_used_amount}</li>
-						<li>${result}</li>
+						<li>${selectPointAmount}</li>
+						<li>${selectPointAmount - PointBalance}</li> <!-- 누적적립금  - 잔여적립금 -->
+						<li>${PointBalance}</li> <!-- 잔여적립금 -->
 					</ul>
 				</div>
 			</div>
