@@ -106,6 +106,7 @@
 									<div class="choice_product mt-3" style="margin: auto 0;">
 										<c:forEach var="optt" items="${optlist}" varStatus="status">
 										<input type="hidden" id="optPrice${status.count}" value="${optt.opt_price}">
+										<input type="hidden" id="opttIdx${status.count}" value="${optt.opt_idx}">
 										<div class="border-top border-bottom mx-2" id="optSel${status.count}"
 											style="display: none;">
 											<div class="d-flex justify-content-between">
@@ -134,15 +135,26 @@
 								총 금액<span class="fs-3 me-1 ms-2 fw-bold" id="total_amount"
 									style="color: #ee4a44;">${pvo.prod_price}</span>원
 							</p>
-						<form name="" action="" method="">
 							<div
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
 								<button class="btn btn-secondary" type="button"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
-								<button type="button" class="btn btn-outline-light login"
-									style="width: 280px; height: 60px;" onclick="location.href='<c:url value='/prod/orderForm.do?prod_idx=${pvo.prod_idx}'/>';">바로 구매하기</button>
-							</div>
+						<form name="frm" action="orderForm.do" method="get">
+								<input type="hidden" name="opt_idx1" id="optIdx1">
+								<input type="hidden" name="opt_idx2" id="optIdx2" value="0">
+								<input type="hidden" name="opt_idx3" id="optIdx3" value="0">
+								<input type="hidden" name="opt_idx4" id="optIdx4" value="0">
+								<input type="hidden" name="opt_idx5" id="optIdx5" value="0">
+								<input type="hidden" name="opt_qty1" id="optQty1">
+								<input type="hidden" name="opt_qty2" id="optQty2" value="0">
+								<input type="hidden" name="opt_qty3" id="optQty3" value="0">
+								<input type="hidden" name="opt_qty4" id="optQty4" value="0">
+								<input type="hidden" name="opt_qty5" id="optQty5" value="0">
+								<button class="btn btn-outline-light login"
+									style="width: 280px; height: 60px;">바로 구매하기</button>
+									<!--  onclick="location.href='<c:url value='/prod/orderForm.do'/>';" -->
 						</form>
+							</div>
 					</div>
 				</div>
 			</div>
@@ -470,6 +482,9 @@ function initializeOption(optVal) {
     change_qty(optVal, "p");
 }
 
+$("#optIdx1").val($("#opttIdx1").val());
+$("#optQty1").val($("#ct_qty1").val());
+
 $("#optSel").change(function() {
     var optVal = $("#optSel option:selected").val();
     
@@ -477,39 +492,59 @@ $("#optSel").change(function() {
         $("#optSel1").show();
         $("#ct_qty1").val(1);
         change_qty(1, "p");
+        $("#optIdx1").val($("#opttIdx1").val());
+		$("#optQty1").val($("#ct_qty1").val());
     } else if (optVal == "2") {
         $("#optSel2").show();
         $("#ct_qty2").val(0);
         change_qty(2, "p");
+        $("#optIdx2").val($("#opttIdx2").val());
+		$("#optQty2").val($("#ct_qty2").val());
     } else if (optVal == "3") {
         $("#optSel3").show();
         $("#ct_qty3").val(0);
         change_qty(3, "p");
+        $("#optIdx3").val($("#opttIdx3").val());
+		$("#optQty3").val($("#ct_qty3").val());
     } else if (optVal == "4") {
         $("#optSel4").show();
         $("#ct_qty4").val(0);
         change_qty(4, "p");
+        $("#optIdx4").val($("#opttIdx4").val());
+		$("#optQty4").val($("#ct_qty4").val());
     } else if (optVal == "5") {
         $("#optSel5").show();
         $("#ct_qty5").val(0);
         change_qty(5, "p");
+        $("#optIdx5").val($("#opttIdx5").val());
+		$("#optQty5").val($("#ct_qty5").val());
     }
 });
 
 $("#optClo1").on("click",function(){
 	$("#optSel1").hide();
+	$("#optIdx1").val("0");
+	$("#optQty1").val("0");
 });
 $("#optClo2").on("click",function(){
 	$("#optSel2").hide();
+	$("#optIdx2").val("0");
+	$("#optQty2").val("0");
 });
 $("#optClo3").on("click",function(){
 	$("#optSel3").hide();
+	$("#optIdx3").val("0");
+	$("#optQty3").val("0");
 });
 $("#optClo4").on("click",function(){
 	$("#optSel4").hide();
+	$("#optIdx4").val("0");
+	$("#optQty4").val("0");
 });
 $("#optClo5").on("click",function(){
 	$("#optSel5").hide();
+	$("#optIdx5").val("0");
+	$("#optQty5").val("0");
 });
 
 function updateTotalAmount() {
@@ -555,16 +590,19 @@ function change_qty(optionIndex, t) {
     var min_qty = 1;
     var max_qty = 2;
     var ct_qty = $("#ct_qty" + optionIndex);
+    var opt_qty = $("#optQty" + optionIndex);
     var this_qty = ct_qty.val() * 1;
 
     if (t == "m") {
         this_qty -= 1;
+        opt_qty.val(this_qty);
         if (this_qty < min_qty) {
             alert("수량은 1개 이상 입력해 주십시오.");
             return;
         }
     } else if (t == "p") {
         this_qty += 1;
+        opt_qty.val(this_qty);
         if (this_qty > max_qty) {
             alert("최대 구매가능 수량을 초과하였습니다");
             return;

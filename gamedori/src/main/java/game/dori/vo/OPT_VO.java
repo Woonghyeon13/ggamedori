@@ -7,9 +7,16 @@ public class OPT_VO {
 	private String opt_stock;		// 옵션재고수
 	private String opt_price;		// 옵션추가금액
 	private int opt_state;			// 1:판매중, 2:품절, 3:숨김처리
+	private int opt_qty;			//옵션 수량
 	
 	public int getOpt_idx() {
 		return opt_idx;
+	}
+	public int getOpt_qty() {
+		return opt_qty;
+	}
+	public void setOpt_qty(int opt_qty) {
+		this.opt_qty = opt_qty;
 	}
 	public void setOpt_idx(int opt_idx) {
 		this.opt_idx = opt_idx;

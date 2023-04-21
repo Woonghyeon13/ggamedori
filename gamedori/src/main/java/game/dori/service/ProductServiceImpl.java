@@ -174,8 +174,8 @@ public class ProductServiceImpl implements ProductService{
 
 	// 상품 옵션 상세 정보리스트
 	@Override
-	public List<PRODOPT_VO> prodOptList(PRODOPT_VO povo) {
-		return prodOptDAO.prodOptList(povo);
+	public PRODOPT_VO prodOptSelect( int opt_idx ) {
+		return prodOptDAO.prodOptSelect(opt_idx);
 	}
 
 }
