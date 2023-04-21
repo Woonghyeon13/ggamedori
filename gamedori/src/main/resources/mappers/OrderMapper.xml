@@ -26,13 +26,6 @@
 		and MEMBER_TB_IDX = #{member_idx}
 		and a.order_idx = #{order_idx}
 	</select>
-	<!-- 주문목록 리스트 -->
-	<select id="orderList">
-		with aa as(select * from product_tb where prod_idx = 1), bb as(select * from order_tb)
-			select aa.prod_name, bb.*
-			from aa, bb
-			where member_tb_idx = 2
-	</select>
 	
 	<!-- 주문인덱스 생성 -->
 	<insert id="insertOrder" parameterType="orderVO">
