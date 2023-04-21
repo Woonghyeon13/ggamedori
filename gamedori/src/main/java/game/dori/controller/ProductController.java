@@ -2,34 +2,28 @@ package game.dori.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.javassist.bytecode.annotation.MemberValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import game.dori.service.AdminService;
 import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.ADDRESS_VO;
+import game.dori.vo.CATEGORY_IMG_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
-import net.sf.json.JSONArray;
 
 @RequestMapping( value = "/prod")
 @Controller
@@ -38,12 +32,24 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	@Autowired
+	private AdminService adminService;
+	
 	// 상품 목록
 	@RequestMapping( value = "/list.do", method = RequestMethod.GET )
-	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo ) {
+	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo ) {
 		
 		List<PRODUCT_VO> plist = productService.list(cvo);
 		model.addAttribute("plist",plist);
+		
+		List<CATEGORY_IMG_VO> cilist = adminService.cilist();
+		model.addAttribute("cilist", cilist);
+		
+//		for(CATEGORY_IMG_VO cimg : cilist) {
+//			if(cimg.getCate_img_type() == 1) {
+//				
+//			}
+//		}
 		
 		int listCnt = productService.listCnt(cvo);
 		model.addAttribute("listCnt",listCnt);
@@ -107,5 +113,6 @@ public class ProductController {
 		}
 		pw.flush();
 	}
+	
 
 }

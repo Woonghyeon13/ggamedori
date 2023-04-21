@@ -5,7 +5,7 @@
 		<!--메인뷰-->	
 		<div id="carouselExampleDark" class="inner carousel slide shadow-drop-center" data-bs-ride="carousel">
 			<div class="carousel-indicators">
-			<c:forEach var="clist" items="${clist }" varStatus="cnt">
+			<c:forEach var="calist" items="${clist }" varStatus="cnt">
 				<c:choose>
 					<c:when test="${(cnt.count - 1) == 0 }">
 						<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"></button>
@@ -17,19 +17,19 @@
 			</c:forEach>
 			</div>
 			<div class="carousel-inner">
-				<c:forEach var="clist" items="${clist }" varStatus="cnt">
+				<c:forEach var="calist" items="${clist }" varStatus="cnt">
 					<c:choose>
 						<c:when test="${cnt.count == 1 }">
 							<div class="carousel-item active" data-bs-interval="8000">
-								<a href="<c:url value='${clist.carousel_prod_link }'/>">
-									<img src="<c:url value='/images/carousel/${clist.carousel_img_name }' />" class="d-block w-100" alt="...">
+								<a href="<c:url value='${calist.carousel_prod_link }'/>">
+									<img src="<c:url value='/images/carousel/${calist.carousel_img_name }' />" class="d-block w-100" alt="...">
 								</a>
 							</div>
 						</c:when>
 						<c:otherwise>	
 							<div class="carousel-item" data-bs-interval="8000">
-								<a href="<c:url value='${clist.carousel_prod_link }'/>">
-									<img src="<c:url value='/images/carousel/${clist.carousel_img_name }' />" class="d-block w-100" alt="...">
+								<a href="<c:url value='${calist.carousel_prod_link }'/>">
+									<img src="<c:url value='/images/carousel/${calist.carousel_img_name }' />" class="d-block w-100" alt="...">
 								</a>
 							</div>
 						</c:otherwise>
@@ -50,15 +50,15 @@
 
 		<!--광고영역-->
 		<section id="AD">
-			<c:forEach var="adlist" items="${adlist }">
+			<c:forEach var="alist" items="${adlist }">
 			<div id="index_1" class="inner container">
-				<img id="index_1_img" src="<c:url value='/images/ad/${adlist.ad_img_b }' />" class="mt-4"/>
-				<img id="index_1_img2" src="<c:url value='/images/ad/${adlist.ad_img_s }' />" />
+				<img id="index_1_img" src="<c:url value='/images/ad/${alist.ad_img_b }' />" class="mt-4"/>
+				<img id="index_1_img2" src="<c:url value='/images/ad/${alist.ad_img_s }' />" />
 				<div id="index_1_text" class="fade-in">
-					<h3>${adlist.ad_title }</h3>
-					<div>${adlist.ad_contents }</div>
+					<h3>${alist.ad_title }</h3>
+					<div>${alist.ad_contents }</div>
 					<button type="button" class="btn btn-outline-dark btn-sm MC">
-						<a href="<c:url value='${adlist.ad_link }' />">자세히 보기</a>
+						<a href="<c:url value='${alist.ad_link }' />">자세히 보기</a>
 					</button>
 				</div>
 			</div>

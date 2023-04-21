@@ -27,8 +27,11 @@
 						</c:if>
 					</h2>
 					<br>
-					<c:if test="${param.cate_refcode eq '100' or param.cate_code eq '101' or param.cate_code eq '102' or param.cate_code eq '103' or param.cate_code eq '104'}">
-						<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
+					<c:forEach var="cateimg" items="${cilist }">
+					<c:if test="${param.cate_refcode eq '100' or param.cate_code eq '101' or param.cate_code eq '102' or param.cate_code eq '103' or param.cate_code eq '104'}">	
+						<c:if test="${cateimg.cate_img_type == 3 }">
+							<img src="<c:url value='/images/${cateimg.cate_img_name}' />">
+						</c:if>
 					</c:if>
 					<c:if test="${param.cate_refcode eq '200' or param.cate_code eq '201' or param.cate_code eq '202' or param.cate_code eq '203'}">
 						<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
@@ -45,6 +48,7 @@
 					<c:if test="${param.cate_rsv eq '1'}">
 						<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
 					</c:if>
+					</c:forEach>
 				</div>
 				<div class="mt-5 border-top border-2 border-dark">
 					<ul class="d-flex justify-content-evenly mt-4 ps-0">

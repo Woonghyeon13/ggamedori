@@ -15,6 +15,7 @@ import game.dori.util.OTO_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.AD_VO;
 import game.dori.vo.CAROUSEL_VO;
+import game.dori.vo.CATEGORY_IMG_VO;
 import game.dori.vo.NOTICE_VO;
 
 @Service
@@ -143,13 +144,14 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int adModify(AD_VO advo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int cateImgInsert(CATEGORY_IMG_VO civo) {//카테고리 이미지 등록
+		return pmDAO.cateImgInsert(civo);
 	}
 
-
-	
+	@Override
+	public List<CATEGORY_IMG_VO> cilist() {//카테고리 이미지 리스트
+		return pmDAO.cateImglist();
+	}
 
 
 }

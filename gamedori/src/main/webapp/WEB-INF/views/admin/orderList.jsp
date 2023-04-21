@@ -45,13 +45,13 @@
 					</tr>
 				</thead>
 				<tbody>
-				<c:forEach var="orderlist" items="${orderList }">
+				<c:forEach var="olist" items="${orderList }">
 					<tr>
-						<td class="text-center">${orderlist.order_idx }</td>
+						<td class="text-center">${olist.order_idx }</td>
 						<td class="text-center">주문정보</td>
-						<td class="text-center">${orderlist.member_email }</td>
-						<td class="text-center">${orderlist.member_name }</td>
-						<td class="text-center">${orderlist.order_date }</td>
+						<td class="text-center">${olist.member_email }</td>
+						<td class="text-center">${olist.member_name }</td>
+						<td class="text-center">${olist.order_date }</td>
 						<td class="text-center">주문금액</td>
 						<td class="text-center">주문상태</td>
 						<td class="text-center">
