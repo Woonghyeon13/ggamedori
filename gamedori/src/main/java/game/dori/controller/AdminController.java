@@ -150,24 +150,12 @@ public class AdminController {
 		rsp.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = rsp.getWriter();
 		
-		String optName = opt.getOpt_name();
-		String[] optNsplit = optName.split(",");
-		String optStock = opt.getOpt_stock();
-		String[] optSsplit = optStock.split(",");
-		String optPrice = opt.getOpt_price();
-		String[] optPsplit = optPrice.split(",");
 		//상품등록 성공
 		if( result > 0 )
 		{
 			int prodIdx = productService.optIdx();
-			if( optNsplit.length > 0) {
-			for( int i=1; i<optNsplit.length; i++  ) {
 			opt.setProd_tb_idx(prodIdx);
-			opt.setOpt_name(optNsplit[i]);
-			opt.setOpt_stock(optSsplit[i]);
-			opt.setOpt_price(optPsplit[i]);
 			productService.optInsert(opt);
-			}}
 			pw.append("<script>alert('등록 완료');location.href='prod.do'</script>");
 		}else
 		{

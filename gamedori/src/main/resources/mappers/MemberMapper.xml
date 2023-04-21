@@ -102,5 +102,9 @@
 	</update>
 	
 
+	<!-- 회원 주문정보 -->
+	<select id="orderMem" resultType="memberVO" parameterType="memberVO">
+		SELECT member_idx, member_level, member_name, member_email, member_phone FROM member_tb where member_idx = #{member_idx}
+	</select>
 </mapper>
 

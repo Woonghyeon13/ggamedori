@@ -17,12 +17,14 @@ public class OrderDAO {
 	
 	
 	//마이페이지 주문내역 리스트 출력
-	
-	public List<ORDER_VO> selectOrderListDAO(int member_tb_idx)
-	{
+	public List<ORDER_VO> selectOrderListDAO(int member_tb_idx){
 		return sqlSession.selectList(namespace + "selectOrderListMapper", member_tb_idx);
 	}
 
+	// 주문인덱스 생성
+	public int insertOrder( ORDER_VO ovo ) {
+		return sqlSession.insert("game.dori.mapper.orderMapper.insertOrder",ovo);
+	}
 }
 
 

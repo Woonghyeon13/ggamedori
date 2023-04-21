@@ -30,4 +30,9 @@ public class AddressDAO {
 	{
 		return sqlSession.delete("game.dori.mapper.addressMapper.updateAddress", AddressVO);
 	}
+	
+	// 회원 주소정보 꺼내기
+	public ADDRESS_VO selectMemAddr( MEMBER_VO memberVO ) {
+		return sqlSession.selectOne("game.dori.mapper.addressMapper.selectMemAddr",memberVO);
+	}
 }

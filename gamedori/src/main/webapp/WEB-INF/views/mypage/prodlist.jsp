@@ -68,9 +68,9 @@
 					style="width: 100%; border-top: 1px solid #000;">
 					<thead>
 						<tr>
-							<th scope="col">상품 정보</th>
-							<th scope="col">주문 일자</th>
 							<th scope="col">주문 번호</th>
+							<th scope="col">상품명</th>
+							<th scope="col">주문 일자</th>
 							<th scope="col">주문 금액</th>
 							<th scope="col">주문 상태</th>
 						</tr>
@@ -78,7 +78,7 @@
 					<tbody>
 					<c:forEach var="selectList" items="${list}">
 						<tr>
-							<th>${selectList.order_title}</th>
+							<th><a href='<c:url value="/mypage/orderdetail.do" />'>${selectList.order_idx}</a></th>
 							<td class="wdate">${selectList.order_date}</td>
 							<td>${selectList.order_idx}</td>
 							<td>${selectList.order_price}</td>

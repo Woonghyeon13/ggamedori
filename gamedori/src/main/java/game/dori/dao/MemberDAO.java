@@ -109,4 +109,8 @@ public class MemberDAO {
         return sqlSession.update(namespace+ "updatePassword", paramMap);
 	}
 	
+	//회원 주문정보
+	public MEMBER_VO orderMem( MEMBER_VO memberVO ) {
+		return sqlSession.selectOne("game.dori.mapper.MemberMapper.orderMem",memberVO);
+	}
 }

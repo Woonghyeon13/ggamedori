@@ -14,7 +14,10 @@ public class ORDER_VO {
 	private String order_addr3; //상세주소
 	private String order_name; //수령자 이름
 	private String order_phone; //수령자 번호
-	private int order_del_type; //배송조건 1:일반 2:도서산간 
+	private int order_del_type; //배송조건 1:일반 2:도서산간
+	private String order_memo; //배송메모
+	private int order_state;	// 처리상태 1:주문접수,2:결제완료,3:상품준비중,4:발송준비중,5:발송완료,6:주문취소,7:반품접수,8:반품완료
+	private int coupon_tb_idx;	//쿠폰테이블 인덱스
 	
 	public int getOrder_price() {
 		return order_price;
@@ -37,8 +40,22 @@ public class ORDER_VO {
 	public void setOrder_price(int order_price) {
 		this.order_price = order_price;
 	}
+	public int getOrder_state() {
+		return order_state;
+	}
 
-	
+	public void setOrder_state(int order_state) {
+		this.order_state = order_state;
+	}
+
+	public int getCoupon_tb_idx() {
+		return coupon_tb_idx;
+	}
+
+	public void setCoupon_tb_idx(int coupon_tb_idx) {
+		this.coupon_tb_idx = coupon_tb_idx;
+	}
+
 	public int getOrder_idx() {
 		return order_idx;
 	}
@@ -93,4 +110,13 @@ public class ORDER_VO {
 	public void setOrder_del_type(int order_del_type) {
 		this.order_del_type = order_del_type;
 	}
+
+	public String getOrder_memo() {
+		return order_memo;
+	}
+
+	public void setOrder_memo(String order_memo) {
+		this.order_memo = order_memo;
+	}
+	
 }

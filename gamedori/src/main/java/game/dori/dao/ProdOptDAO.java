@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import game.dori.util.PRODOPT_VO;
 import game.dori.vo.OPT_VO;
 
 @Repository
@@ -49,5 +50,9 @@ public class ProdOptDAO {
 	// 상품 옵션 삭제
 	public int optDelOne( int opt_idx ) {
 		return sqlSession.delete("game.dori.mapper.prodOptMapper.optDelOne",opt_idx);
+	}
+	// 상품옵션 상세정보 목록
+	public List<PRODOPT_VO> prodOptList( PRODOPT_VO povo ){
+		return sqlSession.selectList("game.dori.mapper.prodOptMapper.prodOptSelect",povo);
 	}
 }

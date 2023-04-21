@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletResponse;
 
-
+import org.apache.ibatis.javassist.bytecode.annotation.MemberValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import game.dori.service.ProductService;
+import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PROD_Q_LIST_VO;
+import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
+import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
@@ -65,17 +68,29 @@ public class ProductController {
 		return "prod/detail";
 	}
 	
-
+	
 	// 주문폼
 	@RequestMapping( value = "/orderForm.do", method = RequestMethod.GET )
-	public String orderForm(){
-
+	public String orderForm( int prod_idx, MEMBER_VO memberVO ,HttpSession session,  Model model ){
+		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
+		MEMBER_VO memvo = productService.orderMem(Login);
+		model.addAttribute("memvo",memvo);
+		ADDRESS_VO adr = productService.selectMemAddr(memvo);
+		model.addAttribute("adr",adr);
+		PRODUCT_VO pvo = productService.prodSelectOne(prod_idx);
+		model.addAttribute("pvo",pvo);
+		List<OPT_VO> optlist = productService.optSelect(prod_idx);
+		model.addAttribute("optlist",optlist);
+		
 		return "prod/orderForm";
 	}
-	
-	
-	
-	
+
+	// 주문포스트
+	@RequestMapping( value = "/orderForm.do", method = RequestMethod.POST)
+	public void orderForm( ORDER_LIST_VO olvo ) {
+		
+	}
+
 	// 상품 문의 등록
 	@RequestMapping( value = "/detail.do", method = RequestMethod.POST )
 	public void detail( PRODUCT_Q_VO pqvo, HttpServletResponse rsp ) throws IOException {

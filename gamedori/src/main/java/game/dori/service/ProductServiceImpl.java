@@ -5,13 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import game.dori.dao.AddressDAO;
 import game.dori.dao.CategoryDAO;
+import game.dori.dao.MemberDAO;
+import game.dori.dao.OrderDAO;
 import game.dori.dao.ProdOptDAO;
 import game.dori.dao.ProductDAO;
 import game.dori.dao.ProductQDAO;
+import game.dori.util.PRODOPT_VO;
 import game.dori.util.PROD_Q_LIST_VO;
+import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
+import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
+import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 
@@ -29,6 +36,15 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private ProductQDAO prodQDAO;
+	
+	@Autowired
+	private AddressDAO addressDAO;
+	
+	@Autowired
+	private MemberDAO memberDAO;
+	
+	@Autowired
+	private OrderDAO orderDAO;
 	
 	// 카테고리 리스트
 	@Override
@@ -136,6 +152,30 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public int prodQlistCnt(int prod_idx) {
 		return prodQDAO.prodQlistCnt(prod_idx);
+	}
+
+	// 회원 주소정보
+	@Override
+	public ADDRESS_VO selectMemAddr( MEMBER_VO memberVO ) {
+		return addressDAO.selectMemAddr(memberVO);
+	}
+
+	// 회원 주문정보
+	@Override
+	public MEMBER_VO orderMem(MEMBER_VO memberVO) {
+		return memberDAO.orderMem(memberVO);
+	}
+
+	// 주문 인덱스 생성
+	@Override
+	public int insertOrder(ORDER_VO ovo) {
+		return orderDAO.insertOrder(ovo);
+	}
+
+	// 상품 옵션 상세 정보리스트
+	@Override
+	public List<PRODOPT_VO> prodOptList(PRODOPT_VO povo) {
+		return prodOptDAO.prodOptList(povo);
 	}
 
 }

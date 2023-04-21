@@ -4,6 +4,7 @@
 <%@ include file="../include/head.jsp" %>
 <main>
 	<!-- 상품 정보 -------------------------------------------->
+	<input type="hidden" name="member_idx" value="${Login.member_idx}">
 	<div class="container inner">
 		<div class="container mt-5">
 			<div class="row">
@@ -136,10 +137,10 @@
 						<form name="" action="" method="">
 							<div
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
-								<button class="btn btn-secondary"
+								<button class="btn btn-secondary" type="button"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
 								<button type="button" class="btn btn-outline-light login"
-									style="width: 280px; height: 60px;" onclick="location.href='<c:url value='/prod/orderForm.do'/>';">바로 구매하기</button>
+									style="width: 280px; height: 60px;" onclick="location.href='<c:url value='/prod/orderForm.do?prod_idx=${pvo.prod_idx}'/>';">바로 구매하기</button>
 							</div>
 						</form>
 					</div>
@@ -342,10 +343,10 @@
 			</div>
 			<table class="w-100 table table-hover recruit mt-3">
 				<thead class="text-center">
-					<th class="col-1 fw-bold">답변바꿈상태</th>
-					<th class="col-8 fw-bold">제목바꿈</th>
-					<th class="col-1 fw-bold">이름바꿈</th>
-					<th class="col-1 fw-bold">작성일바꿈</th>
+					<th class="col-1 fw-bold">답변상태</th>
+					<th class="col-8 fw-bold">제목</th>
+					<th class="col-1 fw-bold">이름</th>
+					<th class="col-1 fw-bold">작성일</th>
 				</thead>
 				<tbody>
 					<c:if test="${not empty pqllist}">
@@ -422,11 +423,9 @@
 											placeholder="내용" name="prod_q_contents"></textarea>
 									</div>
 									<div class="d-grid gap-1 mt-2 d-flex align-items-center">
-										<span>비밀글여부</span>
-										<div>
-											<input class="form-check-input" type="checkbox"
-												id="prod_q_secret" name="prod_q_secret" value="" aria-label="...">
-										</div>
+										<span class="input-group-text" id="basic-addon1">비밀글여부</span>
+											<input name="prod_q_secret" type="radio" value="1">Y
+											<input name="prod_q_secret" type="radio" value="2">N
 									</div>
 									<div class="d-grid gap-1 mt-2">
 										<input type="submit"
@@ -443,18 +442,7 @@
 	</div>
 </main>
 <script>
-	if($("#prod_q_secret").prop("checked")){
-		$("#prod_q_secret").val(1);
-	}else{
-		$("#prod_q_secret").val(2);
-	}
 
-	let star = document.querySelectorAll('input');
-	for (let i = 0; i < star.length; i++) {
-		star[i].addEventListener('click', function() {
-			i = this.value;
-		});
-	}
 	// 상품문의 답변
 	$(function(){  
 		var article = (".recruit .show");  
@@ -507,6 +495,7 @@ $("#optSel").change(function() {
         change_qty(5, "p");
     }
 });
+
 $("#optClo1").on("click",function(){
 	$("#optSel1").hide();
 });
@@ -585,5 +574,19 @@ function change_qty(optionIndex, t) {
     ct_qty.val(this_qty);
     updateTotalAmount();
 }
+
+$("#numSum1").change(function(){
+	$.ajax({
+		url : '<%=request.getContextPath()%>/prod/numSum.do',
+		type : post,
+		data : {},
+		success : function(data){
+			$("#total_amount").html(data);
+		}
+		
+	});
+});
+
+
 </script>
 <%@ include file="../include/foot.jsp" %>

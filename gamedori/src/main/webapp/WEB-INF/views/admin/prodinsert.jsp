@@ -53,11 +53,6 @@
 						<option value="">2차 카테고리</option>
 					</select>
 				</div>
-				<div style="display:none">
-					<input type="text" name="opt_name">
-					<input type="text" name="opt_stock">
-					<input type="text" name="opt_price">
-				</div>
 				<div
 					class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
 					<span class="input-group-text" id="basic-addon1">상품명</span>
@@ -118,20 +113,27 @@
 						<label class="input-group-text" for="inputGroupFile02">상세정보</label>
 					</div>
 				</div>
-				<table id="optTable" class="d-grid gap-1 mt-2 table form-group">
-				</table>
-				<div class="d-grid gap-1 mt-2">
+				<div
+					class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
+					<span class='input-group-text' id='basic-addon1'>기본옵션명</span>
+					<input type='text' class='form-control'name='opt_name'>
+					<span class='input-group-text' id='basic-addon1'>재고</span>
+					<input type='text' class='form-control' name='opt_stock'>
+					<span class='input-group-text' id='basic-addon1'>가격</span>
+					<input type='text' class='form-control' name='opt_price'>
+				</div>
+<!-- 				<div class="d-grid gap-1 mt-2">
 					<div class="input-group mb-3">
 					<input id="prodOptbtn" type="button" class="btn btn-outline-secondary btn-sm form-control" value="옵션추가">
 					<input id="prodOptx5" type="button" class="btn btn-outline-secondary btn-sm form-control" value="옵션삭제">
 					</div>
-				</div>
+				</div> -->
 				<div class="d-grid gap-1 mt-2">
 					<input type="submit" onclick="return prodcheck()" class="btn btn-outline-secondary btn-lg form-control" value="상품등록">
 				</div>
 			</form>
 		</div>
-		<script>
+<!-- 		<script>
         $("#prodOptbtn").on("click", function() {
 				var html = "";
 				
@@ -151,7 +153,7 @@
 	        $(document).on("click", "#prodOptx5", function() {
 	        	$("#optTable tr:last").remove();
 	        });
-		</script>
+		</script> -->
 	</div>
 </main>
 <!-- 유효성검사 -->
@@ -162,7 +164,7 @@
 			prodInsert.prodCate1.focus();
 			return false;
 		}
-		if(prodInsert.category_tb_code.value == ""){
+		if(prodInsert.category_tb_code.value == prodInsert.prodCate1.value){
 			alert("2차카테고리를 선택해주세요");
 			prodInsert.category_tb_code.focus();
 			return false;
@@ -200,6 +202,21 @@
 		if(prodInsert.prod_qtymax.value.length == 0){
 			alert("상품최대구매수량을 입력해주세요");
 			prodInsert.prod_qtymax.focus();
+			return false;
+		}
+		if(prodInsert.opt_name.value.length == 0){
+			alert("기본옵션명을 입력해주세요");
+			prodInsert.opt_name.focus();
+			return false;
+		}
+		if(prodInsert.opt_stock.value.length == 0){
+			alert("기본옵션재고량을 입력해주세요");
+			prodInsert.opt_stock.focus();
+			return false;
+		}
+		if(prodInsert.opt_price.value.length == 0){
+			alert("기본옵션가격을 입력해주세요");
+			prodInsert.opt_price.focus();
 			return false;
 		}
 
@@ -268,8 +285,7 @@
 
 		$("option:selected", this).each(function() {
 			var selectVal = $(this).val();
-			cateSelect2
-					.append("<option value='"+ selectVal +"'>2차 카테고리</option>");
+			cateSelect2.append("<option value='"+ selectVal +"'>2차 카테고리</option>");
 
 			for (var i = 0; i < cate2Arr.length; i++) {
 				if (selectVal == cate2Arr[i].cate_refcode) {
