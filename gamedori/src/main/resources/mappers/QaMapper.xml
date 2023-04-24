@@ -36,7 +36,7 @@
 	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
 	<!--  1 : 1 문의사항 글 번호를 받아와 그 해당하는 글을 선택하는 쿼리문 -->
-	<select id="oto_select" resultType="qaVO" parameterType="qaVO">
+	<select id="oto_select" resultType="qaVO" parameterType="int">
 		select * 
 			from QA_TB 
 			where qa_idx = #{qa_idx}
@@ -44,10 +44,10 @@
 	
 	<!-- 마이페이지 oto_list가 역순으로 출력-->
 	<select id="selectOtoListD" resultType="qaVO" parameterType="int">
-	    SELECT * 
-	   		FROM QA_TB 
-	    	WHERE MEMBER_TB_IDX = #{MEMBER_TB_IDX}
-	    	ORDER BY MEMBER_TB_IDX DESC
+	  SELECT * 
+        FROM QA_TB 
+        WHERE MEMBER_TB_IDX = #{member_idx}
+        ORDER BY MEMBER_TB_IDX DESC
 	</select>
 	
 	

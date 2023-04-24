@@ -72,9 +72,8 @@
 	    </form>
 	</div>
 
-		<script>
+	<script>
 	var originalTableData = [];
-	
 	
 	function updatePaginationForAll() {
 	    var pagination = $('.pagination');
@@ -112,19 +111,21 @@
 	    $('.btn_search').click(function (event) {
 	        event.preventDefault();
 	        // 검색어와 검색 옵션 가져오기
-	        var searchText = $('input[name="searchText"]').val().trim();
+	        var searchText = $('input[name="searchText"]').val();
 	        var searchOption = $('select[name="searchOption"]').val();
 	        // 검색 옵션 확인
 	        if (searchOption === '검색 옵션') {
 	            alert('검색 옵션을 선택해주세요.');
 	            return;
 	        }
-
-	        if (searchText === '') {
-	            location.reload(); // 공백 입력 시 페이지를 새로고침합니다.
+	        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
+	        if (searchText.trim() === '') {
+	            showAll();
+	            // 빈 검색어를 입력했을 때 새로고침을 합니다.
+	            location.reload();
 	            return;
 	        }
-
+	
 	        // AJAX 요청 전송
 	        searchAndDisplayResults(searchText, searchOption, 1);
 	    });
@@ -141,16 +142,9 @@
 	    $('table').show();
 	    // 전체 목록을 보여주는 경우의 페이징 색상 처리를 추가합니다.
 	    updatePaginationForAll();
-
-	  
 	}
 	
 	function searchAndDisplayResults(searchText, searchOption, page) {
-	    if (searchText.trim() === '') {
-	        searchText = ''; // 공백 입력 시 검색 텍스트를 빈 문자열로 설정합니다.
-	        page = 1; // 공백 입력 시 현재 페이지를 1로 설정합니다.
-	    }
-
 	    sendAjaxRequest(searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
@@ -159,7 +153,7 @@
 	
 	function sendAjaxRequest(searchText, searchOption, page, onSuccess) {
 	    $.ajax({
-	        url: '<%=request.getContextPath()%>/customersc/search.do',
+	        url: '<%=request.getContextPath()%>/admin/search.do',
 	        method: 'GET',
 	        dataType: 'json',
 	        data: {
@@ -177,10 +171,7 @@
 	function updatePagination(totalPages, searchText, searchOption, currentPage) {
 	    var pagination = $('.pagination');
 	    pagination.empty();
-		
-	    if (totalPages === 0) {
-	        totalPages = 1; // 검색 결과가 없을 때에도 1페이지를 표시합니다.
-	    }
+	
 	    for (var i = 1; i <= totalPages; i++) {
 	        var isActive = i == currentPage;
 	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
@@ -190,46 +181,43 @@
 	        pageLink.on('click', function (event) {
 	            event.preventDefault();
 	            var page = $(this).text();
-
+	
 	            searchAndDisplayResults(searchText, searchOption, page);
 	        });
 	        pageItem.append(pageLink);
 	        pagination.append(pageItem);
 	    }
 	}
-	
-	  //테이블 검색한거에 따른 갯수처리
+	//테이블 검색한거에 따른 갯수처리
 	function updateTable(response) {
     var searchResults = response.searchResults;
     var tableBody = $('#table-body');
     tableBody.empty(); // 이전 검색 결과를 지우고
 
     if (searchResults.length === 0) {
-        // 검색 결과가 없는 경우 검색 결과가 없음을 표시합니다.
-        var noResultsRow = $('<tr>');
-        var noResultsCell = $('<td>').attr('colspan', 7).text('검색 결과가 없습니다.');
-        noResultsRow.append(noResultsCell);
-        tableBody.append(noResultsRow);
-    	}else {
-	        // 검색 결과가 있는 경우
-	        $.each(searchResults, function (index, result) {
-	            var newRow = $('<tr>');
-	
-	            // 테이블에 행 추가
-	            newRow.append($('<td>').text(result.notice_idx));
-	            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
-	            newRow.append($('<td>').text(result.notice_writer));
-	            newRow.append($('<td>').text(result.notice_hit));
-	            newRow.append($('<td>').text(result.notice_wdate));
-	          
-	
-	            tableBody.append(newRow);
-	        });
-	    }
-	
-	    // 테이블을 보여줍니다.
-	    $('table').show();
-	}
+        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
+        $.each(originalTableData, function (index, row) {
+            tableBody.append(row);
+        });
+    } else {
+        // 검색 결과가 있는 경우
+        $.each(searchResults, function (index, result) {
+            var newRow = $('<tr>');
+
+            // 테이블에 행 추가
+            newRow.append($('<td>').text(result.notice_idx));
+            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
+            newRow.append($('<td>').text(result.notice_writer));
+            newRow.append($('<td>').text(result.notice_hit));
+            newRow.append($('<td>').text(result.notice_wdate));
+           
+            tableBody.append(newRow);
+        });
+    }
+
+    // 테이블을 보여줍니다.
+    $('table').show();
+}
 	  
 	  </script>
 			
