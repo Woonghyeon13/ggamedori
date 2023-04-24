@@ -1,6 +1,7 @@
 package game.dori.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class PageModifyDAO {
 	}
 	
 	//카테고리 이미지 리스트
-	public List<CATEGORY_IMG_VO> cateImglist(){
-		return sqlSession.selectList(namespace + "cateImglist");
+	public Map<String, String> selectCategoryImages(){
+		return sqlSession.selectOne(namespace + "cateImg");
 	}
 }

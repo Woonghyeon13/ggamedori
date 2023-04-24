@@ -59,4 +59,7 @@ public interface ProductService {
 	public int insertOrder( ORDER_VO ovo );
 	// 상품 옵션 상세 정보
 	public List<PRODOPT_VO> prodOptList( PRODOPT_VO povo );
+	
+	//예약상품 리스트
+	public List<PRODUCT_VO> reservlist();
 }

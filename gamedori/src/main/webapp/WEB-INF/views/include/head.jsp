@@ -116,7 +116,7 @@
 		<div class="container">
 			<div class="d-flex justify-content-center py-3">
 				<ul class="nav nav-pills">
-					<li class="nav-item"><a href="<c:url value='/prod/list.do'/>" class="nav-link" style="color: black;">새로운상품</a></li>
+					<li class="nav-item"><a href="<c:url value='/prod/list.do?cate_new=1'/>" class="nav-link" style="color: black;">새로운상품</a></li>
 					<li class="nav-item"><a href="<c:url value='/prod/list.do?cate_rsv=1'/>" class="nav-link" style="color: black;">예약판매</a></li>
 					<li class="nav-item dropdown"><a href="<c:url value='/prod/list.do?cate_refcode=100'/>" class="nav-link" style="color: black;">닌텐도 Switch</a>
 						<ul class="dropdown-menu">

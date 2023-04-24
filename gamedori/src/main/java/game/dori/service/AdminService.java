@@ -1,6 +1,7 @@
 package game.dori.service;
 
 import java.util.List;
+import java.util.Map;
 
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
@@ -65,6 +66,6 @@ public interface AdminService {
 
 	public int cateImgInsert(CATEGORY_IMG_VO civo); //카테고리 이미지 등록
 	
-	public List<CATEGORY_IMG_VO> cilist(); //카테고리 이미지 리스트 
+	public Map<String, String> selectCategoryImages(); //카테고리 이미지 리스트 
 	
 }

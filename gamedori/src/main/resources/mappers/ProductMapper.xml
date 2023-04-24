@@ -15,15 +15,23 @@
 	<!-- 상품 리스트 -->
 	<select id="prodSelectAll" resultType="productVO" parameterType="categoryVO">
 		SELECT * FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
-		<if test="cate_refcode != null">
-			and cate_refcode = #{cate_refcode}
-		</if>
-		<if test='cate_rsv != null'>
-			and prod_reserv = #{cate_rsv}
-		</if>
-		<if test='cate_refcode == null and cate_code != null'>
-			and category_tb_code = #{cate_code}
-		</if>
+		<choose>
+			<when test="cate_refcode != null">
+				and cate_refcode = #{cate_refcode} order by p.prod_idx desc
+			</when>
+			<when test='cate_rsv != null'>
+				and prod_reserv = #{cate_rsv} order by p.prod_idx desc
+			</when>
+			<when test='cate_refcode == null and cate_code != null'>
+				and category_tb_code = #{cate_code} order by p.prod_idx desc
+			</when>
+			<when test= 'cate_new != null'>
+				order by p.prod_idx desc limit 50
+			</when>
+			<otherwise>
+				order by p.prod_idx desc
+			</otherwise>
+		</choose>
 	</select>
 	
 	<!-- 상품리스트 카운트 -->
@@ -67,5 +75,12 @@
 	<!-- 상품 상세 -->
 	<select id="prodSelectOne" resultType="productVO" parameterType="productVO">
 		select * from product_tb where prod_idx = #{prod_idx}
+	</select>
+	
+	<!-- 예약상품 리스트 -->
+	<select id="reservlist" resultType="productVO">
+		select *
+			from product_tb where prod_reserv = "1"
+		order by prod_idx desc
 	</select>
 </mapper>

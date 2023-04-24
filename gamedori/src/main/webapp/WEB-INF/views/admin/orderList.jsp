@@ -53,7 +53,32 @@
 						<td class="text-center">${olist.member_name }</td>
 						<td class="text-center">${olist.order_date }</td>
 						<td class="text-center">주문금액</td>
-						<td class="text-center">주문상태</td>
+						<c:choose>	
+						<c:when test="${olist.order_state == 1}">	
+							<td class="text-center">주문접수</td>
+						</c:when>
+						<c:when test="${olist.order_state == 2}">	
+							<td class="text-center">결제완료</td>
+						</c:when>
+						<c:when test="${olist.order_state == 3}">	
+							<td class="text-center">상품준비중</td>
+						</c:when>
+						<c:when test="${olist.order_state == 4}">	
+							<td class="text-center">발송준비중</td>
+						</c:when>
+						<c:when test="${olist.order_state == 5}">	
+							<td class="text-center">발송완료</td>
+						</c:when>
+						<c:when test="${olist.order_state == 6}">	
+							<td class="text-center">주문취소</td>
+						</c:when>
+						<c:when test="${olist.order_state == 7}">	
+							<td class="text-center">반품접수</td>
+						</c:when>
+						<c:otherwise>	
+							<td class="text-center">반품완료</td>
+						</c:otherwise>			
+					</c:choose>
 						<td class="text-center">
 							<button type="button" class="btn btn-secondary btn-sm"
 								data-bs-toggle="modal" data-bs-target="#prodRefund">상세보기</button>

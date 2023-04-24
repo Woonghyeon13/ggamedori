@@ -43,4 +43,9 @@ public class ProductDAO {
 	public PRODUCT_VO prodSelectOne( int prod_idx ) {
 		return sqlSession.selectOne("game.dori.mapper.productMapper.prodSelectOne",prod_idx);
 	}
+	
+	//예약상품 리스트
+	public List<PRODUCT_VO> reservlist(){
+		return sqlSession.selectList("game.dori.mapper.productMapper.reservlist");
+	}
 }

@@ -178,4 +178,9 @@ public class ProductServiceImpl implements ProductService{
 		return prodOptDAO.prodOptList(povo);
 	}
 
+	@Override
+	public List<PRODUCT_VO> reservlist() {
+		return productDAO.reservlist();
+	}
+
 }

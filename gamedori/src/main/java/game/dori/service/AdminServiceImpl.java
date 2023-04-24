@@ -1,6 +1,7 @@
 package game.dori.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -149,8 +150,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<CATEGORY_IMG_VO> cilist() {//카테고리 이미지 리스트
-		return pmDAO.cateImglist();
+	public Map<String, String> selectCategoryImages() {//카테고리 이미지 리스트
+		return pmDAO.selectCategoryImages();
 	}
 
 

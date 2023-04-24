@@ -64,40 +64,72 @@
 			</div>
 			</c:forEach>
 
-			<!-- 조회수 기준 hot -->
-			<div id="index_3"class="container">
-				<h3 class="text-center" style="margin-bottom:70px">HOT</h3>
-				<div class="row row-cols-5" style="margin-bottom:100px">
-				
-				<div class="col"><a href="#"><img src="<c:url value='/images/PS5 묶이지 않은 자들을 위한 우주.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/PS5 와룡 폴른 다이너스티.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/닌텐도 스위치 마인크래프트 레전드_180x180.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/닌텐도 스위치 스운 어스이스케이프.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/피파23 ps5_600x600.jpg' />"></a></div>
-		
-				</div>
-				<div class="row row-cols-5" style="margin-bottom:30px">
-	
-				<div class="col"><a href="#"><img src="<c:url value='/images/피파23 ps5_600x600.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/닌텐도 스위치 스운 어스이스케이프.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/닌텐도 스위치 마인크래프트 레전드_180x180.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/PS5 와룡 폴른 다이너스티.jpg' />"></a></div>
-				<div class="col"><a href="#"><img src="<c:url value='/images/PS5 묶이지 않은 자들을 위한 우주.jpg' />"></a></div>
-				
-				</div>
-				<a href="#"><p>더보기</p></a>
-
-				
-				<section style="margin-bottom:300px">
-					<h3 id="h3_1" class="text-center" style="margin-top:380px">하드웨어</h3>
-					<div id="index_3_C" class="row row-cols-4 mx-auto text-center">
-						<div class="col"><a href="#"><img src="./images/C_1.png"></a><br/>Nintendo Switch</div>
-						<div class="col"><a href="#"><img src="./images/C_2.png"></a><br/>PlayStation5</div>
-						<div class="col"><a href="<c:url value='/prod/list.do'/>"><img src="./images/c_3.png"></a><br/>PlayStation4</div>
-						<div class="col"><a href="#"><img src="./images/C_4.png"></a><br/>XBOX</div>
+			<!-- 새로운상품 -->
+			<div class="inner">
+				<div class="mt-5 mb-5">
+					<div>
+						<h3 class="text-center" style="margin-bottom:70px">New!</h3>
+					</div>	
+					<div class="mt-5">
+						<ul class="d-flex flex-wrap" style="padding: 0;">
+							<c:forEach var="pvo" items="${plist}" begin="0" end="9">
+								<li class="ms-1 me-1 mb-4" style="width: 200px;">
+									<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
+										<div style="text-align: center;">
+											<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
+											<div>
+												<p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
+												<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${pvo.prod_price}</p>
+												<c:if test="${pvo.prod_stock eq 0}">
+													<p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+												</c:if>
+											</div>
+										</div>
+									</a> 
+								</li>
+							</c:forEach>
+				        </ul>
+				    </div>
+					<div class="text-end">
+						<button type="button" class="btn btn-outline-dark btn-sm">
+							<a href="<c:url value='/prod/list.do?cate_new=1'/>">더보기</a>
+						</button>
 					</div>
-				</section>
+				</div>
+				
+				<div class="mt-5 mb-5">
+					<div>
+						<h3 class="text-center" style="margin-bottom:70px">예약상품</h3>
+					</div>	
+					<div class="mt-5">
+						<ul class="d-flex flex-wrap" style="padding: 0;">
+							<c:forEach var="rli" items="${rlist}" begin="0" end="9">
+								<li class="ms-1 me-1 mb-4" style="width: 200px;">
+									<a href="<c:url value='/prod/detail.do?prod_idx=${rli.prod_idx}'/>">
+										<div style="text-align: center;">
+											<img src="<c:url value='/images/${rli.prod_imgt}'/>" alt="...">
+											<div>
+												<p class="text-center fs-6 mb-0">${rli.prod_name}</p>
+												<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${rli.prod_price}</p>
+												<c:if test="${rli.prod_stock eq 0}">
+													<p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+												</c:if>
+											</div>
+										</div>
+									</a> 
+								</li>
+							</c:forEach>
+				        </ul>
+				    </div>
+					<div class="text-end">
+						<button type="button" class="btn btn-outline-dark btn-sm">
+							<a href="<c:url value='/prod/list.do?cate_rsv=1'/>">더보기</a>
+						</button>
+					</div>
+				</div>
+				
 			</div>
+
 
 			<div id="Award" >
 				<img src="<c:url value='/images/aw_bg.png' />">

@@ -3,6 +3,7 @@ package game.dori.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -42,14 +43,8 @@ public class ProductController {
 		List<PRODUCT_VO> plist = productService.list(cvo);
 		model.addAttribute("plist",plist);
 		
-		List<CATEGORY_IMG_VO> cilist = adminService.cilist();
-		model.addAttribute("cilist", cilist);
-		
-//		for(CATEGORY_IMG_VO cimg : cilist) {
-//			if(cimg.getCate_img_type() == 1) {
-//				
-//			}
-//		}
+		Map<String, String> cateImgs = adminService.selectCategoryImages();
+		model.addAttribute("cateImgs", cateImgs);
 		
 		int listCnt = productService.listCnt(cvo);
 		model.addAttribute("listCnt",listCnt);
