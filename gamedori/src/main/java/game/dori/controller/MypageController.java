@@ -70,7 +70,7 @@ public class MypageController {
 		 
 		 //상단 적립금 
 		 int selectPointBalance =
-		 mypageService.selectPointBalanceService(memberVO.getMember_idx());
+		 mypageService.selectPointBal(memberVO.getMember_idx());
 		 model.addAttribute("PointBalance", selectPointBalance);
 		 
 		 //상단 쿠폰개수출력 

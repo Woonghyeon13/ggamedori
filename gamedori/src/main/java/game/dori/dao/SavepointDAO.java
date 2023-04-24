@@ -35,4 +35,9 @@ public class SavepointDAO {
 	{
 		return sqlSession.delete("game.dori.mapper.savepointMapper.deletePoint", MemberVO);
 	}
+	
+	// 회원 잔여 포인트
+	public int selectPointBal( int member_idx ) {
+		return sqlSession.selectOne("game.dori.mapper.savepointMapper.selectPointBal",member_idx);
+	}
 }

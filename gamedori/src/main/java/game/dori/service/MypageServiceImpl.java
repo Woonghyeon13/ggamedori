@@ -256,6 +256,12 @@ public class MypageServiceImpl implements MypageService{
 	public int countSearchResults(String r_searchValue, String r_searchType) {
 		return reviewDAO.countSearchResults(r_searchValue, r_searchType);
 	}
+
+	// 회원 잔여 포인트
+	@Override
+	public int selectPointBal(int member_idx) {
+		return savepointDAO.selectPointBal(member_idx);
+	}
 	
 	
 	/*-------------------------------------------------------------------------------*/

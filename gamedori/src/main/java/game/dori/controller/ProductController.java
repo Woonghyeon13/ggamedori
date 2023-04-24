@@ -13,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import game.dori.service.MypageService;
 import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PRODOPT_VO;
@@ -31,6 +33,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private MypageService mypageService;
 	
 	// 상품 목록
 	@RequestMapping( value = "/list.do", method = RequestMethod.GET )
@@ -71,6 +76,8 @@ public class ProductController {
 		model.addAttribute("memvo",memvo);
 		ADDRESS_VO adr = productService.selectMemAddr(memvo);
 		model.addAttribute("adr",adr);
+		int savePoint = mypageService.selectPointBal(Login.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
 		System.out.println("옵션인덱스확인1"+opt_idx1);
 		System.out.println("옵션인덱스확인2"+opt_idx2);
 		System.out.println("옵션인덱스확인3"+opt_idx3);
@@ -113,6 +120,14 @@ public class ProductController {
 		
 	}
 
+	// 주문금액 계산
+	@ResponseBody
+	@RequestMapping( value = "/priceCal.do", method = RequestMethod.GET)
+	public int priceCal( int num1, int num2 ) {
+		System.out.println(num1);
+		System.out.println(num2);
+		return num2-num1;
+	}
 	// 상품 문의 등록
 	@RequestMapping( value = "/detail.do", method = RequestMethod.POST )
 	public void detail( PRODUCT_Q_VO pqvo, HttpServletResponse rsp ) throws IOException {

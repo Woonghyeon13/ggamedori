@@ -31,6 +31,12 @@
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
+	<!-- 회원 잔여 포인트 -->
+	<select id="selectPointBal" resultType="int" parameterType="int">
+		select savept_balance from savepoint_tb
+		 where member_tb_idx = #{member_idx}
+		 order by savept_idx desc limit 1
+	</select>
 	
 	<!--  포인트 삭제 -->
 	<delete id="deletePoint" parameterType="MemberVO">
