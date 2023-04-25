@@ -29,7 +29,7 @@
 			<thead style="background:#000; color:#fff;">
 				<tr>
 					<th width="10%" style="text-align:center;">번호</th>
-					<th width="55%">제목</th>
+					<th width="55%" style="text-align:center;">제목</th>
 					<th width="10%"  style="text-align:center;">작성자</th>
 					<th width="10%"  style="text-align:center;">조회수</th>
 					<th width="15%"  style="text-align:center;">날짜</th>
@@ -41,7 +41,7 @@
 		  <c:forEach var="noticeVO" items="${notice}">
 		    <tr>
 		      <td style="text-align:center;">${noticeVO.notice_idx}</td>
-		      <td><a href="view.do?notice_idx=${noticeVO.notice_idx}">${noticeVO.notice_title}</a></td>
+		      <td style="text-align:center;"><a href="view.do?notice_idx=${noticeVO.notice_idx}">${noticeVO.notice_title}</a></td>
 		      <td style="text-align:center;">${noticeVO.notice_writer}</td>
 		      <td style="text-align:center;">${noticeVO.notice_hit}</td>
 		      <td style="text-align:center;">${noticeVO.notice_wdate}</td>
@@ -52,7 +52,7 @@
 			
 		</table>
 
-	<!-- 검색 -->
+<!-- 검색 -->
 	<div class="container">
 	    <form class="d-flex justify-content-center align-items-center" role="form">
 	        <div class="me-2">
@@ -74,6 +74,7 @@
 
 	<script>
 	var originalTableData = [];
+	
 	
 	function updatePaginationForAll() {
 	    var pagination = $('.pagination');
@@ -111,21 +112,19 @@
 	    $('.btn_search').click(function (event) {
 	        event.preventDefault();
 	        // 검색어와 검색 옵션 가져오기
-	        var searchText = $('input[name="searchText"]').val();
+	        var searchText = $('input[name="searchText"]').val().trim();
 	        var searchOption = $('select[name="searchOption"]').val();
 	        // 검색 옵션 확인
 	        if (searchOption === '검색 옵션') {
 	            alert('검색 옵션을 선택해주세요.');
 	            return;
 	        }
-	        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
-	        if (searchText.trim() === '') {
-	            showAll();
-	            // 빈 검색어를 입력했을 때 새로고침을 합니다.
-	            location.reload();
+
+	        if (searchText === '') {
+	            location.reload(); // 공백 입력 시 페이지를 새로고침합니다.
 	            return;
 	        }
-	
+
 	        // AJAX 요청 전송
 	        searchAndDisplayResults(searchText, searchOption, 1);
 	    });
@@ -142,9 +141,16 @@
 	    $('table').show();
 	    // 전체 목록을 보여주는 경우의 페이징 색상 처리를 추가합니다.
 	    updatePaginationForAll();
+
+	  
 	}
 	
 	function searchAndDisplayResults(searchText, searchOption, page) {
+	    if (searchText.trim() === '') {
+	        searchText = ''; // 공백 입력 시 검색 텍스트를 빈 문자열로 설정합니다.
+	        //	page = 1; // 공백 입력 시 현재 페이지를 1로 설정합니다.
+	    }
+
 	    sendAjaxRequest(searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
@@ -167,11 +173,13 @@
 	        }
 	    });
 	}
-	
-	function updatePagination(totalPages, searchText, searchOption, currentPage) {
+function updatePagination(totalPages, searchText, searchOption, currentPage) {
 	    var pagination = $('.pagination');
 	    pagination.empty();
-	
+		
+	    if (totalPages === 0) {
+	        totalPages = 1; // 검색 결과가 없을 때에도 1페이지를 표시합니다.
+	    }
 	    for (var i = 1; i <= totalPages; i++) {
 	        var isActive = i == currentPage;
 	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
@@ -181,49 +189,53 @@
 	        pageLink.on('click', function (event) {
 	            event.preventDefault();
 	            var page = $(this).text();
-	
+
 	            searchAndDisplayResults(searchText, searchOption, page);
 	        });
 	        pageItem.append(pageLink);
 	        pagination.append(pageItem);
 	    }
 	}
-	//테이블 검색한거에 따른 갯수처리
+	
+	  //테이블 검색한거에 따른 갯수처리
 	function updateTable(response) {
     var searchResults = response.searchResults;
     var tableBody = $('#table-body');
     tableBody.empty(); // 이전 검색 결과를 지우고
 
     if (searchResults.length === 0) {
-        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
-        $.each(originalTableData, function (index, row) {
-            tableBody.append(row);
-        });
-    } else {
-        // 검색 결과가 있는 경우
-        $.each(searchResults, function (index, result) {
-            var newRow = $('<tr>');
-
-            // 테이블에 행 추가
-            newRow.append($('<td>').text(result.notice_idx));
-            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
-            newRow.append($('<td>').text(result.notice_writer));
-            newRow.append($('<td>').text(result.notice_hit));
-            newRow.append($('<td>').text(result.notice_wdate));
-           
-            tableBody.append(newRow);
-        });
-    }
-
-    // 테이블을 보여줍니다.
-    $('table').show();
-}
+        // 검색 결과가 없는 경우 검색 결과가 없음을 표시합니다.
+        var noResultsRow = $('<tr>');
+        var noResultsCell = $('<td>').attr('colspan', 7).text('검색 결과가 없습니다.');
+        noResultsRow.append(noResultsCell);
+        tableBody.append(noResultsRow);
+    	}else {
+	        // 검색 결과가 있는 경우
+	        $.each(searchResults, function (index, result) {
+	            var newRow = $('<tr>');
+	
+	            // 테이블에 행 추가
+	            newRow.append($('<td style="text-align:center;">').text(result.notice_idx));
+	            newRow.append($('<td style="text-align:center;">').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
+	            newRow.append($('<td style="text-align:center;">').text(result.notice_writer));
+	            newRow.append($('<td style="text-align:center;">').text(result.notice_hit));
+	            newRow.append($('<td style="text-align:center;">').text(result.notice_wdate));       	
+	
+	            tableBody.append(newRow);
+	        });
+	    }
+	
+	    // 테이블을 보여줍니다.
+	    $('table').show();
+	}
 	  
 	  </script>
 			
 		<!-- 페이징 -->
 			
-		<nav aria-label="Page navigation example">
+		
+	</div>
+		<nav aria-label="Page navigation example" style="margin-top:20px;">
 		  <ul class="pagination justify-content-center">
 		    <c:forEach var="i" begin="1" end="${totalPages}">
 		      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
@@ -234,9 +246,6 @@
 		    </c:forEach>
 		  </ul>
 		</nav>
-		</table>
-		
-		</div>
 	<!---------customer 끝-------------------------------------------------------------->
 
 
