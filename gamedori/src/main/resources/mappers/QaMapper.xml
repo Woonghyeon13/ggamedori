@@ -10,6 +10,7 @@
 		select *
 			from QA_TB
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
+			order by qa_idx desc
 	</select>
 	
 
@@ -21,6 +22,7 @@
 				member_tb m
 			where
 				q.member_tb_idx = m.member_idx 
+			order by qa_idx desc
 	</select>
 	
 	<!-- 1:1문의 답변 -->
@@ -36,7 +38,7 @@
 	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
 	<!--  1 : 1 문의사항 글 번호를 받아와 그 해당하는 글을 선택하는 쿼리문 -->
-	<select id="oto_select" resultType="qaVO" parameterType="qaVO">
+	<select id="oto_select" resultType="qaVO" parameterType="int">
 		select * 
 			from QA_TB 
 			where qa_idx = #{qa_idx}
@@ -47,7 +49,7 @@
 	    SELECT * 
 	   		FROM QA_TB 
 	    	WHERE MEMBER_TB_IDX = #{MEMBER_TB_IDX}
-	    	ORDER BY MEMBER_TB_IDX DESC
+	    	order by qa_idx desc
 	</select>
 	
 	

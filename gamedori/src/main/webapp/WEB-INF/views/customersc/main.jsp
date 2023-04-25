@@ -52,22 +52,8 @@
 			
 		</table>
 
-
 	<!-- 검색 -->
 	<div class="container">
-			 <table class="table" style="clear:both; width: 100%;">
-			    <tr>                        
-			        <td class="d-flex align-items-center justify-content-between">
-			            <form action="search.do" method="GET" class="d-flex align-items-center">
-			                <!-- 검색 옵션 드롭다운 추가 -->
-			                <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
-			                    <option disabled style="background-color: #f2f2e7;" selected>검색 옵션</option>
-			                    <option value="name">이름으로 검색</option>
-			                    <option value="content">내용으로 검색</option>
-			                    <option value="ncontent">이름+내용으로검색</option> 
-			                </select>
-			                <input class="form-control" style="width: 300px;" type="text" name="searchText" aria-label="default input example">
-			                <div>${fn:escapeXml(searchText)}</div>
 	    <form class="d-flex justify-content-center align-items-center" role="form">
 	        <div class="me-2">
 	            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
@@ -85,7 +71,7 @@
 	        </div>
 	    </form>
 	</div>
-			
+
 	<script>
 	var originalTableData = [];
 	
@@ -167,7 +153,7 @@
 	
 	function sendAjaxRequest(searchText, searchOption, page, onSuccess) {
 	    $.ajax({
-	        url: '<%=request.getContextPath()%>/customersc/search.do',
+	        url: '<%=request.getContextPath()%>/admin/search.do',
 	        method: 'GET',
 	        dataType: 'json',
 	        data: {
@@ -202,37 +188,36 @@
 	        pagination.append(pageItem);
 	    }
 	}
-	
-	  //테이블 검색한거에 따른 갯수처리
-		function updateTable(response) {
-	    var searchResults = response.searchResults;
-	    var tableBody = $('#table-body');
-	    tableBody.empty(); // 이전 검색 결과를 지우고
-	
-	    if (searchResults.length === 0) {
-	        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
-	        $.each(originalTableData, function (index, row) {
-	            tableBody.append(row);
-	        });
-	    } else {
-	        // 검색 결과가 있는 경우
-	        $.each(searchResults, function (index, result) {
-	            var newRow = $('<tr>');
-	
-	            // 테이블에 행 추가
-	            newRow.append($('<td>').text(result.notice_idx));
-	            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
-	            newRow.append($('<td>').text(result.notice_writer));
-	            newRow.append($('<td>').text(result.notice_hit));
-	            newRow.append($('<td>').text(result.notice_wdate));
-	
-	            tableBody.append(newRow);
-	        });
-	    }
-	
-	    // 테이블을 보여줍니다.
-	    $('table').show();
-	}
+	//테이블 검색한거에 따른 갯수처리
+	function updateTable(response) {
+    var searchResults = response.searchResults;
+    var tableBody = $('#table-body');
+    tableBody.empty(); // 이전 검색 결과를 지우고
+
+    if (searchResults.length === 0) {
+        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
+        $.each(originalTableData, function (index, row) {
+            tableBody.append(row);
+        });
+    } else {
+        // 검색 결과가 있는 경우
+        $.each(searchResults, function (index, result) {
+            var newRow = $('<tr>');
+
+            // 테이블에 행 추가
+            newRow.append($('<td>').text(result.notice_idx));
+            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
+            newRow.append($('<td>').text(result.notice_writer));
+            newRow.append($('<td>').text(result.notice_hit));
+            newRow.append($('<td>').text(result.notice_wdate));
+           
+            tableBody.append(newRow);
+        });
+    }
+
+    // 테이블을 보여줍니다.
+    $('table').show();
+}
 	  
 	  </script>
 			

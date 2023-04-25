@@ -76,30 +76,30 @@
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="pqlist" items="${pqlist }">
+					<c:forEach var="pql" items="${pqlist }">
 						<tr>
-							<td class="text-center">${pqlist.prod_q_idx }</td>
-							<td class="text-center">${pqlist.prod_name}</td>
-							<td class="text-center">${pqlist.prod_q_title }</td>
-							<td class="text-center">${pqlist.member_name }</td>
-							<td class="text-center">${pqlist.prod_q_wdate }</td>
-						<c:if test="${pqlist.prod_q_secret == 1 }">
+							<td class="text-center">${pql.prod_q_idx }</td>
+							<td class="text-center">${pql.prod_name}</td>
+							<td class="text-center">${pql.prod_q_title }</td>
+							<td class="text-center">${pql.member_name }</td>
+							<td class="text-center">${pql.prod_q_wdate }</td>
+						<c:if test="${pql.prod_q_secret == 1 }">
 							<td class="text-center">예</td>
 						</c:if>
-						<c:if test="${pqlist.prod_q_secret == 2 }">
+						<c:if test="${pql.prod_q_secret == 2 }">
 							<td class="text-center">아니오</td>
 						</c:if>
-						<c:if test="${pqlist.prod_q_yn == 1 }">
+						<c:if test="${pql.prod_q_yn == 1 }">
 							<td class="text-center">답변 완료</td>
 						</c:if>	
-						<c:if test="${pqlist.prod_q_yn == 2 }">
+						<c:if test="${pql.prod_q_yn == 2 }">
 							<td class="text-center">답변 대기 중</td>
 						</c:if>	
 							<td class="text-center">
 								<button type="button" class="btn btn-secondary btn-sm"
 									data-bs-toggle="modal" data-bs-target="#prodRefund"
-									onclick="sessionToModal('${pqlist.prod_q_idx }', '${pqlist.prod_q_title }', 
-									'${pqlist.prod_q_contents }', '${pqlist.member_name }', '${pqlist.prod_q_reply }' )">답변</button>
+									onclick="sessionToModal('${pql.prod_q_idx }', '${pql.prod_q_title }', 
+									'${pql.prod_q_contents }', '${pql.member_name }', '${pql.prod_q_reply }' )">답변</button>
 							</td>
 						</tr>
 					</c:forEach>

@@ -22,28 +22,48 @@
 						<c:if test="${param.cate_refcode eq '500'}">
 							GOODS
 						</c:if>
+						<c:if test="${param.cate_new eq '1'}">
+							새로운상품
+						</c:if>
 						<c:if test="${param.cate_rsv eq '1'}">
 							예약상품
 						</c:if>
 					</h2>
 					<br>
-					<c:if test="${param.cate_refcode eq '100' or param.cate_code eq '101' or param.cate_code eq '102' or param.cate_code eq '103' or param.cate_code eq '104'}">
-						<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
+					<c:if test="${param.cate_refcode eq '100' or param.cate_code eq '101' or param.cate_code eq '102' or param.cate_code eq '103' or param.cate_code eq '104'}">	
+						<c:if test="${not empty cateImgs.cate_switchImg}">
+							<img src="<c:url value='/images/categoryImg/${cateImgs.cate_switchImg}' />">
+						</c:if>				
 					</c:if>
 					<c:if test="${param.cate_refcode eq '200' or param.cate_code eq '201' or param.cate_code eq '202' or param.cate_code eq '203'}">
-						<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
+						<c:if test="${not empty cateImgs.cate_ps5Img}">	
+							<img src="<c:url value='/images/categoryImg/${cateImgs.cate_ps5Img}' />">
+						</c:if>
 					</c:if>
 					<c:if test="${param.cate_refcode eq '300' or param.cate_code eq '301' or param.cate_code eq '302' or param.cate_code eq '303'}">
-						<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
+						<c:if test="${not empty cateImgs.cate_ps4Img}">		
+							<img src="<c:url value='/images/categoryImg/${cateImgs.cate_ps4Img}' />">
+						</c:if>
 					</c:if>
 					<c:if test="${param.cate_refcode eq '400' or param.cate_code eq '401' or param.cate_code eq '402' or param.cate_code eq '403'}">
-						<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
+						<c:if test="${not empty cateImgs.cate_xboxImg}">
+							<img src="<c:url value='/images/categoryImg/${cateImgs.cate_xboxImg}' />">
+						</c:if>
 					</c:if>
 					<c:if test="${param.cate_refcode eq '500'}">
-						<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
+						<c:if test="${not empty cateImgs.cate_goodsImg}">		
+							<img src="<c:url value='/images/categoryImg/${cateImgs.cate_goodsImg}' />">
+						</c:if>
+					</c:if>
+					<c:if test="${param.cate_new eq '1'}">
+						<c:if test="${not empty cateImgs.cate_newImg}">
+							<img src="<c:url value='/images/categoryImg/${cateImgs.cate_newImg}' />">
+						</c:if>
 					</c:if>
 					<c:if test="${param.cate_rsv eq '1'}">
-						<img src="<c:url value='/images/shop1_26_top_ps4.jpg' />">
+						<c:if test="${not empty cateImgs.cate_resImg}">
+							<img src="<c:url value='/images/categoryImg/${cateImgs.cate_resImg}' />">
+						</c:if>
 					</c:if>
 				</div>
 				<div class="mt-5 border-top border-2 border-dark">
@@ -101,20 +121,20 @@
 		<div class="mt-5">
 			<ul class="d-flex flex-wrap" style="padding: 0;">
 				<c:forEach var="pvo" items="${plist}">
-				<li class="ms-1 me-1 mb-4" style="width: 200px;">
-					<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
-						<div style="text-align: center;">
-							<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
-							<div>
-								<p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
-								<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${pvo.prod_price}</p>
-								<c:if test="${pvo.prod_stock eq 0}">
-									<p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
-								</c:if>
+					<li class="ms-1 me-1 mb-4" style="width: 200px;">
+						<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
+							<div style="text-align: center;">
+								<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
+								<div>
+									<p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
+									<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${pvo.prod_price}</p>
+									<c:if test="${pvo.prod_stock eq 0}">
+										<p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+									</c:if>
+								</div>
 							</div>
-						</div>
-					</a> 
-				</li>
+						</a> 
+					</li>
 				</c:forEach>
             </ul>
         </div>

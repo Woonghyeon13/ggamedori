@@ -15,12 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import game.dori.service.MypageService;
+
+import game.dori.service.AdminService;
+
 import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PRODOPT_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.ADDRESS_VO;
+import game.dori.vo.CATEGORY_IMG_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
@@ -35,14 +40,21 @@ public class ProductController {
 	private ProductService productService;
 	
 	@Autowired
+
 	private MypageService mypageService;
+
+	private AdminService adminService;
+
 	
 	// 상품 목록
 	@RequestMapping( value = "/list.do", method = RequestMethod.GET )
-	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo ) {
+	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo ) {
 		
 		List<PRODUCT_VO> plist = productService.list(cvo);
 		model.addAttribute("plist",plist);
+		
+		Map<String, String> cateImgs = adminService.selectCategoryImages();
+		model.addAttribute("cateImgs", cateImgs);
 		
 		int listCnt = productService.listCnt(cvo);
 		model.addAttribute("listCnt",listCnt);
@@ -144,5 +156,6 @@ public class ProductController {
 		}
 		pw.flush();
 	}
+	
 
 }

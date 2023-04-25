@@ -35,6 +35,7 @@
 		<typeAlias type="game.dori.vo.CAROUSEL_VO" alias="carouselVO"/>
 		<typeAlias type="game.dori.vo.AD_VO" alias="adVO"/>
 		<typeAlias type="game.dori.util.PRODOPT_VO" alias="prodoptVO"/>
+		<typeAlias type="game.dori.vo.CATEGORY_IMG_VO" alias="cateImgVO"/>
 	</typeAliases>
 
 </configuration>

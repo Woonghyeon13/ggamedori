@@ -34,6 +34,10 @@
 			         } else {
 			         	alert('등록 실패');
 			         }
+		          	error: function (xhr, status, error) {
+			            console.log('Error:', error);
+			            
+			        }
 			       }
 			    });
 			  });
@@ -96,8 +100,8 @@
 	<!-- 화면관리 탭  -->
 	<div class="container mt-4">
 		<ul class="nav justify-content-end text-black">
-			<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/mainPageModify.do' />">메인 페이지</a></li>
-			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/productPageModify.do' />">상품 페이지</a></li>
+			<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/mainPageModify.do' />">메인 페이지 이미지 등록</a></li>
+			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/productPageModify.do' />">카테고리 이미지 등록</a></li>
 		</ul>
 	</div>
 	<div class="container mt-1">

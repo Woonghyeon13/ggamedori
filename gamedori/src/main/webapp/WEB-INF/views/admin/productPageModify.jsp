@@ -1,6 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+<script>
+	$(document).ready(function() {
+		$(function() {
+			$('#submitBtn').click(function() {
+				var formData = new FormData($('form[name="cateImgInsert"]')[0]);
+			    var cateImgType = $('select[name="cate_img_type"]').val();
+			    if (!cateImgType) {
+			      alert('카테고리를 선택해 주세요');
+			      return false;
+			    }
+			    $.ajax({
+			      url: '<%=request.getContextPath()%>/admin/cateImgInsert.do',
+			      type: 'POST',
+			      data: formData,
+			      cache: false,
+			      contentType: false,
+			      processData: false,
+			      success: function(data) {
+		          	if (data === 'success') {
+		              alert('등록 완료');
+			         } else {
+			         	alert('등록 실패');
+			         }
+			       }
+			    });
+			  });
+			});
+	});
+</script>
 <main>
 	<div class="container d-flex justify-content-center mt-2">
 		<h3 class="fw-bold">관리자 페이지</h3>
@@ -22,130 +51,41 @@
 	<!-- 화면관리 탭  -->
 	<div class="container mt-4">
 		<ul class="nav justify-content-end text-black">
-			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/mainPageModify.do' />">메인 페이지</a></li>
-			<li class="nav-item"><a class="nav-link text-reset active fw-bold" href="<c:url value='/admin/productPageModify.do' />">상품 페이지</a></li>
+			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/mainPageModify.do' />">메인 페이지 이미지 등록</a></li>
+			<li class="nav-item"><a class="nav-link text-reset active fw-bold" href="<c:url value='/admin/productPageModify.do' />">카테고리 이미지 등록</a></li>
 		</ul>
 	</div>
-	<!-- 문의/공지사항 탭  -->
-	<!-- <div class="container">
-    <ul class="nav justify-content-end text-black">
-      <li class="nav-item">
-        <a class="nav-link active text-reset" aria-current="page" href="#">상품 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">1:1 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">공지사항 관리</a>
-      </li>
-    </ul>
-  </div> -->
+	
 	<div class="container mt-1">
-
-		<div class="container">
-			<table class="table table-sm">
-				<thead class="table-light">
-					<tr>
-						<th scope="col">반품신청일</th>
-						<th scope="col">주문번호</th>
-						<th scope="col">상품명</th>
-						<th scope="col">주문자</th>
-						<th scope="col">상태</th>
-						<th style="width: 120px;" scope="col">반품처리</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>2023-03-29</td>
-						<td>ere2185152</td>
-						<td>ㄴㅇㄹㅇㄴㅇ</td>
-						<td>Mark</td>
-						<td>반품접수</td>
-						<td>
-							<button type="button" class="btn btn-secondary btn-sm"
-								data-bs-toggle="modal" data-bs-target="#prodRefund">반품정보</button>
-						</td>
-					</tr>
-
-				</tbody>
-			</table>
-		</div>
-
-		<!-- 반품 관리 -->
-		<div class="modal fade" id="prodRefund">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header d-flex flex-column logo">
-						<div class="mt-2">
-							<h4 class="modal-title fs-5">반품 정보</h4>
-						</div>
+	<div class="mb-3">
+		<div class="container w-50">
+			<div class="mb-3">
+				<h4 class="text-center">카테고리 이미지 등록</h4>
+			</div>			 
+			 <form name="cateImgInsert" method="post" enctype="multipart/form-data">
+				<div class="form-group mt-2">
+					<div class="input-group">
+						<input name="cate_img_file" type="file" class="form-control" id="cateImage">
+						<label class="input-group-text" for="cateImage">이미지</label>
 					</div>
-					<div class="modal-body">
-						<form name="review" method="post" action="loginAction.jsp">
-							<div
-								class="form-group d-flex flex-column justify-content-center align-items-center">
-								<div>반품 신청 제목</div>
-								<input type="text" class="form-control">
-							</div>
-							<div
-								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<div>반품 신청 사유</div>
-								<textarea name="" id="" class="form-control" cols="30" rows="10"></textarea>
-							</div>
-							<div
-								class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
-								<div>반품 승인/거절 사유</div>
-								<textarea name="" id="" class="form-control" cols="30" rows="10"></textarea>
-							</div>
-
-							<div class="d-flex gap-1 mt-2">
-								<input type="submit"
-									class="btn btn-outline-secondary btn-lg form-control"
-									value="승인"> <input type="submit"
-									class="btn btn-outline-secondary btn-lg form-control"
-									value="거절">
-							</div>
-						</form>
+					<div class="input-group mt-2 mb-2">
+						<select class="form-select" name="cate_img_type">
+							<option selected>카테고리 선택</option>
+							<option value="1">새로운 상품</option>
+							<option value="2">예약 판매</option>
+							<option value="3">닌텐도 스위치</option>
+							<option value="4">PS5</option>
+							<option value="5">PS4</option>
+							<option value="6">XBOX</option>
+							<option value="7">굿즈</option>
+						</select>
+					</div>
+					<div class="text-end mt-3">
+						<button type="button" class="btn btn-secondary" id="submitBtn">저장</button>
 					</div>
 				</div>
-			</div>
+			</form> 			
 		</div>
-
-
-		<!-- 검색폼 -->
-		<div class="container">
-			<form class="form-horizontal d-flex justify-content-center mt-3"
-				role="form">
-				<div>
-					<select class="form-select form-select-sm"
-						aria-label=".form-select-sm example">
-						<option value="1">상품명</option>
-						<option value="2">상품분류</option>
-					</select>
-				</div>
-				<div class="mx-2">
-					<input class="form-control form-control-sm" type="text"
-						placeholder="" aria-label=".form-control-sm example">
-				</div>
-				<div>
-					<button type="button" class="btn btn-outline-secondary btn-sm">검색</button>
-				</div>
-			</form>
-		</div>
-		<div class="container d-flex justify-content-center mt-3">
-			<nav aria-label="Page navigation example">
-				<ul class="pagination text-black">
-					<li class="page-item"><a class="page-link text-reset" href="#"
-						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-					</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">1</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">2</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">3</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#"
-						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-					</a></li>
-				</ul>
-			</nav>
 		</div>
 	</div>
 </main>
