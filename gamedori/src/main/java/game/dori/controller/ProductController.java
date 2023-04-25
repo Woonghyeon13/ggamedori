@@ -38,9 +38,9 @@ public class ProductController {
 	private ProductService productService;
 	
 	@Autowired
-
 	private MypageService mypageService;
 
+	@Autowired
 	private AdminService adminService;
 
 	
