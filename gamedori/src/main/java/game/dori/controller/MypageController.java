@@ -465,7 +465,7 @@ public class MypageController {
 		model.addAttribute("ReviewCount", ReviewCount);
 		
 		//누적 적립금
-		int selectPointAmount = mypageService.selectPointAmount(memberVO.getMember_idx());
+		int selectPointAmount = mypageService.selectPointBal(memberVO.getMember_idx());
 		model.addAttribute("selectPointAmount", selectPointAmount);
 		
 		//리스트

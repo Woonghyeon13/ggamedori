@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-import game.dori.service.MypageService;
-
 import game.dori.service.AdminService;
-
+import game.dori.service.MypageService;
 import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PRODOPT_VO;
@@ -41,9 +38,9 @@ public class ProductController {
 	private ProductService productService;
 	
 	@Autowired
-
 	private MypageService mypageService;
 
+	@Autowired
 	private AdminService adminService;
 
 	

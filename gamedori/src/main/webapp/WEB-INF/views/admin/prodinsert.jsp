@@ -92,8 +92,10 @@
 				<div
 					class="form-group mt-2 d-flex input-group justify-content-between align-items-center">
 					<span class="input-group-text" id="basic-addon1">예약상품 여부</span>
-					<input name="prod_reserv" type="radio" value="1">Y
-					<input name="prod_reserv" type="radio" value="2">N
+					<div>					
+					<input class="me-2" name="prod_reserv" type="radio" value="1"/>Y
+					<input class="ms-2 me-2" name="prod_reserv" type="radio" value="2"/>N
+					</div>
 				</div>
 				<div class="form-group mt-2">
 					<div class="input-group mb-3">
