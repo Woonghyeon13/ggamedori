@@ -52,7 +52,7 @@ public class ProdOptDAO {
 		return sqlSession.delete("game.dori.mapper.prodOptMapper.optDelOne",opt_idx);
 	}
 	// 상품옵션 상세정보 목록
-	public List<PRODOPT_VO> prodOptList( PRODOPT_VO povo ){
-		return sqlSession.selectList("game.dori.mapper.prodOptMapper.prodOptSelect",povo);
+	public PRODOPT_VO prodOptSelect( int opt_idx ){
+		return sqlSession.selectOne("game.dori.mapper.prodOptMapper.prodOptSelect",opt_idx);
 	}
 }
