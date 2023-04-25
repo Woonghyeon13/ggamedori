@@ -183,4 +183,10 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.reservlist();
 	}
 
+	@Override
+	public List<PRODOPT_VO> prodOptList(PRODOPT_VO povo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

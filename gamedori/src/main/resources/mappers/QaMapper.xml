@@ -10,7 +10,6 @@
 		select *
 			from QA_TB
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
-			order by qa_idx desc
 	</select>
 	
 
@@ -22,7 +21,6 @@
 				member_tb m
 			where
 				q.member_tb_idx = m.member_idx 
-			order by qa_idx desc
 	</select>
 	
 	<!-- 1:1문의 답변 -->
@@ -38,7 +36,7 @@
 	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
 	<!--  1 : 1 문의사항 글 번호를 받아와 그 해당하는 글을 선택하는 쿼리문 -->
-	<select id="oto_select" resultType="qaVO" parameterType="int">
+	<select id="oto_select" resultType="qaVO" parameterType="qaVO">
 		select * 
 			from QA_TB 
 			where qa_idx = #{qa_idx}
@@ -49,7 +47,7 @@
 	    SELECT * 
 	   		FROM QA_TB 
 	    	WHERE MEMBER_TB_IDX = #{MEMBER_TB_IDX}
-	    	order by qa_idx desc
+	    	ORDER BY qa_idx DESC
 	</select>
 	
 	
@@ -96,11 +94,12 @@
 	          and qa_title like CONCAT('%', #{searchText}, '%')
 	        </if>
 	      </when>
-	      <when test="searchOption == 'content'">
-	        <if test="searchText != null and searchText != ''">
-	          AND (qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
-	        </if>
-	      </when>
+			<when test="searchOption == 'content'">
+			  <if test="searchText != null and searchText != ''">
+			    AND qa_contents LIKE CONCAT('%', #{searchText}, '%')
+			  </if>
+			</when>
+      
 	      <otherwise>
 	        <if test="searchText != null and searchText != ''">
 	          AND (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
@@ -124,7 +123,7 @@
 		      </when>
 		      <when test="searchOption == 'content'">
 		        <if test="searchText != null and searchText != ''">
-		          (qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+		          qa_contents LIKE CONCAT('%', #{searchText}, '%')
 		        </if>
 		      </when>
 		      <otherwise>
