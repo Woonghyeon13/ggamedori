@@ -33,24 +33,24 @@
 			<table class="table table-sm ">
 				<thead class="table-light">
 					<tr>
-						<th scope="col">상품 번호</th>
-						<th scope="col">상품 분류</th>
-						<th scope="col">상품 이름</th>
-						<th scope="col">상품 등록일</th>
-						<th scope="col">재고 수량</th>
-						<th scope="col">재고 상태</th>
-						<th scope="col">상품 관리</th>
+						<th class="text-center">상품 번호</th>
+						<th class="text-center">상품 분류</th>
+						<th class="text-center">상품 이름</th>
+						<th class="text-center">상품 등록일</th>
+						<th class="text-center">재고 수량</th>
+						<th class="text-center">재고 상태</th>
+						<th class="text-center">상품 관리</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="pvo" items="${plist}">
 						<tr>
-							<th class="table-secondary" scope="row">${pvo.prod_idx}</th>
-							<td class="table-secondary">${pvo.category_tb_code}</td>
-							<td class="table-secondary">${pvo.prod_name}</td>
-							<td class="table-secondary">${pvo.prod_wdate}</td>
-							<td class="table-secondary">${pvo.prod_stock}</td>
-							<td class="table-secondary">
+							<td class="text-center">${pvo.prod_idx}</td>
+							<td class="text-center">${pvo.category_tb_code}</td>
+							<td class="text-center">${pvo.prod_name}</td>
+							<td class="text-center">${pvo.prod_wdate}</td>
+							<td class="text-center">${pvo.prod_stock}</td>
+							<td class="text-center">
 								<c:if test="${pvo.prod_stock eq 0 }">
 									품절
 								</c:if>
