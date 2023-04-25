@@ -10,6 +10,7 @@
 		select *
 			from QA_TB
 			where MEMBER_TB_IDX = #{MEMBER_IDX}
+			order by qa_idx desc
 	</select>
 	
 
@@ -21,6 +22,7 @@
 				member_tb m
 			where
 				q.member_tb_idx = m.member_idx 
+			order by qa_idx desc
 	</select>
 	
 	<!-- 1:1문의 답변 -->
@@ -44,10 +46,10 @@
 	
 	<!-- 마이페이지 oto_list가 역순으로 출력-->
 	<select id="selectOtoListD" resultType="qaVO" parameterType="int">
-	  SELECT * 
-        FROM QA_TB 
-        WHERE MEMBER_TB_IDX = #{member_idx}
-        ORDER BY MEMBER_TB_IDX DESC
+	    SELECT * 
+	   		FROM QA_TB 
+	    	WHERE MEMBER_TB_IDX = #{MEMBER_TB_IDX}
+	    	order by qa_idx desc
 	</select>
 	
 	

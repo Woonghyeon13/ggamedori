@@ -10,7 +10,15 @@ public class CATEGORY_VO {
 	private String cate_refcode;	// 참조 코드
 	private int level;
 	private String cate_rsv;		// 예약여부
+	private String cate_new;		//새로운 상품
 	
+	
+	public String getCate_new() {
+		return cate_new;
+	}
+	public void setCate_new(String cate_new) {
+		this.cate_new = cate_new;
+	}
 	public String getCate_rsv() {
 		return cate_rsv;
 	}

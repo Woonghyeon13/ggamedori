@@ -16,6 +16,7 @@
 				pq.product_tb_idx = p.prod_idx
 			and 
 				pq.member_tb_idx = m.member_idx 
+			order by prod_q_idx desc
 	</select>	
 	
 	<!-- 상품 문의 사항 글 번호를 받아와 그 해당하는 글을 선택하는 쿼리문 -->
@@ -30,7 +31,7 @@
 		SELECT *
 			FROM PRODUCT_Q_TB
 			WHERE MEMBER_TB_IDX = #{MEMBER_TB_IDX}
-			ORDER BY MEMBER_TB_IDX DESC
+			order by prod_q_idx desc
 	</select>
 	
 	<!--  상품 문의사항 selectall QA_TB 에있는 모든데이터를 선택해서 저장 -->

@@ -13,12 +13,12 @@
 	</select>	 
 	 
 	 <!--  login sql 구문 -->
-<select id="Login" resultType="memberVO">
-    SELECT * FROM member_tb
-    WHERE
-        member_email = #{member_email}
-        AND member_pw = #{member_pw}
-</select>
+	<select id="Login" resultType="memberVO">
+	    SELECT * FROM member_tb
+	    WHERE
+	        member_email = #{member_email}
+	        AND member_pw = #{member_pw}
+	</select>
 
 	<!--  회원가입 정보 멤버 sql 구문 -->
 	<insert id="insertMember" parameterType="memberVO" useGeneratedKeys="true" keyProperty="member_idx">
@@ -39,6 +39,7 @@
 	<select id="memberlist" resultType="memberVO">
 		select * 
 			from member_tb where member_role = "1"
+		order by member_idx desc
 	</select>
 	
 	

@@ -1,6 +1,7 @@
 package game.dori.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import game.dori.vo.AD_VO;
 import game.dori.vo.CAROUSEL_VO;
-import game.dori.vo.MEMBER_VO;
+import game.dori.vo.CATEGORY_IMG_VO;
 
 @Repository
 public class PageModifyDAO {
@@ -38,4 +39,13 @@ public class PageModifyDAO {
 		return sqlSession.selectList(namespace + "adlist");
 	}
 	
+	//카테고리 이미지 등록
+	public int cateImgInsert(CATEGORY_IMG_VO civo) {
+		return sqlSession.insert(namespace + "cateImgInsert", civo);
+	}
+	
+	//카테고리 이미지 리스트
+	public Map<String, String> selectCategoryImages(){
+		return sqlSession.selectOne(namespace + "cateImg");
+	}
 }

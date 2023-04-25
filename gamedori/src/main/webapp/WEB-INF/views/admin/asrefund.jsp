@@ -27,20 +27,6 @@
 			<li class="nav-item"><a class="nav-link text-reset active fw-bold" href="<c:url value='/admin/asrefund.do' />">환불 관리</a></li>
 		</ul>
 	</div>
-	<!-- 문의/공지사항 탭  -->
-	<!-- <div class="container">
-    <ul class="nav justify-content-end text-black">
-      <li class="nav-item">
-        <a class="nav-link active text-reset" aria-current="page" href="#">상품 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">1:1 문의 관리</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-reset" href="#">공지사항 관리</a>
-      </li>
-    </ul>
-  </div> -->
 	<div class="container mt-1">
 	
 		<div class="container">
