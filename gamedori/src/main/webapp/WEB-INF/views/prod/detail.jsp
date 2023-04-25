@@ -139,22 +139,27 @@
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
 								<button class="btn btn-secondary" type="button"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
-						<form name="frm" action="orderForm.do" method="get">
-								<input type="hidden" name="opt_idx1" id="optIdx1">
-								<input type="hidden" name="opt_idx2" id="optIdx2" value="0">
-								<input type="hidden" name="opt_idx3" id="optIdx3" value="0">
-								<input type="hidden" name="opt_idx4" id="optIdx4" value="0">
-								<input type="hidden" name="opt_idx5" id="optIdx5" value="0">
-								<input type="hidden" name="opt_qty1" id="optQty1">
-								<input type="hidden" name="opt_qty2" id="optQty2" value="0">
-								<input type="hidden" name="opt_qty3" id="optQty3" value="0">
-								<input type="hidden" name="opt_qty4" id="optQty4" value="0">
-								<input type="hidden" name="opt_qty5" id="optQty5" value="0">
-								<button class="btn btn-outline-light login"
-									style="width: 280px; height: 60px;">바로 구매하기</button>
-									<!--  onclick="location.href='<c:url value='/prod/orderForm.do'/>';" -->
-						</form>
-							</div>
+							<c:if test="${empty sessionScope.Login}">
+									<button class="btn btn-outline-light login" onclick="javascript:prodBtn()"
+										style="width: 280px; height: 60px;">바로 구매하기</button>
+							</c:if>
+							<c:if test="${not empty sessionScope.Login}">
+								<form name="frm" action="orderForm.do" method="get">
+									<input type="hidden" name="opt_idx1" id="optIdx1">
+									<input type="hidden" name="opt_idx2" id="optIdx2" value="0">
+									<input type="hidden" name="opt_idx3" id="optIdx3" value="0">
+									<input type="hidden" name="opt_idx4" id="optIdx4" value="0">
+									<input type="hidden" name="opt_idx5" id="optIdx5" value="0">
+									<input type="hidden" name="opt_qty1" id="optQty1">
+									<input type="hidden" name="opt_qty2" id="optQty2" value="0">
+									<input type="hidden" name="opt_qty3" id="optQty3" value="0">
+									<input type="hidden" name="opt_qty4" id="optQty4" value="0">
+									<input type="hidden" name="opt_qty5" id="optQty5" value="0">
+									<button class="btn btn-outline-light login"
+										style="width: 280px; height: 60px;">바로 구매하기</button>
+								</form>
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -454,7 +459,10 @@
 	</div>
 </main>
 <script>
-
+	// 비로그인 상품구매 닫기
+	function prodBtn(){
+		alert('로그인이 필요합니다');
+	}
 	// 상품문의 답변
 	$(function(){  
 		var article = (".recruit .show");  

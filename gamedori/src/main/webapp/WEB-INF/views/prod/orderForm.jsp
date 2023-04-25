@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/head.jsp" %>
 <main>
 	<h3 class="mt-4 mb-3 text-center container" style="font-weight: bold; padding-top: 100px; padding-bottom: 50px;">주문서</h3>
@@ -25,17 +27,19 @@
 				<hr/>
 				<!-- 주소검색 api -->
 				<label for="ADDR_1">우편번호</label>
-			 	<input value="${adr.addr_1}" type="text" class="form-control col-md-6 input_s" id="mem_addr1" placeholder="우편번호">
-				 <input type="button" class="btn btn-outline-secondary btn-sm" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+				<div class="input-group">
+					<input value="${adr.addr_1}" id="mem_addr1" type="text" class="form-control" placeholder="우편번호">
+					<button class="btn btn-outline-secondary" onclick="sample6_execDaumPostcode()" type="button" id="button-addon2">우편번호 찾기</button>
+				</div>
 				<br/>
-				<label for="ADDR_2" class="mt-3">주소</label>
+				<label for="ADDR_2">주소</label>
 				<input value="${adr.addr_2}" type="text" class="form-control col-md-6 input_s" id="mem_addr2" placeholder="주소">
 				<br>
 				<input value="${adr.addr_3}" type="text" class="form-control col-md-6 input_s" id="mem_addr3" placeholder="상세주소">
 			<!----------------------------------------------------------------------------------------------------------------------------->
 				<div id="orderpage_Recipient">
 					<h4 class="mb-3" >받으시는분  <span style="font-size: 14px; color: rgb(168, 168, 168);"><input id="memAddrBtn" type="checkbox"> 주문자와 동일</span> </h4><hr/>
-					<form name="orderfrm" action="orderForm.do" method="post" class="validation-form">
+					<form id="orderForm" name="orderfrm" action="orderForm.do" method="post" class="validation-form">
 					<div class="row">
 					<input type="hidden" name="member_idx" value="${memvo.member_idx}">
 					<div class="col-md-6 mb-3">
@@ -59,12 +63,14 @@
 					<hr/>
 					<!-- 주소검색 api -->
 					<label for="ADDR_1">*우편번호</label>
-					<input type="text" name="order_addr1" class="form-control col-md-6 input_s" id="ord_addr1" placeholder="우편번호" required>
-					<input type="button" class="btn btn-outline-secondary btn-sm" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
-					<div class="invalid-feedback mb-3">
+					<div class="input-group">
+						<input id="ord_addr1" type="text" class="form-control" placeholder="우편번호">
+						<button class="btn btn-outline-secondary" onclick="sample6_execDaumPostcode()" type="button" id="button-addon2">우편번호 찾기</button>
+					</div>
+					<div class="invalid-feedback">
 						우편번호를 입력해주세요
 					</div><br/>
-					<label for="ADDR_2" class="mt-3">*배송지 주소</label>
+					<label for="ADDR_2" class="">*배송지 주소</label>
 					<input type="text" name="order_addr2" class="form-control col-md-6 input_s" id="ord_addr2" placeholder="주소" required>
 					<div class="invalid-feedback mt-3">
 						주소를 입력해주세요
@@ -111,12 +117,11 @@
 										extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
 									}
 								}
-
 								// 우편번호와 주소 정보를 해당 필드에 넣는다.
-								document.getElementById('ADDR_1').value = data.zonecode;
-								document.getElementById("ADDR_2").value = addr;
+								document.getElementById('ord_addr1').value = data.zonecode;
+								document.getElementById("ord_addr2").value = addr;
 								// 커서를 상세주소 필드로 이동한다.
-								document.getElementById("ADDR_3").focus();
+								document.getElementById("ord_addr3").focus();
 							}
 						}).open();
 					}
@@ -144,16 +149,37 @@
 							<td><img src="./images/HOT1.jpg" style="width: 100px; height: 100px;"></td>
 							<td class="pbb3">
 								<p>${optvo.prod_name}</p><br>
-								<p>${optvo.opt_name} (+[갯수])</p>
+								<p>${optvo.opt_name} (+[수량:${optvo.opt_qty}개])</p>
 							</td>
-							<td class="pbb3">${optvo.opt_price * optvo.opt_qty}</td>
+							<td class="pbb3">
+								<fmt:formatNumber var="optPricesCom" value="${optvo.opt_price * optvo.opt_qty}" pattern="#,###"/>
+							${optPricesCom}원
+							</td>
 							<td class="pbb3">${optvo.opt_qty}</td>
 						</tr>
 					</c:forEach>
-
+					<c:set var="orderPrices" value="0"/>
+					<c:forEach var="orderPrice" items="${optlist}">
+						<c:set var="orderPrices" value="${orderPrices + orderPrice.opt_price*orderPrice.opt_qty}"/>
+					</c:forEach>
+						<tr class="pbb" >
+						<td class="pbb2" colspan="4">
+							<h4 class="mb-1" style="font-weight: bold;">포인트 사용</h4>
+								<fmt:formatNumber var="savePointt" value="${savePoint}" pattern="#,###"/>
+							<p style="font-size: 14px;">보유 적립금 : ${savePointt}점</p>
+							<input type="hidden" id="savePoint" value="${savePoint}">
+							<div class="input-group mb-3">
+								<input id="usePoint" name="use_point" type="text" style="width:600px;" class="form-control col-md-6 input_s">
+								<button class="btn btn-outline-secondary" type="button" onclick="usingPoint()" id="button-addon2">전액사용</button>
+							</div>							
+						</td>
+						</tr>
 						<tr class="pbb" >
 							<td class="pbb2">총 상품구매금액</td>
-							<td colspan="3">[ㅁ]원</td>
+							<td colspan="3">
+								<fmt:formatNumber var="orderPricesCom" value="${orderPrices}" pattern="#,###"/>
+								${orderPricesCom}원
+							</td>
 						</tr>
 						<tr class="pbb">
 							<td class="pbb2">배송비</td>
@@ -161,42 +187,97 @@
 						</tr>
 						<tr class="pbb" style="border-bottom:1px solid #bdbdbd;">
 							<td class="pbb2">적립금</td>
-							<td colspan="3">[ㅁ]원</td>
+							<td colspan="3">
+							<fmt:parseNumber var="orderPoint" value="${orderPrices/10}" integerOnly="true" />
+							<fmt:formatNumber var="orderPointCom" value="${orderPoint}" pattern="#,###"/>
+							${orderPointCom}원
+							</td>
 						</tr>
 						<tr class="pbb" style="height: 80px; vertical-align: middle;">
+							<fmt:formatNumber var="orderPointCal" value="${orderPrices - use_point}" pattern="#,###"/>
 							<td class="pbb2">총 결제금액</td>
-							<td colspan="3">[ㅁ]원</td>
+							<td colspan="3" id="priCalResult">
+							<input id="priceCalResult" name="priceCalResult" type="hidden" class="form-control col-md-6 input_s">
+							${orderPointCal}원
+							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div id="orderForm_rufwp">
-				<h4 class="mb-1" style="font-weight: bold;">포인트 사용</h4>
-				<input type="text" style="width:600px;" class="mt-3">
-				<p style="font-size: 14px;">보유 적립금(**점)중 <b>최대 **점</b>까지 사용 가능(100단위로 입력)</p>
 				<h4 class="mb-3" style="font-weight: bold;">결제</h4>
 				<hr/>
 				<h5 style="font-size: 20px; font-weight: bold;">결제수단    <span class="badge bg-success">신용카드</span></h5>
 			</div>
 
 			<div class="d-grid gap-2">
-				<button class="btn btn-danger btn-block mt-4" type="submit" style="font-weight: bold">주문하기</button>
+				<button class="btn btn-danger btn-block mt-4" onclick="requestPay()" style="font-weight: bold">주문하기</button>
 			</div>
 		</div>
 	</section>
 </main>
-
+<head>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+        var IMP = window.IMP; 
+        IMP.init("imp32745085"); 
+    
+        function requestPay() {
+        	IMP.request_pay({
+        	    pg : 'nice',
+        	    pay_method : 'card',
+        	    merchant_uid: "order_no_0001", //상점에서 생성한 고유 주문번호
+        	    name : '주문명:결제테스트',
+        	    amount : 14000,
+        	    buyer_email : 'iamport@siot.do',
+        	    buyer_name : '구매자이름',
+        	    buyer_tel : '010-1234-5678',
+        	    buyer_addr : '서울특별시 강남구 삼성동',
+        	    buyer_postcode : '123-456',
+        	    m_redirect_url : '{모바일에서 결제 완료 후 리디렉션 될 URL}', // 예: https://www.my-service.com/payments/complete/mobile
+        		niceMobileV2 : true // 신규 모바일 버전 적용 시 설정
+        	}, function (rsp) { // callback
+                if (rsp.success) {
+                    console.log(rsp);
+                } else {
+                    console.log(rsp);
+                }
+            });
+        }
+    </script>
 <script>
 // 주문자 정보 동일 옮기기
 $(document).ready(function(){
-	$("#memAddrBtn").change(function(){
+	$("#memAddrBtn").click(function(){
 		$('input[id=ord_name]').attr('value',$("#mem_name").val());
 		$('input[id=ord_phone]').attr('value',$("#mem_phone").val());
 		$('input[id=ord_addr1]').attr('value',$("#mem_addr1").val());
 		$('input[id=ord_addr2]').attr('value',$("#mem_addr2").val());
 		$('input[id=ord_addr3]').attr('value',$("#mem_addr3").val());
 	});
+	
+	$("#usePoint").change(function(){
+		var num1 = $("#usePoint").val();
+		var num2 = ${orderPrices};
+		
+		$.ajax({
+			url : "priceCal.do",
+			typt : 'get',
+			data : { num1:num1, num2:num2},
+			success : function(data){
+				data = data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				$('#priCalResult').html(data+"원");
+				console.log(data);
+			}
+		});
+	});
 });
+function usingPoint(){
+	$('input[id=usePoint]').attr('value',$("#savePoint").val());
+}
 
 	window.addEventListener('load', () => {
 	  const forms = document.getElementsByClassName('validation-form');
