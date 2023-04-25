@@ -16,6 +16,7 @@
 		 		o.member_tb_idx = m.member_idx 
 		 		and
 		 		o.order_idx = od.order_tb_idx
+		 	order by order_idx desc
 	</select>
 	
 </mapper>

@@ -2,7 +2,6 @@ package game.dori.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +17,7 @@ import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.vo.AD_VO;
 import game.dori.vo.CAROUSEL_VO;
+import game.dori.vo.CATEGORY_IMG_VO;
 import game.dori.vo.MEMBER_VO;
 
 @Controller
@@ -110,6 +110,42 @@ public class AjaxController {
 		}
 		return "fail";
 		
+	}
+	
+	// 카테고리 이미지 추가
+	@RequestMapping(value = "/admin/cateImgInsert.do", method = RequestMethod.POST )
+	@ResponseBody
+	public String cateImgInsert(CATEGORY_IMG_VO civo, HttpServletRequest req, HttpServletResponse rsp, MultipartFile cate_img_file) throws IllegalStateException, IOException{
+		
+		String path = req.getSession().getServletContext().getRealPath("/resources/images/categoryImg");
+		
+		System.out.println(path);
+		
+		File dir = new File(path);
+		if(!dir.exists()) { 
+			dir.mkdirs();
+		}
+		
+		String newFileName = "";
+		if(!cate_img_file.getOriginalFilename().isEmpty()) { 
+			String FileName = System.currentTimeMillis()+cate_img_file.getOriginalFilename();
+			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
+			cate_img_file.transferTo(new File(path,newFileName));
+			
+
+			civo.setCate_img_name(newFileName);
+			
+			
+			int result = AdminService.cateImgInsert(civo);
+			
+			// Ajax 응답
+	        if (result > 0) {
+	            return "success";
+	        } else {
+	            return "fail";
+	        }
+		}
+		return "fail";	
 	}
 	
 }

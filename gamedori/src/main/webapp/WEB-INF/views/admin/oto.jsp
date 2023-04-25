@@ -74,23 +74,23 @@
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="otolist" items="${otoList }">
+					<c:forEach var="otol" items="${otoList }">
 						<tr>
-							<td class="text-center">${otolist.qa_idx }</td>
-							<td class="text-center">${otolist.qa_title }</td>
-							<td class="text-center">${otolist.member_name }</td>
-							<td class="text-center">${otolist.qa_wdate }</td>
-						<c:if test="${otolist.qa_yn == 1 }">
+							<td class="text-center">${otol.qa_idx }</td>
+							<td class="text-center">${otol.qa_title }</td>
+							<td class="text-center">${otol.member_name }</td>
+							<td class="text-center">${otol.qa_wdate }</td>
+						<c:if test="${otol.qa_yn == 1 }">
 							<td class="text-center">답변 완료</td>
 						</c:if>	
-						<c:if test="${otolist.qa_yn == 2 }">
+						<c:if test="${otol.qa_yn == 2 }">
 							<td class="text-center">답변 대기 중</td>
 						</c:if>	
 							<td class="text-center">
 								<button type="button" class="btn btn-secondary btn-sm"
 									data-bs-toggle="modal" data-bs-target="#otoRefund" 
-									onclick="sessionToModal('${otolist.qa_idx }', '${otolist.qa_title }',
-									 '${otolist.qa_contents }', '${otolist.member_name }', '${otolist.qa_reply }')">답변</button>
+									onclick="sessionToModal('${otol.qa_idx }', '${otol.qa_title }',
+									 '${otol.qa_contents }', '${otol.member_name }', '${otol.qa_reply }')">답변</button>
 							</td>
 						</tr>
 					</c:forEach>
