@@ -139,15 +139,17 @@
 						<th colspan="2">상세정보</th><th>판매가</th><th>수량</th>
 					</thead>
 					<tbody>
+					<c:forEach var="optvo" items="${optlist}">
 						<tr class="table-light text-center" style="border-bottom:1px solid #bdbdbd;">
 							<td><img src="./images/HOT1.jpg" style="width: 100px; height: 100px;"></td>
 							<td class="pbb3">
-								<p>${pvo.prod_name}</p><br>
-								<p>제품선택 : [선택사항 적어넣으세요] (+[갯수])</p>
+								<p>${optvo.prod_name}</p><br>
+								<p>${optvo.opt_name} (+[갯수])</p>
 							</td>
-							<td class="pbb3">${pvo.prod_price}</td>
-							<td class="pbb3">[수량]</td>
+							<td class="pbb3">${optvo.opt_price * optvo.opt_qty}</td>
+							<td class="pbb3">${optvo.opt_qty}</td>
 						</tr>
+					</c:forEach>
 
 						<tr class="pbb" >
 							<td class="pbb2">총 상품구매금액</td>
