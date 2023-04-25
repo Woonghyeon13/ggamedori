@@ -29,7 +29,6 @@ import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
-import game.dori.vo.NOTICE_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
@@ -70,7 +69,7 @@ public class MypageController {
 		 
 		 //상단 적립금 
 		 int selectPointBalance =
-		 mypageService.selectPointBal(memberVO.getMember_idx());
+		 mypageService.selectPointBalanceService(memberVO.getMember_idx());
 		 model.addAttribute("PointBalance", selectPointBalance);
 		 
 		 //상단 쿠폰개수출력 
@@ -239,19 +238,6 @@ public class MypageController {
 	
 	/*-------------------------------------------------------------------------------*/
 	
-//	// 1:1 문의 리스트 출력
-//	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
-//	public String oto(Model model, HttpServletRequest req)
-//	{		
-//		HttpSession session = req.getSession();
-//		MEMBER_VO MEMBERVO = (MEMBER_VO)session.getAttribute("Login");
-//		
-//		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(MEMBERVO.getMember_idx() );
-//		model.addAttribute("selectOtoListD", selectOtoListD);
-//		
-//		return "mypage/oto";
-//	}
-	
 	// 1 : 1 문의사항 리스트 + 페이징
 	@RequestMapping(value = "/oto.do", method = RequestMethod.GET)
 	public String oto(Model model, HttpServletRequest req,
@@ -311,23 +297,26 @@ public class MypageController {
 	public ResponseEntity<Map<String, Object>> oto_search(@RequestParam("searchText") String searchText,
 	                                                        @RequestParam("searchOption") String searchOption,
 	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-	  int limit = 15; // 페이지당 게시물 수
-	  int start = (page - 1) * limit;
+	    int limit = 15; // 페이지당 게시물 수
+	    int start = (page - 1) * limit;
 
-	  List<QA_VO> searchResults = mypageService.oto_search(searchText, searchOption, start, limit);
-	  int totalResults = mypageService.oto_countSearchResults(searchText, searchOption); // 전체 검색 결과 수
-	  int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
-	  
-	  
-	  System.out.println(totalResults);
+	    List<QA_VO> searchResults = mypageService.oto_search(searchText, searchOption, start, limit);
+	    
+	    int totalResults = 0;
+	    
+	    if (searchText.trim().equals("") && searchOption.trim().equals("")) {
+	        totalResults = mypageService.oto_countAll(); // 전체 게시물 수
+	    } else {
+	        totalResults = mypageService.oto_countSearchResults(searchText, searchOption); // 검색 결과에 따른 전체 게시물 수
+	    }
+	    int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
 
-	  Map<String, Object> response = new HashMap<String, Object>();
-	  response.put("searchResults", searchResults);
-	  response.put("totalPages", totalPages);
+	    Map<String, Object> response = new HashMap<String, Object>();
+	    response.put("searchResults", searchResults);
+	    response.put("totalPages", totalPages);
 
-	  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-	}	
-	
+	    return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	} 
 	
 	
 	
@@ -378,10 +367,10 @@ public class MypageController {
 
 	    if(result > 0) {
 	    	session.setAttribute("qa_idx", qa_idx);
-	        pw.append("<script>alert('삭제되었습니다.'); location.href='" + req.getContextPath()
+	        pw.append("<script>alert('1 : 1 문의사항이 삭제되었습니다.'); location.href='" + req.getContextPath()
 	            + "/mypage/oto.do';</script>");
 	    } else {
-	        pw.append("<script>alert('삭제가 되지않았습니다.'); location.href='" + req.getContextPath()
+	        pw.append("<script>alert('1 : 1 문의사항이 삭제되지 않았습니다.'); location.href='" + req.getContextPath()
 	            + "/mypage/oto_view.do?qa_idx=" + qa_idx + "';</script>");
 	    }
 	}
@@ -447,9 +436,7 @@ public class MypageController {
 	public String orderdetail(Model model, HttpServletRequest req)
 	{
 		HttpSession session = req.getSession();
-		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
-		
-		
+		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");	
 		
 		return "mypage/orderdetail";
 	}
