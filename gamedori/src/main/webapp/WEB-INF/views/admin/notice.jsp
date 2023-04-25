@@ -296,39 +296,39 @@
 	        pagination.append(pageItem);
 	    }
 	}
-	
-	  //테이블 검색한거에 따른 갯수처리
-		function updateTable(response) {
-	    var searchResults = response.searchResults;
-	    var tableBody = $('#table-body');
-	    tableBody.empty(); // 이전 검색 결과를 지우고
-	
-	    if (searchResults.length === 0) {
-	        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
-	        $.each(originalTableData, function (index, row) {
-	            tableBody.append(row);
-	        });
-	    } else {
-	        // 검색 결과가 있는 경우
-	        $.each(searchResults, function (index, result) {
-	            var newRow = $('<tr>');
-	
-	            // 테이블에 행 추가
-	            newRow.append($('<td>').text(result.notice_idx));
-	            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
-	            newRow.append($('<td>').text(result.notice_writer));
-	            newRow.append($('<td>').text(result.notice_hit));
-	            newRow.append($('<td>').text(result.notice_wdate));
-	           newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr({ 'type': 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#noticeModify' }).text('수정').click(function () { prepareModify(result.notice_idx); })));
-	            newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr('onclick', 'deleteNotice(' + result.notice_idx + ')').text('삭제')));
-	
-	            tableBody.append(newRow);
-	        });
-	    }
-	
-	    // 테이블을 보여줍니다.
-	    $('table').show();
-	}
+	//테이블 검색한거에 따른 갯수처리
+	function updateTable(response) {
+    var searchResults = response.searchResults;
+    var tableBody = $('#table-body');
+    tableBody.empty(); // 이전 검색 결과를 지우고
+
+    if (searchResults.length === 0) {
+        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
+        $.each(originalTableData, function (index, row) {
+            tableBody.append(row);
+        });
+    } else {
+        // 검색 결과가 있는 경우
+        $.each(searchResults, function (index, result) {
+            var newRow = $('<tr>');
+
+            // 테이블에 행 추가
+            newRow.append($('<td>').text(result.notice_idx));
+            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
+            newRow.append($('<td>').text(result.notice_writer));
+            newRow.append($('<td>').text(result.notice_hit));
+            newRow.append($('<td>').text(result.notice_wdate));
+           newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr({ 'type': 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#noticeModify' }).text('수정').click(function () { prepareModify(result.notice_idx); })));
+            newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr('onclick', 'deleteNotice(' + result.notice_idx + ')').text('삭제')));
+
+            tableBody.append(newRow);
+        });
+    }
+
+    // 테이블을 보여줍니다.
+    $('table').show();
+}
+
 	  
 	  </script>
 			
@@ -345,9 +345,7 @@
 		    </c:forEach>
 		  </ul>
 		</nav>
-		
 	</div>
-
 
 </div>
 

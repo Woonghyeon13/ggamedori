@@ -385,30 +385,31 @@ public class AdminController {
 	    return null;
 	}
 	
-
-	//검색 기능
-		@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-		@ResponseBody
-		public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
-		                                                        @RequestParam("searchOption") String searchOption,
-		                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-		  int limit = 15; // 페이지당 게시물 수
-		  int start = (page - 1) * limit;
-
-		  List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
-		  int totalResults = adminService.countSearchResults(searchText, searchOption); // 전체 검색 결과 수
-		  int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
-		  
-		  
-		  System.out.println(totalResults);
-
-		  Map<String, Object> response = new HashMap<String, Object>();
-		  response.put("searchResults", searchResults);
-		  response.put("totalPages", totalPages);
-
-		  return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-		}
 	
+	//검색 기능
+	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
+	                                                        @RequestParam("searchOption") String searchOption,
+	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+	    int limit = 15; // 페이지당 게시물 수
+	    int start = (page - 1) * limit;
+
+	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
+	    int totalResults = 0;
+	    if (searchText.trim().equals("") && searchOption.trim().equals("")) {
+	        totalResults = adminService.countAll(); // 전체 게시물 수
+	    } else {
+	        totalResults = adminService.countSearchResults(searchText, searchOption); // 검색 결과에 따른 전체 게시물 수
+	    }
+	    int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
+
+	    Map<String, Object> response = new HashMap<String, Object>();
+	    response.put("searchResults", searchResults);
+	    response.put("totalPages", totalPages);
+
+	    return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
 	
 	// 1:1문의 관리
 	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
