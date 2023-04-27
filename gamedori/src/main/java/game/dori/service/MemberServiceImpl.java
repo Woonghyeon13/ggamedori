@@ -74,8 +74,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List<MEMBER_VO> list() {//회원리스트
-		return memberDAO.list();
+	public List<MEMBER_VO> list(int limit, int start) {//회원리스트
+		return memberDAO.list(limit, start);
 	}
 
 	@Override

@@ -36,10 +36,11 @@
 	</update>
 	
 
-	<select id="memberlist" resultType="memberVO">
+	<select id="memberlist" resultType="memberVO" parameterType="map">
 		select * 
 			from member_tb where member_role = "1"
 		order by member_idx desc
+		LIMIT #{limit} OFFSET #{start}
 	</select>
 	
 	

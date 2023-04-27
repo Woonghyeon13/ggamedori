@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../include/head.jsp" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../include/head.jsp" %>
 
 <style>
 .ck.ck-editor {
@@ -117,50 +117,50 @@
 		</script>
 		
 		
-<!-- 공지사항 등록 -->
-<div class="container d-flex justify-content-end">
-    <button type="button" class="btn btn-outline-secondary btn-sm me-4"
-            data-bs-toggle="modal" data-bs-target="#noticeWrite">글쓰기</button>
-</div>
-<div class="modal fade" id="noticeWrite" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header d-flex flex-column logo">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title fs-5">공지사항 등록</h4>
-            </div>
-            <div class="modal-body">
-                <form name="review" method="POST" action="notice_write.do">
-                
-                  <input type="hidden" name="member_email" value="${Login.member_email}">
-                    <div class="form-group d-flex justify-content-around "></div>
-                    <div
-                            class="form-group mt-2 d-flex justify-content-between align-items-center">
-                        <input type="text" class="form-control noticetitle" id="notice_title"
-                               placeholder="공지사항 제목" name="notice_title">
-                    </div>
-                    <div class="form-group mt-2 d-flex justify-content-between align-items-center">
-                        <textarea name="notice_contents" id="notice_contents" class="form-control noticecontents"
-                                  placeholder="공지사항 내용"></textarea>
-                        <script>
-                            ClassicEditor.create(document.querySelector('#notice_contents'), {
-                                language: "ko"
-                            });
-                        </script>
-                    </div>
-                    <div class="d-grid gap-1 mt-2">
-                        <input type="submit"
-                               class="btn btn-outline-secondary btn-lg form-control"
-                               value="공지사항 등록" onclick="validateForm(event)">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+	<!-- 공지사항 등록 -->
+	<div class="container d-flex justify-content-end">
+	    <button type="button" class="btn btn-outline-secondary btn-sm me-4"
+	            data-bs-toggle="modal" data-bs-target="#noticeWrite">글쓰기</button>
+	</div>
+	<div class="modal fade" id="noticeWrite" data-bs-backdrop="static">
+	    <div class="modal-dialog modal-dialog-centered modal-xl">
+	        <div class="modal-content">
+	            <div class="modal-header d-flex flex-column logo">
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                <h4 class="modal-title fs-5">공지사항 등록</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form name="review" method="POST" action="notice_write.do">
+	                
+	                  <input type="hidden" name="member_email" value="${Login.member_email}">
+	                    <div class="form-group d-flex justify-content-around "></div>
+	                    <div
+	                            class="form-group mt-2 d-flex justify-content-between align-items-center">
+	                        <input type="text" class="form-control noticetitle" id="notice_title"
+	                               placeholder="공지사항 제목" name="notice_title">
+	                    </div>
+	                    <div class="form-group mt-2 d-flex justify-content-between align-items-center">
+	                        <textarea name="notice_contents" id="notice_contents" class="form-control noticecontents"
+	                                  placeholder="공지사항 내용"></textarea>
+	                        <script>
+	                            ClassicEditor.create(document.querySelector('#notice_contents'), {
+	                                language: "ko"
+	                            });
+	                        </script>
+	                    </div>
+	                    <div class="d-grid gap-1 mt-2">
+	                        <input type="submit"
+	                               class="btn btn-outline-secondary btn-lg form-control"
+	                               value="공지사항 등록" onclick="validateForm(event)">
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
 		
-<!-- 검색 -->
+	<!-- 검색 -->
 	<div class="container">
 	    <form class="d-flex justify-content-center align-items-center" role="form">
 	        <div class="me-2">
@@ -179,9 +179,9 @@
 	        </div>
 	    </form>
 	</div>
-	
-	<script>
+<script>
 	var originalTableData = [];
+	
 	
 	function updatePaginationForAll() {
 	    var pagination = $('.pagination');
@@ -190,8 +190,8 @@
 	        var pageLink = pageItem.find('a.page-link');
 	        if (pageItem.hasClass('active')) {
 	            pageLink.css({
-	                'background-color': '218, 219, 221',
-	                'border-color': '#ffeeeee'
+	                'background-color': '#dadbdd',
+	                'border-color': '#dee2e6'
 	            });
 	        } else {
 	            pageLink.css({
@@ -219,24 +219,28 @@
 	    $('.btn_search').click(function (event) {
 	        event.preventDefault();
 	        // 검색어와 검색 옵션 가져오기
-	        var searchText = $('input[name="searchText"]').val();
+	        var searchText = $('input[name="searchText"]').val().trim();
 	        var searchOption = $('select[name="searchOption"]').val();
 	        // 검색 옵션 확인
 	        if (searchOption === '검색 옵션') {
 	            alert('검색 옵션을 선택해주세요.');
 	            return;
 	        }
-	        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
-	        if (searchText.trim() === '') {
-	            showAll();
-	            // 빈 검색어를 입력했을 때 새로고침을 합니다.
-	            location.reload();
+
+	        if (searchText === '') {
+	            location.reload(); // 공백 입력 시 페이지를 새로고침합니다.
 	            return;
 	        }
-	
+
 	        // AJAX 요청 전송
 	        searchAndDisplayResults(searchText, searchOption, 1);
 	    });
+
+	    // 페이지가 로드되었을 때, 전체 목록을 표시하고 페이지네이션을 처리합니다.
+	    var searchText = '';
+	    var searchOption = '';
+	    var page = 1;
+	    searchAndDisplayResults(searchText, searchOption, page);
 	});
 	
 	function showAll() {
@@ -250,12 +254,23 @@
 	    $('table').show();
 	    // 전체 목록을 보여주는 경우의 페이징 색상 처리를 추가합니다.
 	    updatePaginationForAll();
+	    
+	    // 전체 목록일 때도 페이지네이션을 처리합니다.
+	    var searchText = ''; // 전체 목록이므로 검색어는 빈 문자열로 설정합니다.
+	    var searchOption = ''; // 전체 목록이므로 검색 옵션도 빈 문자열로 설정합니다.
+	    var page = 1; // 전체 목록을 표시할 때는 현재 페이지를 1로 설정합니다.
+	    searchAndDisplayResults(searchText, searchOption, page);
 	}
 	
 	function searchAndDisplayResults(searchText, searchOption, page) {
+	    if (searchText.trim() === '') {
+	        searchText = ''; // 공백 입력 시 검색 텍스트를 빈 문자열로 설정합니다.
+	        //	page = 1; // 공백 입력 시 현재 페이지를 1로 설정합니다.
+	    }
 	    sendAjaxRequest(searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
+	        updatePaginationForAll();
 	    });
 	}
 	
@@ -275,33 +290,60 @@
 	        }
 	    });
 	}
-	
 	function updatePagination(totalPages, searchText, searchOption, currentPage) {
+	    var pagesToShow = 5; // 한 번에 표시할 페이지 번호의 개수를 설정합니다.
 	    var pagination = $('.pagination');
 	    pagination.empty();
-	
-	    for (var i = 1; i <= totalPages; i++) {
+
+	    if (totalPages === 0) {
+	        totalPages = 1;
+	    }
+
+	    var startPage = Math.floor((currentPage - 1) / pagesToShow) * pagesToShow + 1;
+	    var endPage = Math.min(startPage + pagesToShow - 1, totalPages);
+
+	    if (startPage > 1) {
+	        var prevPageSetItem = $('<li>').addClass('page-item');
+	        var prevPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
+	        prevPageSetLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, startPage - 1);
+	        });
+	        prevPageSetItem.append(prevPageSetLink);
+	        pagination.append(prevPageSetItem);
+	    }
+
+	    for (var i = startPage; i <= endPage; i++) {
 	        var isActive = i == currentPage;
 	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
-	        var pageLink = $('<a>').addClass('page-link')
-	            .attr('href', '#')
-	            .text(i);
+	        var pageLink = $('<a>').addClass('page-link').attr('href', '#').text(i);
+
 	        pageLink.on('click', function (event) {
 	            event.preventDefault();
 	            var page = $(this).text();
-	
 	            searchAndDisplayResults(searchText, searchOption, page);
 	        });
 	        pageItem.append(pageLink);
 	        pagination.append(pageItem);
 	    }
+
+	    if (endPage < totalPages) {
+	        var nextPageSetItem = $('<li>').addClass('page-item');
+	        var nextPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
+	        nextPageSetLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, endPage + 1);
+	        });
+	        nextPageSetItem.append(nextPageSetLink);
+	        pagination.append(nextPageSetItem);
+	    }
 	}
-	//테이블 검색한거에 따른 갯수처리
+	
+	  //테이블 검색한거에 따른 갯수처리
 	function updateTable(response) {
     var searchResults = response.searchResults;
     var tableBody = $('#table-body');
     tableBody.empty(); // 이전 검색 결과를 지우고
-
     if (searchResults.length === 0) {
         // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
         $.each(originalTableData, function (index, row) {
@@ -318,7 +360,7 @@
             newRow.append($('<td>').text(result.notice_writer));
             newRow.append($('<td>').text(result.notice_hit));
             newRow.append($('<td>').text(result.notice_wdate));
-           newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr({ 'type': 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#noticeModify' }).text('수정').click(function () { prepareModify(result.notice_idx); })));
+           	newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr({ 'type': 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#noticeModify' }).text('수정').click(function () { prepareModify(result.notice_idx); })));
             newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr('onclick', 'deleteNotice(' + result.notice_idx + ')').text('삭제')));
 
             tableBody.append(newRow);
@@ -328,26 +370,28 @@
     // 테이블을 보여줍니다.
     $('table').show();
 }
-
-	  
-	  </script>
+  
+	  </script>	
 			
+	
 		<!-- 페이징 -->
-			
-		<nav aria-label="Page navigation example">
-		  <ul class="pagination justify-content-center">
-		    <c:forEach var="i" begin="1" end="${totalPages}">
-		      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
-		        <a class="page-link" >
-		          ${i}
-		        </a>
-		      </li>
-		    </c:forEach>
-		  </ul>
-		</nav>
+		<div class="mt-3">
+			<nav aria-label="Page navigation example">
+			  <ul class="pagination justify-content-center">
+			    <c:forEach var="i" begin="1" end="${totalPages}">
+			      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+			        <a class="page-link" >
+			          ${i}
+			        </a>
+			      </li>
+			    </c:forEach>
+			  </ul>
+			</nav>
+		</div> 
+		 
 	</div>
 
-</div>
+
 
 		<!-- 공지사항 수정 -->
 		<div class="modal fade" id="noticeModify" data-bs-backdrop="static">

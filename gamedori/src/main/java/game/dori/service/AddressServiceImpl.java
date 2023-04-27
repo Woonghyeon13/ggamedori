@@ -1,5 +1,7 @@
 package game.dori.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,11 @@ public class AddressServiceImpl implements AddressService{
 	public int update(ADDRESS_VO addr) {
 		// TODO Auto-generated method stub
 		return addressDAO.update_Member(addr);
+	}
+
+	@Override
+	public ADDRESS_VO findByMemberIdx(MEMBER_VO memberVO) {
+		// TODO Auto-generated method stub
+		return  addressDAO.selectMemAddr(memberVO);
 	}
 }

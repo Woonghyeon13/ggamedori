@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="game.dori.mapper.searchMapper">
+
+	<!-- 페이징 처리를 위한 member_tb값을 얻기 위한 쿼리문 -->
+	<select id="mCountAll" resultType="int">
+    	SELECT COUNT(*) FROM member_tb where member_role = "1"
+	</select>
+
+	<!-- 멤버 검색 -->
+	<select id="mSearch" resultType="memberVO" parameterType="map">
+	  SELECT * FROM member_tb WHERE member_role = "1" AND
+	  <choose>
+	    <when test="searchOption == 'name'">
+	      member_name like CONCAT('%', #{searchText}, '%')
+	    </when>
+	    <when test="searchOption == 'email'">
+	      member_email LIKE CONCAT('%', #{searchText}, '%')
+	    </when>
+	    <when test="searchOption == 'mLevel'">
+	      member_level LIKE CONCAT('%', #{searchText}, '%')
+	    </when>
+	    <when test="searchOption == 'mState'">
+	      member_state LIKE CONCAT('%', #{searchText}, '%')
+	    </when>
+	  </choose>
+	  ORDER BY member_idx DESC
+	  LIMIT #{start}, #{limit}
+	</select>
+	
+	<!-- 검색된 결과 페이징 처리할때 사용(관리자페이지 멤버리스트) -->
+	<select id="mCountSearchResults" resultType="int" parameterType="map">
+	  SELECT COUNT(*) FROM member_tb WHERE member_role = "1" AND
+	  <choose>
+	    <when test="searchOption == 'name'">
+	      member_name like CONCAT('%', #{searchText}, '%')
+	    </when>
+	    <when test="searchOption == 'email'">
+	      member_email LIKE CONCAT('%', #{searchText}, '%')
+	    </when>
+	    <when test="searchOption == 'mLevel'">
+	      member_level LIKE CONCAT('%', #{searchText}, '%')
+	    </when>
+	    <when test="searchOption == 'mState'">
+	      member_state LIKE CONCAT('%', #{searchText}, '%')
+	    </when>
+	  </choose>
+	</select>
+	
+	<!-- 멤버리스트 관련 끝 -->
+	
+	
+	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
+	<select id="oto_countAll" resultType="int">
+		SELECT COUNT(*) FROM QA_TB
+	</select>
+	
+	<!-- 1 : 1 문의사항 글 검색 -->
+	<select id="oto_search" resultType="qaVO" parameterType="map">
+		SELECT * FROM QA_TB
+		<where>
+		  <choose>
+		    <when test="searchOption == 'name'">
+		      <if test="searchText != null and searchText != ''">
+		        and qa_title like CONCAT('%', #{searchText}, '%')
+		      </if>
+		    </when>
+			<when test="searchOption == 'title'">
+			  <if test="searchText != null and searchText != ''">
+			    AND qa_title LIKE CONCAT('%', #{searchText}, '%')
+			  </if>
+			</when>
+			<when test="searchOption == 'content'">
+			  <if test="searchText != null and searchText != ''">
+			    AND qa_contents LIKE CONCAT('%', #{searchText}, '%')
+			  </if>
+			</when>
+		    <otherwise>
+		      <if test="searchText != null and searchText != ''">
+		        AND (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+		      </if>
+		    </otherwise>
+		  </choose>
+		</where>
+		ORDER BY qa_idx DESC
+		LIMIT #{start}, #{limit}
+	</select>
+	
+	
+	<!--  1 : 1 문의사항 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+	<select id="oto_countSearchResults" resultType="int" parameterType="map">
+		 SELECT COUNT(*) FROM QA_TB
+		 <where>
+		   <choose>
+		     <when test="searchOption == 'name'">
+		       <if test="searchText != null and searchText != ''">
+		         qa_title like CONCAT('%', #{searchText}, '%')
+		       </if>
+		     </when>
+		     <when test="searchOption == 'content'">
+		       <if test="searchText != null and searchText != ''">
+		         qa_contents LIKE CONCAT('%', #{searchText}, '%')
+		       </if>
+		     </when>
+		     <otherwise>
+		       <if test="searchText != null and searchText != ''">
+		         (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+		       </if>
+		     </otherwise>
+		   </choose>
+		 </where>
+	</select>
+	
+</mapper>

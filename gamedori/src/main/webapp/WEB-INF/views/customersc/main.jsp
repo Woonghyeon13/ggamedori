@@ -71,8 +71,7 @@
 	        </div>
 	    </form>
 	</div>
-
-	<script>
+<script>
 	var originalTableData = [];
 	
 	
@@ -128,6 +127,12 @@
 	        // AJAX 요청 전송
 	        searchAndDisplayResults(searchText, searchOption, 1);
 	    });
+
+	    // 페이지가 로드되었을 때, 전체 목록을 표시하고 페이지네이션을 처리합니다.
+	    var searchText = '';
+	    var searchOption = '';
+	    var page = 1;
+	    searchAndDisplayResults(searchText, searchOption, page);
 	});
 	
 	function showAll() {
@@ -141,8 +146,12 @@
 	    $('table').show();
 	    // 전체 목록을 보여주는 경우의 페이징 색상 처리를 추가합니다.
 	    updatePaginationForAll();
-
-	  
+	    
+	    // 전체 목록일 때도 페이지네이션을 처리합니다.
+	    var searchText = ''; // 전체 목록이므로 검색어는 빈 문자열로 설정합니다.
+	    var searchOption = ''; // 전체 목록이므로 검색 옵션도 빈 문자열로 설정합니다.
+	    var page = 1; // 전체 목록을 표시할 때는 현재 페이지를 1로 설정합니다.
+	    searchAndDisplayResults(searchText, searchOption, page);
 	}
 	
 	function searchAndDisplayResults(searchText, searchOption, page) {
@@ -150,7 +159,6 @@
 	        searchText = ''; // 공백 입력 시 검색 텍스트를 빈 문자열로 설정합니다.
 	        //	page = 1; // 공백 입력 시 현재 페이지를 1로 설정합니다.
 	    }
-
 	    sendAjaxRequest(searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
@@ -173,27 +181,52 @@
 	        }
 	    });
 	}
-function updatePagination(totalPages, searchText, searchOption, currentPage) {
+	function updatePagination(totalPages, searchText, searchOption, currentPage) {
+	    var pagesToShow = 5; // 한 번에 표시할 페이지 번호의 개수를 설정합니다.
 	    var pagination = $('.pagination');
 	    pagination.empty();
-		
+
 	    if (totalPages === 0) {
-	        totalPages = 1; // 검색 결과가 없을 때에도 1페이지를 표시합니다.
+	        totalPages = 1;
 	    }
-	    for (var i = 1; i <= totalPages; i++) {
+
+	    var startPage = Math.floor((currentPage - 1) / pagesToShow) * pagesToShow + 1;
+	    var endPage = Math.min(startPage + pagesToShow - 1, totalPages);
+
+	    if (startPage > 1) {
+	        var prevPageSetItem = $('<li>').addClass('page-item');
+	        var prevPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
+	        prevPageSetLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, startPage - 1);
+	        });
+	        prevPageSetItem.append(prevPageSetLink);
+	        pagination.append(prevPageSetItem);
+	    }
+
+	    for (var i = startPage; i <= endPage; i++) {
 	        var isActive = i == currentPage;
 	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
-	        var pageLink = $('<a>').addClass('page-link')
-	            .attr('href', '#')
-	            .text(i);
+	        var pageLink = $('<a>').addClass('page-link').attr('href', '#').text(i);
+
 	        pageLink.on('click', function (event) {
 	            event.preventDefault();
 	            var page = $(this).text();
-
 	            searchAndDisplayResults(searchText, searchOption, page);
 	        });
 	        pageItem.append(pageLink);
 	        pagination.append(pageItem);
+	    }
+
+	    if (endPage < totalPages) {
+	        var nextPageSetItem = $('<li>').addClass('page-item');
+	        var nextPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
+	        nextPageSetLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, endPage + 1);
+	        });
+	        nextPageSetItem.append(nextPageSetLink);
+	        pagination.append(nextPageSetItem);
 	    }
 	}
 	
@@ -202,7 +235,6 @@ function updatePagination(totalPages, searchText, searchOption, currentPage) {
     var searchResults = response.searchResults;
     var tableBody = $('#table-body');
     tableBody.empty(); // 이전 검색 결과를 지우고
-
     if (searchResults.length === 0) {
         // 검색 결과가 없는 경우 검색 결과가 없음을 표시합니다.
         var noResultsRow = $('<tr>');
@@ -229,24 +261,24 @@ function updatePagination(totalPages, searchText, searchOption, currentPage) {
 	    $('table').show();
 	}
 	  
-	  </script>
+	  </script>	
 			
 		<!-- 페이징 -->
 			
 		
 	</div>
-		<nav aria-label="Page navigation example" style="margin-top:20px;">
-		  <ul class="pagination justify-content-center">
-		    <c:forEach var="i" begin="1" end="${totalPages}">
-		      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
-		        <a class="page-link" >
-		          ${i}
-		        </a>
-		      </li>
-		    </c:forEach>
-		  </ul>
-		</nav>
-	<!---------customer 끝-------------------------------------------------------------->
+		 <nav aria-label="Page navigation example" style="margin-top:20px;">
+		    <ul class="pagination justify-content-center">
+		      <c:forEach var="i" begin="1" end="${totalPages}">
+		        <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+		          <a class="page-link">
+		            ${i}
+		          </a>
+		        </li>
+		      </c:forEach>
+		    </ul>
+		  </nav>
+<!---------customer 끝-------------------------------------------------------------->
 
 
 </main>
