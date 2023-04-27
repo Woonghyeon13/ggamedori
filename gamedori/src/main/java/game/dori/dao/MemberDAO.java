@@ -41,7 +41,7 @@ public class MemberDAO {
 	
 	public MEMBER_VO selectByEmail(String member_email)
 	{
-		return sqlSession.selectOne(namespace + "selectByEmail",member_email);
+		return sqlSession.selectOne(namespace + "selectByEmail", member_email);
 	}
 	
 	public int updateyn(MEMBER_VO memberVO) {

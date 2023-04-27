@@ -237,16 +237,18 @@
 								</tr>
 							</thead>
                     <tbody id = "table-body" >
-                    	<c:forEach items="${oto}" var="qaVO">
+                    	<c:forEach items="${oto}" var="vo">
+						    <c:if test="${vo.qa_writer eq Login.member_name}">
+						        <tr>
+						            <td class="table_number"></td>
+						            <td><a href="oto_view.do?qa_idx=${vo.qa_idx}">${vo.qa_title}</a></td>
+						            <td>${vo.qa_writer}</td>
+						            <td class="wdate">${vo.qa_wdate}</td>
+						            <td>${vo.qa_yn == 1 ? '답변 완료' : '답변 처리중'}</td>
+						        </tr> 
+						    </c:if>
+						</c:forEach>
 
-	                        <tr>
-	                            <td class="table_number"></td>
-	                            <td><a href="oto_view.do?qa_idx=${qaVO.qa_idx}">${qaVO.qa_title}</a></td>
-	                            <td>${qaVO.qa_writer}</td>
-	                            <td class="wdate">${qaVO.qa_wdate}</td>
-	                            <td>${qaVO.qa_yn == 1 ? '답변 완료' : '답변 처리중'}</td>
-	                        </tr> 
-                        </c:forEach>
                     </tbody>   
               
 
@@ -272,7 +274,7 @@
             
             
              <c:if test="${Login.member_role == 1}">
-	 	           <button onclick="location.href='${pageContext.request.contextPath}/mypage/oto_write.do'" style="float:right; margin-top:20px;">문의하기</button>
+	 	           <button class="btn btn-dark" onclick="location.href='${pageContext.request.contextPath}/mypage/oto_write.do'" style="float:right; margin-top:20px;">문의하기</button>
 			</c:if>  
 		             </td>
 				</tr>

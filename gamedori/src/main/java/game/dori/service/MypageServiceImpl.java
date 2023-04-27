@@ -172,6 +172,21 @@ public class MypageServiceImpl implements MypageService{
 		// TODO Auto-generated method stub
 		return qaDAO.oto_search(searchText, searchOption, start, limit);
 	}
+	
+//	// 사용자가 작성한 1:1 문의사항 리스트 조회
+//	@Override
+//	public List<QA_VO> otoListByMember(int member_idx, int limit, int start) {
+//	  
+//	    return qaDAO.otoListByMember(member_idx, start, limit);
+//	}
+//
+//	// 사용자가 작성한 1:1 문의사항 개수 조회
+//	@Override
+//	public int countOtoByMember(int memberIdx) {
+//	    return qaDAO.countOtoByMember(memberIdx);
+//	}
+
+	
 
 	/*-------------------------------------------------------------------------------*/
 
@@ -262,6 +277,11 @@ public class MypageServiceImpl implements MypageService{
 	public int selectPointBal(int member_idx) {
 		return savepointDAO.selectPointBal(member_idx);
 	}
+
+
+
+
+
 	
 	
 	/*-------------------------------------------------------------------------------*/

@@ -182,9 +182,9 @@
 								<c:forEach items="${selectOtoListD}" var="vo" varStatus="status">
 								    <c:if test="${status.index < 4}">
 								        <tr>				   
-								            <td>${vo.qa_idx}</td>
+								            <td class="table_number">${vo.qa_idx}</td>
 								            <td>${vo.qa_title}</td>				             
-								            <td>${vo.qa_wdate}</td>
+								            <td class="wdate">${vo.qa_wdate}</td>
 								            <td>
 								                <c:choose>
 								                    <c:when test="${vo.qa_yn == 1}">
@@ -225,18 +225,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>게임 1</td>
-										<td>후기 제목입니다.</td>
-										<td>abc1234</td>
-										<td>2023-03-08</td>
-										<td>★★★★★</td>
-									</tr>
 									<c:forEach items="${selectReviewList}" var="vo" varStatus="status">
 									<c:if test="${status.index < 4}">
 										<tr>
-											<th scope="row" class="table_number"></th>
+											<td scope="row" class="table_number"></td>
 											<td>${vo.prod_name}</td>
 											<td>${vo.review_title}</td>
 											<td>${vo.review_writer}</td>
