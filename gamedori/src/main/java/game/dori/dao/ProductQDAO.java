@@ -27,6 +27,15 @@ public class ProductQDAO {
 		return sqlSession.selectList("game.dori.mapper.productQMapper.selectQAList", member_idx); //매개변수릉통해 인자로전달  쿼리에서사용
 	}
 	
+	// 마이페이지 상품문의 리스트 역순으로 출력
+	public List<PRODUCT_Q_VO> selectProdListD(int limit, int start) {
+		 Map<String, Object> params = new HashMap<String, Object>();
+		    params.put("limit", limit);
+		    params.put("start", start);
+		    
+		return sqlSession.selectList("game.dori.mapper.productQMapper.prod_selectD",params);
+	}
+	
 	//관리자 페이지 상품문의 리스트 출력
 	public List<PROD_Q_LIST_VO> list(){
 		return sqlSession.selectList(namespace + "pqlist");

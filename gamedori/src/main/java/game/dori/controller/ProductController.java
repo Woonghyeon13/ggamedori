@@ -210,22 +210,25 @@ public class ProductController {
 		model.addAttribute("priceCalRRR",num2-num1);
 		return num2-num1;
 	}
-//	// 상품 문의 등록
-//	@RequestMapping( value = "/detail.do", method = RequestMethod.POST )
-//	public void detail( PRODUCT_Q_VO pqvo, HttpServletResponse rsp ) throws IOException {
-//		
-//		int result = productService.prodq_insert(pqvo);
-//		System.out.println("멤버인덱스"+pqvo.getMember_tb_idx());
-//		rsp.setContentType("text/html;charset=utf-8");
-//		PrintWriter pw = rsp.getWriter();
-//		
-//		if( result > 0 ) {
-//			pw.append("<script>alert('문의가 등록되었습니다.');location.href='detail.do?prod_idx="+pqvo.getProduct_tb_idx()+"'</script>");
-//		}else {
-//			pw.append("<script>alert('문의등록이 실패되었습니다.');location.href='detail.do?prod_idx="+pqvo.getProduct_tb_idx()+"'</script>");
-//		}
-//		pw.flush();
-//	}
+	
+	// 상품 문의 등록
+	@RequestMapping( value = "/detail.do", method = RequestMethod.POST )
+	public void detail( PRODUCT_Q_VO pqvo, HttpServletResponse rsp ) throws IOException {
+		
+		int result = productService.prodq_insert(pqvo);
+		System.out.println("멤버인덱스"+pqvo.getMember_tb_idx());
+		rsp.setContentType("text/html;charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if( result > 0 ) {
+			pw.append("<script>alert('문의가 등록되었습니다.');location.href='detail.do?prod_idx="+pqvo.getProduct_tb_idx()+"'</script>");
+		}else {
+			pw.append("<script>alert('문의등록이 실패되었습니다.');location.href='detail.do?prod_idx="+pqvo.getProduct_tb_idx()+"'</script>");
+		}
+		pw.flush();
+	}
+	
+	// 상품 문의사항 비밀글
 	
 	/*-----------------------------------------------------------------------*/
 	

@@ -161,7 +161,7 @@ public class MypageController {
 	    	prod_List = mypageService.prod_search(searchText, searchOption, start, limit);
 	    	totalRecords = mypageService.prod_countSearchResults(searchText, searchOption);
 	    } else {
-	    	prod_List = mypageService.prod_list(limit, start);
+	    	prod_List = mypageService.prod_listD(limit, start);
 	    	totalRecords = mypageService.prod_countAll();
 	    }
 

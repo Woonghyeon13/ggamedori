@@ -76,10 +76,11 @@
 							<th scope="col">처리 상태</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="table-body">
 						<c:forEach items="${prod}" var="vo">
+							<c:if test="${vo.qa_writer eq Login.member_name}">
 							<tr>
-								<th class="table_number"></th>
+								<td class="table_number"></td>
 								<td>
 									<c:choose>
 									<c:when test="${vo.prod_q_yn == 1}">
@@ -101,12 +102,10 @@
 									</c:choose>
 								</td>
 							</tr>
+							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
-			<c:if test="${Login.member_role == 1}">
-	 	           <button onclick="location.href='${pageContext.request.contextPath}/mypage/prod_q_write.do'" style="float:right; margin-top:20px;">문의하기</button>
-			</c:if> 
 
 					<nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center" >

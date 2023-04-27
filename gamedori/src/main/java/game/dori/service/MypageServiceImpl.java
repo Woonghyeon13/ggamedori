@@ -68,6 +68,8 @@ public class MypageServiceImpl implements MypageService{
 	public List<PRODUCTQQ_VO> selectQAList(int member_idx) {
 		return productQDAO.selectQAList(member_idx);
 	}
+	
+
 
 	//마이페이지 1:1문의 리스트출력
 	@Override
@@ -222,7 +224,7 @@ public class MypageServiceImpl implements MypageService{
 	
 	// 상품 문의사항 페이징
 	@Override
-	public List<PRODUCT_Q_VO> prod_list(int prod_limit, int prod_start) {
+	public List<PRODUCT_Q_VO> prod_listD(int prod_limit, int prod_start) {
 		// TODO Auto-generated method stub
 		return productQDAO.prod_list(prod_limit, prod_start);
 	}
@@ -307,6 +309,13 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public int cartModify(CART_VO cvo) {
 		return cartDAO.cartModify(cvo);
+	}
+
+	// 상품 문의사항 역순으로 출력 + 페이징 해보려고 ㅅㅂ
+	@Override
+	public List<PRODUCT_Q_VO> selectProdListD(int limit, int start) {
+		// TODO Auto-generated method stub
+		return productQDAO.selectProdListD(limit,start);
 	}
 	
 	

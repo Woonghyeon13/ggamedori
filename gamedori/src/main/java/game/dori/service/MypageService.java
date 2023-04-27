@@ -19,6 +19,9 @@ public interface MypageService {
 	//마이페이지 상품문의 리스트 출력
 	public List<PRODUCTQQ_VO> selectQAList(int member_idx);
 	
+	// 마이페이지 상품문의 리스트 역순으로 출력
+	public List<PRODUCT_Q_VO> selectProdListD(int limit, int start);
+	
 	//마이페이지 1:1문의 리스트 출력
 	public List<QA_VO> selectOtoList(int member_idx);
 	
@@ -75,11 +78,10 @@ public interface MypageService {
 	/*-------------------------------------------------------------------------------*/
 	
 	// 상품 문의사항 리스트
-	public List<PRODUCT_Q_VO> prod_list(int prod_limit, int prod_start);
+	public List<PRODUCT_Q_VO> prod_listD(int prod_limit, int prod_start);
 	
 	// 상품 문의사항 글 등록
 	public int prod_insert(PRODUCT_Q_VO product_Q_VO);
-
 	
 	// 상품 문의사항 글 삭제
 	public int prod_delete(int prod_q_idx);

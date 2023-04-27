@@ -146,8 +146,20 @@
 	
 	<!-- 상품문의 작성 -->
 	<insert id="prodQinsert" parameterType="product_Q_VO">
-		insert into product_q_tb ( product_tb_idx, member_tb_idx, prod_q_title, prod_q_contents, prod_q_secret )
-		 values ( #{product_tb_idx}, #{member_tb_idx}, #{prod_q_title}, #{prod_q_contents}, #{prod_q_secret} )
+		insert into 
+			product_q_tb (
+				product_tb_idx, 
+				member_tb_idx, 
+				prod_q_title, 
+				prod_q_contents, 
+				prod_q_secret )
+		 	values (
+		 		 #{product_tb_idx}, 
+		 		 #{member_tb_idx}, 
+		 		 #{prod_q_title}, 
+		 		 #{prod_q_contents}, 
+		 		 #{prod_q_secret} 
+		 	)
 	</insert>
 	
 	<!-- 상품문의목록 -->
