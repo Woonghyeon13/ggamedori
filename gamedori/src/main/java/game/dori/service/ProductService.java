@@ -84,8 +84,6 @@ public interface ProductService {
 	public MEMBER_VO orderMem( MEMBER_VO memberVO );
 	
 	// 주문 인덱스 생성
-	public int insertOrder( ORDER_VO ovo );
-
 	public int insertOrder( ORDER_LIST_VO olvo );
 	// 주문 인덱스 호출
 	public int orderNum();

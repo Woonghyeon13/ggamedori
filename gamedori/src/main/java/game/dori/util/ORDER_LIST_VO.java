@@ -19,8 +19,8 @@ public class ORDER_LIST_VO {
 	private String opt_tb_idx;		// 옵션번호 인덱스
 	private int product_tb_idx;		// 상품 인덱스
 	private int coupon_tb_idx;		// 쿠폰 인덱스
-	private int orderd_qty;			// 수량
-	private int orderd_price;		// 총 가격
+	private String orderd_qty;			// 수량
+	private String orderd_price;		// 총 가격
 
 	
 	private int member_idx ; //유저 인덱스
@@ -77,60 +77,7 @@ public class ORDER_LIST_VO {
 	private String 	pay_deposit_name;	// 입금자명
 	private int 	pay_deposit_bank; 			// 입금은행
 	
-	public int getPay_idx() {
-		return pay_idx;
-	}
-	public void setPay_idx(int pay_idx) {
-		this.pay_idx = pay_idx;
-	}
-	public int getPay_type() {
-		return pay_type;
-	}
-	public void setPay_type(int pay_type) {
-		this.pay_type = pay_type;
-	}
-	public String getPay_date() {
-		return pay_date;
-	}
-	public void setPay_date(String pay_date) {
-		this.pay_date = pay_date;
-	}
-	public int getPay_price_real() {
-		return pay_price_real;
-	}
-	public void setPay_price_real(int pay_price_real) {
-		this.pay_price_real = pay_price_real;
-	}
-	public int getPay_price_deposit() {
-		return pay_price_deposit;
-	}
-	public void setPay_price_deposit(int pay_price_deposit) {
-		this.pay_price_deposit = pay_price_deposit;
-	}
-	public String getPay_deposit_name() {
-		return pay_deposit_name;
-	}
-	public void setPay_deposit_name(String pay_deposit_name) {
-		this.pay_deposit_name = pay_deposit_name;
-	}
-	public int getPay_deposit_bank() {
-		return pay_deposit_bank;
-	}
-	public void setPay_deposit_bank(int pay_deposit_bank) {
-		this.pay_deposit_bank = pay_deposit_bank;
-	}
-	public String getOrder_memo() {
-		return order_memo;
-	}
-	public void setOrder_memo(String order_memo) {
-		this.order_memo = order_memo;
-	}
-	public int getOrder_state() {
-		return order_state;
-	}
-	public void setOrder_state(int order_state) {
-		this.order_state = order_state;
-	}
+	
 	public int getOrder_idx() {
 		return order_idx;
 	}
@@ -179,17 +126,23 @@ public class ORDER_LIST_VO {
 	public void setOrder_phone(String order_phone) {
 		this.order_phone = order_phone;
 	}
-	public String getOpt_tb_idx() {
-		return opt_tb_idx;
-	}
-	public void setOpt_tb_idx(String opt_tb_idx) {
-		this.opt_tb_idx = opt_tb_idx;
-	}
 	public int getOrder_del_type() {
 		return order_del_type;
 	}
 	public void setOrder_del_type(int order_del_type) {
 		this.order_del_type = order_del_type;
+	}
+	public String getOrder_memo() {
+		return order_memo;
+	}
+	public void setOrder_memo(String order_memo) {
+		this.order_memo = order_memo;
+	}
+	public int getOrder_state() {
+		return order_state;
+	}
+	public void setOrder_state(int order_state) {
+		this.order_state = order_state;
 	}
 	public int getOrderd_idx() {
 		return orderd_idx;
@@ -203,17 +156,11 @@ public class ORDER_LIST_VO {
 	public void setOrder_tb_idx(int order_tb_idx) {
 		this.order_tb_idx = order_tb_idx;
 	}
-	public String getOrderd_qty() {
-		return orderd_qty;
+	public String getOpt_tb_idx() {
+		return opt_tb_idx;
 	}
-	public void setOrderd_qty(String orderd_qty) {
-		this.orderd_qty = orderd_qty;
-	}
-	public String getOrderd_price() {
-		return orderd_price;
-	}
-	public void setOrderd_price(String orderd_price) {
-		this.orderd_price = orderd_price;
+	public void setOpt_tb_idx(String opt_tb_idx) {
+		this.opt_tb_idx = opt_tb_idx;
 	}
 	public int getProduct_tb_idx() {
 		return product_tb_idx;
@@ -227,16 +174,16 @@ public class ORDER_LIST_VO {
 	public void setCoupon_tb_idx(int coupon_tb_idx) {
 		this.coupon_tb_idx = coupon_tb_idx;
 	}
-	public int getOrderd_qty() {
+	public String getOrderd_qty() {
 		return orderd_qty;
 	}
-	public void setOrderd_qty(int orderd_qty) {
+	public void setOrderd_qty(String orderd_qty) {
 		this.orderd_qty = orderd_qty;
 	}
-	public int getOrderd_price() {
+	public String getOrderd_price() {
 		return orderd_price;
 	}
-	public void setOrderd_price(int orderd_price) {
+	public void setOrderd_price(String orderd_price) {
 		this.orderd_price = orderd_price;
 	}
 	public int getMember_idx() {
@@ -491,7 +438,48 @@ public class ORDER_LIST_VO {
 	public void setCoupon_yn(int coupon_yn) {
 		this.coupon_yn = coupon_yn;
 	}
+	public int getPay_idx() {
+		return pay_idx;
+	}
+	public void setPay_idx(int pay_idx) {
+		this.pay_idx = pay_idx;
+	}
+	public int getPay_type() {
+		return pay_type;
+	}
+	public void setPay_type(int pay_type) {
+		this.pay_type = pay_type;
+	}
+	public String getPay_date() {
+		return pay_date;
+	}
+	public void setPay_date(String pay_date) {
+		this.pay_date = pay_date;
+	}
+	public int getPay_price_real() {
+		return pay_price_real;
+	}
+	public void setPay_price_real(int pay_price_real) {
+		this.pay_price_real = pay_price_real;
+	}
+	public int getPay_price_deposit() {
+		return pay_price_deposit;
+	}
+	public void setPay_price_deposit(int pay_price_deposit) {
+		this.pay_price_deposit = pay_price_deposit;
+	}
+	public String getPay_deposit_name() {
+		return pay_deposit_name;
+	}
+	public void setPay_deposit_name(String pay_deposit_name) {
+		this.pay_deposit_name = pay_deposit_name;
+	}
+	public int getPay_deposit_bank() {
+		return pay_deposit_bank;
+	}
+	public void setPay_deposit_bank(int pay_deposit_bank) {
+		this.pay_deposit_bank = pay_deposit_bank;
+	}
 	
-	
-	
+
 }

@@ -26,7 +26,6 @@ import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PRODOPT_VO;
 import game.dori.vo.ADDRESS_VO;
-import game.dori.vo.CATEGORY_IMG_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
