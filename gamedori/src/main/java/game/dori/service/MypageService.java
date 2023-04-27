@@ -107,6 +107,9 @@ public interface MypageService {
 	public List<CARTP_VO> selectCartListService(int member_idx);
 
 	int selectPointBal(int member_idx);
+	
+	//주문내역 - 환불하기
+	public int UpdateOrderStatus (int member_tb_idx);
 
 	
 }

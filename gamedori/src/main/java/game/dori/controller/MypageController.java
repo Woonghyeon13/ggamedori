@@ -245,28 +245,28 @@ public class MypageController {
 					@RequestParam(value = "searchText", required = false) String searchText,
 					@RequestParam(value = "searchOption", required = false) String searchOption) throws Exception 
 	{
-//		HttpSession session = req.getSession();
-//		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
-//		
-//		//상단 등급출력
-//	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
-//		model.addAttribute("level", selectMemberLevel);
-//
-//		//상단 적립금
-//		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-//		model.addAttribute("PointBalance", selectPointBalance);
-//			
-//		//상단 쿠폰개수출력
-//		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
-//		model.addAttribute("CouponCount", CouponCount);
-//			    
-//		//상단 후기 개수
-//		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
-//		model.addAttribute("ReviewCount", ReviewCount);
-//		
-//		//마이페이지-상세페이지-상품문의 리스트 
-//		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
-//		model.addAttribute("selectQAList", selectQAList);
+		HttpSession session = req.getSession();
+		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
+		
+		//상단 등급출력
+	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
+		model.addAttribute("level", selectMemberLevel);
+
+		//상단 적립금
+		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
+		model.addAttribute("PointBalance", selectPointBalance);
+			
+		//상단 쿠폰개수출력
+		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+		model.addAttribute("CouponCount", CouponCount);
+			    
+		//상단 후기 개수
+		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
+		model.addAttribute("ReviewCount", ReviewCount);
+		
+		//마이페이지-상세페이지-상품문의 리스트 
+		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
+		model.addAttribute("selectQAList", selectQAList);
 		
 	    int limit = 15; // 페이지당 게시물 수
 	    int start = (page - 1) * limit;
@@ -281,7 +281,7 @@ public class MypageController {
 	    	oto_List = mypageService.oto_list(limit, start);
 	    	totalRecords = mypageService.oto_countAll();
 	    }
-
+	    
 	    model.addAttribute("oto", oto_List);
 
 	    int totalPages = (int) Math.ceil((double) totalRecords / limit);
@@ -430,6 +430,17 @@ public class MypageController {
 				
 		return "mypage/prodlist";
 	}
+	
+	// 주문 환불
+	@RequestMapping( value = "/UpdateOrderStatus.do", method = RequestMethod.GET)
+	public String UpdateOrderStatus(HttpServletRequest req, Model model)
+	{
+		
+		
+		return "mypage/prodlist";
+	}
+	
+	
 
 	// 주문상세
 	@RequestMapping( value = "/orderdetail.do", method = RequestMethod.GET )
@@ -560,10 +571,8 @@ public class MypageController {
 		model.addAttribute("ReviewCount", ReviewCount);
 		
 		//리스트 조회
-
 		List<COUPON_VO> selectCouponList = mypageService.selectCouponList(memberVO.getMember_idx() );
 		model.addAttribute("selectCouponList", selectCouponList);
-		
 		
 		//쿠폰 개수
 		int  CouponCount2 = mypageService.CouponCount(memberVO.getMember_idx());
