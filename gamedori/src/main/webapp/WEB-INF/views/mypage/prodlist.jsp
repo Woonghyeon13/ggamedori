@@ -44,7 +44,7 @@
 		<div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
-					<strong>닉네임</strong>님 환영합니다.
+					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
 				<ol id="ol_li" class="list-group list-group-numbered">
@@ -62,7 +62,7 @@
 			</div>
 			<div id="product_inner" class="col-8">
 				<p>
-					<strong>닉네임</strong>님의 주문내역
+					<strong>${sessionScope.Login.member_name}</strong>님의 주문내역
 				</p>
 				<table id="product_t" class="table table-hover text-center"
 					style="width: 100%; border-top: 1px solid #000;">
@@ -73,28 +73,48 @@
 							<th scope="col">주문 일자</th>
 							<th scope="col">주문 금액</th>
 							<th scope="col">주문 상태</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="selectList" items="${list}">
+					<c:forEach var="vo" items="${list}">
 						<tr>
-							<th><a href='<c:url value="/mypage/orderdetail.do" />'>${selectList.order_idx}</a></th>
-							<td class="wdate">${selectList.order_date}</td>
-							<td>${selectList.order_idx}</td>
-							<td>${selectList.order_price}</td>
-							<td>			
-							<c:choose>
-								<c:when test="${selectList.order_situ == 1}">
-									 <c:out value="주문완료" />
-								</c:when>
-								<c:when test="${selectList.order_situ == 2}">
-									<c:out value="배송중" />
-								</c:when>
-								<c:when test="${selectList.order_situ == 3}">
-									<c:out value="배송완료" />
-								</c:when>
-							</c:choose>
+							<th><a href='<c:url value="/mypage/orderdetail.do" />'>${vo.order_idx}</a></th>
+							<td>${vo.order_title}</td>
+							<td class="wdate">${vo.order_date}</td>
+							<td>${vo.order_price}</td>
+							<td>
+								<c:choose>
+									<c:when test="${vo.order_state == 1}">
+										<c:out value="주문접수" />
+									</c:when>
+										<c:when test="${vo.order_state == 2}">
+										<c:out value="결제완료" />
+									</c:when>
+										<c:when test="${vo.order_state == 3}">
+										<c:out value="상품준비중" />
+									</c:when>
+										<c:when test="${vo.order_state == 4}">
+										<c:out value="발송준비중" />
+									</c:when>
+										<c:when test="${vo.order_state == 5}">
+										<c:out value="발송완료" />
+									</c:when>
+										<c:when test="${vo.order_state == 6}">
+										<c:out value="주문취소" />
+									</c:when>
+										<c:when test="${vo.order_state == 7}">
+										<c:out value="반품접수" />
+									</c:when>
+										<c:when test="${vo.order_state == 8}">
+										<c:out value="반품완료" />
+									</c:when>
+								</c:choose>
 							</td>
+							<td>
+								<button type="button" class="btn btn-outline-secondary btn-sm">주문상세</button>
+								<button type="button" class="btn btn-outline-danger btn-sm">환불신청</button>
+							</td>		
 						</tr>
 					</c:forEach>
 

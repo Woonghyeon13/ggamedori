@@ -25,6 +25,13 @@ public class OrderDAO {
 	public int insertOrder( ORDER_VO ovo ) {
 		return sqlSession.insert("game.dori.mapper.orderMapper.insertOrder",ovo);
 	}
+	
+	//마이페이지 - 환불하기
+	public int UpdateOrderStatus (int member_tb_idx) {
+		return sqlSession.update("game.dori.mapper.orderMapper.UpdateOrderStatus", member_tb_idx);
+	}
+	
+	
 }
 
 

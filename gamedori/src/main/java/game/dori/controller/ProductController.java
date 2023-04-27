@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import game.dori.service.AdminService;
@@ -44,22 +45,65 @@ public class ProductController {
 	private AdminService adminService;
 
 	
-	// 상품 목록
-	@RequestMapping( value = "/list.do", method = RequestMethod.GET )
-	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo ) {
+//	// 상품 목록
+//	@RequestMapping( value = "/list.do", method = RequestMethod.GET )
+//	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo ) {
+//		
+//		List<PRODUCT_VO> plist = productService.list(cvo);
+//		model.addAttribute("plist",plist);
+//		
+//		Map<String, String> cateImgs = adminService.selectCategoryImages();
+//		model.addAttribute("cateImgs", cateImgs);
+//		
+//		int listCnt = productService.listCnt(cvo);
+//		model.addAttribute("listCnt",listCnt);
+//		System.out.println(listCnt);
+//	
+//		return "prod/list";
+//	}
+	
+	
+	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
+	public String list(Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, @RequestParam(required=false) String sort) {
+	
 		
 		List<PRODUCT_VO> plist = productService.list(cvo);
+
+		if(sort != null) {
+	    switch (sort) { 
+	    
+	        case "hot":
+	            plist = productService.list_hot(cvo);
+	            break;
+	        case "new":
+	            plist = productService.list_new(cvo);
+	            break;
+	        case "row":
+	            plist = productService.list_row(cvo);
+	            break;
+	        case "high":
+	            plist = productService.list_high(cvo);
+	            break;
+	        default:
+	            plist = productService.list(cvo);
+	            break;
+	    }
+		}
+	    	    
 		model.addAttribute("plist",plist);
 		
 		Map<String, String> cateImgs = adminService.selectCategoryImages();
 		model.addAttribute("cateImgs", cateImgs);
-		
-		int listCnt = productService.listCnt(cvo);
-		model.addAttribute("listCnt",listCnt);
-		System.out.println(listCnt);
-		
-		return "prod/list";
+
+	    
+	    int listCnt = productService.listCnt(cvo);
+	    model.addAttribute("listCnt", listCnt);
+	    System.out.println(listCnt);
+	    
+	    return "prod/list";
 	}
+	
+	
 
 	// 상품 상세
 	@RequestMapping( value = "/detail.do", method = RequestMethod.GET )
