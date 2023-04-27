@@ -59,17 +59,26 @@ public class AdminController {
 	
 	// 회원관리
 	@RequestMapping( value = "/member.do", method = RequestMethod.GET )
-	public String member(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
-		
-		//회원 리스트 가져오기(일반 회원만 가져오게 sql문 작성했음)
-		List<MEMBER_VO> list = memberService.list();
-		model.addAttribute("list", list);
+	public String member(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model, @RequestParam(value = "page", defaultValue = "1") int page) throws IOException{
 		
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
+				
+				int limit = 15; // 페이지당 게시물 수
+	            int start = (page - 1) * limit;
+
+	    		//회원 리스트 가져오기(일반 회원만 가져오게 sql문 작성했음)
+	    		List<MEMBER_VO> list = memberService.list(limit, start);
+	    		model.addAttribute("list", list);
+	    		
+	    		int totalRecords = adminService.mCountAll();
+	            int totalPages = (int) Math.ceil((double) totalRecords / limit);
+	            model.addAttribute("totalPages", totalPages);
+
+	    		
 				return "admin/member";
 			}
 		}
@@ -83,15 +92,8 @@ public class AdminController {
 		return null;
 		
 	}
-	
-//	//회원관리 회원상태 변경
-//	@RequestMapping(value="/member.do",method=RequestMethod.POST)
-//	public void updateMemberState( MEMBER_VO MemberVO) {
-//		
-//		memberService.updateMemberState(MemberVO);
-//		
-//	}
 
+	
 	// 상품관리
 	@RequestMapping( value = "/prod.do", method = RequestMethod.GET )
 	public String prod( Model model, CATEGORY_VO cvo ){
@@ -386,7 +388,7 @@ public class AdminController {
 	}
 	
 	
-	//검색 기능
+	//공지사항 검색 기능
 	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
@@ -568,7 +570,6 @@ public class AdminController {
 	}
 	
 	// 공지사항 글 수정
-
 	@RequestMapping(value = "/notice_modify.do", method = RequestMethod.POST)
 	public void modify(NOTICE_VO noticeVO, String member_email,HttpServletResponse rsp, HttpServletRequest req) throws IOException {	
 		

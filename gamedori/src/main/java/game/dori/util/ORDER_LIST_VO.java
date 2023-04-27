@@ -20,7 +20,6 @@ public class ORDER_LIST_VO {
 	private int coupon_tb_idx;		// 쿠폰 인덱스
 	private int orderd_qty;			// 수량
 	private int orderd_price;		// 총 가격
-	private int orderd_state;		// 처리상태 1:주문접수,2:결제완료,3:상품준비중,4:발송준비중,5:발송완료,6:주문취소,7:반품접수,8:반품완료
 	
 	private int member_idx ; //유저 인덱스
 	private int member_level ; //회원 등급 1:브론즈 2:실버 3:골드
@@ -170,12 +169,6 @@ public class ORDER_LIST_VO {
 	}
 	public void setOrderd_price(int orderd_price) {
 		this.orderd_price = orderd_price;
-	}
-	public int getOrderd_state() {
-		return orderd_state;
-	}
-	public void setOrderd_state(int orderd_state) {
-		this.orderd_state = orderd_state;
 	}
 	public int getMember_idx() {
 		return member_idx;
