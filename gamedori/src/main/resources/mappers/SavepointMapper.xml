@@ -44,4 +44,8 @@
 	  DELETE FROM savepoint_tb
 	  WHERE MEMBER_TB_IDX = (SELECT MEMBER_IDX FROM member_tb WHERE member_email = #{member_email} AND member_pw = #{member_pw})
 	</delete>
+	
+	<!-- 회원 잔여 적립금 조회 -->
+	<select id="selectBalPoint">
+	</select>
 </mapper>

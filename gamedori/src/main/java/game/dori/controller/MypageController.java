@@ -2,6 +2,7 @@ package game.dori.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 //github.com/Gunyoung2/ggamedori.git
 import java.util.List;
@@ -25,13 +26,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import game.dori.service.MemberService;
 import game.dori.service.MypageService;
+import game.dori.service.ProductService;
+import game.dori.util.ORDER_LIST_VO;
+import game.dori.util.PRODOPT_VO;
 import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
+import game.dori.vo.OPT_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
+import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.QA_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
@@ -47,7 +53,8 @@ public class MypageController {
 	@Autowired
 	private MemberService memberService;
 	
-	
+	@Autowired
+	private ProductService productService;
 	
 	// 마이페이지 첫화면
 	@RequestMapping( value = "/main.do", method = RequestMethod.GET )
@@ -575,27 +582,77 @@ public class MypageController {
 	
 	//장바구니
 	@RequestMapping( value = "/cart.do", method = RequestMethod.GET )
-	public ModelAndView cart(ModelAndView model, HttpServletRequest req)
+	public String cart( Model model, HttpServletRequest req)
 	{	
 		HttpSession session = req.getSession();
 		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
-		
-		//VO객체에 담긴값이 널j이면 경고창 출력 
-		if(memberVO == null ) {
-			model.addObject("message", "로그인 후 이용해주세요");
-			model.setViewName("mypage/cart");
-		}else {
-		//vo객체에 담긴값이 널이아니면 model에 서비스메서드를통한 정보 입력
-
-			System.out.println(memberVO.getMember_idx());
-			List<CARTP_VO> selectCartList = mypageService.selectCartListService(memberVO.getMember_idx());
-			model.addObject("CartList", selectCartList);
-			model.setViewName("mypage/cart");
+		List<CART_VO> selectCartList = mypageService.selectCartListService(memberVO.getMember_idx());
+		List<CARTP_VO> cartList = new ArrayList<CARTP_VO>();
+		for( int i = 0; i<selectCartList.size(); i++) {
+			CARTP_VO cartpvo = new CARTP_VO();
+			cartpvo.setCart_amount(selectCartList.get(i).getCart_amount());
+			cartpvo.setCart_idx(selectCartList.get(i).getCart_idx());
+			cartpvo.setCart_yn(selectCartList.get(i).getCart_yn());
+			int opt_tb_idx = Integer.parseInt(selectCartList.get(i).getOpt_tb_idx());
+			OPT_VO optvo = productService.optSelectOne(opt_tb_idx);
+			cartpvo.setOpt_idx(optvo.getOpt_idx());
+			cartpvo.setOpt_name(optvo.getOpt_name());
+			cartpvo.setOpt_price(optvo.getOpt_price());
+			PRODUCT_VO pvo = productService.prodSelectOne(optvo.getProd_tb_idx());
+			cartpvo.setProd_imgt(pvo.getProd_imgt());
+			cartpvo.setProd_idx(pvo.getProd_idx());
+			cartpvo.setProd_name(pvo.getProd_name());
+			List<OPT_VO> opts = productService.optSelect(optvo.getProd_tb_idx());
+			cartpvo.setOptlist(opts);
 			
+			cartList.add(cartpvo);
 		}
-			
-			
-		return model;
+		model.addAttribute("cartList",cartList);
+		return "mypage/cart";
+	}
+	//장바구니 넣기
+	@ResponseBody
+	@RequestMapping( value = "/cartInsert.do", method = RequestMethod.POST )
+	public void cartInsert( CART_VO cvo )
+	{	
+		String optIdx = cvo.getOpt_tb_idx();
+		String[] optIdxSplit = optIdx.split(",");
+		String cartQty = cvo.getCart_amount();
+		String[] cartQtySplit = cartQty.split(",");
+		
+		for( int i = 0; i < optIdxSplit.length; i++ ) {
+			cvo.setCart_amount(cartQtySplit[i]);
+			cvo.setOpt_tb_idx(optIdxSplit[i]);
+			cvo.setMember_tb_idx(cvo.getMember_tb_idx());
+			mypageService.insertCart(cvo);
+		}
 	}
 	
+	// 장바구니 삭제
+	@ResponseBody
+	@RequestMapping( value = "cartDel.do", method = RequestMethod.POST )
+	public void cartDel( CART_VO cvo ){
+		String cartIdx = cvo.getCart_idx();
+		String[] cartIdxSplit = cartIdx.split(",");
+		
+		
+		for( int i = 0; i < cartIdx.length(); i++) {
+			mypageService.cartDel(Integer.parseInt(cartIdxSplit[i]));
+		}
+	}
+	
+	// 장바구니 옵션 수정
+	@ResponseBody
+	@RequestMapping( value = "cartModify.do", method = RequestMethod.POST)
+	public void cartModify( CART_VO cvo ) {
+		mypageService.cartModify(cvo);
+	}
+	
+	// 장바구니 주문담기
+	@RequestMapping( value = "orderForm.do", method = RequestMethod.GET)
+	public String cartOrder( ORDER_LIST_VO olvo, Model model ) {
+		
+		
+		return "";
+	}
 }

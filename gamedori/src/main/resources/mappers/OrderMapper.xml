@@ -26,10 +26,14 @@
 		and MEMBER_TB_IDX = #{member_idx}
 		and a.order_idx = #{order_idx}
 	</select>
+	<!-- 주문 맥스 인덱스 -->
+	<select id="orderNum" resultType="int">
+		select max(order_idx) from order_tb
+	</select>
 	
 	<!-- 주문인덱스 생성 -->
-	<insert id="insertOrder" parameterType="orderVO">
+	<insert id="insertOrder" parameterType="orderlistVO">
 		insert into order_tb ( member_tb_idx, order_addr1, order_addr2, order_addr3, order_name, order_phone, order_memo)
-		 values( #{member_idx}, #{order_addr1}, #{order_addr2}, #{order_addr3}, #{order_name}, #{order_phone}, #{order_memo})
+		 values( #{member_tb_idx}, #{order_addr1}, #{order_addr2}, #{order_addr3}, #{order_name}, #{order_phone}, #{order_memo})
 	</insert>
 </mapper>
