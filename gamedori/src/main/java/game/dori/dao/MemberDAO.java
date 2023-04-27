@@ -51,8 +51,12 @@ public class MemberDAO {
 	
 
 	//회원리스트
-	public List<MEMBER_VO> list(){
-		return sqlSession.selectList(namespace + "memberlist");
+	public List<MEMBER_VO> list(int limit, int start){
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("limit", limit);
+	    params.put("start", start);
+	    
+		return sqlSession.selectList(namespace + "memberlist", params);
 	}
 	
 	//회원 상태(일반, 정지) 변경  ajax

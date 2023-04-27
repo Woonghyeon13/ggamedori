@@ -64,8 +64,8 @@
 			</div>
 			</c:forEach>
 
-			<!-- 새로운상품 -->
 			<div class="inner">
+				<!-- 새로운상품 -->
 				<div class="mt-5 mb-5">
 					<div>
 						<h3 class="text-center" style="margin-bottom:70px">New!</h3>
@@ -96,7 +96,7 @@
 						</button>
 					</div>
 				</div>
-				
+				<!-- 예약상품 -->
 				<div class="mt-5 mb-5">
 					<div>
 						<h3 class="text-center" style="margin-bottom:70px">예약상품</h3>
@@ -129,12 +129,13 @@
 				</div>
 				
 			</div>
-
-
-			<div id="Award" >
+			
+			<div id="Award" style="overflow: hidden">
 				<img src="<c:url value='/images/aw_bg.png' />">
 				<div id="index_4_Content" ><img src="<c:url value='/images/aw_fg.png' />"></div>
 			</div>
+
+
 
 		</section><!-- END:AD -->
 	</main>
