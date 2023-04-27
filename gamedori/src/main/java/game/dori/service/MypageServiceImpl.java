@@ -55,6 +55,7 @@ public class MypageServiceImpl implements MypageService{
 	@Autowired
 	private WishlistDAO wishlistDAO;
 	
+	
 	//마이페이지 등급 출력
 	@Override
 	public int selectMemberLevelService(int member_idx) {
@@ -262,6 +263,16 @@ public class MypageServiceImpl implements MypageService{
 	public int selectPointBal(int member_idx) {
 		return savepointDAO.selectPointBal(member_idx);
 	}
+	//환불하기
+	@Override
+	public int UpdateOrderStatus(int member_tb_idx) {
+		return orderDAO.UpdateOrderStatus(member_tb_idx);
+	}
+	
+	
+	/*-------------------------------------------------------------------------------*/
+
+
 
 	// 상품 상세페이지에서 장바구니 담기
 	@Override

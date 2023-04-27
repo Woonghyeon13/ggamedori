@@ -36,4 +36,14 @@
 		insert into order_tb ( member_tb_idx, order_addr1, order_addr2, order_addr3, order_name, order_phone, order_memo)
 		 values( #{member_tb_idx}, #{order_addr1}, #{order_addr2}, #{order_addr3}, #{order_name}, #{order_phone}, #{order_memo})
 	</insert>
+	
+	<!-- 마이페이지 주문 환불  -->
+	<update id="UpdateOrderStatus">
+		UPDATE order_tb
+			SET 	ORDER_STATE = #{order_state}
+			WHERE 	MEMBER_IDX 	= #{member_idx}
+	</update>
+	
+	
+	
 </mapper>

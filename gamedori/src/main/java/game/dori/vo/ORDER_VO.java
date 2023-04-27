@@ -119,4 +119,5 @@ public class ORDER_VO {
 		this.order_memo = order_memo;
 	}
 	
+	
 }

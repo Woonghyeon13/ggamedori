@@ -113,6 +113,10 @@ public interface MypageService {
 	public int cartModify( CART_VO cvo );
 	
 	int selectPointBal(int member_idx);
+
+	//주문내역 - 환불하기
+	public int UpdateOrderStatus (int member_tb_idx);
+
 	
 	// 상품 상세페이지에서 장바구니 담기
 	public int insertCart( CART_VO cvo );

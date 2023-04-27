@@ -71,6 +71,29 @@ public class ProductServiceImpl implements ProductService{
 	public List<PRODUCT_VO> list( CATEGORY_VO cvo ) {
 		return productDAO.list(cvo);
 	}
+		//상품 목록 (인기순)
+		@Override
+		public List<PRODUCT_VO> list_hot(CATEGORY_VO cvo) {
+			return productDAO.list_hot(cvo);
+		}
+	
+		//상품 목록 (최신순)
+		@Override
+		public List<PRODUCT_VO> list_new(CATEGORY_VO cvo) {
+			return productDAO.list_new(cvo);
+		}
+	
+		//상품 목록 (낮은가격순)
+		@Override
+		public List<PRODUCT_VO> list_row(CATEGORY_VO cvo) {
+			return productDAO.list_row(cvo);
+		}
+	
+		//상품 목록 (높은가격순)
+		@Override
+		public List<PRODUCT_VO> list_high(CATEGORY_VO cvo) {
+			return productDAO.list_high(cvo);
+		}
 
 	// 상품 수정
 	@Override
@@ -215,5 +238,6 @@ public class ProductServiceImpl implements ProductService{
 	public int insertPay(ORDER_LIST_VO olvo) {
 		return payDAO.insertPay(olvo);
 	}
+
 
 }

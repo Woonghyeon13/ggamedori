@@ -139,7 +139,7 @@
 			where
 				pq.product_tb_idx = p.prod_idx
 			and 
-				pq.member_tb_idx = m.member_idx 
+				pq.member_tb_idx = #{MEMBER_IDX}
 	</select>
 
 	<!-- int 타입의 매개변수 member_idx 값을 받아서 칼럼 전체의 값을 p 객체로 형태로 반환 -->
