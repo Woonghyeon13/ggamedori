@@ -2,12 +2,12 @@ package game.dori.service;
 
 import java.util.List;
 
+import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PRODOPT_VO;
 import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
-import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.REVIEW_VO;
@@ -22,7 +22,16 @@ public interface ProductService {
 	
 	// 상품목록
 	public List<PRODUCT_VO> list( CATEGORY_VO cvo );
-	
+
+		// 상품목록 인기순
+		public List<PRODUCT_VO> list_hot(CATEGORY_VO cvo);
+		// 상품목록 최신순
+		public List<PRODUCT_VO> list_new(CATEGORY_VO cvo);
+		// 상품목록 낮은가격순
+		public List<PRODUCT_VO> list_row(CATEGORY_VO cvo);
+		// 상품목록 높은가격순
+		public List<PRODUCT_VO> list_high(CATEGORY_VO cvo);
+
 	// 상품목록 카운트
 	public int listCnt( CATEGORY_VO cvo );
 	
@@ -76,9 +85,17 @@ public interface ProductService {
 	
 	// 주문 인덱스 생성
 	public int insertOrder( ORDER_VO ovo );
-	
+
+	public int insertOrder( ORDER_LIST_VO olvo );
+	// 주문 인덱스 호출
+	public int orderNum();
+
 	// 상품 옵션 상세 정보
 	public List<PRODOPT_VO> prodOptList( PRODOPT_VO povo );
+	// 주문 상세 상품등록
+	public int insertOrderDetail( ORDER_LIST_VO olvo );
+	// 주문 결제서 생성
+	public int insertPay( ORDER_LIST_VO olvo );
 	
 	//예약상품 리스트
 	public List<PRODUCT_VO> reservlist();

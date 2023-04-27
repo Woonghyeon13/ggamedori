@@ -161,11 +161,11 @@ if (starRating) {
 							</p>
 							<div
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
-								<button class="btn btn-secondary" type="button"
+								<button class="btn btn-secondary" type="button" onclick="prodCart()"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
 							<c:if test="${empty sessionScope.Login}">
-									<button class="btn btn-outline-light login" onclick="javascript:prodBtn()"
-										style="width: 280px; height: 60px;">바로 구매하기</button>
+								<button type="button" class="btn btn-outline-light login" onclick="prodBtn()"
+									style="width: 280px; height: 60px;">바로 구매하기</button>
 							</c:if>
 							<c:if test="${not empty sessionScope.Login}">
 								<form name="frm" action="orderForm.do" method="get">
@@ -649,18 +649,58 @@ function change_qty(optionIndex, t) {
     updateTotalAmount();
 }
 
-$("#numSum1").change(function(){
-	$.ajax({
-		url : '<%=request.getContextPath()%>/prod/numSum.do',
-		type : post,
-		data : {},
-		success : function(data){
-			$("#total_amount").html(data);
-		}
-		
-	});
-});
+function prodCart(){
+	
+	var member_tb_idx = ${Login.member_idx};
+	var opt_tb_idx = [];
+	var cart_amount = [];
 
+	if( $("#optIdx1").val() != 0 ){
+		opt_tb_idx.push($("#optIdx1").val());
+	}
+	if( $("#optIdx2").val() != 0 ){
+		opt_tb_idx.push($("#optIdx2").val());
+	}
+	if( $("#optIdx3").val() != 0 ){
+		opt_tb_idx.push($("#optIdx3").val());
+	}
+	if( $("#optIdx4").val() != 0 ){
+		opt_tb_idx.push($("#optIdx4").val());
+	}
+	if( $("#optIdx5").val() != 0 ){
+		opt_tb_idx.push($("#optIdx5").val());
+	}
+	if( $("#optQty1").val() != 0){
+		cart_amount.push($("#optQty1").val());
+	}
+	if( $("#optQty2").val() != 0){
+		cart_amount.push($("#optQty2").val());
+	}
+	if( $("#optQty3").val() != 0){
+		cart_amount.push($("#optQty3").val());
+	}
+	if( $("#optQty4").val() != 0){
+		cart_amount.push($("#optQty4").val());
+	}
+	if( $("#optQty5").val() != 0){
+		cart_amount.push($("#optQty5").val());
+	}
+	
+	
+	$.ajax({
+		url : '<%=request.getContextPath()%>/mypage/cartInsert.do',
+		type : 'POST',
+		traditional: true,
+		data : {
+			member_tb_idx : member_tb_idx,
+			opt_tb_idx : opt_tb_idx,
+			cart_amount : cart_amount
+		},
+		success : function(data){
+			alert("장바구니에 담겼습니다.");
+		}
+	})
+}
 
 </script>
 <%@ include file="../include/foot.jsp" %>

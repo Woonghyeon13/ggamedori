@@ -16,7 +16,7 @@ public class ORDER_VO {
 	private String order_phone; //수령자 번호
 	private int order_del_type; //배송조건 1:일반 2:도서산간
 	private String order_memo; //배송메모
-	private int order_state;	// 처리상태 1:주문접수,2:결제완료,3:상품준비중,4:발송준비중,5:발송완료,6:주문취소,7:반품접수,8:반품완료
+	private int order_state;	// 처리상태 1:주문접수,2:결제완료,3:상품준비중,4:발송준비중,5:발송완료,6:주문취소,7:반품접수,8:반품완료,9:환불 접수, 10:환불 완료
 	private int coupon_tb_idx;	//쿠폰테이블 인덱스
 	
 	public int getOrder_price() {
@@ -118,5 +118,6 @@ public class ORDER_VO {
 	public void setOrder_memo(String order_memo) {
 		this.order_memo = order_memo;
 	}
+	
 	
 }

@@ -112,9 +112,20 @@ public interface MypageService {
 	public int selectMemberLevelService(int member_idx);
 	
 	//장바구니
-	public List<CARTP_VO> selectCartListService(int member_idx);
+	public List<CART_VO> selectCartListService(int member_idx);
 
+	// 장바구니 삭제
+	public int cartDel( int cart_idx );
+	
+	// 장바구니 옵션수정
+	public int cartModify( CART_VO cvo );
+	
 	int selectPointBal(int member_idx);
 
+	//주문내역 - 환불하기
+	public int UpdateOrderStatus (int member_tb_idx);
+
 	
+	// 상품 상세페이지에서 장바구니 담기
+	public int insertCart( CART_VO cvo );
 }

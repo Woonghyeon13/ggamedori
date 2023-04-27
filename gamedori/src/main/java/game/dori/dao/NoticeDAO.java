@@ -38,7 +38,7 @@ public class NoticeDAO {
 		return sqlSession.selectOne("game.dori.mapper.noticeMapper.countAll");
 	}
 	
-	// 공지사항 글 검색 후 페이징
+	// 공지사항 검색 기능
 	public List<NOTICE_VO> search(String searchText, String searchOption, int start, int limit) {
 	    Map<String, Object> params = new HashMap<String, Object>();
 	    params.put("searchText", searchText);
@@ -49,7 +49,7 @@ public class NoticeDAO {
 	    return sqlSession.selectList("game.dori.mapper.noticeMapper.search", params);
 	}
 	
-	// 공지사항 검색 기능
+	// 공지사항 글 검색 후 페이징에 쓸 갯수
 	public int countSearchResults(String searchText, String searchOption) {
 	    Map<String, Object> params = new HashMap<String, Object>();
 	    params.put("searchText", searchText);

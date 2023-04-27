@@ -5,8 +5,29 @@
  
 <mapper namespace="game.dori.mapper.CartMapper">
 
-<select id="selectCartListMapper" parameterType="int" resultType="cartpVO">
-	SELECT * FROM cart_tb c,product_tb p, member_tb m where c.MEMBER_TB_IDX = m.MEMBER_IDX
-		and member_tb_idx = #{member_idx}
+<select id="selectCartListMapper" parameterType="int" resultType="cartVO">
+	SELECT * FROM cart_tb
+	 where member_tb_idx = #{member_idx}
 </select>
+
+	<!-- 상품 상세페이지에서 장바구니 담기 -->
+	<insert id="insertCart" parameterType="cartVO">
+		insert into cart_tb
+		 ( member_tb_idx, opt_tb_idx, cart_amount)
+		 values ( #{member_tb_idx}, #{opt_tb_idx}, #{cart_amount} )
+	</insert>
+	
+	<!-- 카트 삭제 -->
+	<delete id="cartDel" parameterType="int">
+		delete from cart_tb where cart_idx = #{cart_idx}
+	</delete>
+	
+	<!-- 장바구니 수정 -->
+	<update id="cartModify" parameterType="cartVO">
+		update cart_tb
+		 set opt_tb_idx = #{opt_tb_idx},
+		 	cart_amount = #{cart_amount}
+		 where
+		  cart_idx = #{cart_idx}
+	</update>
 </mapper>

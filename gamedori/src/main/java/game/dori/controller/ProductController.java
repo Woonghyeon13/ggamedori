@@ -50,22 +50,65 @@ public class ProductController {
 	@Autowired
 	private AdminService adminService;
 	
-	// 상품 목록
-	@RequestMapping( value = "/list.do", method = RequestMethod.GET )
-	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo ) {
+//	// 상품 목록
+//	@RequestMapping( value = "/list.do", method = RequestMethod.GET )
+//	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo ) {
+//		
+//		List<PRODUCT_VO> plist = productService.list(cvo);
+//		model.addAttribute("plist",plist);
+//		
+//		Map<String, String> cateImgs = adminService.selectCategoryImages();
+//		model.addAttribute("cateImgs", cateImgs);
+//		
+//		int listCnt = productService.listCnt(cvo);
+//		model.addAttribute("listCnt",listCnt);
+//		System.out.println(listCnt);
+//	
+//		return "prod/list";
+//	}
+	
+	
+	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
+	public String list(Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, @RequestParam(required=false) String sort) {
+	
 		
 		List<PRODUCT_VO> plist = productService.list(cvo);
+
+		if(sort != null) {
+	    switch (sort) { 
+	    
+	        case "hot":
+	            plist = productService.list_hot(cvo);
+	            break;
+	        case "new":
+	            plist = productService.list_new(cvo);
+	            break;
+	        case "row":
+	            plist = productService.list_row(cvo);
+	            break;
+	        case "high":
+	            plist = productService.list_high(cvo);
+	            break;
+	        default:
+	            plist = productService.list(cvo);
+	            break;
+	    }
+		}
+	    	    
 		model.addAttribute("plist",plist);
 		
 		Map<String, String> cateImgs = adminService.selectCategoryImages();
 		model.addAttribute("cateImgs", cateImgs);
-		
-		int listCnt = productService.listCnt(cvo);
-		model.addAttribute("listCnt",listCnt);
-		System.out.println(listCnt);
-		
-		return "prod/list";
+
+	    
+	    int listCnt = productService.listCnt(cvo);
+	    model.addAttribute("listCnt", listCnt);
+	    System.out.println(listCnt);
+	    
+	    return "prod/list";
 	}
+	
+	
 
 	// 상품 상세
 	@RequestMapping( value = "/detail.do", method = RequestMethod.GET )
@@ -94,10 +137,6 @@ public class ProductController {
 		model.addAttribute("adr",adr);
 		int savePoint = mypageService.selectPointBal(Login.getMember_idx());
 		model.addAttribute("savePoint",savePoint);
-		System.out.println("옵션인덱스확인1"+opt_idx1);
-		System.out.println("옵션인덱스확인2"+opt_idx2);
-		System.out.println("옵션인덱스확인3"+opt_idx3);
-		System.out.println("옵션인덱스확인4"+opt_idx4);
 		
 		List<PRODOPT_VO> optlist = new ArrayList<PRODOPT_VO>();
 		if( opt_idx1 != 0 ) {
@@ -132,16 +171,44 @@ public class ProductController {
 
 	// 주문포스트
 	@RequestMapping( value = "/orderForm.do", method = RequestMethod.POST)
-	public void orderForm( ORDER_LIST_VO olvo ) {
+	public @ResponseBody String orderForm( ORDER_LIST_VO olvo, HttpServletResponse rsp ){
+		
+		System.out.println();
+		
+		String optIdx = olvo.getOpt_tb_idx();
+		String[] optIdxSplit = optIdx.split(",");
+		String ordQty = olvo.getOrderd_qty();
+		String[] ordQtySplit = ordQty.split(",");
+		String ordPrice = olvo.getOrderd_price();
+		String[] ordPriceSplit = ordPrice.split(",");
+		int result = productService.insertOrder(olvo);
+		
+		if(result > 0 ) { 
+			int order_tb_idxs = productService.orderNum();
+			for( int i = 1; i<optIdxSplit.length; i++) {
+				olvo.setOpt_tb_idx(optIdxSplit[i]);
+				olvo.setOrder_tb_idx(order_tb_idxs);
+				olvo.setOrderd_qty(ordQtySplit[i]);
+				olvo.setOrderd_price(ordPriceSplit[i]);
+				productService.insertOrderDetail(olvo);
+			}
+			olvo.setOrder_tb_idx(order_tb_idxs);
+			int payResult = productService.insertPay(olvo);
+			return "success";
+		}else {
+			 
+		}
+		return "";
 		
 	}
 
 	// 주문금액 계산
 	@ResponseBody
 	@RequestMapping( value = "/priceCal.do", method = RequestMethod.GET)
-	public int priceCal( int num1, int num2 ) {
+	public int priceCal( int num1, int num2, Model model ) {
 		System.out.println(num1);
 		System.out.println(num2);
+		model.addAttribute("priceCalRRR",num2-num1);
 		return num2-num1;
 	}
 //	// 상품 문의 등록

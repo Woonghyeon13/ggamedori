@@ -4,5 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="game.dori.mapper.payMapper">
-
+	<!-- 결제서 등록 -->
+	<insert id="insertPay" parameterType="orderlistVO">
+		insert into pay_tb
+		 ( order_tb_idx, pay_type, pay_price_real, pay_price_deposit, pay_deposit_name, pay_deposit_bank)
+		 values
+		 ( #{order_tb_idx}, #{pay_type}, #{pay_price_real}, #{pay_price_deposit}, #{pay_deposit_name}, #{pay_deposit_bank})
+	</insert>
+	
 </mapper>

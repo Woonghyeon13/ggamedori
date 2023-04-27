@@ -15,6 +15,7 @@ import game.dori.dao.ReviewDAO;
 import game.dori.dao.SavepointDAO;
 import game.dori.dao.WishlistDAO;
 import game.dori.vo.CARTP_VO;
+import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
@@ -53,6 +54,7 @@ public class MypageServiceImpl implements MypageService{
 	
 	@Autowired
 	private WishlistDAO wishlistDAO;
+	
 	
 	//마이페이지 등급 출력
 	@Override
@@ -256,9 +258,8 @@ public class MypageServiceImpl implements MypageService{
 	
 	//장바구니
 	@Override
-	public List<CARTP_VO> selectCartListService(int member_idx){
+	public List<CART_VO> selectCartListService(int member_idx){
 		return cartDAO.selectCartListDAO(member_idx);
-		
 	}
 	
 	//마이페이지 리뷰 서치... 복붙
@@ -278,9 +279,11 @@ public class MypageServiceImpl implements MypageService{
 		return savepointDAO.selectPointBal(member_idx);
 	}
 
-
-
-
+	//환불하기
+	@Override
+	public int UpdateOrderStatus(int member_tb_idx) {
+		return orderDAO.UpdateOrderStatus(member_tb_idx);
+	}
 
 	
 	
@@ -288,11 +291,26 @@ public class MypageServiceImpl implements MypageService{
 
 
 
+	// 상품 상세페이지에서 장바구니 담기
+	@Override
+	public int insertCart(CART_VO cvo) {
+		return cartDAO.insertCart(cvo);
+	}
 
+	// 장바구니 삭제
+	@Override
+	public int cartDel( int cart_idx) {
+		return cartDAO.cartDel(cart_idx);
+	}
 
-
-
-
+	// 장바구니 옵션수정
+	@Override
+	public int cartModify(CART_VO cvo) {
+		return cartDAO.cartModify(cvo);
+	}
+	
+	
+	/*-------------------------------------------------------------------------------*/
 
 	
 }

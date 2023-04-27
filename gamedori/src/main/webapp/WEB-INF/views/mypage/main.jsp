@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
@@ -43,7 +44,7 @@
 		<div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
-					<span>닉네임</span>님 환영합니다.
+					<span>${sessionScope.Login.member_name}</span>님 환영합니다.
 				</p>
 
 				<ol id="ol_li" class="list-group list-group-numbered">
@@ -69,7 +70,7 @@
 							<table class="table table-hover" class="container">
 								<thead>
 									<tr>
-										<th scope="col">상품 정보</th>
+										<th scope="col">상품 명</th>
 										<th scope="col">주문 일자</th>
 										<th scope="col">주문 번호</th>
 										<th scope="col">주문 금액</th>
@@ -80,21 +81,36 @@
 								<c:forEach var="Orderlist" items="${Orderlist}">
 									<tr>
 										<td>${Orderlist.order_title}</td>
-										<td>${Orderlist.order_date}</td>
+										<td class="wdate">${Orderlist.order_date}</td>
 										<td>${Orderlist.order_idx}</td>
 										<td>${Orderlist.order_price}</td>
-										<td>			
-										<c:choose>
-											<c:when test="${Orderlist.order_situ == 1}">
-											    <c:out value="주문완료" />
-											</c:when>
-											<c:when test="${Orderlist.order_situ == 2}">
-											    <c:out value="배송중" />
-											 </c:when>
-											 <c:when test="${Orderlist.order_situ == 3}">
-											    <c:out value="배송완료" />
-											 </c:when>
-										</c:choose>
+										<td>
+											<c:choose>
+												<c:when test="${Orderlist.order_state == 1}">
+													<c:out value="주문접수" />
+												</c:when>
+													<c:when test="${Orderlist.order_state == 2}">
+													<c:out value="결제완료" />
+												</c:when>
+													<c:when test="${Orderlist.order_state == 3}">
+													<c:out value="상품준비중" />
+												</c:when>
+													<c:when test="${Orderlist.order_state == 4}">
+													<c:out value="발송준비중" />
+												</c:when>
+													<c:when test="${Orderlist.order_state == 5}">
+													<c:out value="발송완료" />
+												</c:when>
+													<c:when test="${Orderlist.order_state == 6}">
+													<c:out value="주문취소" />
+												</c:when>
+													<c:when test="${Orderlist.order_state == 7}">
+													<c:out value="반품접수" />
+												</c:when>
+													<c:when test="${Orderlist.order_state == 8}">
+													<c:out value="반품완료" />
+												</c:when>
+											</c:choose>
 										</td>
 									</tr>
 								</c:forEach>
@@ -234,7 +250,7 @@
 											<td>${vo.review_writer}</td>
 											<td class="wdate">${vo.review_wdate}</td>
 											<td>
-												<c:set var="star" value="★" />
+												<c:set var="star" value="★ " />
 												<c:forEach begin="1" end="${vo.review_star}">
 												 ${star}
 												</c:forEach>
