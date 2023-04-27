@@ -278,8 +278,6 @@
  		var memAddr1 = $("#memAddr1").val();
  		var memAddr2 = $("#memAddr2").val();
  		var backUrl = $("#backUrl").val();
- 		
-	
 		
 		const merchant_uid = generateOrderNumber();
 		console.log("merchant_uid: " + merchant_uid);
