@@ -198,9 +198,9 @@
 								<c:forEach items="${selectOtoListD}" var="vo" varStatus="status">
 								    <c:if test="${status.index < 4}">
 								        <tr>				   
-								            <td>${vo.qa_idx}</td>
+								            <td class="table_number">${vo.qa_idx}</td>
 								            <td>${vo.qa_title}</td>				             
-								            <td>${vo.qa_wdate}</td>
+								            <td class="wdate">${vo.qa_wdate}</td>
 								            <td>
 								                <c:choose>
 								                    <c:when test="${vo.qa_yn == 1}">
@@ -244,7 +244,7 @@
 									<c:forEach items="${selectReviewList}" var="vo" varStatus="status">
 									<c:if test="${status.index < 4}">
 										<tr>
-											<th scope="row" class="table_number"></th>
+											<td scope="row" class="table_number"></td>
 											<td>${vo.prod_name}</td>
 											<td>${vo.review_title}</td>
 											<td>${vo.review_writer}</td>

@@ -14,15 +14,16 @@ import game.dori.dao.PayDAO;
 import game.dori.dao.ProdOptDAO;
 import game.dori.dao.ProductDAO;
 import game.dori.dao.ProductQDAO;
+import game.dori.dao.ReviewDAO;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PRODOPT_VO;
-import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
+import game.dori.vo.REVIEW_VO;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -49,10 +50,14 @@ public class ProductServiceImpl implements ProductService{
 	private OrderDAO orderDAO;
 	
 	@Autowired
+	private ReviewDAO reviewDAO;
+
+  @Autowired
 	private OrderDetailDAO orderDetailDAO;
 	
 	@Autowired
 	private PayDAO payDAO;
+
 	
 	// 카테고리 리스트
 	@Override
@@ -169,13 +174,13 @@ public class ProductServiceImpl implements ProductService{
 
 	// 상품 문의 등록
 	@Override
-	public int prodQinsert(PRODUCT_Q_VO pqvo) {
-		return prodQDAO.prodQinsert(pqvo);
+	public int prodq_insert(PRODUCT_Q_VO pqvo) {
+		return prodQDAO.prodq_insert(pqvo);
 	}
 
 	// 상품 문의 목록
 	@Override
-	public List<PROD_Q_LIST_VO> prodQlist( int prod_idx ) {
+	public List<PRODUCT_Q_VO> prodQlist( int prod_idx ) {
 		return prodQDAO.prodQlist(prod_idx);
 	}
 
@@ -219,6 +224,13 @@ public class ProductServiceImpl implements ProductService{
 	public List<PRODOPT_VO> prodOptList(PRODOPT_VO povo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	// 리뷰 등록
+	@Override
+	public int review_insert(REVIEW_VO reviewVO) {
+		return reviewDAO.review_insert(reviewVO);
 	}
 
 	// 상품 인덱스 호출

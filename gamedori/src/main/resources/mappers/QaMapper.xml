@@ -60,6 +60,7 @@
 	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
 	<select id="oto_countAll" resultType="int">
 		SELECT COUNT(*) FROM QA_TB
+		WHERE QA_WRITER = (SELECT MEMBER_NAME FROM MEMBER_TB WHERE MEMBER_IDX + #{MEMBER_TB_IDX})
 	</select>
 	
 	<!--  1 : 1 문의사항 글 작성  -->
@@ -133,6 +134,24 @@
 		    </choose>
 		  </where>
 	</select>
+	
+<!-- 	
+	사용자가 본인이 입력한 글만 표시
+	<select id="otoListByMember" resultType="qaVO" parameterType="map">
+	    SELECT *
+	    FROM QA_TB
+	    WHERE MEMBER_TB_IDX = #{member_Idx}
+	    ORDER BY qa_idx DESC
+	    LIMIT #{start}, #{limit}
+	</select>
+
+	사용자 본인이 등록한 글 개수
+	<select id="countOtoByMember" resultType="int" parameterType="int">
+	    SELECT COUNT(*)
+	    FROM QA_TB
+	    WHERE MEMBER_TB_IDX = #{memberIdx}
+	</select> 
+-->
 	
 	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	

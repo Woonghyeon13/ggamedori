@@ -64,6 +64,14 @@ public interface MypageService {
 	// 1 : 1 문의사항 글 개수	
 	public int oto_countAll();
 	
+//	// 사용자 본인이 등록한 글 리스트
+//	public List<QA_VO> otoListByMember(int member_idx, int limit, int start);
+//	
+//	// 사용자 본인이 등록한 글 개수
+//	public int countOtoByMember(int member_Idx);
+	
+
+	
 	/*-------------------------------------------------------------------------------*/
 	
 	// 상품 문의사항 리스트

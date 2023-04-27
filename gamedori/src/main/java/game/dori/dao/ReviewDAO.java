@@ -21,6 +21,12 @@ public class ReviewDAO {
 	    return sqlSession.selectList("game.dori.mapper.reviewMapper.selectReviewList", member_idx );
 	}
 	
+	// 상품 리뷰 등록
+	public int review_insert(REVIEW_VO reviewVO) {
+		return sqlSession.insert("game.dori.mapper.reviewMapper.review_insert",reviewVO);
+	}
+	
+	
 	//마이페이지 리뷰 개수
 	public int ReviewCount(int member_td_idx){
 		return sqlSession.selectOne("game.dori.mapper.reviewMapper.ReviewCount", member_td_idx);

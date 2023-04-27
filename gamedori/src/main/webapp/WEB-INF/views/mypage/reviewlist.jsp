@@ -94,7 +94,7 @@
 					<tbody id="table-body">
 						<c:forEach items="${selectReviewList}" var="vo">
 						<tr>
-							<th scope="row" class="table_number"></th>
+							<td scope="row" class="table_number"></td>
 							<td>${vo.prod_name}</td>
 							<td>${vo.review_title}</td>
 							<td>${vo.review_writer}</td>
