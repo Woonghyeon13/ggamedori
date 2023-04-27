@@ -278,39 +278,6 @@
  		var memAddr1 = $("#memAddr1").val();
  		var memAddr2 = $("#memAddr2").val();
  		var backUrl = $("#backUrl").val();
- 		
- 		var member_tb_idx = $("#ord_memIdx").val();
- 		var coupon_tb_idx = $("#").val();
- 		var order_addr1 = $("#ord_addr1").val();
- 		var order_addr2 = $("#ord_addr2").val();
- 		var order_addr3 = $("#ord_addr3").val();
- 		var order_name = $("#ord_name").val();
- 		var order_phone = $("#ord_phone").val();
- 		var order_memo = $("#ord_memo").val();
- 		
- 		var opt_tb_idx = [];
- 		var orderd_qty = [];
- 		var orderd_price = [];
- 		
- 		var idxSize = $("input[name='opt_tb_idx']").length;
- 		for( i=0; i< idxSize; i++){
- 			opt_tb_idx.push($("input[name='opt_tb_idx']").eq(i).attr("value"));
- 		}
- 		for( i=0; i< idxSize; i++){
- 			orderd_qty.push($("input[name='orderd_qty']").eq(i).attr("value"));
- 		}
- 		for( i=0; i< idxSize; i++){
- 			orderd_price.push($("input[name='orderd_price']").eq(i).attr("value"));
- 		}
- 		console.log(orderd_qty);
- 		console.log(orderd_price);
- 		
- 		var pay_type = 1;
- 		var pay_price_real = $('input[id=ordPric]').val();
- 		//var pay_price_deposit = $('input[id=ordPric]').val();
- 		//var pay_deposit_name ;
- 		//var pay_bank;
-	
 		
 		const merchant_uid = generateOrderNumber();
 		console.log("merchant_uid: " + merchant_uid);
@@ -334,6 +301,37 @@
          		niceMobileV2 : true // 신규 모바일 버전 적용 시 설정
         	}, function (rsp) { // callback
         		 if (rsp.success) {
+        		 		var member_tb_idx = $("#ord_memIdx").val();
+        		 		var coupon_tb_idx;
+        		 		var order_addr1 = $("#ord_addr1").val();
+        		 		var order_addr2 = $("#ord_addr2").val();
+        		 		var order_addr3 = $("#ord_addr3").val();
+        		 		var order_name = $("#ord_name").val();
+        		 		var order_phone = $("#ord_phone").val();
+        		 		var order_memo = $("#ord_memo").val();
+        		 		
+        		 		var opt_tb_idx = [];
+        		 		var orderd_qty = [];
+        		 		var orderd_price = [];
+        		 		
+        		 		var idxSize = $("input[name='opt_tb_idx']").length;
+        		 		for( i=0; i< idxSize; i++){
+        		 			opt_tb_idx.push($("input[name='opt_tb_idx']").eq(i).attr("value"));
+        		 		}
+        		 		for( i=0; i< idxSize; i++){
+        		 			orderd_qty.push($("input[name='orderd_qty']").eq(i).attr("value"));
+        		 		}
+        		 		for( i=0; i< idxSize; i++){
+        		 			orderd_price.push($("input[name='orderd_price']").eq(i).attr("value"));
+        		 		}
+        		 		console.log(orderd_qty);
+        		 		console.log(orderd_price);
+        		 		
+        		 		var pay_type = 1;
+        		 		var pay_price_real = $('input[id=ordPric]').val();
+        		 		//var pay_price_deposit = $('input[id=ordPric]').val();
+        		 		//var pay_deposit_name ;
+        		 		//var pay_bank;
         	            // 결제 성공시 처리 로직
         	            console.log("결제 성공창까지 넘어왔습니다.");
         	            var orderPointCal = $("#orderPointCal").val(); // orderPointCal 값을 가져옵니다.
