@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import game.dori.util.ORDER_LIST_VO;
 import game.dori.vo.ORDER_VO;
 
 @Repository
@@ -22,8 +23,13 @@ public class OrderDAO {
 	}
 
 	// 주문인덱스 생성
-	public int insertOrder( ORDER_VO ovo ) {
-		return sqlSession.insert("game.dori.mapper.orderMapper.insertOrder",ovo);
+	public int insertOrder( ORDER_LIST_VO olvo ) {
+		return sqlSession.insert("game.dori.mapper.orderMapper.insertOrder",olvo);
+	}
+	
+	// 주문인덱스호출
+	public int orderNum() {
+		return sqlSession.selectOne("game.dori.mapper.orderMapper.orderNum");
 	}
 }
 

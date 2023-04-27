@@ -88,10 +88,6 @@ public class ProductController {
 		model.addAttribute("adr",adr);
 		int savePoint = mypageService.selectPointBal(Login.getMember_idx());
 		model.addAttribute("savePoint",savePoint);
-		System.out.println("옵션인덱스확인1"+opt_idx1);
-		System.out.println("옵션인덱스확인2"+opt_idx2);
-		System.out.println("옵션인덱스확인3"+opt_idx3);
-		System.out.println("옵션인덱스확인4"+opt_idx4);
 		
 		List<PRODOPT_VO> optlist = new ArrayList<PRODOPT_VO>();
 		if( opt_idx1 != 0 ) {
@@ -126,16 +122,44 @@ public class ProductController {
 
 	// 주문포스트
 	@RequestMapping( value = "/orderForm.do", method = RequestMethod.POST)
-	public void orderForm( ORDER_LIST_VO olvo ) {
+	public @ResponseBody String orderForm( ORDER_LIST_VO olvo, HttpServletResponse rsp ){
+		
+		System.out.println();
+		
+		String optIdx = olvo.getOpt_tb_idx();
+		String[] optIdxSplit = optIdx.split(",");
+		String ordQty = olvo.getOrderd_qty();
+		String[] ordQtySplit = ordQty.split(",");
+		String ordPrice = olvo.getOrderd_price();
+		String[] ordPriceSplit = ordPrice.split(",");
+		int result = productService.insertOrder(olvo);
+		
+		if(result > 0 ) { 
+			int order_tb_idxs = productService.orderNum();
+			for( int i = 1; i<optIdxSplit.length; i++) {
+				olvo.setOpt_tb_idx(optIdxSplit[i]);
+				olvo.setOrder_tb_idx(order_tb_idxs);
+				olvo.setOrderd_qty(ordQtySplit[i]);
+				olvo.setOrderd_price(ordPriceSplit[i]);
+				productService.insertOrderDetail(olvo);
+			}
+			olvo.setOrder_tb_idx(order_tb_idxs);
+			int payResult = productService.insertPay(olvo);
+			return "success";
+		}else {
+			 
+		}
+		return "";
 		
 	}
 
 	// 주문금액 계산
 	@ResponseBody
 	@RequestMapping( value = "/priceCal.do", method = RequestMethod.GET)
-	public int priceCal( int num1, int num2 ) {
+	public int priceCal( int num1, int num2, Model model ) {
 		System.out.println(num1);
 		System.out.println(num2);
+		model.addAttribute("priceCalRRR",num2-num1);
 		return num2-num1;
 	}
 	// 상품 문의 등록

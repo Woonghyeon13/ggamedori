@@ -87,4 +87,5 @@ public interface AdminService {
 	
 	// 1:1문의 내역 검색 후 페이징 개수
 	public int oto_countSearchResults(String searchText, String searchOption);
+
 }

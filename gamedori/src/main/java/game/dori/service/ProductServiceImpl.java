@@ -9,16 +9,18 @@ import game.dori.dao.AddressDAO;
 import game.dori.dao.CategoryDAO;
 import game.dori.dao.MemberDAO;
 import game.dori.dao.OrderDAO;
+import game.dori.dao.OrderDetailDAO;
+import game.dori.dao.PayDAO;
 import game.dori.dao.ProdOptDAO;
 import game.dori.dao.ProductDAO;
 import game.dori.dao.ProductQDAO;
+import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PRODOPT_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
-import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 
@@ -45,6 +47,12 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private OrderDAO orderDAO;
+	
+	@Autowired
+	private OrderDetailDAO orderDetailDAO;
+	
+	@Autowired
+	private PayDAO payDAO;
 	
 	// 카테고리 리스트
 	@Override
@@ -168,8 +176,8 @@ public class ProductServiceImpl implements ProductService{
 
 	// 주문 인덱스 생성
 	@Override
-	public int insertOrder(ORDER_VO ovo) {
-		return orderDAO.insertOrder(ovo);
+	public int insertOrder(ORDER_LIST_VO olvo) {
+		return orderDAO.insertOrder(olvo);
 	}
 
 	// 상품 옵션 상세 정보리스트
@@ -188,6 +196,24 @@ public class ProductServiceImpl implements ProductService{
 	public List<PRODOPT_VO> prodOptList(PRODOPT_VO povo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	// 상품 인덱스 호출
+	@Override
+	public int orderNum() {
+		return orderDAO.orderNum();
+	}
+
+	// 주문 상세 상품 등록
+	@Override
+	public int insertOrderDetail(ORDER_LIST_VO olvo) {
+		return orderDetailDAO.insertOrderDetail(olvo);
+	}
+
+	// 주문결제서 생성
+	@Override
+	public int insertPay(ORDER_LIST_VO olvo) {
+		return payDAO.insertPay(olvo);
 	}
 
 }
