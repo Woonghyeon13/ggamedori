@@ -29,6 +29,7 @@ import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
+import game.dori.vo.NOTICE_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
@@ -294,9 +295,9 @@ public class MypageController {
 	// 1 : 1 문의사항 검색 기능
 	@RequestMapping(value = "/oto_search.do", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> oto_search(@RequestParam("searchText") String searchText,
-	                                                        @RequestParam("searchOption") String searchOption,
-	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
+		public ResponseEntity<Map<String, Object>> oto_search(@RequestParam("searchText") String searchText,
+                @RequestParam("searchOption") String searchOption,
+                @RequestParam(value = "page", defaultValue = "1") int page) {
 	    int limit = 15; // 페이지당 게시물 수
 	    int start = (page - 1) * limit;
 
@@ -319,6 +320,7 @@ public class MypageController {
 	} 
 	
 	
+		
 	
 	// 1 : 1 문의 사항 글 등록
 	@RequestMapping(value = "/oto_write.do", method = RequestMethod.GET)

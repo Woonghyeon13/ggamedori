@@ -8,6 +8,7 @@
 <script>
 	var originalTableData = [];
 	
+	
 	function updatePaginationForAll() {
 	    var pagination = $('.pagination');
 	    pagination.find('li').each(function () {
@@ -44,24 +45,28 @@
 	    $('.btn_search').click(function (event) {
 	        event.preventDefault();
 	        // 검색어와 검색 옵션 가져오기
-	        var searchText = $('input[name="searchText"]').val();
+	        var searchText = $('input[name="searchText"]').val().trim();
 	        var searchOption = $('select[name="searchOption"]').val();
 	        // 검색 옵션 확인
 	        if (searchOption === '검색 옵션') {
 	            alert('검색 옵션을 선택해주세요.');
 	            return;
 	        }
-	        // 검색어가 빈 문자열일 경우 전체 목록을 보여줍니다.
-	        if (searchText.trim() === '') {
-	            showAll();
-	            // 빈 검색어를 입력했을 때 새로고침을 합니다.
-	            location.reload();
+
+	        if (searchText === '') {
+	            location.reload(); // 공백 입력 시 페이지를 새로고침합니다.
 	            return;
 	        }
-	
+
 	        // AJAX 요청 전송
 	        searchAndDisplayResults(searchText, searchOption, 1);
 	    });
+
+	    // 페이지가 로드되었을 때, 전체 목록을 표시하고 페이지네이션을 처리합니다.
+	    var searchText = '';
+	    var searchOption = '';
+	    var page = 1;
+	    searchAndDisplayResults(searchText, searchOption, page);
 	});
 	
 	function showAll() {
@@ -75,9 +80,19 @@
 	    $('table').show();
 	    // 전체 목록을 보여주는 경우의 페이징 색상 처리를 추가합니다.
 	    updatePaginationForAll();
+	    
+	    // 전체 목록일 때도 페이지네이션을 처리합니다.
+	    var searchText = ''; // 전체 목록이므로 검색어는 빈 문자열로 설정합니다.
+	    var searchOption = ''; // 전체 목록이므로 검색 옵션도 빈 문자열로 설정합니다.
+	    var page = 1; // 전체 목록을 표시할 때는 현재 페이지를 1로 설정합니다.
+	    searchAndDisplayResults(searchText, searchOption, page);
 	}
 	
 	function searchAndDisplayResults(searchText, searchOption, page) {
+	    if (searchText.trim() === '') {
+	        searchText = ''; // 공백 입력 시 검색 텍스트를 빈 문자열로 설정합니다.
+	        //	page = 1; // 공백 입력 시 현재 페이지를 1로 설정합니다.
+	    }
 	    sendAjaxRequest(searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
@@ -86,7 +101,7 @@
 	
 	function sendAjaxRequest(searchText, searchOption, page, onSuccess) {
 	    $.ajax({
-	        url: '<%=request.getContextPath()%>/mypage/oto_search.do',
+	    	 url: '<%=request.getContextPath()%>/mypage/oto_search.do',
 	        method: 'GET',
 	        dataType: 'json',
 	        data: {
@@ -100,45 +115,72 @@
 	        }
 	    });
 	}
-	
 	function updatePagination(totalPages, searchText, searchOption, currentPage) {
+	    var pagesToShow = 5; // 한 번에 표시할 페이지 번호의 개수를 설정합니다.
 	    var pagination = $('.pagination');
 	    pagination.empty();
-	
-	    for (var i = 1; i <= totalPages; i++) {
+
+	    if (totalPages === 0) {
+	        totalPages = 1;
+	    }
+
+	    var startPage = Math.floor((currentPage - 1) / pagesToShow) * pagesToShow + 1;
+	    var endPage = Math.min(startPage + pagesToShow - 1, totalPages);
+
+	    if (startPage > 1) {
+	        var prevPageSetItem = $('<li>').addClass('page-item');
+	        var prevPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
+	        prevPageSetLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, startPage - 1);
+	        });
+	        prevPageSetItem.append(prevPageSetLink);
+	        pagination.append(prevPageSetItem);
+	    }
+
+	    for (var i = startPage; i <= endPage; i++) {
 	        var isActive = i == currentPage;
 	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
-	        var pageLink = $('<a>').addClass('page-link')
-	            .attr('href', '#')
-	            .text(i);
+	        var pageLink = $('<a>').addClass('page-link').attr('href', '#').text(i);
+
 	        pageLink.on('click', function (event) {
 	            event.preventDefault();
 	            var page = $(this).text();
-	
 	            searchAndDisplayResults(searchText, searchOption, page);
 	        });
 	        pageItem.append(pageLink);
 	        pagination.append(pageItem);
 	    }
+
+	    if (endPage < totalPages) {
+	        var nextPageSetItem = $('<li>').addClass('page-item');
+	        var nextPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
+	        nextPageSetLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, endPage + 1);
+	        });
+	        nextPageSetItem.append(nextPageSetLink);
+	        pagination.append(nextPageSetItem);
+	    }
 	}
 	
 	  //테이블 검색한거에 따른 갯수처리
-		function updateTable(response) {
-	    var searchResults = response.searchResults;
-	    var tableBody = $('#table-body');
-	    tableBody.empty(); // 이전 검색 결과를 지우고
-	
-	    if (searchResults.length === 0) {
-	        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
-	        $.each(originalTableData, function (index, row) {
-	            tableBody.append(row);
-	        });
-	    } else {
+	function updateTable(response) {
+    var searchResults = response.searchResults;
+    var tableBody = $('#table-body');
+    tableBody.empty(); // 이전 검색 결과를 지우고
+    if (searchResults.length === 0) {
+        // 검색 결과가 없는 경우 검색 결과가 없음을 표시합니다.
+        var noResultsRow = $('<tr>');
+        var noResultsCell = $('<td>').attr('colspan', 7).text('검색 결과가 없습니다.');
+        noResultsRow.append(noResultsCell);
+        tableBody.append(noResultsRow);
+    	}else {
 	        // 검색 결과가 있는 경우
 	        $.each(searchResults, function (index, result) {
 	            var newRow = $('<tr>');
 	
-	            // 테이블에 행 추가
+	         // 테이블에 행 추가
 	            newRow.append($('<td>').text(result.qa_idx));
 	            newRow.append($('<td>').append($('<a>').attr('href', 'oto_view.do?qa_idx=' + result.qa_idx).text(result.qa_title)));
 	            newRow.append($('<td>').text(result.qa_writer));
@@ -153,7 +195,8 @@
 	    $('table').show();
 	}
 	  
-	  </script>
+	  </script>	
+	
 	  
 
 <main>		
@@ -236,7 +279,7 @@
 									<th width="15%" style="text-align:center;">처리 상태</th>
 								</tr>
 							</thead>
-                    <tbody id = "table-body" >
+         	    <tbody id = "table-body" >
                     	<c:forEach items="${oto}" var="qaVO">
 
 	                        <tr>
@@ -256,21 +299,24 @@
 			 <table class="table" style="clear:both; width: 100%;">
 			    <tr>                        
 			        <td class="d-flex align-items-center justify-content-between">
-			            <form action="oto_search.do" method="GET" class="d-flex align-items-center">
-			                <!-- 검색 옵션 드롭다운 추가 -->
-			                <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
-			                    <option disabled style="background-color: #f2f2e7;" selected>검색 옵션</option>
-			                    <option value="name" >이름으로 검색</option>
-			                    <option value="content">내용으로 검색</option>
-			                    <option value="ncontent">이름+내용으로검색</option> 
-			                </select>
-			                <input class="form-control" style="width: 200px;" type="text" name="searchText" aria-label="default input example">
-			                <div>${fn:escapeXml(searchText)}</div>
-			
-			                <button type="submit" class="btn btn-dark btn_search">검색</button>
-			            </form>
+			           <form class="d-flex justify-content-center align-items-center" role="form">
+			        <div class="me-2">
+			            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
+			                <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
+			                <option value="name" selected>제목으로 검색</option>
+			                <option value="content">내용으로 검색</option>
+			                <option value="ncontent">제목+내용으로검색</option>
+			            </select>
+			        </div>
+			        <div class="me-2">
+			            <input class="form-control form-control-sm" type="text" placeholder="제목"  name="searchText"aria-label=".form-control-sm example">
+			        </div>
+			        <div>
+			            <button type="submit" class="btn btn-dark btn_search">검색</button>
+			        </div>
+			    </form>
             
-            
+
              <c:if test="${Login.member_role == 1}">
 	 	           <button onclick="location.href='${pageContext.request.contextPath}/mypage/oto_write.do'" style="float:right; margin-top:20px;">문의하기</button>
 			</c:if>  
