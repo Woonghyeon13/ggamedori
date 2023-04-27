@@ -12,19 +12,19 @@
 
 	<!-- 멤버 검색 -->
 	<select id="mSearch" resultType="memberVO" parameterType="map">
-	  SELECT * FROM member_tb WHERE member_role = "1" AND
+	  SELECT * FROM member_tb WHERE member_role = "1"
 	  <choose>
 	    <when test="searchOption == 'name'">
-	      member_name like CONCAT('%', #{searchText}, '%')
+	     and member_name like CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'email'">
-	      member_email LIKE CONCAT('%', #{searchText}, '%')
+	     and member_email LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'mLevel'">
-	      member_level LIKE CONCAT('%', #{searchText}, '%')
+	     and member_level LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'mState'">
-	      member_state LIKE CONCAT('%', #{searchText}, '%')
+	     and member_state LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	  </choose>
 	  ORDER BY member_idx DESC
@@ -33,24 +33,26 @@
 	
 	<!-- 검색된 결과 페이징 처리할때 사용(관리자페이지 멤버리스트) -->
 	<select id="mCountSearchResults" resultType="int" parameterType="map">
-	  SELECT COUNT(*) FROM member_tb WHERE member_role = "1" AND
+	  SELECT COUNT(*) FROM member_tb WHERE member_role = "1"
 	  <choose>
 	    <when test="searchOption == 'name'">
-	      member_name like CONCAT('%', #{searchText}, '%')
+	      AND member_name like CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'email'">
-	      member_email LIKE CONCAT('%', #{searchText}, '%')
+	      AND member_email LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'mLevel'">
-	      member_level LIKE CONCAT('%', #{searchText}, '%')
+	      AND member_level LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'mState'">
-	      member_state LIKE CONCAT('%', #{searchText}, '%')
+	      AND member_state LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	  </choose>
 	</select>
 	
 	<!-- 멤버리스트 관련 끝 -->
+	
+
 	
 	
 	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
@@ -113,5 +115,61 @@
 		   </choose>
 		 </where>
 	</select>
+	<!--  공지사항 매퍼 -->
+	<!--  select all notice_tb 에있는 모든데이터를 선택해서 저장, 페이지당 게시물 수  -->
 	
+	<!-- 페이징 처리를 위한 notice_board의 게시물 수값을 얻기위한 쿼리문 -->
+	<select id="notice_countAll" resultType="int">
+    	SELECT COUNT(*) FROM notice_tb
+	</select>
+	
+ 	<!-- 공지사항 검색 -->
+	<select id="notice_search" resultType="noticeVO" parameterType="map">
+	  SELECT * FROM notice_tb
+	  <where>
+	    <choose>
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          and notice_title like CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	      <when test="searchOption == 'content'">
+	        <if test="searchText != null and searchText != ''">
+	          AND notice_contents LIKE CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	      <otherwise>
+	        <if test="searchText != null and searchText != ''">
+	          AND notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </otherwise>
+	    </choose>
+	  </where>
+	  ORDER BY notice_idx DESC
+	  LIMIT #{start}, #{limit}
+	</select>
+	
+	<!--  검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+	<select id="notice_countSearchResults" resultType="int" parameterType="map">
+		  SELECT COUNT(*) FROM notice_tb
+		  <where>
+		    <choose>
+		      <when test="searchOption == 'name'">
+		        <if test="searchText != null and searchText != ''">
+		          notice_title like CONCAT('%', #{searchText}, '%')
+		        </if>
+		      </when>
+		      <when test="searchOption == 'content'">
+		        <if test="searchText != null and searchText != ''">
+		          (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+		        </if>
+		      </when>
+		      <otherwise>
+		        <if test="searchText != null and searchText != ''">
+		          (notice_writer LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+		        </if>
+		      </otherwise>
+		    </choose>
+		  </where>
+	</select>
 </mapper>

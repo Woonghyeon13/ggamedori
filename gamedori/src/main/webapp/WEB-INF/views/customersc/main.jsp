@@ -159,18 +159,19 @@
 	        searchText = ''; // 공백 입력 시 검색 텍스트를 빈 문자열로 설정합니다.
 	        //	page = 1; // 공백 입력 시 현재 페이지를 1로 설정합니다.
 	    }
-	    sendAjaxRequest(searchText, searchOption, page, function(response) {
+	    sendAjaxRequest('notice',searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
 	    });
 	}
 	
-	function sendAjaxRequest(searchText, searchOption, page, onSuccess) {
+	function sendAjaxRequest(searchType, searchText, searchOption, page, onSuccess) {
 	    $.ajax({
-	        url: '<%=request.getContextPath()%>/admin/search.do',
+	        url: '<%=request.getContextPath()%>/search', // 변경된 URL
 	        method: 'GET',
 	        dataType: 'json',
 	        data: {
+	            searchType: searchType, // 새로 추가된 searchType 매개변수
 	            searchText: searchText,
 	            searchOption: searchOption,
 	            page: page
@@ -193,17 +194,35 @@
 	    var startPage = Math.floor((currentPage - 1) / pagesToShow) * pagesToShow + 1;
 	    var endPage = Math.min(startPage + pagesToShow - 1, totalPages);
 
-	    if (startPage > 1) {
-	        var prevPageSetItem = $('<li>').addClass('page-item');
-	        var prevPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
-	        prevPageSetLink.on('click', function (event) {
+	    // 처음 페이지로 이동
+	    var firstPageItem = $('<li>').addClass('page-item');
+	    var firstPageLink = $('<a>').addClass('page-link').attr('href', '#').text('<<');
+	    if (currentPage > 1) {
+	        firstPageLink.on('click', function (event) {
 	            event.preventDefault();
-	            searchAndDisplayResults(searchText, searchOption, startPage - 1);
+	            searchAndDisplayResults(searchText, searchOption, 1);
 	        });
-	        prevPageSetItem.append(prevPageSetLink);
-	        pagination.append(prevPageSetItem);
+	    } else {
+	        firstPageItem.addClass('disabled');
 	    }
+	    firstPageItem.append(firstPageLink);
+	    pagination.append(firstPageItem);
 
+	    // 이전 페이지로 이동
+	    var prevPageItem = $('<li>').addClass('page-item');
+	    var prevPageLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
+	    if (currentPage > 1) {
+	        prevPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, currentPage - 1);
+	        });
+	    } else {
+	        prevPageItem.addClass('disabled');
+	    }
+	    prevPageItem.append(prevPageLink);
+	    pagination.append(prevPageItem);
+	    
+	    // 페이지 번호
 	    for (var i = startPage; i <= endPage; i++) {
 	        var isActive = i == currentPage;
 	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
@@ -218,17 +237,34 @@
 	        pagination.append(pageItem);
 	    }
 
-	    if (endPage < totalPages) {
-	        var nextPageSetItem = $('<li>').addClass('page-item');
-	        var nextPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
-	        nextPageSetLink.on('click', function (event) {
+	    // 다음 페이지로 이동
+	    var nextPageItem = $('<li>').addClass('page-item');
+	    var nextPageLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
+	    if (currentPage < totalPages) {
+	        nextPageLink.on('click', function (event) {
 	            event.preventDefault();
-	            searchAndDisplayResults(searchText, searchOption, endPage + 1);
+	            searchAndDisplayResults(searchText, searchOption, currentPage + 1);
 	        });
-	        nextPageSetItem.append(nextPageSetLink);
-	        pagination.append(nextPageSetItem);
+	    } else {
+	        nextPageItem.addClass('disabled');
 	    }
-	}
+	    nextPageItem.append(nextPageLink);
+	    pagination.append(nextPageItem);
+
+	    // 마지막 페이지로 이동
+	    var lastPageItem = $('<li>').addClass('page-item');
+	    var lastPageLink = $('<a>').addClass('page-link').attr('href', '#').text('>>');
+	    if (currentPage < totalPages) {
+	        lastPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, totalPages);
+	        });
+	    } else {
+	        lastPageItem.addClass('disabled');
+	    }
+	    lastPageItem.append(lastPageLink);
+	        pagination.append(lastPageItem);
+	    }
 	
 	  //테이블 검색한거에 따른 갯수처리
 	function updateTable(response) {

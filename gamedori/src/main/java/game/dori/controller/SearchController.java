@@ -16,78 +16,54 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
+import game.dori.service.SearchService;
 import game.dori.util.OTO_VO;
 import game.dori.vo.MEMBER_VO;
+import game.dori.vo.NOTICE_VO;
 
 @Controller
 public class SearchController {
 
 	@Autowired
-	private ProductService productService;
-	
-	@Autowired
-	private AdminService adminService;
-	
-	@Autowired
-	private MemberService MemberService;
-	
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private AdminService AdminService;
+	private SearchService searchService;
 	
 	
-	//관리자페이지 멤버 검색 기능
-	@RequestMapping(value = "/admin/memberSearch.do", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> searchMember(@RequestParam("searchText") String searchText,
-	                                                        @RequestParam("searchOption") String searchOption,
-	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-	    int limit = 15; // 페이지당 게시물 수
+	public ResponseEntity<Map<String, Object>> search(@RequestParam("searchType") String searchType,
+	                                                  @RequestParam("searchText") String searchText,
+	                                                  @RequestParam("searchOption") String searchOption,
+	                                                  @RequestParam(value = "page", defaultValue = "1") int page) {
+	    int limit = 15;
 	    int start = (page - 1) * limit;
-
-	    List<MEMBER_VO> searchResults = adminService.memberSearch(searchText, searchOption, start, limit);
-	    
 	    int totalResults = 0;
-	    if (searchText.trim().equals("") && searchOption.trim().equals("")) {
-	        totalResults = adminService.mCountAll(); // 전체 게시물 수
-	    } else {
-	        totalResults = adminService.mCountSearchResults(searchText, searchOption); // 검색 결과에 따른 전체 게시물 수
-	    }
-	    int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
+	    List<?> searchResults = null;
 
-	    Map<String, Object> response = new HashMap<String, Object>();
+	    switch (searchType) {
+	        case "member":
+	            searchResults = searchService.mSearch(searchText, searchOption, start, limit);
+	            totalResults = searchService.mCountSearchResults(searchText, searchOption);
+	            break;
+	        case "notice":
+	            searchResults = searchService.notice_search(searchText, searchOption, start, limit);
+	            totalResults = searchService.notice_countSearchResults(searchText, searchOption);
+	            break;
+	        case "oto":
+	            searchResults = searchService.oto_search(searchText, searchOption, start, limit);
+	            totalResults = searchService.oto_countSearchResults(searchText, searchOption);
+	            break;
+	            
+	        default:
+	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 잘못된 searchType이 입력되면 BadRequest를 반환합니다.
+	    }
+
+	    int totalPages = (int) Math.ceil((double) totalResults / limit);
+
+	    Map<String, Object> response = new HashMap<>();
 	    response.put("searchResults", searchResults);
 	    response.put("totalPages", totalPages);
 
-	    return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
-	//관리자페이지 멤버 검색 기능
-	@RequestMapping(value = "/admin/otoSearch.do", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<Map<String, Object>> searchOTO(@RequestParam("searchText") String searchText,
-	                                                        @RequestParam("searchOption") String searchOption,
-	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-	    int limit = 15; // 페이지당 게시물 수
-	    int start = (page - 1) * limit;
-
-	    List<OTO_VO> searchResults = adminService.oto_search(searchText, searchOption, start, limit);
-	    
-	    int totalResults = 0;
-	    if (searchText.trim().equals("") && searchOption.trim().equals("")) {
-	        totalResults = adminService.oto_countAll(); // 전체 게시물 수
-	    } else {
-	        totalResults = adminService.oto_countSearchResults(searchText, searchOption); // 검색 결과에 따른 전체 게시물 수
-	    }
-	    int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
-
-	    Map<String, Object> response = new HashMap<String, Object>();
-	    response.put("searchResults", searchResults);
-	    response.put("totalPages", totalPages);
-
-	    return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-	}
-		
 }
