@@ -202,8 +202,8 @@
 	        var pageLink = pageItem.find('a.page-link');
 	        if (pageItem.hasClass('active')) {
 	            pageLink.css({
-	                'background-color': '218, 219, 221',
-	                'border-color': '#ffeeeee'
+	                'background-color': '#dadbdd',
+	                'border-color': '#dee2e6'
 	            });
 	        } else {
 	            pageLink.css({
@@ -279,7 +279,7 @@
 	        searchText = ''; // 공백 입력 시 검색 텍스트를 빈 문자열로 설정합니다.
 	        //	page = 1; // 공백 입력 시 현재 페이지를 1로 설정합니다.
 	    }
-	    sendAjaxRequest('oto',searchText, searchOption, page, function(response) {
+	    sendAjaxRequest('aoto',searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
 	    });
@@ -402,13 +402,22 @@
 	        $.each(searchResults, function (index, result) {
 	            var newRow = $('<tr>');
 	
-	            newRow.append($('<td>').text(result.qa_idx));
-	            newRow.append($('<td>').append($('<a>').attr('href', 'oto_view.do?qa_idx=' + result.qa_idx).text(result.qa_title)));
-	            newRow.append($('<td>').text(result.qa_writer));
-	            newRow.append($('<td>').text(result.qa_wdate));
-	            newRow.append($('<td>').text(result.qa_yn == 1 ? '답변 완료' : '답변 처리중'));
-	
-	         
+	            newRow.append($('<td class="text-center">').text(result.qa_idx));
+	            newRow.append($('<td class="text-center">').text(result.qa_title));
+	            newRow.append($('<td class="text-center">').text(result.member_name));
+	            newRow.append($('<td class="text-center">').text(result.qa_wdate));
+	            if (result.qa_yn === 1){
+	                newRow.append($('<td class="text-center">').text('답변 완료'));
+	            } else {
+	                newRow.append($('<td class="text-center">').text('답변 대기 중'));
+	            }
+
+	            // Add answer button
+	            var answerBtn = $('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#otoRefund">답변</button>').click(function () {
+	                sessionToModal(result.qa_idx, result.qa_title, result.qa_contents, result.member_name, result.qa_reply);
+	            });
+	            newRow.append($('<td class="text-center">').append(answerBtn));
+
 	            tableBody.append(newRow);
 	        });
 	    }
