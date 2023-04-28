@@ -77,7 +77,7 @@
 						</tr>
 					</thead>
 					<tbody id = "table-body" >
-					<c:forEach var="pql" items="${pqlist }">
+					<%-- <c:forEach var="pql" items="${pqlist }">
 						<tr>
 							<td class="text-center">${pql.prod_q_idx }</td>
 							<td class="text-center">${pql.prod_name}</td>
@@ -103,7 +103,7 @@
 									'${pql.prod_q_contents }', '${pql.member_name }', '${pql.prod_q_reply }' )">답변</button>
 							</td>
 						</tr>
-					</c:forEach>
+					</c:forEach> --%>
 					</tbody>
 				</table>
 		</div>
