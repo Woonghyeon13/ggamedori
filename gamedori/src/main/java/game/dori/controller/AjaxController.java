@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
+import game.dori.util.ORDER_LIST_VO;
 import game.dori.vo.AD_VO;
 import game.dori.vo.CAROUSEL_VO;
 import game.dori.vo.CATEGORY_IMG_VO;
@@ -148,4 +149,10 @@ public class AjaxController {
 		return "fail";	
 	}
 	
+	
+	//주문상태 변경
+    @RequestMapping(value="/admin/updateOrderState.do", method=RequestMethod.POST)
+    public @ResponseBody void updateOrderState(HttpServletRequest request, ORDER_LIST_VO orderlistVO) {
+    	AdminService.updateOrderState(orderlistVO);
+    }
 }

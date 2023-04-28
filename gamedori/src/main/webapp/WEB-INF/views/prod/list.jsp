@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
 <main>
-	<div class="inner">
+	<div class="inner product_list">
 		<div>
 			<div>
 				<div>
@@ -110,10 +110,10 @@
 					카테고리에 총 ${listCnt}개의 상품이있습니다.
 				</p>
 				<ul class="col-6 d-flex justify-content-end product_sort">
-					<li id="li1"><a href="<c:url value='/.do'/>" id="tag">높은가격순</a></li>
-					<li id="li1"><a href="<c:url value='/.do'/>" id="tag">낮은가격순</a></li>
-					<li id="li1"><a href="<c:url value='/.do'/>" id="tag">인기상품</a></li>
-					<li><a href="<c:url value='/.do'/>" id="tag">최근순</a></li>
+					<li id="li1"><a href="<c:url value='/prod/list.do'/>?sort=high" id="tag">높은가격순</a></li>
+					<li id="li1"><a href="<c:url value='/prod/list.do'/>?sort=row" id="tag">낮은가격순</a></li>
+					<li id="li1"><a href="<c:url value='/prod/list.do'/>?sort=hot" id="tag">인기상품</a></li>
+					<li><a href="<c:url value='/prod/list.do'/>?sort=new" id="tag">최근순</a></li>
 				</ul>
 			</div>
 		</div>
@@ -161,6 +161,34 @@
 		</div>
 
 	</div>
+
+
+<script>
+	$('.product_sort a').on('click', function(event){
+		
+		var sort = $(this).attr('href');
+	});
+
+	$.ajax
+	({
+		url: '/prod/list.do?sort='+sort,
+		method: 'GET',
+		data:{sort: sort},	//파라미터
+		success: function(data){
+			$('.product-list').html(data)
+		},
+		error: function(xhr, status, error)
+		{
+			console.log('Error:', error);	
+		}
+		
+	});
+	
+
+	
+	
+	
+</script>
 
 </main>
 

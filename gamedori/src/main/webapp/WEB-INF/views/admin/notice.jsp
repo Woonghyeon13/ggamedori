@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../include/head.jsp" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../include/head.jsp" %>
 
 <style>
 .ck.ck-editor {
@@ -117,50 +117,50 @@
 		</script>
 		
 		
-<!-- 공지사항 등록 -->
-<div class="container d-flex justify-content-end">
-    <button type="button" class="btn btn-outline-secondary btn-sm me-4"
-            data-bs-toggle="modal" data-bs-target="#noticeWrite">글쓰기</button>
-</div>
-<div class="modal fade" id="noticeWrite" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header d-flex flex-column logo">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title fs-5">공지사항 등록</h4>
-            </div>
-            <div class="modal-body">
-                <form name="review" method="POST" action="notice_write.do">
-                
-                  <input type="hidden" name="member_email" value="${Login.member_email}">
-                    <div class="form-group d-flex justify-content-around "></div>
-                    <div
-                            class="form-group mt-2 d-flex justify-content-between align-items-center">
-                        <input type="text" class="form-control noticetitle" id="notice_title"
-                               placeholder="공지사항 제목" name="notice_title">
-                    </div>
-                    <div class="form-group mt-2 d-flex justify-content-between align-items-center">
-                        <textarea name="notice_contents" id="notice_contents" class="form-control noticecontents"
-                                  placeholder="공지사항 내용"></textarea>
-                        <script>
-                            ClassicEditor.create(document.querySelector('#notice_contents'), {
-                                language: "ko"
-                            });
-                        </script>
-                    </div>
-                    <div class="d-grid gap-1 mt-2">
-                        <input type="submit"
-                               class="btn btn-outline-secondary btn-lg form-control"
-                               value="공지사항 등록" onclick="validateForm(event)">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+	<!-- 공지사항 등록 -->
+	<div class="container d-flex justify-content-end">
+	    <button type="button" class="btn btn-outline-secondary btn-sm me-4"
+	            data-bs-toggle="modal" data-bs-target="#noticeWrite">글쓰기</button>
+	</div>
+	<div class="modal fade" id="noticeWrite" data-bs-backdrop="static">
+	    <div class="modal-dialog modal-dialog-centered modal-xl">
+	        <div class="modal-content">
+	            <div class="modal-header d-flex flex-column logo">
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                <h4 class="modal-title fs-5">공지사항 등록</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form name="review" method="POST" action="notice_write.do">
+	                
+	                  <input type="hidden" name="member_email" value="${Login.member_email}">
+	                    <div class="form-group d-flex justify-content-around "></div>
+	                    <div
+	                            class="form-group mt-2 d-flex justify-content-between align-items-center">
+	                        <input type="text" class="form-control noticetitle" id="notice_title"
+	                               placeholder="공지사항 제목" name="notice_title">
+	                    </div>
+	                    <div class="form-group mt-2 d-flex justify-content-between align-items-center">
+	                        <textarea name="notice_contents" id="notice_contents" class="form-control noticecontents"
+	                                  placeholder="공지사항 내용"></textarea>
+	                        <script>
+	                            ClassicEditor.create(document.querySelector('#notice_contents'), {
+	                                language: "ko"
+	                            });
+	                        </script>
+	                    </div>
+	                    <div class="d-grid gap-1 mt-2">
+	                        <input type="submit"
+	                               class="btn btn-outline-secondary btn-lg form-control"
+	                               value="공지사항 등록" onclick="validateForm(event)">
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
 		
-<!-- 검색 -->
+	<!-- 검색 -->
 	<div class="container">
 	    <form class="d-flex justify-content-center align-items-center" role="form">
 	        <div class="me-2">
@@ -190,8 +190,9 @@
 	        var pageLink = pageItem.find('a.page-link');
 	        if (pageItem.hasClass('active')) {
 	            pageLink.css({
-	                'background-color': '218, 219, 221',
-	                'border-color': '#ffeeeee'
+	                'background-color': '#dadbdd',
+	                'border-color': '#dee2e6'
+
 	            });
 	        } else {
 	            pageLink.css({
@@ -267,18 +268,19 @@
 	        searchText = ''; // 공백 입력 시 검색 텍스트를 빈 문자열로 설정합니다.
 	        //	page = 1; // 공백 입력 시 현재 페이지를 1로 설정합니다.
 	    }
-	    sendAjaxRequest(searchText, searchOption, page, function(response) {
+	    sendAjaxRequest('notice',searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
 	    });
 	}
 	
-	function sendAjaxRequest(searchText, searchOption, page, onSuccess) {
+	function sendAjaxRequest(searchType, searchText, searchOption, page, onSuccess) {
 	    $.ajax({
-	        url: '<%=request.getContextPath()%>/admin/search.do',
+	        url: '<%=request.getContextPath()%>/search', // 변경된 URL
 	        method: 'GET',
 	        dataType: 'json',
 	        data: {
+	            searchType: searchType, // 새로 추가된 searchType 매개변수
 	            searchText: searchText,
 	            searchOption: searchOption,
 	            page: page
@@ -289,6 +291,7 @@
 	        }
 	    });
 	}
+	
 	function updatePagination(totalPages, searchText, searchOption, currentPage) {
 	    var pagesToShow = 5; // 한 번에 표시할 페이지 번호의 개수를 설정합니다.
 	    var pagination = $('.pagination');
@@ -301,17 +304,35 @@
 	    var startPage = Math.floor((currentPage - 1) / pagesToShow) * pagesToShow + 1;
 	    var endPage = Math.min(startPage + pagesToShow - 1, totalPages);
 
-	    if (startPage > 1) {
-	        var prevPageSetItem = $('<li>').addClass('page-item');
-	        var prevPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
-	        prevPageSetLink.on('click', function (event) {
+	    // 처음 페이지로 이동
+	    var firstPageItem = $('<li>').addClass('page-item');
+	    var firstPageLink = $('<a>').addClass('page-link').attr('href', '#').text('<<');
+	    if (currentPage > 1) {
+	        firstPageLink.on('click', function (event) {
 	            event.preventDefault();
-	            searchAndDisplayResults(searchText, searchOption, startPage - 1);
+	            searchAndDisplayResults(searchText, searchOption, 1);
 	        });
-	        prevPageSetItem.append(prevPageSetLink);
-	        pagination.append(prevPageSetItem);
+	    } else {
+	        firstPageItem.addClass('disabled');
 	    }
+	    firstPageItem.append(firstPageLink);
+	    pagination.append(firstPageItem);
 
+	    // 이전 페이지로 이동
+	    var prevPageItem = $('<li>').addClass('page-item');
+	    var prevPageLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
+	    if (currentPage > 1) {
+	        prevPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, currentPage - 1);
+	        });
+	    } else {
+	        prevPageItem.addClass('disabled');
+	    }
+	    prevPageItem.append(prevPageLink);
+	    pagination.append(prevPageItem);
+	    
+	    // 페이지 번호
 	    for (var i = startPage; i <= endPage; i++) {
 	        var isActive = i == currentPage;
 	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
@@ -326,17 +347,34 @@
 	        pagination.append(pageItem);
 	    }
 
-	    if (endPage < totalPages) {
-	        var nextPageSetItem = $('<li>').addClass('page-item');
-	        var nextPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
-	        nextPageSetLink.on('click', function (event) {
+	    // 다음 페이지로 이동
+	    var nextPageItem = $('<li>').addClass('page-item');
+	    var nextPageLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
+	    if (currentPage < totalPages) {
+	        nextPageLink.on('click', function (event) {
 	            event.preventDefault();
-	            searchAndDisplayResults(searchText, searchOption, endPage + 1);
+	            searchAndDisplayResults(searchText, searchOption, currentPage + 1);
 	        });
-	        nextPageSetItem.append(nextPageSetLink);
-	        pagination.append(nextPageSetItem);
+	    } else {
+	        nextPageItem.addClass('disabled');
 	    }
-	}
+	    nextPageItem.append(nextPageLink);
+	    pagination.append(nextPageItem);
+
+	    // 마지막 페이지로 이동
+	    var lastPageItem = $('<li>').addClass('page-item');
+	    var lastPageLink = $('<a>').addClass('page-link').attr('href', '#').text('>>');
+	    if (currentPage < totalPages) {
+	        lastPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, totalPages);
+	        });
+	    } else {
+	        lastPageItem.addClass('disabled');
+	    }
+	    lastPageItem.append(lastPageLink);
+	        pagination.append(lastPageItem);
+	    }
 	
 	  //테이블 검색한거에 따른 갯수처리
 	function updateTable(response) {
@@ -360,34 +398,38 @@
 	            newRow.append($('<td style="text-align:center;">').text(result.notice_writer));
 	            newRow.append($('<td style="text-align:center;">').text(result.notice_hit));
 	            newRow.append($('<td style="text-align:center;">').text(result.notice_wdate));       	
-	
-	            tableBody.append(newRow);
-	        });
-	    }
-	
-	    // 테이블을 보여줍니다.
-	    $('table').show();
-	}
-	  
+           	newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr({ 'type': 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#noticeModify' }).text('수정').click(function () { prepareModify(result.notice_idx); })));
+            newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr('onclick', 'deleteNotice(' + result.notice_idx + ')').text('삭제')));
+
+            tableBody.append(newRow);
+        });
+    }
+
+    // 테이블을 보여줍니다.
+    $('table').show();
+}
+  
 	  </script>	
 			
 	
 		<!-- 페이징 -->
-			
-		<nav aria-label="Page navigation example">
-		  <ul class="pagination justify-content-center">
-		    <c:forEach var="i" begin="1" end="${totalPages}">
-		      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
-		        <a class="page-link" >
-		          ${i}
-		        </a>
-		      </li>
-		    </c:forEach>
-		  </ul>
-		</nav>
+		<div class="mt-3">
+			<nav aria-label="Page navigation example">
+			  <ul class="pagination justify-content-center">
+			    <c:forEach var="i" begin="1" end="${totalPages}">
+			      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+			        <a class="page-link" >
+			          ${i}
+			        </a>
+			      </li>
+			    </c:forEach>
+			  </ul>
+			</nav>
+		</div> 
+		 
 	</div>
 
-</div>
+
 
 		<!-- 공지사항 수정 -->
 		<div class="modal fade" id="noticeModify" data-bs-backdrop="static">

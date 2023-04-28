@@ -44,7 +44,7 @@
 		<div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
-					<strong>닉네임</strong>님 환영합니다.
+					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
 				<ol id="ol_li" class="list-group list-group-numbered">
@@ -62,7 +62,7 @@
 			</div>
 			<div id="product_inner" class="col-8">
 				<p>
-					<strong>닉네임</strong>님의 주문내역
+					<strong>${sessionScope.Login.member_name}</strong>님의 주문내역
 				</p>
 				<table id="product_t" class="table table-hover text-center"
 					style="width: 100%; border-top: 1px solid #000;">

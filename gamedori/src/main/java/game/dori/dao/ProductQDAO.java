@@ -103,12 +103,12 @@ public class ProductQDAO {
 	}
 	
 	//상품문의 작성
-	public int prodQinsert( PRODUCT_Q_VO pqvo ) {
+	public int prodq_insert( PRODUCT_Q_VO pqvo ) {
 		return sqlSession.insert("game.dori.mapper.productQMapper.prodQinsert",pqvo);
 	}
 	
 	//상품문의 목록
-	public List<PROD_Q_LIST_VO> prodQlist( int prod_idx ){
+	public List<PRODUCT_Q_VO> prodQlist( int prod_idx ){
 		return sqlSession.selectList("game.dori.mapper.productQMapper.prodQlist",prod_idx);
 	}
 	//상품문의 목록 카운트

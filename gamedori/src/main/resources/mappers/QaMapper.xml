@@ -8,19 +8,21 @@
 	<!-- 마이페이지 1:1 문의 리스트 출력  -->
 	<select id="selectOtoList" resultType="qaVO" parameterType="int">
 		select *
-			from QA_TB
-			where MEMBER_TB_IDX = #{MEMBER_IDX}
+			from QA_TB q, member_tb m
+			where q.MEMBER_TB_IDX = #{MEMBER_IDX}
 	</select>
 	
 
 	<!-- 관리자페이지 1:1문의 리스트 -->
-	<select id="otolist" resultType="otoVO">
+	<select id="otolist" resultType="otoVO" parameterType="map">
 		select * 
 			from
 				qa_tb q,
 				member_tb m
 			where
-				q.member_tb_idx = m.member_idx 
+				q.member_tb_idx = m.member_idx
+			order by qa_idx desc
+			LIMIT #{limit} OFFSET #{start}
 	</select>
 	
 	<!-- 1:1문의 답변 -->
@@ -50,7 +52,6 @@
 	    	ORDER BY qa_idx DESC
 	</select>
 	
-	
 	<!--  1 : 1 문의사항 selectall QA_TB 에있는 모든데이터를 선택해서 저장 -->
 	<select id="oto_selectAll" resultType="qaVO" parameterType="map">
 	    SELECT * FROM QA_TB
@@ -61,6 +62,7 @@
 	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
 	<select id="oto_countAll" resultType="int">
 		SELECT COUNT(*) FROM QA_TB
+		WHERE QA_WRITER = (SELECT MEMBER_NAME FROM MEMBER_TB WHERE MEMBER_IDX + #{MEMBER_TB_IDX})
 	</select>
 	
 	<!--  1 : 1 문의사항 글 작성  -->
@@ -134,6 +136,24 @@
 		    </choose>
 		  </where>
 	</select>
+	
+<!-- 	
+	사용자가 본인이 입력한 글만 표시
+	<select id="otoListByMember" resultType="qaVO" parameterType="map">
+	    SELECT *
+	    FROM QA_TB
+	    WHERE MEMBER_TB_IDX = #{member_Idx}
+	    ORDER BY qa_idx DESC
+	    LIMIT #{start}, #{limit}
+	</select>
+
+	사용자 본인이 등록한 글 개수
+	<select id="countOtoByMember" resultType="int" parameterType="int">
+	    SELECT COUNT(*)
+	    FROM QA_TB
+	    WHERE MEMBER_TB_IDX = #{memberIdx}
+	</select> 
+-->
 	
 	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	

@@ -64,6 +64,7 @@ public class MypageServiceImpl implements MypageService{
 	
 	@Autowired
 	private PayDAO payDAO;
+
 	
 	//마이페이지 등급 출력
 	@Override
@@ -183,6 +184,21 @@ public class MypageServiceImpl implements MypageService{
 		// TODO Auto-generated method stub
 		return qaDAO.oto_search(searchText, searchOption, start, limit);
 	}
+	
+//	// 사용자가 작성한 1:1 문의사항 리스트 조회
+//	@Override
+//	public List<QA_VO> otoListByMember(int member_idx, int limit, int start) {
+//	  
+//	    return qaDAO.otoListByMember(member_idx, start, limit);
+//	}
+//
+//	// 사용자가 작성한 1:1 문의사항 개수 조회
+//	@Override
+//	public int countOtoByMember(int memberIdx) {
+//	    return qaDAO.countOtoByMember(memberIdx);
+//	}
+
+	
 
 	/*-------------------------------------------------------------------------------*/
 
@@ -272,6 +288,18 @@ public class MypageServiceImpl implements MypageService{
 	public int selectPointBal(int member_idx) {
 		return savepointDAO.selectPointBal(member_idx);
 	}
+
+	//환불하기
+	@Override
+	public int UpdateOrderStatus(int member_tb_idx) {
+		return orderDAO.UpdateOrderStatus(member_tb_idx);
+	}
+
+	
+	
+	/*-------------------------------------------------------------------------------*/
+
+
 
 	// 상품 상세페이지에서 장바구니 담기
 	@Override

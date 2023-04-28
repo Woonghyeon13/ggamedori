@@ -9,6 +9,7 @@ import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.AD_VO;
 import game.dori.vo.CAROUSEL_VO;
 import game.dori.vo.CATEGORY_IMG_VO;
+import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
 
 public interface AdminService {
@@ -31,21 +32,17 @@ public interface AdminService {
 	// 공지사항 글 개수
 	public int countAll();
 	
-	// 공지사항 글 검색기능
-	List<NOTICE_VO> searchNotices(String searchText, String searchOption, int start, int limit);
-	
 	// 공지사항 조회수
 	public int notice_Hit(NOTICE_VO noticeVO);
 	
+
 	
 	// 주문목록 리스트
 	public List<ORDER_LIST_VO> orderList(); 
 	
 	// 1 : 1문의 리스트
-	public List<OTO_VO> otoList(); 
+	public List<OTO_VO> otoList(int limit, int start); 
 
-	public int countSearchResults(String searchText, String searchOption);
-	
 	// 1 : 1문의 답변
 	public int otoAnswer(OTO_VO otoVO); 
 	
@@ -69,5 +66,8 @@ public interface AdminService {
 	public Map<String, String> selectCategoryImages(); //카테고리 이미지 리스트 
 	
 	
-	
+
+
+	//주문 상태(관리자 페이지)
+	public int updateOrderState(ORDER_LIST_VO orderlistVO);
 }
