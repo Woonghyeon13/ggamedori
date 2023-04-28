@@ -92,7 +92,6 @@ public class AdminController {
 		return null;
 		
 	}
-
 	
 	// 상품관리
 	@RequestMapping( value = "/prod.do", method = RequestMethod.GET )
@@ -390,16 +389,24 @@ public class AdminController {
 	
 	// 1:1문의 관리
 	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )
-	public String oto(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
-		
-		List<OTO_VO> otoList = AdminService.otoList();
-		model.addAttribute("otoList", otoList);
+	public String oto(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model, @RequestParam(value = "page", defaultValue = "1") int page) throws IOException{
 		
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
+				
+				int limit = 15; // 페이지당 게시물 수
+	            int start = (page - 1) * limit;
+				
+				List<OTO_VO> otoList = AdminService.otoList(limit, start);
+				model.addAttribute("otoList", otoList);
+				
+				int totalRecords = adminService.oto_countAll();
+	            int totalPages = (int) Math.ceil((double) totalRecords / limit);
+	            model.addAttribute("totalPages", totalPages);
+				
 				return "admin/oto";
 			}
 		}
@@ -411,7 +418,7 @@ public class AdminController {
 	    pw.flush();
 	    pw.close();
 	    return null;
-	}
+	}	
 	
 	// 1:1문의 답변
 	@RequestMapping( value = "/oto_answer.do", method = RequestMethod.POST )

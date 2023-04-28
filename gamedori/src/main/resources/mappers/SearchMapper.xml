@@ -57,17 +57,25 @@
 	
 	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
 	<select id="oto_countAll" resultType="int">
-		SELECT COUNT(*) FROM QA_TB
+		SELECT COUNT(*) FROM 
+				qa_tb q,
+				member_tb m
+			where
+				q.member_tb_idx = m.member_idx 
 	</select>
 	
 	<!-- 1 : 1 문의사항 글 검색 -->
 	<select id="oto_search" resultType="qaVO" parameterType="map">
-		SELECT * FROM QA_TB
+		SELECT * FROM
+					qa_tb q,
+					member_tb m
+				where
+					q.member_tb_idx = m.member_idx 
 		<where>
 		  <choose>
 		    <when test="searchOption == 'name'">
 		      <if test="searchText != null and searchText != ''">
-		        and qa_title like CONCAT('%', #{searchText}, '%')
+		        and member_name like CONCAT('%', #{searchText}, '%')
 		      </if>
 		    </when>
 			<when test="searchOption == 'title'">
@@ -82,7 +90,7 @@
 			</when>
 		    <otherwise>
 		      <if test="searchText != null and searchText != ''">
-		        AND (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+		        AND (member_name LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
 		      </if>
 		    </otherwise>
 		  </choose>
@@ -94,14 +102,23 @@
 	
 	<!--  1 : 1 문의사항 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
 	<select id="oto_countSearchResults" resultType="int" parameterType="map">
-		 SELECT COUNT(*) FROM QA_TB
+		 SELECT COUNT(*) FROM
+			 			qa_tb q,
+						member_tb m
+					where
+						q.member_tb_idx = m.member_idx 
 		 <where>
 		   <choose>
 		     <when test="searchOption == 'name'">
 		       <if test="searchText != null and searchText != ''">
-		         qa_title like CONCAT('%', #{searchText}, '%')
+		         member_name like CONCAT('%', #{searchText}, '%')
 		       </if>
 		     </when>
+		     <when test="searchOption == 'title'">
+			  <if test="searchText != null and searchText != ''">
+			    qa_title LIKE CONCAT('%', #{searchText}, '%')
+			  </if>
+			 </when>
 		     <when test="searchOption == 'content'">
 		       <if test="searchText != null and searchText != ''">
 		         qa_contents LIKE CONCAT('%', #{searchText}, '%')
@@ -109,7 +126,7 @@
 		     </when>
 		     <otherwise>
 		       <if test="searchText != null and searchText != ''">
-		         (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+		         (member_name LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
 		       </if>
 		     </otherwise>
 		   </choose>

@@ -69,7 +69,7 @@ public class SearchController {
 	        	searchResults = searchService.orderlist_search(searchText, searchOption, start, limit);
 		         totalResults = searchService.orderlist_countSearchResults(searchText, searchOption);
 	        	break;
-	            
+          
 	        default:
 	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 잘못된 searchType이 입력되면 BadRequest를 반환합니다.
 	    }
@@ -82,4 +82,6 @@ public class SearchController {
 
 	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+
 }
+

@@ -203,6 +203,8 @@
 	    sendAjaxRequest('member',searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
+	        updatePaginationForAll();
+
 	    });
 	}
 	
@@ -341,6 +343,7 @@
     			stateSelect.append('<option value="2" ' + (result.member_state === 2 ? 'selected' : '') + '>정지</option>');
     			stateSelect.append('<option value="3" ' + (result.member_state === 3 ? 'selected' : '') + '>탈퇴</option>');
     			newRow.append($('<td class="text-center">').append(stateSelect));
+
 
                 tableBody.append(newRow);
 

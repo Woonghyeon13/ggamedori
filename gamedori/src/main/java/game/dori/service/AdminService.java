@@ -41,7 +41,7 @@ public interface AdminService {
 	public List<ORDER_LIST_VO> orderList(); 
 	
 	// 1 : 1문의 리스트
-	public List<OTO_VO> otoList(); 
+	public List<OTO_VO> otoList(int limit, int start); 
 
 	// 1 : 1문의 답변
 	public int otoAnswer(OTO_VO otoVO); 
@@ -68,4 +68,6 @@ public interface AdminService {
 	
 
 
+	//주문 상태(관리자 페이지)
+	public int updateOrderState(ORDER_LIST_VO orderlistVO);
 }
