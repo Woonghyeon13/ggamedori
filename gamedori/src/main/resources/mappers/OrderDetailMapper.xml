@@ -10,4 +10,11 @@
 		 (opt_tb_idx, order_tb_idx, orderd_qty, orderd_price)
 		 values (#{opt_tb_idx}, #{order_tb_idx}, #{orderd_qty}, #{orderd_price})
 	</insert>
+	
+	<!-- 주문 목록 리스트 연결 -->
+	<select id="orderDetailOne" parameterType="int" resultType="orderDetailVO">
+		select * from order_detail_tb
+			where order_tb_idx = #{order_tb_idx}
+			limit 1
+	</select>
 </mapper>

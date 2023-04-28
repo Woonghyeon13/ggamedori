@@ -5,10 +5,12 @@
 <%@ include file="../include/head.jsp" %>
 <main>		
 	<div class="inner">
+		<c:set var="plusBtn" value="p"/>
+		<c:set var="minusBtn" value="m"/>
 		<section class="container mb-4" id="cart_page" >
 			<h3 class="text-center fw-bold mt-5 mb-5">장바구니</h3><br>
 			<div class="pt-5 pb-5">
-				<form>
+				<form name="frm" method="get" action="orderForm.do">
 					<table class="table border-top">
 						<thead>
 							<tr>
@@ -25,21 +27,24 @@
 							<c:forEach var="vo" items="${cartList}" varStatus="status">
 							<tr>
 								<td id="Check">
+									<fmt:formatNumber var="PricesCal" value="${vo.cart_amount * vo.opt_price}" pattern="#,###"/>
+									<fmt:formatNumber var="optPrice" value="${vo.opt_price}" pattern="#,###"/>
+									<fmt:parseNumber var="pointCal" value="${(vo.cart_amount * vo.opt_price)/10}" integerOnly="true" />
+									<fmt:formatNumber var="pointCom" value="${pointCal}" pattern="#,###"/>
+									<input type="hidden" id="optIdx" value="${vo.opt_idx}">
+									<input type="hidden" id="optQty" value="${vo.cart_amount}">
 									<input id="checkBoxes" type="checkbox" class="item">
 									<input type="hidden" id="cartIdx" value="${vo.cart_idx}">
+									<input type="hidden" id="pricePlus" value="${vo.cart_amount * vo.opt_price}">
 								</td>
 								<td class="text-center align-middle"><a href="#"><img src=></a></td>
 								<td class="align-middle">
 									<ul class="list-unstyled mb-0 ps-2 pe-2">
 										<li><a href="#">${vo.prod_name}</a></li>
 										<li style="color: #b9b9b9;">${vo.opt_name}</li>
-										<li><button type="button" onclick="cartView(${vo.cart_idx})" class="btn btn-sm btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#option${status.count}">옵션 수정</button></li>
+										<li><button type="button" onclick="cartView(${vo.cart_idx},${Login.member_idx},${vo.prod_idx})" class="btn btn-sm btn-secondary mt-2">옵션 수정</button></li>
 									</ul>
 								</td>
-								<fmt:formatNumber var="PricesCal" value="${vo.cart_amount * vo.opt_price}" pattern="#,###"/>
-								<fmt:formatNumber var="optPrice" value="${vo.opt_price}" pattern="#,###"/>
-								<fmt:parseNumber var="pointCal" value="${(vo.cart_amount * vo.opt_price)/10}" integerOnly="true" />
-								<fmt:formatNumber var="pointCom" value="${pointCal}" pattern="#,###"/>
 								<td class="text-center align-middle">${vo.cart_amount}개</td>
 								<td class="text-center align-middle">${optPrice}원</td>
 								<td class="text-center align-middle">${PricesCal}원</td>
@@ -59,58 +64,26 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="align-middle text-center">178,000원</td>
-								<td class="align-middle text-center">3,000원</td> <!-- 고정 -->
-								<td class="align-middle text-center" style="color: #dd1111;">181,000원</td>
+								<td class="align-middle text-center">
+									<span class="fs-3 me-1 ms-2 fw-bold" id="total_amount">0</span>원
+								</td>
+								<td class="align-middle text-center">
+									<span class="fs-3 me-1 ms-2 fw-bold" id="del_amount">3,000</span>원
+								</td> <!-- 고정 -->
+								<td class="align-middle text-center" style="color: #dd1111;">
+									<span class="fs-3 me-1 ms-2 fw-bold" id="total_amountCal"
+									style="color: #ee4a44;">0</span>원
+								</td>
 							</tr>
 						</tbody>
 					</table>
-					<button type="button" onclick="cartOrder()" class="btn btn-outline-light login mt-5 d-grid gap-2 col-6 mx-auto"><b>주문하기</b></button>
+					<input type="hidden" name="opt_idx">
+					<input type="hidden" name="opt_qty">
+					<button type="submit" class="btn btn-outline-light login mt-5 d-grid gap-2 col-6 mx-auto"><b>주문하기</b></button>
 				</form>
 			</div>
 			<!-- Modal -->
-			<c:forEach var="vo" items="${cartList}" varStatus="status">
-			<div class="modal fade" id="option${status.count}" tabindex="-1">
-				<div class="modal-dialog modal-sm modal-dialog-centered">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5">옵션 수정</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">				
-							<div class="border-bottom pb-2">	
-								<div>
-									<p class="mb-2 fs-6">옵션</p>
-								</div>
-								<div>
-									<input name="cartIddx${status.count}" type="hidden" value="${vo.cart_idx}">
-									<select name="cartOptMod${status.count}" class="form-select">
-										<option>선택해주세요</option>
-										<c:forEach var="opts" items="${vo.optlist}" varStatus="status">
-											<option value="${opts.opt_idx}">${opts.opt_name}</option><!--옵션리스트를 선택할 수 있어야 합니다.-->
-										</c:forEach>
-									</select>
-								</div>
-							</div>
-							<div class="border-bottom pb-2 mt-3">
-								<div>
-									<p class="mb-2 fs-6">옵션 수량</p>
-								</div>
-								<div class="btn-group btn-group-sm" role="group" >
-									<button type="button" class="btn btn-secondary" style="width: 2vw;" onclick="change_qty2(${status.count}, 'm')">-</button>
-									<input type="text" name="ct_qty" id="ct_qty${status.count}" value="1" readonly="readonly" class="text-center" style="width: 3vw;">
-									<button type="button" class="btn btn-secondary" style="width: 2vw;" onclick="change_qty2(${status.count}, 'p')">+</button>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-							<button type="button" onclick="cartModify()" class="btn btn-outline-light login">수정하기</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			</c:forEach>
+			<div class="container-fluid" id="modalCnt"></div>
 		</section>
 	</div>
 </main>
@@ -137,63 +110,83 @@ function cartDelBtn(){
 		}
 	});
 }
-
-function cartView(cart_idx){
-	var cart_idx = cart_idx; 
-	
+// 수정모달
+function cartView(cart_idx, member_idx, prod_idx ){
+	var cart_idx = cart_idx;
 	$.ajax({
-		url : '<%=request.getContextPath()%>/mypage/cartView',
-		data : { cart_idx : cart_idx },
+		url : '<%=request.getContextPath()%>/mypage/cartView.do',
+		data : { cart_idx : cart_idx,
+			member_idx : member_idx,},
 		type : 'post',
 		success : function(data){
 			htmlStr = "";
-			htmlStr +=	<div class="modal fade" id="option${status.count}" tabindex="-1">
-			htmlStr +=	<div class="modal-dialog modal-sm modal-dialog-centered">
-			htmlStr +=		<div class="modal-content">
-			htmlStr +=			<div class="modal-header">
-			htmlStr +=				<h1 class="modal-title fs-5">옵션 수정</h1>
-			htmlStr +=				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			htmlStr +=			</div>
-			htmlStr +=			<div class="modal-body">				
-			htmlStr +=				<div class="border-bottom pb-2">	
-			htmlStr +=					<div>
-			htmlStr +=						<p class="mb-2 fs-6">옵션</p>
-			htmlStr +=					</div>
-			htmlStr +=					<div>
-			htmlStr +=						<input name="cartIddx${status.count}" type="hidden" value="${vo.cart_idx}">
-			htmlStr +=					<select name="cartOptMod${status.count}" class="form-select">
-			htmlStr +=						<option>선택해주세요</option>
-			htmlStr +=						<c:forEach var="opts" items="${vo.optlist}" varStatus="status">
-			htmlStr +=							<option value="${opts.opt_idx}">${opts.opt_name}</option><!--옵션리스트를 선택할 수 있어야 합니다.-->
-			htmlStr +=						</c:forEach>
-			htmlStr +=					</select>
-			htmlStr +=				</div>
-			htmlStr +=			</div>
-			htmlStr +=			<div class="border-bottom pb-2 mt-3">
-			htmlStr +=				<div>
-			htmlStr +=					<p class="mb-2 fs-6">옵션 수량</p>
-			htmlStr +=				</div>
-			htmlStr +=				<div class="btn-group btn-group-sm" role="group" >
-			htmlStr +=					<button type="button" class="btn btn-secondary" style="width: 2vw;" onclick="change_qty2(${status.count}, 'm')">-</button>
-			htmlStr +=					<input type="text" name="ct_qty" id="ct_qty${status.count}" value="1" readonly="readonly" class="text-center" style="width: 3vw;">
-			htmlStr +=					<button type="button" class="btn btn-secondary" style="width: 2vw;" onclick="change_qty2(${status.count}, 'p')">+</button>
-			htmlStr +=				</div>
-			htmlStr +=			</div>
-			htmlStr +=		</div>
-			htmlStr +=		<div class="modal-footer">
-			htmlStr +=			<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-			htmlStr +=	'<button type="button" onclick="cartModify()" class="btn btn-outline-light login">수정하기'</button>';
+			htmlStr +=	'<div class="modal" id="shitModal" tabindex="-1" aria-hidden="true">';
+			htmlStr +=	'<div class="modal-dialog modal-sm modal-dialog-centered">';
+			htmlStr +=	'<div class="modal-content">';
+			htmlStr +=	'<div class="modal-header">';
+			htmlStr +=	'<h1 class="modal-title fs-5">옵션 수정</h1>';
+			htmlStr +=	'<button onclick="cartViewClose()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+			htmlStr +=	'</div>';
+			htmlStr +=	'<div class="modal-body">';
+			htmlStr +=	'<div class="border-bottom pb-2">';	
+			htmlStr +=	'<div>';
+			htmlStr +=	'<p class="mb-2 fs-6">옵션</p>';
+			htmlStr +=	'</div>';
+			htmlStr +=	'<div>';
+			htmlStr +=	'<input name="cartIddx" type="hidden" value="'+cart_idx+'">';
+			htmlStr +=	'<div id="htmlCnt">';
+				$.ajax({
+					url : '<%=request.getContextPath()%>/mypage/cartView2.do',
+					data : { prod_idx : prod_idx},
+					type : 'post',
+					success : function(data){
+						htmlStrs = "";
+						htmlStrs +=	'<select name="cartOptMod" class="form-select">';
+						$(data).each(function(){
+							htmlStrs +=	'<option value="'+ this.opt_idx +'">'+this.opt_name+'</option>';
+						});
+						
+						$("#htmlCnt").html(htmlStrs);
+					}
+				});
+			htmlStr +=	'</select>';
+			htmlStr +=  '</div>';
+			htmlStr +=	'</div>';
+			htmlStr +=	'</div>';
+			htmlStr +=	'<div class="border-bottom pb-2 mt-3">';
+			htmlStr +=	'<div>';
+			htmlStr +=	'<div>';
+			htmlStr +=	'<p class="mb-2 fs-6">옵션 수량</p>';
+			htmlStr +=	'</div>';
+			htmlStr +=	'<div class="btn-group btn-group-sm" role="group" >';
+			htmlStr +=	'<button onclick="change_qty(';
+			htmlStr +=	"'m'";
+			htmlStr +=	')" type="button" class="btn btn-secondary" style="width: 2vw;">-</button>';
+			htmlStr +=	'<input type="text" name="ct_qty" id="ct_qty" value="1" readonly="readonly" class="text-center" style="width: 3vw;">';
+			htmlStr +=	'<button onclick="change_qty(';
+			htmlStr +=  "'p'";
+			htmlStr +=	')" type="button" class="btn btn-secondary" style="width: 2vw;">+</button>';
+			htmlStr +=	'</div>';
+			htmlStr +=	'</div>';
+			htmlStr +=	'</div>';
+			htmlStr +=	'<div class="modal-footer">';
+			htmlStr +=	'<button type="button" onclick="cartViewClose()" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>';
+			htmlStr +=	'<button type="button" onclick="cartModify()" class="btn btn-outline-light login">수정하기</button>';
 			htmlStr +=	'</div>';
 			htmlStr +=	'</div>';
 			htmlStr +=	'</div>';
 			htmlStr +=	'</div>';
+			
+			$("#modalCnt").html(htmlStr);
+			$("#shitModal").show();
 		}
 	});
 }
 
+// 주문수정
 function cartModify(){
 	
-	var cart_idx = $('select[name=cartOptMod]').prev().val();
+	var cart_idx = $('input[name=cartIddx]').val();
 	var opt_tb_idx = $('select[name=cartOptMod]').val();
 	var cart_amount= $('input[id=ct_qty]').val();
 	
@@ -203,13 +196,85 @@ function cartModify(){
 
 	$.ajax({
 		url : '<%=request.getContextPath()%>/mypage/cartModify.do',
-		data : {},
+		data : { cart_idx : cart_idx,
+				opt_tb_idx : opt_tb_idx,
+				cart_amount : cart_amount
+		},
 		type : 'post',
 		success : function(){
-			
+			alert("옵션이 수정 되었습니다.");
+			location.href='<%=request.getContextPath()%>/mypage/cart.do';
 		}
 	});
+};
+// 수량바꾸기
+function change_qty(t) {
+    var min_qty = 1;
+    var max_qty = 2;
+    var ct_qty = $("#ct_qty");
+    var this_qty = ct_qty.val() * 1;
+
+    if (t == "m") {
+        this_qty -= 1;
+        if (this_qty < min_qty) {
+            alert("수량은 1개 이상 입력해 주십시오.");
+            return;
+        }
+    } else if (t == "p") {
+        this_qty += 1;
+        if (this_qty > max_qty) {
+            alert("최대 구매가능 수량을 초과하였습니다");
+            return;
+        }
+    }
+    ct_qty.val(this_qty);
+};
+// 모달닫기
+function cartViewClose(){
+	$("#modalCnt").empty();
 }
+// 모달밖선택
+$('html').click(function(e){
+	if($(e.target).parents('#shitModal').length < 1){
+    	$("#modalCnt").empty();
+    }
+})
+// 금액 계산
+$('input[id=checkBoxes]').change(function(){
+	var priceCal = 0;
+	var priceDel = 0;
+	priceCal = parseInt(priceCal);
+	$('input[id=checkBoxes]:checked').each(function(){
+		var plusCal = $(this).next().next().val();
+		plusCal = parseInt(plusCal);
+		priceCal = priceCal+plusCal;
+	});
+		console.log("배송비"+priceCal)
+	if( priceCal < 30000 ){
+		priceCalDel = priceCal + 3000;
+		priceDel = 3000;
+		$("#del_amount").html(priceDel.toLocaleString());
+		$("#total_amount").html(priceCal.toLocaleString());
+		$("#total_amountCal").html(priceCalDel.toLocaleString());
+	}else{
+		$("#del_amount").html(priceDel.toLocaleString());
+		$("#total_amount").html(priceCal.toLocaleString());
+		$("#total_amountCal").html(priceCal.toLocaleString());
+	}
+		
+		var opt_idx = [];
+		var opt_qty = [];
+		$('input[id=checkBoxes]:checked').each(function(){
+			var opt_idxs = $(this).prev().prev().val();
+			var opt_qtys = $(this).prev().val();
+			opt_idx.push(opt_idxs);
+			opt_qty.push(opt_qtys);
+		});
+		$('input[name=opt_idx]').val(opt_idx);
+		$('input[name=opt_qty]').val(opt_qty);
+})
+
+
 </script>
 
 

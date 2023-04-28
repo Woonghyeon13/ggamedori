@@ -82,18 +82,7 @@ public class AdminServiceImpl implements AdminService{
 		return noticeDAO.modify(noticeVO);
 	}
 	
-	// 공지사항 글 검색후 페이징
-	public int countSearchResults(String searchText, String searchOption) {
-		// TODO Auto-generated method stub
-		return noticeDAO.countSearchResults(searchText, searchOption);
 
-	}
-
-	// 공지사항 글 검색기능
-	@Override
-	public List<NOTICE_VO> searchNotices(String searchText, String searchOption, int start, int limit) {
-	    return noticeDAO.search(searchText, searchOption, start, limit);
-	}
 
 	// 공지사항 조회수
 	@Override
@@ -109,8 +98,8 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 
-	public List<OTO_VO> otoList() {//1:1문의 리스트
-		return qaDAO.list();
+	public List<OTO_VO> otoList(int limit, int start) {//1:1문의 리스트
+		return qaDAO.otolist(limit, start);
 	}
 	
 
@@ -159,34 +148,14 @@ public class AdminServiceImpl implements AdminService{
 		return pmDAO.selectCategoryImages();
 	}
 	
-	@Override
-	public int mCountAll() {//총 회원 수 카운트(검색과 페이징에 사용)
-		return scDAO.mCountAll();
-	}
-	
-	@Override
-	public List<MEMBER_VO> memberSearch(String searchText, String searchOption, int start, int limit) {//회원리스트 검색
-		return scDAO.mSearch(searchText, searchOption, start, limit);
-	}
+
+
+
+
 
 	@Override
-	public int mCountSearchResults(String searchText, String searchOption) {
-		return scDAO.mCountSearchResults(searchText, searchOption);
-	}
-
-	@Override
-	public int oto_countAll() {
-		return scDAO.oto_countAll();
-	}
-
-	@Override
-	public List<OTO_VO> oto_search(String searchText, String searchOption, int start, int limit) {
-		return scDAO.oto_search(searchText, searchOption, start, limit);
-	}
-
-	@Override
-	public int oto_countSearchResults(String searchText, String searchOption) {
-		return scDAO.oto_countSearchResults(searchText, searchOption);
+	public int updateOrderState(ORDER_LIST_VO orderlistVO) {
+		return orderlistDAO.updateOrderState(orderlistVO);
 	}
 
 }

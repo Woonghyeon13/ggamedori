@@ -36,4 +36,9 @@ public class CartDAO {
 	public int cartModify( CART_VO cvo ) {
 		return sqlSession.update("game.dori.mapper.CartMapper.cartModify",cvo);
 	}
+	
+	/* 장바구니 옵션정보 */
+	public CARTP_VO cartView( CARTP_VO cpvo ) {
+		return sqlSession.selectOne("game.dori.mapper.CartMapper.cartOptSelect",cpvo);
+	}
 }

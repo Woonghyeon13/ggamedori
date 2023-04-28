@@ -38,25 +38,6 @@ public class NoticeDAO {
 		return sqlSession.selectOne("game.dori.mapper.noticeMapper.countAll");
 	}
 	
-	// 공지사항 검색 기능
-	public List<NOTICE_VO> search(String searchText, String searchOption, int start, int limit) {
-	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("searchText", searchText);
-	    params.put("searchOption", searchOption);
-	    params.put("start", start);
-	    params.put("limit", limit);
-
-	    return sqlSession.selectList("game.dori.mapper.noticeMapper.search", params);
-	}
-	
-	// 공지사항 글 검색 후 페이징에 쓸 갯수
-	public int countSearchResults(String searchText, String searchOption) {
-	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("searchText", searchText);
-	    params.put("searchOption", searchOption);
-	    
-	    return sqlSession.selectOne("game.dori.mapper.noticeMapper.countSearchResults", params);
-	}
 	
 	// 공지사항 상세보기
 	public NOTICE_VO select(int notice_idx)
