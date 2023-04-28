@@ -80,7 +80,7 @@ public class ProductController {
 	
 	// 주문폼
 	@RequestMapping( value = "/orderForm.do", method = RequestMethod.GET )
-	public String orderForm( int opt_qty1,int opt_qty2,int opt_qty3,int opt_qty4,int opt_qty5,int opt_idx1,int opt_idx2,int opt_idx3,int opt_idx4,int opt_idx5, MEMBER_VO memberVO ,HttpSession session,  Model model ){
+	public String orderForm( String opt_qty1,String opt_qty2,String opt_qty3,String opt_qty4,String opt_qty5,int opt_idx1,int opt_idx2,int opt_idx3,int opt_idx4,int opt_idx5, MEMBER_VO memberVO ,HttpSession session,  Model model ){
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		MEMBER_VO memvo = productService.orderMem(Login);
 		model.addAttribute("memvo",memvo);

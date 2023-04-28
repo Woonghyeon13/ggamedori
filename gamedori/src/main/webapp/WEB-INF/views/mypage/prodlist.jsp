@@ -68,33 +68,33 @@
 					style="width: 100%; border-top: 1px solid #000;">
 					<thead>
 						<tr>
-							<th scope="col">주문 번호</th>
+							<th scope="col">주문 상태</th>
+							<th scope="col">상품 이미지</th>
 							<th scope="col">상품명</th>
 							<th scope="col">주문 일자</th>
-							<th scope="col">주문 금액</th>
-							<th scope="col">주문 상태</th>
+							<th scope="col">주문 상세</th>
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="selectList" items="${list}">
+					<c:forEach var="Orderlist" items="${list}">
 						<tr>
-							<th><a href='<c:url value="/mypage/orderdetail.do" />'>${selectList.order_idx}</a></th>
-							<td class="wdate">${selectList.order_date}</td>
-							<td>${selectList.order_idx}</td>
-							<td>${selectList.order_price}</td>
-							<td>			
+							<td>
 							<c:choose>
-								<c:when test="${selectList.order_situ == 1}">
-									 <c:out value="주문완료" />
+								<c:when test="${Orderlist.order_state == 1}">
+								    <c:out value="주문완료" />
 								</c:when>
-								<c:when test="${selectList.order_situ == 2}">
-									<c:out value="배송중" />
-								</c:when>
-								<c:when test="${selectList.order_situ == 3}">
-									<c:out value="배송완료" />
-								</c:when>
+								<c:when test="${Orderlist.order_state == 2}">
+								    <c:out value="배송중" />
+								 </c:when>
+								 <c:when test="${Orderlist.order_state == 3}">
+								    <c:out value="배송완료" />
+								 </c:when>
 							</c:choose>
 							</td>
+							<td>${Orderlist.prod_imgt}</td>
+							<td>${Orderlist.prod_name}</td>
+							<td>${Orderlist.order_date}</td>
+							<td><button>상세보기</button></td>
 						</tr>
 					</c:forEach>
 
