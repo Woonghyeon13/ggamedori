@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
 <main>
-	<div class="inner product_list">
+	<div class="inner">
 		<div>
 			<div>
 				<div>
@@ -109,32 +109,34 @@
 					<c:if test="${param.cate_code eq '104'}">아미보</c:if>
 					카테고리에 총 ${listCnt}개의 상품이있습니다.
 				</p>
-				<ul class="col-6 d-flex justify-content-end product_sort">
-					<li id="li1"><a href="<c:url value='/prod/list.do'/>?sort=high" id="tag">높은가격순</a></li>
-					<li id="li1"><a href="<c:url value='/prod/list.do'/>?sort=row" id="tag">낮은가격순</a></li>
-					<li id="li1"><a href="<c:url value='/prod/list.do'/>?sort=hot" id="tag">인기상품</a></li>
-					<li><a href="<c:url value='/prod/list.do'/>?sort=new" id="tag">최근순</a></li>
+				<ul class="col-6 d-flex justify-content-end product_sort ">
+					<li id="li1"><a href="<c:url value='#'/>" id="high"> 높은가격순 </a></li>
+					<li id="li1"><a href="<c:url value='#'/>" id="row"> 낮은가격순 </a></li>
+					<li id="li1"><a href="<c:url value='#'/>" id="hot"> 인기상품 </a></li>
+					<li><a href="<c:url value='#'/>" id="new"> 최근순 </a></li>
 				</ul>
 			</div>
 		</div>
         
 		<div class="mt-5">
-			<ul class="d-flex flex-wrap" style="padding: 0;">
+			<ul class="d-flex flex-wrap product-list" style="padding: 0;">
 				<c:forEach var="pvo" items="${plist}">
-					<li class="ms-1 me-1 mb-4" style="width: 200px;">
-						<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
-							<div style="text-align: center;">
-								<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
-								<div>
-									<p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
-									<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${pvo.prod_price}</p>
-									<c:if test="${pvo.prod_stock eq 0}">
-										<p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
-									</c:if>
+				
+						<li class="ms-1 me-1 mb-4 " style="width: 200px;">
+							<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
+								<div style="text-align: center;">
+									<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
+									<div>
+										<p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
+										<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${pvo.prod_price}</p>
+										<c:if test="${pvo.prod_stock eq 0}">
+											<p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+										</c:if>
+									</div>
 								</div>
-							</div>
-						</a> 
-					</li>
+							</a> 
+						</li>
+					
 				</c:forEach>
             </ul>
         </div>
@@ -161,31 +163,56 @@
 		</div>
 
 	</div>
+	
+	
 
 
-<script>
+	<script>
 	$('.product_sort a').on('click', function(event){
-		
-		var sort = $(this).attr('href');
-	});
+		event.preventDefault();
+		var sort = $(this).attr('id');
+		var href = $(this).attr('href');
+	    var cate_code 		= getUrlParameter(href, 'cate_code');
+	    var cate_refcode 	= getUrlParameter(href, 'cate_refcode');
+	    var cate_rsv		= getUrlParameter(href, 'cate_rsv');
+	    var cate_new 		= getUrlParameter(href, 'cate_new');
+	
+	    // null 값을 빈 문자열로 처리
+	    cate_code = cate_code || "";
+	    cate_refcode = cate_refcode || "";
+	    cate_rsv = cate_rsv || "";
+	    cate_new = cate_new || "";
 
-	$.ajax
-	({
-		url: '/prod/list.do?sort='+sort,
-		method: 'GET',
-		data:{sort: sort},	//파라미터
-		success: function(data){
-			$('.product-list').html(data)
-		},
-		error: function(xhr, status, error)
-		{
-			console.log('Error:', error);	
-		}
 		
+		$.ajax
+		({
+			url: '<%=request.getContextPath()%>/prod/list.do',
+			method: 'GET',
+			data: {
+				sort:sort, 
+				cate_refcode: '<%= request.getParameter("cate_refcode") != null ? request.getParameter("cate_refcode") : "" %>',
+		        cate_code: '<%= request.getParameter("cate_code") != null ? request.getParameter("cate_code") : "" %>',
+		        cate_rsv: '<%= request.getParameter("cate_rsv") != null ? request.getParameter("cate_rsv") : "" %>',
+		        cate_new: '<%= request.getParameter("cate_new") != null ? request.getParameter("cate_new") : "" %>'
+				},	//파라미터
+			success: function(data){
+				 var $productList = $('.product-list');
+		            $productList.html($(data).find('.product-list').html()); 
+			},
+			error: function(xhr, status, error)
+			{
+				console.log('Error:', error);	
+			}
+			
+		});
 	});
 	
-
-	
+	function getUrlParameter(href, name) {
+	    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+	    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+	    var results = regex.exec(href);
+	    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	  }
 	
 	
 </script>

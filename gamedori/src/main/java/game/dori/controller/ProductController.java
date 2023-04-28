@@ -69,25 +69,28 @@ public class ProductController {
 		
 		List<PRODUCT_VO> plist = productService.list(cvo);
 
-		if(sort != null) {
-	    switch (sort) { 
-	    
-	        case "hot":
-	            plist = productService.list_hot(cvo);
-	            break;
-	        case "new":
-	            plist = productService.list_new(cvo);
-	            break;
-	        case "row":
-	            plist = productService.list_row(cvo);
-	            break;
-	        case "high":
-	            plist = productService.list_high(cvo);
-	            break;
-	        default:
-	            plist = productService.list(cvo);
-	            break;
-	    }
+		if(sort != null) 
+		{
+			
+		    switch (sort) 
+		    { 
+		    
+		        case "hot":
+		            plist = productService.list_hot(cvo);
+		            break;
+		        case "new":
+		            plist = productService.list_new(cvo);
+		            break;
+		        case "row":
+		            plist = productService.list_row(cvo);
+		            break;
+		        case "high":
+		            plist = productService.list_high(cvo);
+		            break;
+		        default:
+		            plist = productService.list(cvo);
+		            break;
+		    }
 		}
 	    	    
 		model.addAttribute("plist",plist);
