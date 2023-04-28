@@ -123,7 +123,7 @@
 							<p style="font-size: 14px;">보유 적립금 : ${savePointt}점</p>
 							<input type="hidden" id="savePoint" value="${savePoint}">
 							<div class="input-group mb-3">
-								<input id="usePoint" name="use_point" type="text" style="width:600px;" min="1" max="${savePoint}" class="form-control col-md-6 input_s">
+								<input id="usePoint" name="use_point" type="text" style="width:600px;" min="1" max="${orderPrices +3000}" class="form-control col-md-6 input_s">
 								<button class="btn btn-outline-secondary" type="button" onclick="usingPoint()" id="button-addon2">전액사용</button>
 							</div>							
 						</td>
@@ -148,7 +148,7 @@
 							</td>
 						</tr>
 						<tr class="pbb" style="height: 80px; vertical-align: middle;">
-							<fmt:formatNumber var="orderPointCal" value="${orderPrices - use_point}" pattern="#,###"/>
+							<fmt:formatNumber var="orderPointCal" value="${orderPrices +3000 - use_point}" pattern="#,###"/>
 							<td class="pbb2">
 								<input type="hidden" id="ordPric" value="${orderPrices}">
 								총 결제금액
@@ -174,13 +174,33 @@
 				<input type="hidden" id="memAddr1" value="${adr.addr_1}">
 				<input type="hidden" id="memAddr2" value="${adr.addr_2}">
 				<input type="hidden" id="backUrl" value="<c:url value='/list.do' />">
-				<button class="btn btn-danger btn-block mt-4" onclick="requestPay()" style="font-weight: bold">주문하기</button>
+				<button class="btn btn-danger btn-block mt-4" onclick=
+				"requestPay()" style="font-weight: bold">주문하기</button>
 				<button type="button" class="btn btn-danger btn-block mt-4" onclick="orderAjax()" style="font-weight: bold">주문테스트</button>
 			</div>
 		</div>
 	</section>
 </main>
 				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+				<script>
+					//전액사용 버튼 
+					function usingPoint() { 
+					    var savePointt = parseInt(document.getElementById("${savePointt}").value);
+					    var maxUsePoint = ${orderPrices + 3000};
+	
+					    if (savePointt > maxUsePoint) {
+					        usePoint = maxUsePoint;
+					        alert("적립금 사용은 최대 " + maxUsePoint + "원까지 가능합니다.");
+					    }
+	
+					    if (maxUsePoint > savePointt) {
+					        alert("보유한 적립금을 모두 사용합니다.");
+					    }
+	
+					    document.getElementById("usePoint").value = usePoint;
+					}
+			
+				</script>
 				<script>
 					function sample6_execDaumPostcode() 
 					{
@@ -284,7 +304,6 @@
 		
 		
 		function requestPay() {
-		  
         	IMP.request_pay({
         		 pg : 'nice',
          	    pay_method : 'card',
@@ -428,7 +447,7 @@ function updateSavedPoints(data) {
             // 서버 처리가 성공적으로 이루어졌을 때
             console.log('결제 및 포인트 처리 완료');
             alert('결제가 완료되었습니다.'); // 이 부분을 추가합니다.
-            location.href = '<%=request.getContextPath()%>/'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
+            location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
         },
         error: function() {
             // 서버 처리 중 오류 발생 시
