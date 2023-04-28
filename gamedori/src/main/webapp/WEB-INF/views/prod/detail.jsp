@@ -2,30 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ include file="../include/head.jsp" %>
-
-<!-- 별점 등록 자바스크립트 -->
-<script>
-const starRating = document.querySelector(".starRatingVt");
-
-if (starRating) {
-  const stars = starRating.querySelectorAll("input[type='radio']");
-  const labels = starRating.querySelectorAll("label");
-
-  stars.forEach((star) => {
-    star.addEventListener("click", function (e) {
-      labels.forEach((label) => {
-        if (label.htmlFor === e.target.getAttribute("id")) {
-          label.classList.add("checked");
-        } else {
-          label.classList.remove("checked");
-        }
-      });
-    });
-  });
-}
-
-</script>
-
 <main>
 	<!-- 상품 정보 -------------------------------------------->
 	<input type="hidden" name="member_idx" value="${Login.member_idx}">
@@ -304,101 +280,7 @@ if (starRating) {
 							href="#">&gt;</a></li>
 					</ul>
 				</nav>
-				<button type="button" class="btn btn-outline-light login me-2"
-					data-bs-toggle="modal" data-bs-target="#review"
-					style="height: 38px;">리뷰 작성하기</button>
-					
-				<!-- 리뷰 작성 모달---------------------------------------------------------------------------------------------------------->
-				
-				<div class="modal fade" id="review">
-					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-header d-flex flex-column logo">
-								<div class="mt-2">
-									<h4 class="modal-title fs-5">리뷰 작성</h4>
-								</div>
-							</div>
-							<div class="modal-body">
-								<form name="review_reg" method="post" action="review_reg.do">
-									<div class="form-group">
-										<input type="text" class="form-control" id="review_title" placeholder="제목" name="review_title">
-										<input type="hidden" name="member_email" value="${Login.member_email}"> 
-									</div>
-									<div class="form-group mt-2 col">
-										<textarea class="form-control h-25" rows="10" id="review_contents" placeholder="내용" name="review_contents"></textarea>
-									</div>
-										<div class="form-group mt-2 d-flex justify-content-between align-items-center">
-										  <div class="starCntVt">
-										    <div class="starRating-wrapVt">
-										      <div id="starCenterVt">
-										        <fieldset class="starRatingVt">
-										          <input type="radio" id="star5" name="review_star" value="10" /><label for="star5" class="full" title="Awesome"></label>
-										          <input type="radio" id="star4.5" name="review_star" value="9" /><label for="star4.5" class="half"></label>
-										          <input type="radio" id="star4" name="review_star" value="8"/><label for="star4" class="full"></label>
-										          <input type="radio" id="star3.5" name="review_star" value="7"/><label for="star3.5" class="half"></label>
-										          <input type="radio" id="star3" name="review_star" value="6"/><label for="star3" class="full"></label>
-										          <input type="radio" id="star2.5" name="review_star" value="5"/><label for="star2.5" class="half"></label>
-										          <input type="radio" id="star2" name="review_star" value="4"/><label for="star2" class="full"></label>
-										          <input type="radio" id="star1.5" name="review_star" value="3"/><label for="star1.5" class="half"></label>
-										          <input type="radio" id="star1" name="review_star" value="2"/><label for="star1" class="full"></label>
-										          <input type="radio" id="star0.5" name="review_star" value="1"/><label for="star0.5" class="half"></label>
-										        </fieldset>
-										      </div>
-										      <h4 id="rating-value"></h4>
-										    </div>
-										  </div>
-										</div>
-
-									<div class="form-group mt-2">
-										<div class="input-group mb-3">
-											<input type="file" class="form-control" id="inputGroupFile02" name="review_img">
-											<label class="input-group-text" for="inputGroupFile02">Upload</label>
-										</div>
-									</div>
-									<div class="d-grid gap-1 mt-2">
-										<input type="submit" class="btn btn-outline-light login btn-lg form-control" value="작성">
-									</div>
-									
-									<script>
-									const starRating = document.querySelector(".starRatingVt");
-									
-									if (starRating) {
-									  const stars = starRating.querySelectorAll("input[type='radio']");
-									  const labels = starRating.querySelectorAll("label");
-									
-									  stars.forEach((star) => {
-									    star.addEventListener("click", function (e) {
-									      labels.forEach((label) => {
-									        if (label.htmlFor === e.target.getAttribute("id")) {
-									          label.classList.add("checked");
-									        } else {
-									          label.classList.remove("checked");
-									        }
-									      });
-									    });
-									  });
-									}
-									
-									</script>
-								</form>
-							</div>
-						</div>
-					</div>
-					<script>
-		<!-- 별점 등록 자바스크립트 -->
-		<script>
-		let star = document.querySelectorAll('input');
-		let showValue = document.querySelector('#rating-value');
-		
-		for (let i = 0; i < star.length; i++) {
-			star[i].addEventListener('click', function() {
-				i = this.value;
-		
-			
-			});
-		}
-		
-		</script>
+				<div></div>
 				</div>
 			</div>
 		</div>

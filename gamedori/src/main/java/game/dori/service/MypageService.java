@@ -117,6 +117,9 @@ public interface MypageService {
 
 	//마이페이지 주문내역 리스트 출력
 	public List<ORDER_VO> selectOrderListService(int memeber_tb_idx);
+
+	//마이페이지 주문내역 리스트 출력
+	public List<ORDER_VO> selectOrderAllListService(int memeber_tb_idx);
 	
 	//마이페이지 등급
 	public int selectMemberLevelService(int member_idx);

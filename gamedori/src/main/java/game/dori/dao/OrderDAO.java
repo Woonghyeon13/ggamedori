@@ -21,6 +21,10 @@ public class OrderDAO {
 	public List<ORDER_VO> selectOrderListDAO(int member_tb_idx){
 		return sqlSession.selectList(namespace + "selectOrderListMapper", member_tb_idx);
 	}
+	//마이페이지 주문전체내역 리스트 출력
+	public List<ORDER_VO> selectOrderAllListDAO(int member_tb_idx){
+		return sqlSession.selectList(namespace + "selectOrderAllListMapper", member_tb_idx);
+	}
 
 	// 주문인덱스 생성
 	public int insertOrder( ORDER_LIST_VO olvo ) {

@@ -330,7 +330,6 @@ public class MypageServiceImpl implements MypageService{
 	// 문의사항 상품 명찾기
 	@Override
 	public PRODUCT_VO prod_name(int prod_idx) {
-		// TODO Auto-generated method stub
 		return productDAO.prod_name(prod_idx);
 	}
 
@@ -350,6 +349,12 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public PAY_VO selectPayPrice(int order_tb_idx) {
 		return payDAO.selectPayPrice(order_tb_idx);
+	}
+
+	// 주문전체목록 리스트
+	@Override
+	public List<ORDER_VO> selectOrderAllListService(int memeber_tb_idx) {
+		return orderDAO.selectOrderAllListDAO(memeber_tb_idx);
 	}
 
 	

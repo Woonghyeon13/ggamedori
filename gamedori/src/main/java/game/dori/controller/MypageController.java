@@ -1,5 +1,6 @@
 package game.dori.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import game.dori.service.MemberService;
 import game.dori.service.MypageService;
@@ -413,7 +415,7 @@ public class MypageController {
 		model.addAttribute("ReviewCount", ReviewCount);		
 		
 		//마이페이지-상세페이지-주문목록리스트출력
-		List<ORDER_VO> selectOrderList = mypageService.selectOrderListService(memberVO.getMember_idx());
+		List<ORDER_VO> selectOrderList = mypageService.selectOrderAllListService(memberVO.getMember_idx());
 		List<ORDER_LIST_VO> orderList5 = new ArrayList<ORDER_LIST_VO>();
 		for( int i = 0; i < selectOrderList.size(); i++) {
 			ORDER_LIST_VO olvo = new ORDER_LIST_VO();
@@ -421,9 +423,12 @@ public class MypageController {
 			olvo.setOrder_state(selectOrderList.get(i).getOrder_state());
 			ORDER_DETAIL_VO odvo = mypageService.orderDetailOne(selectOrderList.get(i).getOrder_idx());
 			OPT_VO optvo =productService.optSelectOne(odvo.getOpt_tb_idx());
+			PAY_VO payvo = mypageService.selectPayPrice(selectOrderList.get(i).getOrder_idx());
 			PRODUCT_VO pvo = productService.prodSelectOne(optvo.getProd_tb_idx());
 			olvo.setProd_name(pvo.getProd_name());
 			olvo.setProd_imgt(pvo.getProd_imgt());
+			olvo.setProd_idx(pvo.getProd_idx());
+			olvo.setPay_price_real(payvo.getPay_price_real());
 			orderList5.add(olvo);
 		}
 		model.addAttribute("list", orderList5);
@@ -739,5 +744,35 @@ public class MypageController {
 		System.out.println(num2);
 		model.addAttribute("priceCalRRR",num2-num1);
 		return num2-num1;
+	}
+	
+	// 리뷰작성
+	@ResponseBody
+	@RequestMapping( value = "reviewInsert.do", method = RequestMethod.POST )
+	public void reviewInsert( MultipartFile prod_file1, REVIEW_VO review, HttpServletResponse rsp ) throws IllegalStateException, IOException {
+		
+		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
+		File dir = new File(path);
+		if(!dir.exists()) { 
+			dir.mkdirs();
+		}
+		String newFileName = "";
+		if(!prod_file1.getOriginalFilename().isEmpty()) { 
+			String FileName = System.currentTimeMillis()+prod_file1.getOriginalFilename();
+			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
+			prod_file1.transferTo(new File(path,newFileName));
+			review.setReview_img(newFileName);
+		}
+		System.out.println("별점임"+review.getReview_star());
+
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		int result = productService.review_insert(review);
+		if( result > 0 ) {
+			pw.append("<script>alert('리뷰가 등록되었습니다.'); location.href='reviewlist.do';</script>");
+		}else {
+			pw.append("<script>alert('리뷰 등록실패하였습니다.'); location.href='reviewlist.do';</script>");
+		}
 	}
 }
