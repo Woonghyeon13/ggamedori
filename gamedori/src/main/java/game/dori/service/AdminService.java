@@ -43,7 +43,7 @@ public interface AdminService {
 	public List<ORDER_LIST_VO> orderList(); 
 	
 	// 1 : 1문의 리스트
-	public List<OTO_VO> otoList(); 
+	public List<OTO_VO> otoList(int limit, int start); 
 
 	// 공지사항 글 검색 후 페이징 개수
 	public int countSearchResults(String searchText, String searchOption);
@@ -88,4 +88,6 @@ public interface AdminService {
 	// 1:1문의 내역 검색 후 페이징 개수
 	public int oto_countSearchResults(String searchText, String searchOption);
 
+	//주문 상태(관리자 페이지)
+	public int updateOrderState(ORDER_LIST_VO orderlistVO);
 }

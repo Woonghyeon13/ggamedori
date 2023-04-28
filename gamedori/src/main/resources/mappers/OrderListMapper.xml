@@ -11,12 +11,24 @@
 			FROM 
 				order_tb o, 
 				order_detail_tb od,
-			 	member_tb m
+			 	member_tb m,
+			 	pay_tb p
 		 	where 
 		 		o.member_tb_idx = m.member_idx 
 		 		and
 		 		o.order_idx = od.order_tb_idx
+		 		and
+		 		o.order_idx = p.order_tb_idx
 		 	order by order_idx desc
 	</select>
+	
+	<!-- 주문 상태 업데이트  -->
+	<update id="updateOrderState" parameterType="orderlistVO">
+	    UPDATE order_tb
+	    SET
+	        order_state = #{order_state}
+	    WHERE
+	        order_idx = #{order_idx}
+	</update>
 	
 </mapper>

@@ -290,6 +290,7 @@
 	        }
 	    });
 	}
+	
 	function updatePagination(totalPages, searchText, searchOption, currentPage) {
 	    var pagesToShow = 5; // 한 번에 표시할 페이지 번호의 개수를 설정합니다.
 	    var pagination = $('.pagination');

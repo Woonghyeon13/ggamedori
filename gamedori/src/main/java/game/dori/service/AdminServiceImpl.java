@@ -109,8 +109,8 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 
-	public List<OTO_VO> otoList() {//1:1문의 리스트
-		return qaDAO.list();
+	public List<OTO_VO> otoList(int limit, int start) {//1:1문의 리스트
+		return qaDAO.otolist(limit, start);
 	}
 	
 
@@ -187,6 +187,11 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int oto_countSearchResults(String searchText, String searchOption) {
 		return scDAO.oto_countSearchResults(searchText, searchOption);
+	}
+
+	@Override
+	public int updateOrderState(ORDER_LIST_VO orderlistVO) {
+		return orderlistDAO.updateOrderState(orderlistVO);
 	}
 
 }
