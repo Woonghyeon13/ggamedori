@@ -402,11 +402,6 @@ public class AdminController {
 				
 				List<OTO_VO> otoList = AdminService.otoList(limit, start);
 				model.addAttribute("otoList", otoList);
-				
-				int totalRecords = adminService.oto_countAll();
-	            int totalPages = (int) Math.ceil((double) totalRecords / limit);
-	            model.addAttribute("totalPages", totalPages);
-				
 				return "admin/oto";
 			}
 		}

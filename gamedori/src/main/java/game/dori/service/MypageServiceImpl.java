@@ -17,6 +17,7 @@ import game.dori.dao.QaDAO;
 import game.dori.dao.ReviewDAO;
 import game.dori.dao.SavepointDAO;
 import game.dori.dao.WishlistDAO;
+import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.ORDER_DETAIL_VO;
