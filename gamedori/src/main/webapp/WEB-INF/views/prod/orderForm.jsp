@@ -123,7 +123,7 @@
 							<p style="font-size: 14px;">보유 적립금 : ${savePointt}점</p>
 							<input type="hidden" id="savePoint" value="${savePoint}">
 							<div class="input-group mb-3">
-								<input id="usePoint" name="use_point" type="text" style="width:600px;" min="1" max="${savePoint}" class="form-control col-md-6 input_s">
+								<input id="usePoint" name="use_point" type="text" style="width:600px;" min="1" max="${orderPrices +3000}" class="form-control col-md-6 input_s">
 								<button class="btn btn-outline-secondary" type="button" onclick="usingPoint()" id="button-addon2">전액사용</button>
 							</div>							
 						</td>
@@ -148,7 +148,7 @@
 							</td>
 						</tr>
 						<tr class="pbb" style="height: 80px; vertical-align: middle;">
-							<fmt:formatNumber var="orderPointCal" value="${orderPrices - use_point}" pattern="#,###"/>
+							<fmt:formatNumber var="orderPointCal" value="${orderPrices +3000 - use_point}" pattern="#,###"/>
 							<td class="pbb2">
 								<input type="hidden" id="ordPric" value="${orderPrices}">
 								총 결제금액
@@ -174,13 +174,33 @@
 				<input type="hidden" id="memAddr1" value="${adr.addr_1}">
 				<input type="hidden" id="memAddr2" value="${adr.addr_2}">
 				<input type="hidden" id="backUrl" value="<c:url value='/list.do' />">
-				<button class="btn btn-danger btn-block mt-4" onclick="requestPay()" style="font-weight: bold">주문하기</button>
+				<button class="btn btn-danger btn-block mt-4" onclick=
+				"requestPay()" style="font-weight: bold">주문하기</button>
 				<button type="button" class="btn btn-danger btn-block mt-4" onclick="orderAjax()" style="font-weight: bold">주문테스트</button>
 			</div>
 		</div>
 	</section>
 </main>
 				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+				<script>
+					//전액사용 버튼 
+					function usingPoint() { 
+					    var savePointt = parseInt(document.getElementById("${savePointt}").value);
+					    var maxUsePoint = ${orderPrices + 3000};
+	
+					    if (savePointt > maxUsePoint) {
+					        usePoint = maxUsePoint;
+					        alert("적립금 사용은 최대 " + maxUsePoint + "원까지 가능합니다.");
+					    }
+	
+					    if (maxUsePoint > savePointt) {
+					        alert("보유한 적립금을 모두 사용합니다.");
+					    }
+	
+					    document.getElementById("usePoint").value = usePoint;
+					}
+			
+				</script>
 				<script>
 					function sample6_execDaumPostcode() 
 					{
@@ -284,7 +304,63 @@
 		
 		
 		function requestPay() {
-		  
+		  	
+			var ordPric = $('input[id=ordPric]').val();
+			  if(ordPric == 0) { 
+				// ordPric 값이 0이면 바로 처리 로직으로 이동합니다.
+				  var member_tb_idx = $("#ord_memIdx").val();
+  		 		var coupon_tb_idx;
+  		 		var order_addr1 = $("#ord_addr1").val();
+  		 		var order_addr2 = $("#ord_addr2").val();
+  		 		var order_addr3 = $("#ord_addr3").val();
+  		 		var order_name = $("#ord_name").val();
+  		 		var order_phone = $("#ord_phone").val();
+  		 		var order_memo = $("#ord_memo").val();
+  		 		
+  		 		var opt_tb_idx = [];
+  		 		var orderd_qty = [];
+  		 		var orderd_price = [];
+  		 		
+  		 		var idxSize = $("input[name='opt_tb_idx']").length;
+  		 		for( i=0; i< idxSize; i++){
+  		 			opt_tb_idx.push($("input[name='opt_tb_idx']").eq(i).attr("value"));
+  		 		}
+  		 		for( i=0; i< idxSize; i++){
+  		 			orderd_qty.push($("input[name='orderd_qty']").eq(i).attr("value"));
+  		 		}
+  		 		for( i=0; i< idxSize; i++){
+  		 			orderd_price.push($("input[name='orderd_price']").eq(i).attr("value"));
+  		 		}
+  		 		console.log(orderd_qty);
+  		 		console.log(orderd_price);
+  		 		
+  		 		var pay_type = 1;
+  		 		var pay_price_real = $('input[id=ordPric]').val();
+  		 		//var pay_price_deposit = $('input[id=ordPric]').val();
+  		 		//var pay_deposit_name ;
+  		 		//var pay_bank;
+  	            // 결제 성공시 처리 로직
+  	            console.log("결제 성공창까지 넘어왔습니다.");
+  	            var orderPointCal = $("#orderPointCal").val(); // orderPointCal 값을 가져옵니다.
+  	            var ordPric = $("#ordPric").val(); // ordPric 값을 가져옵니다.
+  	            var data = {
+  	            		member_tb_idx : member_tb_idx,
+  	        			coupon_tb_idx : coupon_tb_idx,
+  	        			order_addr1 : order_addr1,
+  	        			order_addr2 : order_addr2,
+  	        			order_addr3 : order_addr3,
+  	        			order_name : order_name,
+  	        			order_phone : order_phone,
+  	        			order_memo : order_memo,
+  	        			opt_tb_idx : opt_tb_idx,
+  	        			orderd_qty : orderd_qty,
+  	        			orderd_price : orderd_price,
+  	        			pay_type : pay_type,
+  	        			pay_price_real : pay_price_real
+  	            };
+  	            updateSavedPoints(data);
+  	        } else
+				  
 			console.log("ㅇㅅㅇ"+$('input[id=ordPric]').val());
         	IMP.request_pay({
         		 pg : 'nice',
@@ -429,7 +505,7 @@ function updateSavedPoints(data) {
             // 서버 처리가 성공적으로 이루어졌을 때
             console.log('결제 및 포인트 처리 완료');
             alert('결제가 완료되었습니다.'); // 이 부분을 추가합니다.
-            location.href = '<%=request.getContextPath()%>/'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
+            location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
         },
         error: function() {
             // 서버 처리 중 오류 발생 시

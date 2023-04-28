@@ -179,8 +179,9 @@ if (starRating) {
 									<input type="hidden" name="opt_qty3" id="optQty3" value="0">
 									<input type="hidden" name="opt_qty4" id="optQty4" value="0">
 									<input type="hidden" name="opt_qty5" id="optQty5" value="0">
-									<button class="btn btn-outline-light login"
-										style="width: 280px; height: 60px;">바로 구매하기</button>
+									<button class="btn btn-outline-light login" style="width: 280px; height: 60px;"
+									 onclick="if(document.getElementById('optIdx1').value == 0){alert('메인상품을 선택해주세요.');
+								      return false;}">바로 구매하기</button>
 								</form>
 							</c:if>
 						</div>
@@ -684,6 +685,11 @@ function prodCart(){
 	}
 	if( $("#optQty5").val() != 0){
 		cart_amount.push($("#optQty5").val());
+	}
+	
+	if (opt_tb_idx.length === 0) {
+		alert("상품을 선택해주세요.");
+		return;
 	}
 	
 	
