@@ -53,6 +53,22 @@ public class SearchController {
 	            searchResults = searchService.oto_search(searchText, searchOption, start, limit);
 	            totalResults = searchService.oto_countSearchResults(searchText, searchOption);
 	            break;
+	        case "aoto":
+	            searchResults = searchService.oto_search(searchText, searchOption, start, limit);
+	            totalResults = searchService.oto_countSearchResults(searchText, searchOption);
+	            break;
+	        case "qrod":
+	        	 searchResults = searchService.qaprod_search(searchText, searchOption, start, limit);
+		         totalResults = searchService.qaprod_countSearchResults(searchText, searchOption);
+	        	break;
+	        case "prod":
+	        	 searchResults = searchService.prod_search(searchText, searchOption, start, limit);
+		         totalResults = searchService.prod_countSearchResults(searchText, searchOption);
+	        	break;
+	        case "orderlist":
+	        	searchResults = searchService.orderlist_search(searchText, searchOption, start, limit);
+		         totalResults = searchService.orderlist_countSearchResults(searchText, searchOption);
+	        	break;
 	            
 	        default:
 	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 잘못된 searchType이 입력되면 BadRequest를 반환합니다.

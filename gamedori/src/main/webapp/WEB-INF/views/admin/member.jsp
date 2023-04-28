@@ -123,8 +123,8 @@
 	        var pageLink = pageItem.find('a.page-link');
 	        if (pageItem.hasClass('active')) {
 	            pageLink.css({
-	                'background-color': '218, 219, 221',
-	                'border-color': '#ffeeeee'
+	                'background-color': '#dadbdd',
+	                'border-color': '#dee2e6'
 	            });
 	        } else {
 	            pageLink.css({
