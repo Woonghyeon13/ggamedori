@@ -87,7 +87,7 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public int orderlist_countSearchResults(String searchText, String searchOption) {
 		// TODO Auto-generated method stub
-		return searchDAO.oto_countSearchResults(searchText, searchOption);
+		return searchDAO.orderlist_countSearchResults(searchText, searchOption);
 	}
 
 }

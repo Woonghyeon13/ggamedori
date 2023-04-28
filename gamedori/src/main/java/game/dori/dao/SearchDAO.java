@@ -143,7 +143,7 @@ public class SearchDAO {
 		}
 		
 		// 오더리스트 글 검색 후 페이징에 쓸 갯수
-		public int orderlis_countSearchResults(String searchText, String searchOption) {
+		public int orderlist_countSearchResults(String searchText, String searchOption) {
 		    Map<String, Object> params = new HashMap<String, Object>();
 		    params.put("searchText", searchText);
 		    params.put("searchOption", searchOption);

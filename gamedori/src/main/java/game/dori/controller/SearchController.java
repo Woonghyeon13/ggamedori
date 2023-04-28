@@ -68,6 +68,8 @@ public class SearchController {
 	        case "orderlist":
 	        	searchResults = searchService.orderlist_search(searchText, searchOption, start, limit);
 		         totalResults = searchService.orderlist_countSearchResults(searchText, searchOption);
+		         
+		         System.out.println(totalResults);
 	        	break;
           
 	        default:
