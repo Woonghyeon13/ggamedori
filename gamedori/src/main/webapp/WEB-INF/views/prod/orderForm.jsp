@@ -285,7 +285,6 @@
 		
 		function requestPay() {
 		  
-			console.log("ㅇㅅㅇ"+$('input[id=ordPric]').val());
         	IMP.request_pay({
         		 pg : 'nice',
          	    pay_method : 'card',

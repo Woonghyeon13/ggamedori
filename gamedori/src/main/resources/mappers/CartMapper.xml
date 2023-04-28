@@ -30,4 +30,12 @@
 		 where
 		  cart_idx = #{cart_idx}
 	</update>
+	
+	<!-- 장바구니 옵션 불러오기 -->
+	<select id="cartOptSelect" resultType="cartpVO" parameterType="cartpVO">
+		select * from cart_tb c, opt_tb o
+			where c.opt_tb_idx = o.opt_idx
+			and member_tb_idx = #{member_idx}
+			and cart_idx = #{cart_idx}
+	</select>
 </mapper>

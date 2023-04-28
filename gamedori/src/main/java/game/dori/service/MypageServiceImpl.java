@@ -9,6 +9,8 @@ import game.dori.dao.CartDAO;
 import game.dori.dao.CouponDAO;
 import game.dori.dao.MemberDAO;
 import game.dori.dao.OrderDAO;
+import game.dori.dao.OrderDetailDAO;
+import game.dori.dao.PayDAO;
 import game.dori.dao.ProductQDAO;
 import game.dori.dao.QaDAO;
 import game.dori.dao.ReviewDAO;
@@ -17,7 +19,9 @@ import game.dori.dao.WishlistDAO;
 import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
+import game.dori.vo.ORDER_DETAIL_VO;
 import game.dori.vo.ORDER_VO;
+import game.dori.vo.PAY_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
@@ -55,6 +59,12 @@ public class MypageServiceImpl implements MypageService{
 	@Autowired
 	private WishlistDAO wishlistDAO;
 	
+	@Autowired
+	private OrderDetailDAO orderDetailDAO;
+	
+	@Autowired
+	private PayDAO payDAO;
+
 	
 	//마이페이지 등급 출력
 	@Override
@@ -307,6 +317,24 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public int cartModify(CART_VO cvo) {
 		return cartDAO.cartModify(cvo);
+	}
+
+	// 장바구니 옵션정보
+	@Override
+	public CARTP_VO cartView(CARTP_VO cpvo) {
+		return cartDAO.cartView(cpvo);
+	}
+
+	// 주문 목록 리스트 연결
+	@Override
+	public ORDER_DETAIL_VO orderDetailOne(int order_tb_idx) {
+		return orderDetailDAO.orderDetailOne(order_tb_idx);
+	}
+
+	// 주문목록 금액 선택
+	@Override
+	public PAY_VO selectPayPrice(int order_tb_idx) {
+		return payDAO.selectPayPrice(order_tb_idx);
 	}
 	
 	

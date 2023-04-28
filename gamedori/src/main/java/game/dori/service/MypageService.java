@@ -6,7 +6,9 @@ import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.NOTICE_VO;
+import game.dori.vo.ORDER_DETAIL_VO;
 import game.dori.vo.ORDER_VO;
+import game.dori.vo.PAY_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.QA_VO;
@@ -128,4 +130,13 @@ public interface MypageService {
 	
 	// 상품 상세페이지에서 장바구니 담기
 	public int insertCart( CART_VO cvo );
+	
+	// 장바구니 옵션정보
+	public CARTP_VO cartView( CARTP_VO cpvo );
+	
+	// 주문 목록 리스트 연결
+	public ORDER_DETAIL_VO orderDetailOne( int order_tb_idx );
+	
+	// 주문목록 금액 선택
+	public PAY_VO selectPayPrice( int order_tb_idx );
 }

@@ -20,8 +20,16 @@ public class CARTP_VO {
 	private String opt_price;		// 옵션추가금액
 	private int opt_state;			// 1:판매중, 2:품절, 3:숨김처리
 	
+	private int member_idx;			// 멤버인덱스
+	
 	private List<OPT_VO> optlist; 	//옵션리스트
 	
+	public int getMember_idx() {
+		return member_idx;
+	}
+	public void setMember_idx(int member_idx) {
+		this.member_idx = member_idx;
+	}
 	public List<OPT_VO> getOptlist() {
 		return optlist;
 	}
