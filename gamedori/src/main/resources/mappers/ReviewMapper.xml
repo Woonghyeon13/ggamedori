@@ -18,6 +18,27 @@
 				r.member_tb_idx = m.member_idx 
 	</select>
 	
+	<!-- 리뷰 작성 -->
+	<insert id="review_insert" parameterType="reviewVO">
+		INSERT INTO 
+			REVIEW_TB (
+				PRODUCT_TB_IDX,
+				MEMBER_TB_IDX,
+				REVIEW_TITLE,
+				REVIEW_CONTENTS,
+				REVIEW_STAR,
+				REVIEW_IMG)
+			VALUES (
+				#{product_tb_idx},
+				#{member_tb_idx},
+				#{review_title},
+				#{review_contents},
+				#{review_star},
+				#{review_img}
+			)
+	</insert>
+
+	
 	<!-- 마이페이지 리뷰 개수 -->
 	<select id="ReviewCount" resultType="int" parameterType="int">
 		SELECT COUNT(REVIEW_IDX)
@@ -41,7 +62,7 @@
 	      </when>
 	      <when test="R_searchType == 'name'">
 	        <if test="R_searchValue != null and R_searchValue != ''">
-	          AND (review_title LIKE CONCAT('%', #{R_searchValue}, '%') OR prod_name LIKE CONCAT('%', #{R_searchValue}, '%'))
+	          AND prod_name LIKE CONCAT('%', #{R_searchValue}, '%'))
 	        </if>
 	      </when>
 	      <otherwise>
@@ -69,7 +90,7 @@
 		      </when>
 		      <when test="R_searchType == 'name'">
 		        <if test="R_searchValue != null and R_searchValue != ''">
-		          (review_title LIKE CONCAT('%', #{R_searchValue}, '%') OR prod_name LIKE CONCAT('%', #{R_searchValue}, '%'))
+		          prod_name LIKE CONCAT('%', #{R_searchValue}, '%'))
 		        </if>
 		      </when>
 		      <otherwise>

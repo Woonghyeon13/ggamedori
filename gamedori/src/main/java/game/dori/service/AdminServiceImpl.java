@@ -11,12 +11,15 @@ import game.dori.dao.OrderListDAO;
 import game.dori.dao.PageModifyDAO;
 import game.dori.dao.ProductQDAO;
 import game.dori.dao.QaDAO;
+import game.dori.dao.SearchDAO;
+import game.dori.dao.SearchDAO;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.AD_VO;
 import game.dori.vo.CAROUSEL_VO;
 import game.dori.vo.CATEGORY_IMG_VO;
+import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
 
 @Service
@@ -37,6 +40,8 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired
 	private PageModifyDAO pmDAO;
 
+	@Autowired
+	private SearchDAO scDAO;
 	
 	// 공지사항 페이징
 	public List<NOTICE_VO> list(int limit, int start) {
@@ -77,18 +82,7 @@ public class AdminServiceImpl implements AdminService{
 		return noticeDAO.modify(noticeVO);
 	}
 	
-	// 공지사항 글 검색기능
-	public int countSearchResults(String searchText, String searchOption) {
-		// TODO Auto-generated method stub
-		return noticeDAO.countSearchResults(searchText, searchOption);
 
-	}
-
-	// 공지사항 글 검색후 페이징
-	@Override
-	public List<NOTICE_VO> searchNotices(String searchText, String searchOption, int start, int limit) {
-	    return noticeDAO.search(searchText, searchOption, start, limit);
-	}
 
 	// 공지사항 조회수
 	@Override
@@ -104,8 +98,8 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 
-	public List<OTO_VO> otoList() {//1:1문의 리스트
-		return qaDAO.list();
+	public List<OTO_VO> otoList(int limit, int start) {//1:1문의 리스트
+		return qaDAO.otolist(limit, start);
 	}
 	
 
@@ -153,6 +147,15 @@ public class AdminServiceImpl implements AdminService{
 	public Map<String, String> selectCategoryImages() {//카테고리 이미지 리스트
 		return pmDAO.selectCategoryImages();
 	}
+	
 
+
+
+
+
+	@Override
+	public int updateOrderState(ORDER_LIST_VO orderlistVO) {
+		return orderlistDAO.updateOrderState(orderlistVO);
+	}
 
 }

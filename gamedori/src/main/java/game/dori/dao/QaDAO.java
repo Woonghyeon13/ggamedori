@@ -50,9 +50,13 @@ public class QaDAO {
 	{
 		return sqlSession.selectOne("game.dori.mapper.qaMapper.oto_countAll");
 	}
+
 	// 1 : 1 문의사항 리스트 출력
-	public List<OTO_VO> list(){
-		return sqlSession.selectList(namespace + "otolist");
+	public List<OTO_VO> otolist(int limit, int start){
+		Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("limit", limit);
+	    params.put("start", start);
+		return sqlSession.selectList(namespace + "otolist", params);
 	}
 	
 	// 1 : 1 문의사항 페이징
@@ -83,14 +87,22 @@ public class QaDAO {
 
 	    return sqlSession.selectList("game.dori.mapper.qaMapper.oto_search", params);
 	}
-	
 
 	// 1 : 1문의사항 답변
 	public int otoAnswer(OTO_VO otoVO) {
 		return sqlSession.update(namespace + "otoAnswer", otoVO);
 	}
 	
-
+//	// 내가 작성한 1:1 문의사항 리스트 조회
+//    public List<QA_VO> otoListByMember(int member_Idx, int limit, int start){
+//    	return sqlSession.selectList(namespace + "otoListByMember", member_Idx);
+//    }
+//
+//    // 내가 작성한 1:1 문의사항 게시물 총 개수 조회
+//    public int countOtoByMember(int member_Idx) {
+//    	return sqlSession.selectOne(namespace + "countOtoByMember");
+//    }
 	
+    
 	
 }

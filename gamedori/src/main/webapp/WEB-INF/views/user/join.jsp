@@ -7,6 +7,7 @@
 
 var emailRegex = /\S+@\S+\.\S+/;
 
+var isEmailAvailable = false;
 
 function validateEmail() {
 	  var email = $("#member_email").val();
@@ -47,21 +48,21 @@ function validateEmail() {
 		    type: "get",
 		    data: { member_email : email },
 		    success: function(data) {
-		      $("#member_email").data("checked", true); // 중복 체크 완료
-		      if (data == '0') {
-		        alert("사용할 수 없는 이메일입니다.");	
-		        $("#member_email").val("");
-		      } else if (data == '1') {
-		        alert("사용할 수 있는 이메일입니다.");	
-		      }
-		    },
+		    	  $("#member_email").data("checked", true); // 중복 체크 완료
+		    	  if (data == '0') {
+		    	    alert("사용할 수 없는 이메일입니다.");	
+		    	    $("#member_email").val("");
+		    	    isEmailAvailable = false;
+		    	  } else if (data == '1') {
+		    	    alert("사용할 수 있는 이메일입니다.");	
+		    	    isEmailAvailable = true;
+		    	  }
+		    	},
 		    error: function() {
 		      alert("에러입니다!");
 		    }
 		  });
 		}
-	
-
 </script>
 <main>
 	
@@ -73,18 +74,18 @@ function validateEmail() {
 
 						<h4 class="mb-3">회원가입</h4>
 						<hr />
-						<form class="validation-form" action="<%=request.getContextPath()%>/user/join.do" method="post" onsubmit="return validatePassword()">
+						<form id="signupForm" class="validation-form" action="<%=request.getContextPath()%>/user/join.do" method="post">
 							<div class="row">
 
 							<div class="col-md-12 mb-3">
 								 <label for="MEMBER_EMAIL">*이메일</label>
-								  <div class="input-group mb-3">
-								    <input type="email" class="form-control memberemail" name="member_email" id="member_email" placeholder="이메일" required>
-								    <div>${fn:escapeXml(member_email)}</div>
-								    <button onclick="checkID()" class="btn btn-outline-secondary" type="button" id="emailCheck">중복체크</button>
-								    <div class="invalid-feedback">이메일을 입력해주세요.</div>
-								    <div class="invalid-feedback">유효한 이메일 주소를 입력해주세요.</div>
-								  </div>
+							        <div class="input-group mb-3">
+							          <input type="email" class="form-control memberemail" name="member_email" id="member_email" placeholder="이메일" required>
+							          <div>${fn:escapeXml(member_email)}</div>
+							          <button type="button" onclick="checkID()" class="btn btn-outline-secondary" id="emailCheck">중복체크</button>
+							          <div class="invalid-feedback">이메일을 입력해주세요.</div>
+							          <div class="invalid-feedback">유효한 이메일 주소를 입력해주세요.</div>
+							        </div>
 								</div>
 
 
@@ -261,20 +262,22 @@ function validateEmail() {
 			</div>
 
 			<script>
-				window.addEventListener('load', () => {
-				  const forms = document.getElementsByClassName('validation-form');
-			
-				  Array.prototype.filter.call(forms, (form) => {
-					form.addEventListener('submit', function (event) {
-					  if (form.checkValidity() === false) {
-						event.preventDefault();
-						event.stopPropagation();
-					  }
-			
-					  form.classList.add('was-validated');
-					}, false);
-				  });
-				}, false);
+			$("#signupForm").on("submit", function(e) {
+				  var isPasswordValid = validatePassword();
+
+				  if (!$("#member_email").data("checked")) {
+				    alert("이메일 중복 체크를 해주세요.");
+				    e.preventDefault(); // 폼 제출을 중지합니다.
+				  } else if (!isEmailAvailable) {
+				    alert("중복된 이메일입니다. 다른 이메일을 사용해주세요.");
+				    e.preventDefault(); // 폼 제출을 중지합니다.
+				  } else if (!isPasswordValid) {
+				    alert("비밀번호 보안식이 올바르지 않습니다. 다시 확인해주세요.");
+				    e.preventDefault(); // 폼 제출을 중지합니다.
+				  } else {
+				    // 이메일 중복 체크와 비밀번호 유효성 검사가 모두 완료된 경우 폼이 정상적으로 제출됩니다.
+				  }
+				});
 			  </script>
 
 		</section>

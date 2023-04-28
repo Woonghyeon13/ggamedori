@@ -53,24 +53,29 @@ public class MemberController {
 	
 	
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public void Login( MEMBER_VO MemberVO ,  HttpServletResponse rsp ,HttpServletRequest req , HttpSession session, Model model) throws IOException
-	{
-		MEMBER_VO result = MemberService.Login(MemberVO);
+	public void Login(MEMBER_VO MemberVO, HttpServletResponse rsp, HttpServletRequest req, HttpSession session, Model model) throws IOException {
+	    MEMBER_VO result = MemberService.Login(MemberVO);
 	    if (result != null) {
 	        // 로그인 성공
-	    	if(result.getMember_state() == 1)
-	    	{
-	    	System.out.println("로그인성공");
-	    	MEMBER_VO MemberVO2 = new MEMBER_VO();
-	    	MemberVO2.setMember_email(result.getMember_email());
-	    	MemberVO2.setMember_role(result.getMember_role());
-	    	MemberVO2.setMember_name(result.getMember_name());
-	    	MemberVO2.setMember_idx(result.getMember_idx());
+	        if (result.getMember_state() == 1) {
+	            System.out.println("로그인성공");
+	            // 주소 정보를 가져옵니다.
+	           ADDRESS_VO addresses = AddressService.findByMemberIdx(result);
+
+	            MEMBER_VO MemberVO2 = new MEMBER_VO();
+	            MemberVO2.setMember_email(result.getMember_email());
+	            MemberVO2.setMember_role(result.getMember_role());
+	            MemberVO2.setMember_name(result.getMember_name());
+	            MemberVO2.setMember_idx(result.getMember_idx());
+	            MemberVO2.setMember_phone(result.getMember_phone());
+
+	            
 	    	
 	    	rsp.setContentType("text/html; charset=utf-8");
 	        PrintWriter pw = rsp.getWriter();
 	        pw.append("<script> location.href='"+req.getContextPath()+"'</script>");
-	    	session.setAttribute("Login", MemberVO2);
+	        session.setAttribute("Login", MemberVO2);
+            session.setAttribute("Addresses", addresses); // 주소 정보를 세션에 저장합니다.
 	    	
 	    	}
 	    	else if(result.getMember_state() == 2) {
@@ -323,17 +328,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/Member_delete.do", method = RequestMethod.POST)
 	public Map<String, String> memberdelete(MEMBER_VO MemberVO, HttpSession session ) throws IOException {
-		//int addr = AddressService.delete(MemberVO);
 
-		/*
-		 * Map<String, String> response = new HashMap<String, String>(); if (addr > 0 )
-		 * { MemberService.deleteCupon(MemberVO); MemberService.deletePoint(MemberVO);
-		 * MemberService.NoticedeleteAll(MemberVO); MemberService.Delete(MemberVO);
-		 * session.removeAttribute("Login"); response.put("result", "1"); } else {
-		 * System.out.println(MemberVO.getMember_email());
-		 * System.out.println(MemberVO.getMember_pw()); System.out.println("탈퇴 실패");
-		 * response.put("result", "2"); }
-		 */
 		MEMBER_VO result = MemberService.selectByEmail(MemberVO.getMember_email());
 
 	
@@ -359,39 +354,38 @@ public class MemberController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/Member_modfiy.do", method = RequestMethod.POST)
-	public Map<String, Integer> memberUpdate(ADDRESS_VO addr,String member_npw, MEMBER_VO memberVO, HttpSession session) {
-	  
-		
-		try {
+	public Map<String, Integer> memberUpdate(ADDRESS_VO addr, String member_npw, MEMBER_VO memberVO, HttpSession session) {
+
+	    try {
 	        MEMBER_VO result = MemberService.Login(memberVO); // 이메일로 회원 정보 검색
 	        Map<String, Integer> response = new HashMap<String, Integer>();
-	        if(result != null) {
-	        	int memberIdx = result.getMember_idx(); // 검색된 회원의 idx 값 가져오기
-	        	
-	        	
-	        	memberVO.setMember_pw(member_npw);
-	 	        memberVO.setMember_idx(memberIdx); // 회원의 idx 값을 설정
-	 	        addr.setMember_tb_idx(memberIdx); // 주소 객체에 회원의 idx 값을 설정
+	        if (result != null) {
+	            int memberIdx = result.getMember_idx(); // 검색된 회원의 idx 값 가져오기
 
-	 	        int memberResult = MemberService.Update(memberVO);
-	 	        int addrResult = AddressService.update(addr);
+	            // 새 비밀번호가 제공된 경우에만 업데이트
+	            if (member_npw != null && !member_npw.isEmpty()) {
+	                memberVO.setMember_pw(member_npw);
+	            }
 
-	 	        
-	 	       if (memberResult > 0 && addrResult > 0) {
-		            response.put("result", 1);
-		        }
+	            memberVO.setMember_idx(memberIdx); // 회원의 idx 값을 설정
+	            addr.setMember_tb_idx(memberIdx); // 주소 객체에 회원의 idx 값을 설정
+
+	            int memberResult = MemberService.Update(memberVO);
+	            int addrResult = AddressService.update(addr);
+
+	            if (memberResult > 0 && addrResult > 0) {
+	                response.put("result", 1);
+	            }
 	            return response; // 응답 객체를 반환합니다.
 	        } else {
 	            System.out.println("id 와 비밀번호 가 일치하지 않습니다.");
 	            response.put("result", 0); // 회원 정보가 없는 경우 실패로 설정합니다.
-	    	    return response; // 실패한 응답 객체를 반환합니다.
-	        	}
-			} catch (NullPointerException e) {
-				e.printStackTrace(); // 예외 정보를 로그에 출력합니다.
-				throw e; // 예외를 상위 메서드로 전파합니다.
-	        
+	            return response; // 실패한 응답 객체를 반환합니다.
+	        }
+	    } catch (NullPointerException e) {
+	        e.printStackTrace(); // 예외 정보를 로그에 출력합니다.
+	        throw e; // 예외를 상위 메서드로 전파합니다.
 	    }
-	
 	}
 
 

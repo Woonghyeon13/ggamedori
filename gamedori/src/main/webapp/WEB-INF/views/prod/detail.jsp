@@ -2,6 +2,30 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ include file="../include/head.jsp" %>
+
+<!-- 별점 등록 자바스크립트 -->
+<script>
+const starRating = document.querySelector(".starRatingVt");
+
+if (starRating) {
+  const stars = starRating.querySelectorAll("input[type='radio']");
+  const labels = starRating.querySelectorAll("label");
+
+  stars.forEach((star) => {
+    star.addEventListener("click", function (e) {
+      labels.forEach((label) => {
+        if (label.htmlFor === e.target.getAttribute("id")) {
+          label.classList.add("checked");
+        } else {
+          label.classList.remove("checked");
+        }
+      });
+    });
+  });
+}
+
+</script>
+
 <main>
 	<!-- 상품 정보 -------------------------------------------->
 	<input type="hidden" name="member_idx" value="${Login.member_idx}">
@@ -137,11 +161,11 @@
 							</p>
 							<div
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
-								<button class="btn btn-secondary" type="button"
+								<button class="btn btn-secondary" type="button" onclick="prodCart()"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
 							<c:if test="${empty sessionScope.Login}">
-									<button class="btn btn-outline-light login" onclick="javascript:prodBtn()"
-										style="width: 280px; height: 60px;">바로 구매하기</button>
+								<button type="button" class="btn btn-outline-light login" onclick="prodBtn()"
+									style="width: 280px; height: 60px;">바로 구매하기</button>
 							</c:if>
 							<c:if test="${not empty sessionScope.Login}">
 								<form name="frm" action="orderForm.do" method="get">
@@ -155,8 +179,9 @@
 									<input type="hidden" name="opt_qty3" id="optQty3" value="0">
 									<input type="hidden" name="opt_qty4" id="optQty4" value="0">
 									<input type="hidden" name="opt_qty5" id="optQty5" value="0">
-									<button class="btn btn-outline-light login"
-										style="width: 280px; height: 60px;">바로 구매하기</button>
+									<button class="btn btn-outline-light login" style="width: 280px; height: 60px;"
+									 onclick="if(document.getElementById('optIdx1').value == 0){alert('메인상품을 선택해주세요.');
+								      return false;}">바로 구매하기</button>
 								</form>
 							</c:if>
 						</div>
@@ -203,6 +228,7 @@
 			</div>
 		</div>
 		<!-- 리뷰 ------------------------------------------------------------------------->
+		
 		<div class="container mt-5">
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
 				<li class="nav-item"><a class="nav-link text-reset"
@@ -255,9 +281,12 @@
 					</td>
 				</tr>
 				<!-- 리뷰 없음 -->
-				<!-- <tr>
+				
+<!-- 
+		<tr>
           <td class="py-5">등록된 리뷰가 없습니다.</td>
-        </tr> -->
+     	</tr>
+       -->
 			</table>
 			<div class="container d-flex justify-content-between mt-3">
 				<div></div>
@@ -278,7 +307,9 @@
 				<button type="button" class="btn btn-outline-light login me-2"
 					data-bs-toggle="modal" data-bs-target="#review"
 					style="height: 38px;">리뷰 작성하기</button>
+					
 				<!-- 리뷰 작성 모달---------------------------------------------------------------------------------------------------------->
+				
 				<div class="modal fade" id="review">
 					<div class="modal-dialog modal-dialog-centered">
 						<div class="modal-content">
@@ -288,50 +319,86 @@
 								</div>
 							</div>
 							<div class="modal-body">
-								<form name="review" method="post" action="loginAction.jsp">
+								<form name="review_reg" method="post" action="review_reg.do">
 									<div class="form-group">
-										<input type="text" class="form-control" id="review_title"
-											placeholder="제목" name="review_title">
+										<input type="text" class="form-control" id="review_title" placeholder="제목" name="review_title">
+										<input type="hidden" name="member_email" value="${Login.member_email}"> 
 									</div>
 									<div class="form-group mt-2 col">
-										<textarea class="form-control h-25" rows="10"
-											id="review_contents" placeholder="내용" name="review_contents"></textarea>
+										<textarea class="form-control h-25" rows="10" id="review_contents" placeholder="내용" name="review_contents"></textarea>
 									</div>
 										<div class="form-group mt-2 d-flex justify-content-between align-items-center">
-											<div class="starCntVt">
-											<div class="starRating-wrapVt">
-												<div id="starCenterVt">
-													<fieldset class="starRatingVt">
-														<input type="radio" id="star5" name="review_star" value="10" /><label for="star5" class="full" title="Awesome"></label>
-														<input type="radio" id="star4.5" name="review_star" value="9" /><label for="star4.5" class="half"></label>
-														<input type="radio" id="star4" name="review_star" value="8"/><label for="star4" class="full"></label>
-														<input type="radio" id="star3.5" name="review_star" value="7"/><label for="star3.5" class="half"></label>
-														<input type="radio" id="star3" name="review_star" value="6"/><label for="star3" class="full"></label>
-														<input type="radio" id="star2.5" name="review_star" value="5"/><label for="star2.5" class="half"></label>
-														<input type="radio" id="star2" name="review_star" value="4"/><label for="star2" class="full"></label>
-														<input type="radio" id="star1.5" name="review_star" value="3"/><label for="star1.5" class="half"></label>
-														<input type="radio" id="star1" name="review_star" value="2"/><label for="star1" class="full"></label>
-														<input type="radio" id="star0.5" name="review_star" value="1"/><label for="star0.5" class="half"></label>
-													</fieldset>
-												</div>
-											</div>
+										  <div class="starCntVt">
+										    <div class="starRating-wrapVt">
+										      <div id="starCenterVt">
+										        <fieldset class="starRatingVt">
+										          <input type="radio" id="star5" name="review_star" value="10" /><label for="star5" class="full" title="Awesome"></label>
+										          <input type="radio" id="star4.5" name="review_star" value="9" /><label for="star4.5" class="half"></label>
+										          <input type="radio" id="star4" name="review_star" value="8"/><label for="star4" class="full"></label>
+										          <input type="radio" id="star3.5" name="review_star" value="7"/><label for="star3.5" class="half"></label>
+										          <input type="radio" id="star3" name="review_star" value="6"/><label for="star3" class="full"></label>
+										          <input type="radio" id="star2.5" name="review_star" value="5"/><label for="star2.5" class="half"></label>
+										          <input type="radio" id="star2" name="review_star" value="4"/><label for="star2" class="full"></label>
+										          <input type="radio" id="star1.5" name="review_star" value="3"/><label for="star1.5" class="half"></label>
+										          <input type="radio" id="star1" name="review_star" value="2"/><label for="star1" class="full"></label>
+										          <input type="radio" id="star0.5" name="review_star" value="1"/><label for="star0.5" class="half"></label>
+										        </fieldset>
+										      </div>
+										      <h4 id="rating-value"></h4>
+										    </div>
+										  </div>
 										</div>
-									</div>
+
 									<div class="form-group mt-2">
 										<div class="input-group mb-3">
-											<input type="file" class="form-control" id="inputGroupFile02">
+											<input type="file" class="form-control" id="inputGroupFile02" name="review_img">
 											<label class="input-group-text" for="inputGroupFile02">Upload</label>
 										</div>
 									</div>
 									<div class="d-grid gap-1 mt-2">
-										<input type="submit"
-											class="btn btn-outline-light login btn-lg form-control"
-											value="작성">
+										<input type="submit" class="btn btn-outline-light login btn-lg form-control" value="작성">
 									</div>
+									
+									<script>
+									const starRating = document.querySelector(".starRatingVt");
+									
+									if (starRating) {
+									  const stars = starRating.querySelectorAll("input[type='radio']");
+									  const labels = starRating.querySelectorAll("label");
+									
+									  stars.forEach((star) => {
+									    star.addEventListener("click", function (e) {
+									      labels.forEach((label) => {
+									        if (label.htmlFor === e.target.getAttribute("id")) {
+									          label.classList.add("checked");
+									        } else {
+									          label.classList.remove("checked");
+									        }
+									      });
+									    });
+									  });
+									}
+									
+									</script>
 								</form>
 							</div>
 						</div>
 					</div>
+					<script>
+		<!-- 별점 등록 자바스크립트 -->
+		<script>
+		let star = document.querySelectorAll('input');
+		let showValue = document.querySelector('#rating-value');
+		
+		for (let i = 0; i < star.length; i++) {
+			star[i].addEventListener('click', function() {
+				i = this.value;
+		
+			
+			});
+		}
+		
+		</script>
 				</div>
 			</div>
 		</div>
@@ -385,10 +452,19 @@
 						</tr>
 						<tr class="hide border-bottom">
 							<td></td>
-							<td colspan="4">${pql.prod_q_contents} <br>
-								<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
-								${pql.prod_q_reply}
-							</td>
+							
+							<c:if test="${pql.prod_q_secret eq '1' && pql.member_name == sessionScope.Login.member_name}">
+								<td colspan="4">${pql.prod_q_contents} <br>
+									<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
+									${pql.prod_q_reply}
+								</td>
+							</c:if>
+							
+							<c:if test="${pql.prod_q_secret eq '1' && pql.member_name != sessionScope.Login.member_name}">
+								<td colspan="4">
+									비밀글 입니다.
+								</td>
+							</c:if>
 						</tr>
 						</c:forEach>
 					</c:if>
@@ -621,18 +697,63 @@ function change_qty(optionIndex, t) {
     updateTotalAmount();
 }
 
-$("#numSum1").change(function(){
-	$.ajax({
-		url : '<%=request.getContextPath()%>/prod/numSum.do',
-		type : post,
-		data : {},
-		success : function(data){
-			$("#total_amount").html(data);
-		}
-		
-	});
-});
+function prodCart(){
+	
+	var member_tb_idx = ${Login.member_idx};
+	var opt_tb_idx = [];
+	var cart_amount = [];
 
+	if( $("#optIdx1").val() != 0 ){
+		opt_tb_idx.push($("#optIdx1").val());
+	}
+	if( $("#optIdx2").val() != 0 ){
+		opt_tb_idx.push($("#optIdx2").val());
+	}
+	if( $("#optIdx3").val() != 0 ){
+		opt_tb_idx.push($("#optIdx3").val());
+	}
+	if( $("#optIdx4").val() != 0 ){
+		opt_tb_idx.push($("#optIdx4").val());
+	}
+	if( $("#optIdx5").val() != 0 ){
+		opt_tb_idx.push($("#optIdx5").val());
+	}
+	if( $("#optQty1").val() != 0){
+		cart_amount.push($("#optQty1").val());
+	}
+	if( $("#optQty2").val() != 0){
+		cart_amount.push($("#optQty2").val());
+	}
+	if( $("#optQty3").val() != 0){
+		cart_amount.push($("#optQty3").val());
+	}
+	if( $("#optQty4").val() != 0){
+		cart_amount.push($("#optQty4").val());
+	}
+	if( $("#optQty5").val() != 0){
+		cart_amount.push($("#optQty5").val());
+	}
+	
+	if (opt_tb_idx.length === 0) {
+		alert("상품을 선택해주세요.");
+		return;
+	}
+	
+	
+	$.ajax({
+		url : '<%=request.getContextPath()%>/mypage/cartInsert.do',
+		type : 'POST',
+		traditional: true,
+		data : {
+			member_tb_idx : member_tb_idx,
+			opt_tb_idx : opt_tb_idx,
+			cart_amount : cart_amount
+		},
+		success : function(data){
+			alert("장바구니에 담겼습니다.");
+		}
+	})
+}
 
 </script>
 <%@ include file="../include/foot.jsp" %>

@@ -72,6 +72,11 @@ public class ProductDAO {
 	public List<PRODUCT_VO> reservlist(){
 		return sqlSession.selectList("game.dori.mapper.productMapper.reservlist");
 	}
+	
+	// 상품문의 상품명 찾기
+	public PRODUCT_VO prod_name(int prod_idx) {
+		return sqlSession.selectOne("game.dori.mapper.productMapper.prod_name",prod_idx);
+	}
 }
 
 

@@ -68,53 +68,33 @@
 					style="width: 100%; border-top: 1px solid #000;">
 					<thead>
 						<tr>
-							<th scope="col">주문 번호</th>
+							<th scope="col">주문 상태</th>
+							<th scope="col">상품 이미지</th>
 							<th scope="col">상품명</th>
 							<th scope="col">주문 일자</th>
-							<th scope="col">주문 금액</th>
-							<th scope="col">주문 상태</th>
-							<th></th>
+							<th scope="col">주문 상세</th>
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="vo" items="${list}">
+					<c:forEach var="Orderlist" items="${list}">
 						<tr>
-							<th><a href='<c:url value="/mypage/orderdetail.do" />'>${vo.order_idx}</a></th>
-							<td>${vo.order_title}</td>
-							<td class="wdate">${vo.order_date}</td>
-							<td>${vo.order_price}</td>
 							<td>
-								<c:choose>
-									<c:when test="${vo.order_state == 1}">
-										<c:out value="주문접수" />
-									</c:when>
-										<c:when test="${vo.order_state == 2}">
-										<c:out value="결제완료" />
-									</c:when>
-										<c:when test="${vo.order_state == 3}">
-										<c:out value="상품준비중" />
-									</c:when>
-										<c:when test="${vo.order_state == 4}">
-										<c:out value="발송준비중" />
-									</c:when>
-										<c:when test="${vo.order_state == 5}">
-										<c:out value="발송완료" />
-									</c:when>
-										<c:when test="${vo.order_state == 6}">
-										<c:out value="주문취소" />
-									</c:when>
-										<c:when test="${vo.order_state == 7}">
-										<c:out value="반품접수" />
-									</c:when>
-										<c:when test="${vo.order_state == 8}">
-										<c:out value="반품완료" />
-									</c:when>
-								</c:choose>
+							<c:choose>
+								<c:when test="${Orderlist.order_state == 1}">
+								    <c:out value="주문완료" />
+								</c:when>
+								<c:when test="${Orderlist.order_state == 2}">
+								    <c:out value="배송중" />
+								 </c:when>
+								 <c:when test="${Orderlist.order_state == 3}">
+								    <c:out value="배송완료" />
+								 </c:when>
+							</c:choose>
 							</td>
-							<td>
-								<button type="button" class="btn btn-outline-secondary btn-sm">주문상세</button>
-								<button type="button" class="btn btn-outline-danger btn-sm">환불신청</button>
-							</td>		
+							<td>${Orderlist.prod_imgt}</td>
+							<td>${Orderlist.prod_name}</td>
+							<td>${Orderlist.order_date}</td>
+							<td><button>상세보기</button></td>
 						</tr>
 					</c:forEach>
 

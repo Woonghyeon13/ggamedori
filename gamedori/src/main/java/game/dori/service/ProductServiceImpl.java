@@ -9,18 +9,21 @@ import game.dori.dao.AddressDAO;
 import game.dori.dao.CategoryDAO;
 import game.dori.dao.MemberDAO;
 import game.dori.dao.OrderDAO;
+import game.dori.dao.OrderDetailDAO;
+import game.dori.dao.PayDAO;
 import game.dori.dao.ProdOptDAO;
 import game.dori.dao.ProductDAO;
 import game.dori.dao.ProductQDAO;
+import game.dori.dao.ReviewDAO;
+import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PRODOPT_VO;
-import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
-import game.dori.vo.ORDER_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
+import game.dori.vo.REVIEW_VO;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -45,6 +48,16 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	private OrderDAO orderDAO;
+	
+	@Autowired
+	private ReviewDAO reviewDAO;
+
+  @Autowired
+	private OrderDetailDAO orderDetailDAO;
+	
+	@Autowired
+	private PayDAO payDAO;
+
 	
 	// 카테고리 리스트
 	@Override
@@ -161,13 +174,13 @@ public class ProductServiceImpl implements ProductService{
 
 	// 상품 문의 등록
 	@Override
-	public int prodQinsert(PRODUCT_Q_VO pqvo) {
-		return prodQDAO.prodQinsert(pqvo);
+	public int prodq_insert(PRODUCT_Q_VO pqvo) {
+		return prodQDAO.prodq_insert(pqvo);
 	}
 
 	// 상품 문의 목록
 	@Override
-	public List<PROD_Q_LIST_VO> prodQlist( int prod_idx ) {
+	public List<PRODUCT_Q_VO> prodQlist( int prod_idx ) {
 		return prodQDAO.prodQlist(prod_idx);
 	}
 
@@ -191,8 +204,8 @@ public class ProductServiceImpl implements ProductService{
 
 	// 주문 인덱스 생성
 	@Override
-	public int insertOrder(ORDER_VO ovo) {
-		return orderDAO.insertOrder(ovo);
+	public int insertOrder(ORDER_LIST_VO olvo) {
+		return orderDAO.insertOrder(olvo);
 	}
 
 	// 상품 옵션 상세 정보리스트
@@ -213,7 +226,37 @@ public class ProductServiceImpl implements ProductService{
 		return null;
 	}
 
-	
+
+	// 리뷰 등록
+	@Override
+	public int review_insert(REVIEW_VO reviewVO) {
+		return reviewDAO.review_insert(reviewVO);
+	}
+
+	// 상품 인덱스 호출
+	@Override
+	public int orderNum() {
+		return orderDAO.orderNum();
+	}
+
+	// 주문 상세 상품 등록
+	@Override
+	public int insertOrderDetail(ORDER_LIST_VO olvo) {
+		return orderDetailDAO.insertOrderDetail(olvo);
+	}
+
+	// 주문결제서 생성
+	@Override
+	public int insertPay(ORDER_LIST_VO olvo) {
+		return payDAO.insertPay(olvo);
+	}
+
+//	// 상품 문의사항 역순으로 출력
+//	@Override
+//	public List<PRODUCT_Q_VO> prod_listD(int member_idx) {
+//		// TODO Auto-generated method stub
+//		return prodQDAO.selectProdListD(member_idx);
+//	}
 
 
 }

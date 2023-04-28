@@ -25,7 +25,7 @@ public interface MemberService {
 	public MEMBER_VO Login(MEMBER_VO MemberVO);
 	
 
-	public List<MEMBER_VO> list(); //회원 리스트
+	public List<MEMBER_VO> list(int limit, int start); //회원 리스트
 	
 	public int updateMemberState(MEMBER_VO memberVO); //회원 상태
 

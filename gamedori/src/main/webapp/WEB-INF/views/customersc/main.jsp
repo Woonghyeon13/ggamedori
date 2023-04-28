@@ -71,8 +71,7 @@
 	        </div>
 	    </form>
 	</div>
-
-	<script>
+<script>
 	var originalTableData = [];
 	
 	
@@ -83,8 +82,9 @@
 	        var pageLink = pageItem.find('a.page-link');
 	        if (pageItem.hasClass('active')) {
 	            pageLink.css({
-	                'background-color': '218, 219, 221',
-	                'border-color': '#ffeeeee'
+	                'background-color': '#dadbdd',
+	                'border-color': '#dee2e6'
+
 	            });
 	        } else {
 	            pageLink.css({
@@ -128,6 +128,12 @@
 	        // AJAX 요청 전송
 	        searchAndDisplayResults(searchText, searchOption, 1);
 	    });
+
+	    // 페이지가 로드되었을 때, 전체 목록을 표시하고 페이지네이션을 처리합니다.
+	    var searchText = '';
+	    var searchOption = '';
+	    var page = 1;
+	    searchAndDisplayResults(searchText, searchOption, page);
 	});
 	
 	function showAll() {
@@ -141,8 +147,12 @@
 	    $('table').show();
 	    // 전체 목록을 보여주는 경우의 페이징 색상 처리를 추가합니다.
 	    updatePaginationForAll();
-
-	  
+	    
+	    // 전체 목록일 때도 페이지네이션을 처리합니다.
+	    var searchText = ''; // 전체 목록이므로 검색어는 빈 문자열로 설정합니다.
+	    var searchOption = ''; // 전체 목록이므로 검색 옵션도 빈 문자열로 설정합니다.
+	    var page = 1; // 전체 목록을 표시할 때는 현재 페이지를 1로 설정합니다.
+	    searchAndDisplayResults(searchText, searchOption, page);
 	}
 	
 	function searchAndDisplayResults(searchText, searchOption, page) {
@@ -150,19 +160,19 @@
 	        searchText = ''; // 공백 입력 시 검색 텍스트를 빈 문자열로 설정합니다.
 	        //	page = 1; // 공백 입력 시 현재 페이지를 1로 설정합니다.
 	    }
-
-	    sendAjaxRequest(searchText, searchOption, page, function(response) {
+	    sendAjaxRequest('notice',searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
 	    });
 	}
 	
-	function sendAjaxRequest(searchText, searchOption, page, onSuccess) {
+	function sendAjaxRequest(searchType, searchText, searchOption, page, onSuccess) {
 	    $.ajax({
-	        url: '<%=request.getContextPath()%>/admin/search.do',
+	        url: '<%=request.getContextPath()%>/search', // 변경된 URL
 	        method: 'GET',
 	        dataType: 'json',
 	        data: {
+	            searchType: searchType, // 새로 추가된 searchType 매개변수
 	            searchText: searchText,
 	            searchOption: searchOption,
 	            page: page
@@ -173,36 +183,95 @@
 	        }
 	    });
 	}
-function updatePagination(totalPages, searchText, searchOption, currentPage) {
+	function updatePagination(totalPages, searchText, searchOption, currentPage) {
+	    var pagesToShow = 5; // 한 번에 표시할 페이지 번호의 개수를 설정합니다.
 	    var pagination = $('.pagination');
 	    pagination.empty();
-		
+
 	    if (totalPages === 0) {
-	        totalPages = 1; // 검색 결과가 없을 때에도 1페이지를 표시합니다.
+	        totalPages = 1;
 	    }
-	    for (var i = 1; i <= totalPages; i++) {
+
+	    var startPage = Math.floor((currentPage - 1) / pagesToShow) * pagesToShow + 1;
+	    var endPage = Math.min(startPage + pagesToShow - 1, totalPages);
+
+	    // 처음 페이지로 이동
+	    var firstPageItem = $('<li>').addClass('page-item');
+	    var firstPageLink = $('<a>').addClass('page-link').attr('href', '#').text('<<');
+	    if (currentPage > 1) {
+	        firstPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, 1);
+	        });
+	    } else {
+	        firstPageItem.addClass('disabled');
+	    }
+	    firstPageItem.append(firstPageLink);
+	    pagination.append(firstPageItem);
+
+	    // 이전 페이지로 이동
+	    var prevPageItem = $('<li>').addClass('page-item');
+	    var prevPageLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
+	    if (currentPage > 1) {
+	        prevPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, currentPage - 1);
+	        });
+	    } else {
+	        prevPageItem.addClass('disabled');
+	    }
+	    prevPageItem.append(prevPageLink);
+	    pagination.append(prevPageItem);
+	    
+	    // 페이지 번호
+	    for (var i = startPage; i <= endPage; i++) {
 	        var isActive = i == currentPage;
 	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
-	        var pageLink = $('<a>').addClass('page-link')
-	            .attr('href', '#')
-	            .text(i);
+	        var pageLink = $('<a>').addClass('page-link').attr('href', '#').text(i);
+
 	        pageLink.on('click', function (event) {
 	            event.preventDefault();
 	            var page = $(this).text();
-
 	            searchAndDisplayResults(searchText, searchOption, page);
 	        });
 	        pageItem.append(pageLink);
 	        pagination.append(pageItem);
 	    }
-	}
+
+	    // 다음 페이지로 이동
+	    var nextPageItem = $('<li>').addClass('page-item');
+	    var nextPageLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
+	    if (currentPage < totalPages) {
+	        nextPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, currentPage + 1);
+	        });
+	    } else {
+	        nextPageItem.addClass('disabled');
+	    }
+	    nextPageItem.append(nextPageLink);
+	    pagination.append(nextPageItem);
+
+	    // 마지막 페이지로 이동
+	    var lastPageItem = $('<li>').addClass('page-item');
+	    var lastPageLink = $('<a>').addClass('page-link').attr('href', '#').text('>>');
+	    if (currentPage < totalPages) {
+	        lastPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, totalPages);
+	        });
+	    } else {
+	        lastPageItem.addClass('disabled');
+	    }
+	    lastPageItem.append(lastPageLink);
+	        pagination.append(lastPageItem);
+	    }
 	
 	  //테이블 검색한거에 따른 갯수처리
 	function updateTable(response) {
     var searchResults = response.searchResults;
     var tableBody = $('#table-body');
     tableBody.empty(); // 이전 검색 결과를 지우고
-
     if (searchResults.length === 0) {
         // 검색 결과가 없는 경우 검색 결과가 없음을 표시합니다.
         var noResultsRow = $('<tr>');
@@ -229,24 +298,24 @@ function updatePagination(totalPages, searchText, searchOption, currentPage) {
 	    $('table').show();
 	}
 	  
-	  </script>
+	  </script>	
 			
 		<!-- 페이징 -->
 			
 		
 	</div>
-		<nav aria-label="Page navigation example" style="margin-top:20px;">
-		  <ul class="pagination justify-content-center">
-		    <c:forEach var="i" begin="1" end="${totalPages}">
-		      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
-		        <a class="page-link" >
-		          ${i}
-		        </a>
-		      </li>
-		    </c:forEach>
-		  </ul>
-		</nav>
-	<!---------customer 끝-------------------------------------------------------------->
+		 <nav aria-label="Page navigation example" style="margin-top:20px;">
+		    <ul class="pagination justify-content-center">
+		      <c:forEach var="i" begin="1" end="${totalPages}">
+		        <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+		          <a class="page-link">
+		            ${i}
+		          </a>
+		        </li>
+		      </c:forEach>
+		    </ul>
+		  </nav>
+<!---------customer 끝-------------------------------------------------------------->
 
 
 </main>
