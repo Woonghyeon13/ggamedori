@@ -355,11 +355,10 @@
 
              <c:if test="${Login.member_role == 1}">
 	 	           <button class="btn btn-dark" onclick="location.href='${pageContext.request.contextPath}/mypage/oto_write.do'" style="float:right; margin-top:20px;">문의하기</button>
-			</c:if>  
+			 </c:if>  
 		             </td>
-				</tr>
-	
-			
+				</tr>		
+						</table>
 							<nav aria-label="Page navigation example">
 								<ul class="pagination justify-content-center" >
 									<c:forEach var="i" begin="1" end="${totalPages}">
@@ -371,7 +370,6 @@
 									</c:forEach>
 								</ul>
 							</nav>
-						</table>
 			    	</div> <!-- end:.container -->
 				</div>	<!-- end:#one_to_one_inner -->
         	</div> <!-- end:#mypage_inner2 -->

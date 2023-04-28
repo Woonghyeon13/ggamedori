@@ -134,20 +134,21 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach items="${selectQAList}" var="vo">
+								<c:forEach items="${selectQAList}" var="vo" varStatus="status">
 									<c:if test="${status.index < 4}">
 										<tr>
 											<td>${vo.prod_q_idx}</td>
-										<td>
-										<c:choose>
-											<c:when test="${vo.prod_q_yn == 1}">
-												<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
-											</c:when>
-										</c:choose>
-										</td>
-										<td>${vo.prod_name}</td>
-										<td>${vo.prod_q_title}</td>	
-										<td>${vo.prod_q_wdate}</td>
+											<td>${vo.prod_name}</td>
+											<td>
+												${vo.prod_q_title}
+												<c:choose>
+													<c:when test="${vo.prod_q_secret == 1}">
+														<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
+													</c:when>
+												</c:choose>
+											</td>
+											<td>${vo.product_tb_idx}</td>	
+											<td>${vo.prod_q_wdate}</td>
 										<td>
 										<c:choose>
 											<c:when test="${vo.prod_q_yn == 1}">

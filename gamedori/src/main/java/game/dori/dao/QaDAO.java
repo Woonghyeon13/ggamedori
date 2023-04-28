@@ -50,6 +50,7 @@ public class QaDAO {
 	{
 		return sqlSession.selectOne("game.dori.mapper.qaMapper.oto_countAll");
 	}
+
 	// 1 : 1 문의사항 리스트 출력
 	public List<OTO_VO> otolist(int limit, int start){
 		Map<String, Object> params = new HashMap<String, Object>();

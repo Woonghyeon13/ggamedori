@@ -9,6 +9,7 @@ import game.dori.dao.CartDAO;
 import game.dori.dao.CouponDAO;
 import game.dori.dao.MemberDAO;
 import game.dori.dao.OrderDAO;
+import game.dori.dao.ProductDAO;
 import game.dori.dao.OrderDetailDAO;
 import game.dori.dao.PayDAO;
 import game.dori.dao.ProductQDAO;
@@ -16,7 +17,6 @@ import game.dori.dao.QaDAO;
 import game.dori.dao.ReviewDAO;
 import game.dori.dao.SavepointDAO;
 import game.dori.dao.WishlistDAO;
-import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.ORDER_DETAIL_VO;
@@ -24,6 +24,7 @@ import game.dori.vo.ORDER_VO;
 import game.dori.vo.PAY_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
+import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.QA_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
@@ -60,6 +61,9 @@ public class MypageServiceImpl implements MypageService{
 	private WishlistDAO wishlistDAO;
 	
 	@Autowired
+	private ProductDAO productDAO;
+	
+  @Autowired
 	private OrderDetailDAO orderDetailDAO;
 	
 	@Autowired
@@ -70,26 +74,31 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public int selectMemberLevelService(int member_idx) {
 		return memberDAO.selectMemberLevelDAO(member_idx);
-	}
+	}	
 	
+//	//마이페이지 상품문의 리스트출력
+//	@Override
+//	public List<PRODUCTQQ_VO> selectQAList(int member_idx) {
+//		return productQDAO.selectQAList(member_idx);
+//	}	
 	
-	//마이페이지 상품문의 리스트출력
-	@Override
-	public List<PRODUCTQQ_VO> selectQAList(int member_idx) {
-		return productQDAO.selectQAList(member_idx);
-	}
+		// 마이페이지 상품문의 리스트 역순으로 출력
+		@Override
+		public List<PRODUCT_Q_VO> selectQAListD(int member_idx) {
+			return productQDAO.prod_listD(member_idx);
+		}
 
-	//마이페이지 1:1문의 리스트출력
-	@Override
-	public List<QA_VO> selectOtoList(int member_idx) {
-		return qaDAO.selectOtoList(member_idx);
-	}
+//	//마이페이지 1:1문의 리스트출력
+//	@Override
+//	public List<QA_VO> selectOtoList(int member_idx) {
+//		return qaDAO.selectOtoList(member_idx);
+//	}
 	
-	// 마이페이지 1 : 1 문의 리스트 역순으로 출력
-	@Override
-	public List<QA_VO> selectOtoListD(int member_idx) {
-		return qaDAO.selectOtoListD(member_idx);
-	}
+		// 마이페이지 1 : 1 문의 리스트 역순으로 출력
+		@Override
+		public List<QA_VO> selectOtoListD(int member_idx) {
+			return qaDAO.selectOtoListD(member_idx);
+		}
 
 	
 	//마이페이지 리뷰 리스트출력
@@ -232,9 +241,9 @@ public class MypageServiceImpl implements MypageService{
 	
 	// 상품 문의사항 페이징
 	@Override
-	public List<PRODUCT_Q_VO> prod_list(int prod_limit, int prod_start) {
+	public List<PRODUCT_Q_VO> prod_listD(int limit, int start) {
 		// TODO Auto-generated method stub
-		return productQDAO.prod_list(prod_limit, prod_start);
+		return productQDAO.prod_list(limit, start);
 	}
 
 	// 상품 문의사항 글 검색
@@ -251,8 +260,6 @@ public class MypageServiceImpl implements MypageService{
 		// TODO Auto-generated method stub
 		return productQDAO.prod_search(prod_searchText, prod_searchOption, prod_start, prod_limit);
 	}
-	
-
 	
 	
 	
@@ -319,6 +326,13 @@ public class MypageServiceImpl implements MypageService{
 		return cartDAO.cartModify(cvo);
 	}
 
+	// 문의사항 상품 명찾기
+	@Override
+	public PRODUCT_VO prod_name(int prod_idx) {
+		// TODO Auto-generated method stub
+		return productDAO.prod_name(prod_idx);
+	}
+
 	// 장바구니 옵션정보
 	@Override
 	public CARTP_VO cartView(CARTP_VO cpvo) {
@@ -336,7 +350,7 @@ public class MypageServiceImpl implements MypageService{
 	public PAY_VO selectPayPrice(int order_tb_idx) {
 		return payDAO.selectPayPrice(order_tb_idx);
 	}
-	
+
 	
 	/*-------------------------------------------------------------------------------*/
 

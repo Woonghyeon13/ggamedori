@@ -113,16 +113,16 @@ public class MypageController {
 		model.addAttribute("Orderlist", orderList5);
 
 		// 상품문의내역
-		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
+		List<PRODUCT_Q_VO> selectQAList = mypageService.selectQAListD(memberVO.getMember_idx() );
 		model.addAttribute("selectQAList", selectQAList);
 		
-		// 1 : 1 문의 내역
-		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx());
-		model.addAttribute("selectOtoList", selectOtoList);
+//		// 1 : 1 문의 내역
+//		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx());
+//		model.addAttribute("selectOtoList", selectOtoList);
 		
-		// 1 : 1 문의 내역 역순
-		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx());
-		model.addAttribute("selectOtoListD",selectOtoListD);
+			// 1 : 1 문의 내역 역순
+			List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx());
+			model.addAttribute("selectOtoListD",selectOtoListD);
 		
 		// 나의후기
 		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
@@ -133,8 +133,6 @@ public class MypageController {
 		return "mypage/main";
 		
 	}
-
-
 			
 	
 	/*-------------------------------------------------------------------------------*/
@@ -168,8 +166,8 @@ public class MypageController {
 		model.addAttribute("ReviewCount", ReviewCount);
 		
 		//마이페이지-상세페이지-상품문의 리스트 
-		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
-		model.addAttribute("selectQAList", selectQAList);
+		List<PRODUCT_Q_VO> selectQAListD = mypageService.selectQAListD(memberVO.getMember_idx() );
+		model.addAttribute("selectQAList", selectQAListD);
 		
 	    int limit = 15; // 페이지당 게시물 수
 	    int start = (page - 1) * limit;
@@ -181,11 +179,11 @@ public class MypageController {
 	    	prod_List = mypageService.prod_search(searchText, searchOption, start, limit);
 	    	totalRecords = mypageService.prod_countSearchResults(searchText, searchOption);
 	    } else {
-	    	prod_List = mypageService.prod_list(limit, start);
+	    	prod_List = mypageService.prod_listD(limit, start);
 	    	totalRecords = mypageService.prod_countAll();
 	    }
 
-	    model.addAttribute("product", prod_List);
+	    model.addAttribute("prodqa", prod_List);
 
 	    int totalPages = (int) Math.ceil((double)	totalRecords / limit);
 	    model.addAttribute("totalPages", totalPages);
@@ -255,8 +253,8 @@ public class MypageController {
 		model.addAttribute("ReviewCount", ReviewCount);
 		
 		//마이페이지-상세페이지-상품문의 리스트 
-		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
-		model.addAttribute("selectQAList", selectQAList);
+		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx() );
+		model.addAttribute("selectOtoListD", selectOtoListD);
 		
 	    int limit = 15; // 페이지당 게시물 수
 	    int start = (page - 1) * limit;
@@ -590,9 +588,12 @@ public class MypageController {
 	{	
 		HttpSession session = req.getSession();
 		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
+		
 		List<CART_VO> selectCartList = mypageService.selectCartListService(memberVO.getMember_idx());
+		
 		List<CARTP_VO> cartList = new ArrayList<CARTP_VO>();
-		for( int i = 0; i<selectCartList.size(); i++) {
+		
+		for( int i = 0; i < selectCartList.size(); i++) {
 			CARTP_VO cartpvo = new CARTP_VO();
 			cartpvo.setCart_amount(selectCartList.get(i).getCart_amount());
 			cartpvo.setCart_idx(selectCartList.get(i).getCart_idx());
@@ -611,9 +612,12 @@ public class MypageController {
 			
 			cartList.add(cartpvo);
 		}
+		
 		model.addAttribute("cartList",cartList);
 		return "mypage/cart";
 	}
+	
+	
 	//장바구니 넣기
 	@ResponseBody
 	@RequestMapping( value = "/cartInsert.do", method = RequestMethod.POST )
