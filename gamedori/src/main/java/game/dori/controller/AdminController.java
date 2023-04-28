@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
+import game.dori.service.SearchService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
 import game.dori.util.PROD_Q_LIST_VO;
@@ -51,6 +52,9 @@ public class AdminController {
 	private MemberService MemberService;
 	
 	@Autowired
+	private SearchService searchService;
+	
+	@Autowired
 	private MemberService memberService;
 	
 	@Autowired
@@ -73,10 +77,6 @@ public class AdminController {
 	    		//회원 리스트 가져오기(일반 회원만 가져오게 sql문 작성했음)
 	    		List<MEMBER_VO> list = memberService.list(limit, start);
 	    		model.addAttribute("list", list);
-	    		
-	    		int totalRecords = adminService.mCountAll();
-	            int totalPages = (int) Math.ceil((double) totalRecords / limit);
-	            model.addAttribute("totalPages", totalPages);
 
 	    		
 				return "admin/member";
@@ -386,31 +386,6 @@ public class AdminController {
 	    return null;
 	}
 	
-	
-	//공지사항 검색 기능
-	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<Map<String, Object>> searchNotice(@RequestParam("searchText") String searchText,
-	                                                        @RequestParam("searchOption") String searchOption,
-	                                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-	    int limit = 15; // 페이지당 게시물 수
-	    int start = (page - 1) * limit;
-
-	    List<NOTICE_VO> searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
-	    int totalResults = 0;
-	    if (searchText.trim().equals("") && searchOption.trim().equals("")) {
-	        totalResults = adminService.countAll(); // 전체 게시물 수
-	    } else {
-	        totalResults = adminService.countSearchResults(searchText, searchOption); // 검색 결과에 따른 전체 게시물 수
-	    }
-	    int totalPages = (int) Math.ceil((double) totalResults / limit); // 전체 페이지 수 계산
-
-	    Map<String, Object> response = new HashMap<String, Object>();
-	    response.put("searchResults", searchResults);
-	    response.put("totalPages", totalPages);
-
-	    return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-	}
 	
 	// 1:1문의 관리
 	@RequestMapping( value = "/oto.do", method = RequestMethod.GET )

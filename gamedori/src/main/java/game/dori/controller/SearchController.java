@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import game.dori.service.AdminService;
 import game.dori.service.MemberService;
 import game.dori.service.ProductService;
+import game.dori.service.SearchService;
 import game.dori.util.OTO_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
@@ -24,19 +25,8 @@ import game.dori.vo.NOTICE_VO;
 public class SearchController {
 
 	@Autowired
-	private ProductService productService;
+	private SearchService searchService;
 	
-	@Autowired
-	private AdminService adminService;
-	
-	@Autowired
-	private MemberService MemberService;
-	
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private AdminService AdminService;
 	
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -52,18 +42,34 @@ public class SearchController {
 
 	    switch (searchType) {
 	        case "member":
-	            searchResults = adminService.memberSearch(searchText, searchOption, start, limit);
-	            totalResults = adminService.mCountSearchResults(searchText, searchOption);
+	            searchResults = searchService.mSearch(searchText, searchOption, start, limit);
+	            totalResults = searchService.mCountSearchResults(searchText, searchOption);
 	            break;
 	        case "notice":
-	            searchResults = adminService.searchNotices(searchText, searchOption, start, limit);
-	            totalResults = adminService.countSearchResults(searchText, searchOption);
+	            searchResults = searchService.notice_search(searchText, searchOption, start, limit);
+	            totalResults = searchService.notice_countSearchResults(searchText, searchOption);
 	            break;
 	        case "oto":
-	            searchResults = adminService.oto_search(searchText, searchOption, start, limit);
-	            totalResults = adminService.oto_countSearchResults(searchText, searchOption);
+	            searchResults = searchService.oto_search(searchText, searchOption, start, limit);
+	            totalResults = searchService.oto_countSearchResults(searchText, searchOption);
 	            break;
-	            
+	        case "aoto":
+	            searchResults = searchService.oto_search(searchText, searchOption, start, limit);
+	            totalResults = searchService.oto_countSearchResults(searchText, searchOption);
+	            break;
+	        case "qrod":
+	        	 searchResults = searchService.qaprod_search(searchText, searchOption, start, limit);
+		         totalResults = searchService.qaprod_countSearchResults(searchText, searchOption);
+	        	break;
+	        case "prod":
+	        	 searchResults = searchService.prod_search(searchText, searchOption, start, limit);
+		         totalResults = searchService.prod_countSearchResults(searchText, searchOption);
+	        	break;
+	        case "orderlist":
+	        	searchResults = searchService.orderlist_search(searchText, searchOption, start, limit);
+		         totalResults = searchService.orderlist_countSearchResults(searchText, searchOption);
+	        	break;
+          
 	        default:
 	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 잘못된 searchType이 입력되면 BadRequest를 반환합니다.
 	    }
@@ -76,5 +82,6 @@ public class SearchController {
 
 	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-		
+
 }
+

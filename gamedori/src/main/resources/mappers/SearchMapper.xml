@@ -52,6 +52,8 @@
 	
 	<!-- 멤버리스트 관련 끝 -->
 	
+
+	
 	
 	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
 	<select id="oto_countAll" resultType="int">
@@ -130,5 +132,209 @@
 		   </choose>
 		 </where>
 	</select>
+	<!--  공지사항 매퍼 -->
+	<!--  select all notice_tb 에있는 모든데이터를 선택해서 저장, 페이지당 게시물 수  -->
 	
+	<!-- 페이징 처리를 위한 notice_board의 게시물 수값을 얻기위한 쿼리문 -->
+	<select id="notice_countAll" resultType="int">
+    	SELECT COUNT(*) FROM notice_tb
+	</select>
+	
+ 	<!-- 공지사항 검색 -->
+	<select id="notice_search" resultType="noticeVO" parameterType="map">
+	  SELECT * FROM notice_tb
+	  <where>
+	    <choose>
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          and notice_title like CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	      <when test="searchOption == 'content'">
+	        <if test="searchText != null and searchText != ''">
+	          AND notice_contents LIKE CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	      <otherwise>
+	        <if test="searchText != null and searchText != ''">
+	          AND notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </otherwise>
+	    </choose>
+	  </where>
+	  ORDER BY notice_idx DESC
+	  LIMIT #{start}, #{limit}
+	</select>
+	
+	<!--  검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+	<select id="notice_countSearchResults" resultType="int" parameterType="map">
+		  SELECT COUNT(*) FROM notice_tb
+		  <where>
+		    <choose>
+		      <when test="searchOption == 'name'">
+		        <if test="searchText != null and searchText != ''">
+		          notice_title like CONCAT('%', #{searchText}, '%')
+		        </if>
+		      </when>
+		      <when test="searchOption == 'content'">
+		        <if test="searchText != null and searchText != ''">
+		          (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+		        </if>
+		      </when>
+		      <otherwise>
+		        <if test="searchText != null and searchText != ''">
+		          (notice_writer LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
+		        </if>
+		      </otherwise>
+		    </choose>
+		  </where>
+	</select>
+	
+<!-- 상품문의 검색 -->
+<select id="qrod_search" resultType="pqlistVO" parameterType="map">
+  SELECT
+    *
+  FROM
+    product_q_tb pq,
+    member_tb m,
+    product_tb p
+  <where>
+    <choose>
+      <when test="searchOption == 'title'">
+        <if test="searchText != null and searchText != ''">
+          AND pq.prod_q_title LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+      </when>
+      <when test="searchOption == 'writer'">
+        <if test="searchText != null and searchText != ''">
+          AND m.member_name LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+      </when>
+      <otherwise>
+        <if test="searchText != null and searchText != ''">
+          AND (pq.prod_q_title LIKE CONCAT('%', #{searchText}, '%') OR m.member_name LIKE CONCAT('%', #{searchText}, '%'))
+        </if>
+      </otherwise>
+    </choose>
+    AND pq.product_tb_idx = p.prod_idx
+    AND pq.member_tb_idx = m.member_idx
+  </where>
+  ORDER BY pq.prod_q_idx DESC
+  LIMIT #{start}, #{limit}
+</select>
+
+	<select id="qrod_countSearchResults" resultType="int" parameterType="map">
+		  SELECT COUNT(*) FROM product_q_tb pq
+		  <where>
+		    <choose>
+		      <when test="searchOption == 'title'">
+		        <if test="searchText != null and searchText != ''">
+		          prod_q_title like CONCAT('%', #{searchText}, '%')
+		        </if>
+		      </when>
+		      <when test="searchOption == 'writer'">
+		        prod_q_title like CONCAT('%', #{searchText}, '%')
+		      </when>
+		     
+		    </choose>
+		    </where>
+		</select>
+
+
+<!-- 상품관리 검색 -->
+<select id="prod_search" resultType="productVO" parameterType="map">
+ 
+	  SELECT *
+		FROM product_tb	 
+		
+		<where>
+	    <choose>
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          and PROD_NAME like CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	      <when test="searchOption == 'idx'">
+	        <if test="searchText != null and searchText != ''">
+	          AND PROD_IDX LIKE CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	    </choose>
+	  </where>
+	  ORDER BY PROD_IDX DESC
+	  LIMIT #{start}, #{limit}
+</select>
+
+	<select id="prod_countSearchResults" resultType="int" parameterType="map">
+		 SELECT COUNT(*) FROM product_tb 
+		  <where>
+		    <choose>
+		      <when test="searchOption == 'name'">
+		        <if test="searchText != null and searchText != ''">
+		          PROD_NAME like CONCAT('%', #{searchText}, '%')
+		        </if>
+		      </when>
+		     
+		    </choose>
+		    </where>
+	</select>
+
+
+
+<!--  오더리스트 검색기능 -->
+<select id="orderlist_search" resultType="orderlistVO" parameterType="map">
+  SELECT o.*, od.*, m.* 
+  FROM 
+    order_tb o, 
+    order_detail_tb od,
+    member_tb m
+  <where>
+    o.order_idx = od.order_tb_idx
+    AND o.member_tb_idx = m.member_idx
+    <choose>
+      <when test="searchOption == 'name'">
+        <if test="searchText != null and searchText != ''">
+          AND m.member_name LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+      </when>
+      <when test="searchOption == 'idx'">
+        <if test="searchText != null and searchText != ''">
+          AND o.order_idx LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+      </when>
+      <otherwise>
+        <if test="searchText != null and searchText != ''">
+          AND (m.member_name LIKE CONCAT('%', #{searchText}, '%') OR o.order_idx LIKE CONCAT('%', #{searchText}, '%'))
+        </if>
+      </otherwise>
+    </choose>
+  </where>
+  ORDER BY o.order_idx DESC
+  LIMIT #{start}, #{limit}
+</select>
+
+<select id="orderlist_countSearchResults" resultType="int" parameterType="map">
+  SELECT COUNT(*) 
+  FROM 
+    order_tb o, 
+    order_detail_tb od,
+    member_tb m
+  <where>
+    o.order_idx = od.order_tb_idx
+    AND o.member_tb_idx = m.member_idx
+    <choose>
+      <when test="searchOption == 'name'">
+        <if test="searchText != null and searchText != ''">
+          AND m.member_name LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+      </when>
+      <when test="searchOption == 'idx'">
+        <if test="searchText != null and searchText != ''">
+          AND o.order_idx LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+      </when>
+    </choose>
+  </where>
+</select>
+
 </mapper>

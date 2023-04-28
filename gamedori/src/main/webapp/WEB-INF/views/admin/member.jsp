@@ -115,6 +115,7 @@
 	<script>
 	var originalTableData = [];
 	
+	
 	function updatePaginationForAll() {
 	    var pagination = $('.pagination');
 	    pagination.find('li').each(function () {
@@ -167,7 +168,7 @@
 	        // AJAX 요청 전송
 	        searchAndDisplayResults(searchText, searchOption, 1);
 	    });
-	
+
 	    // 페이지가 로드되었을 때, 전체 목록을 표시하고 페이지네이션을 처리합니다.
 	    var searchText = '';
 	    var searchOption = '';
@@ -203,6 +204,7 @@
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
 	        updatePaginationForAll();
+
 	    });
 	}
 	
@@ -223,7 +225,6 @@
 	        }
 	    });
 	}
-	
 	function updatePagination(totalPages, searchText, searchOption, currentPage) {
 	    var pagesToShow = 5; // 한 번에 표시할 페이지 번호의 개수를 설정합니다.
 	    var pagination = $('.pagination');
@@ -236,17 +237,35 @@
 	    var startPage = Math.floor((currentPage - 1) / pagesToShow) * pagesToShow + 1;
 	    var endPage = Math.min(startPage + pagesToShow - 1, totalPages);
 
-	    if (startPage > 1) {
-	        var prevPageSetItem = $('<li>').addClass('page-item');
-	        var prevPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
-	        prevPageSetLink.on('click', function (event) {
+	    // 처음 페이지로 이동
+	    var firstPageItem = $('<li>').addClass('page-item');
+	    var firstPageLink = $('<a>').addClass('page-link').attr('href', '#').text('<<');
+	    if (currentPage > 1) {
+	        firstPageLink.on('click', function (event) {
 	            event.preventDefault();
-	            searchAndDisplayResults(searchText, searchOption, startPage - 1);
+	            searchAndDisplayResults(searchText, searchOption, 1);
 	        });
-	        prevPageSetItem.append(prevPageSetLink);
-	        pagination.append(prevPageSetItem);
+	    } else {
+	        firstPageItem.addClass('disabled');
 	    }
+	    firstPageItem.append(firstPageLink);
+	    pagination.append(firstPageItem);
 
+	    // 이전 페이지로 이동
+	    var prevPageItem = $('<li>').addClass('page-item');
+	    var prevPageLink = $('<a>').addClass('page-link').attr('href', '#').text('<');
+	    if (currentPage > 1) {
+	        prevPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, currentPage - 1);
+	        });
+	    } else {
+	        prevPageItem.addClass('disabled');
+	    }
+	    prevPageItem.append(prevPageLink);
+	    pagination.append(prevPageItem);
+	    
+	    // 페이지 번호
 	    for (var i = startPage; i <= endPage; i++) {
 	        var isActive = i == currentPage;
 	        var pageItem = $('<li>').addClass('page-item').toggleClass('active', isActive);
@@ -261,63 +280,81 @@
 	        pagination.append(pageItem);
 	    }
 
-	    if (endPage < totalPages) {
-	        var nextPageSetItem = $('<li>').addClass('page-item');
-	        var nextPageSetLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
-	        nextPageSetLink.on('click', function (event) {
+	    // 다음 페이지로 이동
+	    var nextPageItem = $('<li>').addClass('page-item');
+	    var nextPageLink = $('<a>').addClass('page-link').attr('href', '#').text('>');
+	    if (currentPage < totalPages) {
+	        nextPageLink.on('click', function (event) {
 	            event.preventDefault();
-	            searchAndDisplayResults(searchText, searchOption, endPage + 1);
+	            searchAndDisplayResults(searchText, searchOption, currentPage + 1);
 	        });
-	        nextPageSetItem.append(nextPageSetLink);
-	        pagination.append(nextPageSetItem);
+	    } else {
+	        nextPageItem.addClass('disabled');
 	    }
-	}
+	    nextPageItem.append(nextPageLink);
+	    pagination.append(nextPageItem);
+
+	    // 마지막 페이지로 이동
+	    var lastPageItem = $('<li>').addClass('page-item');
+	    var lastPageLink = $('<a>').addClass('page-link').attr('href', '#').text('>>');
+	    if (currentPage < totalPages) {
+	        lastPageLink.on('click', function (event) {
+	            event.preventDefault();
+	            searchAndDisplayResults(searchText, searchOption, totalPages);
+	        });
+	    } else {
+	        lastPageItem.addClass('disabled');
+	    }
+	    lastPageItem.append(lastPageLink);
+	        pagination.append(lastPageItem);
+	    }
 	
-	//테이블 검색한거에 따른 갯수처리
+	  //테이블 검색한거에 따른 갯수처리
 	function updateTable(response) {
     var searchResults = response.searchResults;
     var tableBody = $('#table-body');
     tableBody.empty(); // 이전 검색 결과를 지우고
     if (searchResults.length === 0) {
-        // 검색 결과가 없는 경우 원래 데이터를 보여줍니다.
-        $.each(originalTableData, function (index, row) {
-            tableBody.append(row);
-        });
-    } else {
-        // 검색 결과가 있는 경우
-        $.each(searchResults, function (index, result) {
-            var newRow = $('<tr>');
+        // 검색 결과가 없는 경우 검색 결과가 없음을 표시합니다.
+        var noResultsRow = $('<tr>');
+        var noResultsCell = $('<td>').attr('colspan', 7).text('검색 결과가 없습니다.');
+        noResultsRow.append(noResultsCell);
+        tableBody.append(noResultsRow);
+    	}else {
+    		// 검색 결과가 있는 경우
+            $.each(searchResults, function (index, result) {
+                var newRow = $('<tr>');
+                // 테이블에 행 추가
+                newRow.append($('<td class="text-center">').text(result.member_idx));
+                newRow.append($('<td class="text-center">').text(result.member_name));
+                newRow.append($('<td class="text-center">').text(result.member_email));
+                newRow.append($('<td class="text-center">').text(result.member_phone));
+    		if (result.member_level === 1){
+       			newRow.append($('<td class="text-center">').text('브론즈'));
+           	}else if (result.member_level === 2){
+           		newRow.append($('<td class="text-center">').text('실버'));
+           	}else{
+           		newRow.append($('<td class="text-center">').text('골드'));
+           	}
+                
+    			// member_state 셀렉트 박스 추가
+    			var stateSelect = $('<select class="form-select" onchange="updateMemberState(this,' + result.member_idx + ');">');
+    			stateSelect.append('<option value="1" ' + (result.member_state === 1 ? 'selected' : '') + '>정상</option>');
+    			stateSelect.append('<option value="2" ' + (result.member_state === 2 ? 'selected' : '') + '>정지</option>');
+    			stateSelect.append('<option value="3" ' + (result.member_state === 3 ? 'selected' : '') + '>탈퇴</option>');
+    			newRow.append($('<td class="text-center">').append(stateSelect));
 
-            // 테이블에 행 추가
-            newRow.append($('<td class="text-center">').text(result.member_idx));
-            newRow.append($('<td class="text-center">').text(result.member_name));
-            newRow.append($('<td class="text-center">').text(result.member_email));
-            newRow.append($('<td class="text-center">').text(result.member_phone));
-		if (result.member_level === 1){
-   			newRow.append($('<td class="text-center">').text('브론즈'));
-       	}else if (result.member_level === 2){
-       		newRow.append($('<td class="text-center">').text('실버'));
-       	}else{
-       		newRow.append($('<td class="text-center">').text('골드'));
-       	}
-            
-			// member_state 셀렉트 박스 추가
-			var stateSelect = $('<select class="form-select" onchange="updateMemberState(this,' + result.member_idx + ');">');
-			stateSelect.append('<option value="1" ' + (result.member_state === 1 ? 'selected' : '') + '>정상</option>');
-			stateSelect.append('<option value="2" ' + (result.member_state === 2 ? 'selected' : '') + '>정지</option>');
-			stateSelect.append('<option value="3" ' + (result.member_state === 3 ? 'selected' : '') + '>탈퇴</option>');
-			newRow.append($('<td class="text-center">').append(stateSelect));
 
-            tableBody.append(newRow);
+                tableBody.append(newRow);
+
         });
     }
 
     // 테이블을 보여줍니다.
     $('table').show();
 }
-
-	  
-	  </script>
+  
+	  </script>	
 			
 	<!-- 페이징 -->
 	<div class="mt-3">
