@@ -79,7 +79,7 @@
 					<tbody>
 					<c:forEach var="vo" items="${list}">
 						<tr>
-							<th><a href='<c:url value="/mypage/orderdetail.do" />'>${vo.order_idx}</a></th>
+							<td><a href='<c:url value="/mypage/orderdetail.do" />'>${vo.order_idx}</a></td>
 							<td>${vo.order_title}</td>
 							<td class="wdate">${vo.order_date}</td>
 							<td>${vo.order_price}</td>

@@ -19,6 +19,8 @@
 			order by prod_q_idx desc
 	</select>	
 	
+	<!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	 
 	<!-- 상품 문의 사항 글 번호를 받아와 그 해당하는 글을 선택하는 쿼리문 -->
 	<select parameterType="product_Q_VO" resultType="product_Q_VO" id="prod_select">
 		SELECT * 
@@ -39,7 +41,7 @@
 	    SELECT * 
 		    FROM PRODUCT_Q_TB
 		    ORDER BY prod_q_idx DESC
-		    LIMIT #{prod_limit} OFFSET #{prod_start}
+		    LIMIT #{limit} OFFSET #{start}
 	</select>  
 	
 	<!-- 상품 문의사항 페이징 처리를 위한 QA_TB -->
@@ -73,25 +75,25 @@
 	  SELECT * FROM PRODUCT_Q_TB
 	  <where>
 	    <choose>
-	      <when test="prod_searchOption == 'name'">
-	        <if test="prod_searchText != null and prod_searchText != ''">
-	          and prod_q_title like CONCAT('%', #{prod_searchText}, '%')
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          and prod_q_title like CONCAT('%', #{searchText}, '%')
 	        </if>
 	      </when>
-	      <when test="prod_searchOption == 'content'">
-	        <if test="prod_searchText != null and prod_searchText != ''">
-	          AND (prod_q_title LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{prod_searchText}, '%'))
+	      <when test="searchOption == 'content'">
+	        <if test="searchText != null and searchText != ''">
+	          AND (prod_q_title LIKE CONCAT('%', #{searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{searchText}, '%'))
 	        </if>
 	      </when>
-	      <otherwise>
-	        <if test="prod_searchText != null and prod_searchText != ''">
-	          AND (prod_q_writer LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_title LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{prod_searchText}, '%'))
+	     <!--  <otherwise>
+	        <if test="searchText != null and searchText != ''">
+	          AND (prod_q_writer LIKE CONCAT('%', #{searchText}, '%') OR prod_q_title LIKE CONCAT('%', #{searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{searchText}, '%'))
 	        </if>
-	      </otherwise>
+	      </otherwise> -->
 	    </choose>
 	  </where>
 	  ORDER BY prod_q_idx DESC
-	  LIMIT #{prod_start}, #{prod_limit}
+	  LIMIT #{start}, #{limit}
 	</select>
 	
 	<!--  상품 문의사항 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
@@ -99,21 +101,21 @@
 		  SELECT COUNT(*) FROM PRODUCT_Q_TB
 		  <where>
 		    <choose>
-		      <when test="prod_searchOption == 'name'">
-		        <if test="prod_searchText != null and prod_searchText != ''">
-		          prod_q_title like CONCAT('%', #{prod_searchText}, '%')
+		      <when test="searchOption == 'name'">
+		        <if test="searchText != null and searchText != ''">
+		          prod_q_title like CONCAT('%', #{searchText}, '%')
 		        </if>
 		      </when>
-		      <when test="prod_searchOption == 'content'">
-		        <if test="prod_searchText != null and prod_searchText != ''">
-		          (prod_q_title LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{prod_searchText}, '%'))
+		      <when test="searchOption == 'content'">
+		        <if test="searchText != null and searchText != ''">
+		          (prod_q_title LIKE CONCAT('%', #{searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{searchText}, '%'))
 		        </if>
 		      </when>
-		      <otherwise>
-		        <if test="prod_searchText != null and prod_searchText != ''">
-		          (prod_q_writer LIKE CONCAT('%', #{prod_searchText}, '%') OR prod_q_title LIKE CONCAT('%', #{prod_searchText}, '%') OR prod__qcontents LIKE CONCAT('%', #{prod_searchText}, '%'))
+<!-- 		      <otherwise>
+		        <if test="searchText != null and searchText != ''">
+		          (prod_q_writer LIKE CONCAT('%', #{searchText}, '%') OR prod_q_title LIKE CONCAT('%', #{searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{searchText}, '%'))
 		        </if>
-		      </otherwise>
+		      </otherwise> -->
 		    </choose>
 		  </where>
 	</select>	
