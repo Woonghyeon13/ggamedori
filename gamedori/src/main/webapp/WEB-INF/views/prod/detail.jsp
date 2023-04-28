@@ -344,6 +344,7 @@ if (starRating) {
 										          <input type="radio" id="star0.5" name="review_star" value="1"/><label for="star0.5" class="half"></label>
 										        </fieldset>
 										      </div>
+										      <h4 id="rating-value"></h4>
 										    </div>
 										  </div>
 										</div>
@@ -357,10 +358,47 @@ if (starRating) {
 									<div class="d-grid gap-1 mt-2">
 										<input type="submit" class="btn btn-outline-light login btn-lg form-control" value="작성">
 									</div>
+									
+									<script>
+									const starRating = document.querySelector(".starRatingVt");
+									
+									if (starRating) {
+									  const stars = starRating.querySelectorAll("input[type='radio']");
+									  const labels = starRating.querySelectorAll("label");
+									
+									  stars.forEach((star) => {
+									    star.addEventListener("click", function (e) {
+									      labels.forEach((label) => {
+									        if (label.htmlFor === e.target.getAttribute("id")) {
+									          label.classList.add("checked");
+									        } else {
+									          label.classList.remove("checked");
+									        }
+									      });
+									    });
+									  });
+									}
+									
+									</script>
 								</form>
 							</div>
 						</div>
 					</div>
+					<script>
+		<!-- 별점 등록 자바스크립트 -->
+		<script>
+		let star = document.querySelectorAll('input');
+		let showValue = document.querySelector('#rating-value');
+		
+		for (let i = 0; i < star.length; i++) {
+			star[i].addEventListener('click', function() {
+				i = this.value;
+		
+			
+			});
+		}
+		
+		</script>
 				</div>
 			</div>
 		</div>
@@ -414,10 +452,19 @@ if (starRating) {
 						</tr>
 						<tr class="hide border-bottom">
 							<td></td>
-							<td colspan="4">${pql.prod_q_contents} <br>
-								<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
-								${pql.prod_q_reply}
-							</td>
+							
+							<c:if test="${pql.prod_q_secret eq '1' && pql.member_name == sessionScope.Login.member_name}">
+								<td colspan="4">${pql.prod_q_contents} <br>
+									<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
+									${pql.prod_q_reply}
+								</td>
+							</c:if>
+							
+							<c:if test="${pql.prod_q_secret eq '1' && pql.member_name != sessionScope.Login.member_name}">
+								<td colspan="4">
+									비밀글 입니다.
+								</td>
+							</c:if>
 						</tr>
 						</c:forEach>
 					</c:if>

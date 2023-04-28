@@ -18,16 +18,18 @@
 				r.member_tb_idx = m.member_idx 
 	</select>
 	
-	<!-- 리뷰 작성 review_title review_contents-->
+	<!-- 리뷰 작성 -->
 	<insert id="review_insert" parameterType="reviewVO">
 		INSERT INTO 
 			REVIEW_TB (
+				PRODUCT_TB_IDX,
 				MEMBER_TB_IDX,
 				REVIEW_TITLE,
 				REVIEW_CONTENTS,
 				REVIEW_STAR,
 				REVIEW_IMG)
 			VALUES (
+				#{product_tb_idx},
 				#{member_tb_idx},
 				#{review_title},
 				#{review_contents},

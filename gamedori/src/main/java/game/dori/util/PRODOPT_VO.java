@@ -19,18 +19,18 @@ public class PRODOPT_VO {
 	private int prod_qtymax;			// 최대구매수량
 	private int prod_reserv;			// 예약
 	
-	private int opt_idx;		// 옵션 인덱스
+	private String opt_idx;		// 옵션 인덱스
 	private int prod_tb_idx;	// 상품 인덱스
 	private String opt_name;	// 옵션이름
 	private String opt_stock;		// 옵션재고수
 	private String opt_price;		// 옵션추가금액
 	private int opt_state;			// 1:판매중, 2:품절, 3:숨김처리
-	private int opt_qty;			// 옵션 수량
+	private String opt_qty;			// 옵션 수량
 	
-	public int getOpt_qty() {
+	public String getOpt_qty() {
 		return opt_qty;
 	}
-	public void setOpt_qty(int opt_qty) {
+	public void setOpt_qty(String opt_qty) {
 		this.opt_qty = opt_qty;
 	}
 	public int getProd_idx() {
@@ -135,10 +135,10 @@ public class PRODOPT_VO {
 	public void setProd_reserv(int prod_reserv) {
 		this.prod_reserv = prod_reserv;
 	}
-	public int getOpt_idx() {
+	public String getOpt_idx() {
 		return opt_idx;
 	}
-	public void setOpt_idx(int opt_idx) {
+	public void setOpt_idx(String opt_idx) {
 		this.opt_idx = opt_idx;
 	}
 	public int getProd_tb_idx() {

@@ -128,7 +128,7 @@ public class ProductController {
 	
 	// 주문폼
 	@RequestMapping( value = "/orderForm.do", method = RequestMethod.GET )
-	public String orderForm( int opt_qty1,int opt_qty2,int opt_qty3,int opt_qty4,int opt_qty5,int opt_idx1,int opt_idx2,int opt_idx3,int opt_idx4,int opt_idx5, MEMBER_VO memberVO ,HttpSession session,  Model model ){
+	public String orderForm( String opt_qty1,String opt_qty2,String opt_qty3,String opt_qty4,String opt_qty5,int opt_idx1,int opt_idx2,int opt_idx3,int opt_idx4,int opt_idx5, MEMBER_VO memberVO ,HttpSession session,  Model model ){
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		MEMBER_VO memvo = productService.orderMem(Login);
 		model.addAttribute("memvo",memvo);
@@ -210,22 +210,25 @@ public class ProductController {
 		model.addAttribute("priceCalRRR",num2-num1);
 		return num2-num1;
 	}
-//	// 상품 문의 등록
-//	@RequestMapping( value = "/detail.do", method = RequestMethod.POST )
-//	public void detail( PRODUCT_Q_VO pqvo, HttpServletResponse rsp ) throws IOException {
-//		
-//		int result = productService.prodq_insert(pqvo);
-//		System.out.println("멤버인덱스"+pqvo.getMember_tb_idx());
-//		rsp.setContentType("text/html;charset=utf-8");
-//		PrintWriter pw = rsp.getWriter();
-//		
-//		if( result > 0 ) {
-//			pw.append("<script>alert('문의가 등록되었습니다.');location.href='detail.do?prod_idx="+pqvo.getProduct_tb_idx()+"'</script>");
-//		}else {
-//			pw.append("<script>alert('문의등록이 실패되었습니다.');location.href='detail.do?prod_idx="+pqvo.getProduct_tb_idx()+"'</script>");
-//		}
-//		pw.flush();
-//	}
+	
+	// 상품 문의 등록
+	@RequestMapping( value = "/detail.do", method = RequestMethod.POST )
+	public void detail( PRODUCT_Q_VO pqvo, HttpServletResponse rsp ) throws IOException {
+		
+		int result = productService.prodq_insert(pqvo);
+		System.out.println("멤버인덱스"+pqvo.getMember_tb_idx());
+		rsp.setContentType("text/html;charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		if( result > 0 ) {
+			pw.append("<script>alert('문의가 등록되었습니다.');location.href='detail.do?prod_idx="+pqvo.getProduct_tb_idx()+"'</script>");
+		}else {
+			pw.append("<script>alert('문의등록이 실패되었습니다.');location.href='detail.do?prod_idx="+pqvo.getProduct_tb_idx()+"'</script>");
+		}
+		pw.flush();
+	}
+	
+	// 상품 문의사항 비밀글
 	
 	/*-----------------------------------------------------------------------*/
 	

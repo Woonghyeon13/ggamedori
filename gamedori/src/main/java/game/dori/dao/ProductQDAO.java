@@ -8,12 +8,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
-import game.dori.util.OTO_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
-import game.dori.vo.QA_VO;
 
 @Repository
 public class ProductQDAO {
@@ -25,6 +22,24 @@ public class ProductQDAO {
 	//마이페이지 상품문의 리스트 출력
 	public List<PRODUCTQQ_VO> selectQAList(int member_idx) {
 		return sqlSession.selectList("game.dori.mapper.productQMapper.selectQAList", member_idx); //매개변수릉통해 인자로전달  쿼리에서사용
+	}
+	
+//	// 마이페이지 상품 문의사항 리스트 역순으로 출력
+//	public List<PRODUCT_Q_VO> selectQAListD(int member_idx){
+//		return sqlSession.selectList("game.dori.mapper.productQMapper.prod_selectD", member_idx);
+//	}
+	
+	public List<PRODUCT_Q_VO> prod_listD(int prod_idx){
+		return sqlSession.selectList("game.dori.mapper.productQMapper.prod_selectD", prod_idx);
+	}
+	
+	// 마이페이지 상품문의 페이징
+	public List<PRODUCT_Q_VO> selectProdListD(int limit, int start) {
+		 Map<String, Object> params = new HashMap<String, Object>();
+		    params.put("limit", limit);
+		    params.put("start", start);
+		    
+		return sqlSession.selectList("game.dori.mapper.productQMapper.prod_selectD",params);
 	}
 	
 	//관리자 페이지 상품문의 리스트 출력
@@ -55,30 +70,30 @@ public class ProductQDAO {
 	}
 	
 	// 상품 문의사항 페이징
-	public List<PRODUCT_Q_VO> prod_list(int prod_limit, int prod_start) {
+	public List<PRODUCT_Q_VO> prod_list(int limit, int start) {
 	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("prod_limit", prod_limit);
-	    params.put("prod_start", prod_start);
+	    params.put("limit", limit);
+	    params.put("start", start);
 
 	    return sqlSession.selectList("game.dori.mapper.productQMapper.prod_selectAll", params);
 	}
 	
 	// 상품 문의사항 검색 기능
-	public int prod_countSearchResults(String prod_searchText, String prod_searchOption) {
+	public int prod_countSearchResults(String searchText, String searchOption) {
 	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("prod_searchText", prod_searchText);
-	    params.put("prod_searchOption", prod_searchOption);
+	    params.put("searchText", searchText);
+	    params.put("searchOption", searchOption);
 	    
 	    return sqlSession.selectOne("game.dori.mapper.productQMapper.prod_countSearchResults", params);
 	}	
 	
 	// 상품 문의사항 글 검색 후 페이징
-	public List<PRODUCT_Q_VO> prod_search(String prod_searchText, String prod_searchOption, int prod_start, int prod_limit) {
+	public List<PRODUCT_Q_VO> prod_search(String searchText, String searchOption, int start, int limit) {
 	    Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("prod_searchText", prod_searchText);
-	    params.put("prod_searchOption", prod_searchOption);
-	    params.put("prod_start", prod_start);
-	    params.put("prod_limit", prod_limit);
+	    params.put("searchText", searchText);
+	    params.put("searchOption", searchOption);
+	    params.put("start", start);
+	    params.put("limit", limit);
 
 	    return sqlSession.selectList("game.dori.mapper.productQMapper.prod_search", params);
 	}

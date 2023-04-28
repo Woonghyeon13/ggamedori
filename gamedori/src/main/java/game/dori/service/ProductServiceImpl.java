@@ -251,5 +251,12 @@ public class ProductServiceImpl implements ProductService{
 		return payDAO.insertPay(olvo);
 	}
 
+//	// 상품 문의사항 역순으로 출력
+//	@Override
+//	public List<PRODUCT_Q_VO> prod_listD(int member_idx) {
+//		// TODO Auto-generated method stub
+//		return prodQDAO.selectProdListD(member_idx);
+//	}
+
 
 }

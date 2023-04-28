@@ -13,7 +13,6 @@ public class PRODUCT_VO {
 	private int prod_hit;				// 조회 수
 	private int prod_sales;				// 판매 량
 	private String prod_co;				// 제조사
-	private String prod_opt;			// 제품 옵션
 	private String prod_rdate;			// 출시 일
 	private String prod_imgt;			// 썸네일 이미지
 	private String prod_imgm;			// 메인 이미지
@@ -94,12 +93,7 @@ public class PRODUCT_VO {
 	public void setProd_co(String prod_co) {
 		this.prod_co = prod_co;
 	}
-	public String getProd_opt() {
-		return prod_opt;
-	}
-	public void setProd_opt(String prod_opt) {
-		this.prod_opt = prod_opt;
-	}
+
 	public String getProd_rdate() {
 		return prod_rdate;
 	}

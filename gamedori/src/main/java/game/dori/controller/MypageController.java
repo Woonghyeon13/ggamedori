@@ -26,12 +26,18 @@ import game.dori.service.MemberService;
 import game.dori.service.MypageService;
 import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
+
+import game.dori.util.PRODOPT_VO;
+import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
+import game.dori.vo.ORDER_DETAIL_VO;
+import game.dori.vo.NOTICE_VO;
 import game.dori.vo.ORDER_VO;
+import game.dori.vo.PAY_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
@@ -87,22 +93,36 @@ public class MypageController {
 		
 		
 
-		// 최근주문내역
-		List<ORDER_VO> selectOrderList = 
-		mypageService.selectOrderListService(memberVO.getMember_idx());
-		model.addAttribute("Orderlist", selectOrderList);
-		
+
+		//최근주문내역
+		List<ORDER_VO> selectOrderList = mypageService.selectOrderListService(memberVO.getMember_idx());
+		List<ORDER_LIST_VO> orderList5 = new ArrayList<ORDER_LIST_VO>();
+		for( int i = 0; i < selectOrderList.size(); i++) {
+			ORDER_LIST_VO olvo = new ORDER_LIST_VO();
+			olvo.setOrder_date(selectOrderList.get(i).getOrder_date());
+			olvo.setOrder_state(selectOrderList.get(i).getOrder_state());
+			ORDER_DETAIL_VO odvo = mypageService.orderDetailOne(selectOrderList.get(i).getOrder_idx());
+			OPT_VO optvo =productService.optSelectOne(odvo.getOpt_tb_idx());
+			PAY_VO payvo = mypageService.selectPayPrice(selectOrderList.get(i).getOrder_idx());
+			PRODUCT_VO pvo = productService.prodSelectOne(optvo.getProd_tb_idx());
+			olvo.setProd_name(pvo.getProd_name());
+			olvo.setProd_imgt(pvo.getProd_imgt());
+			olvo.setPay_price_real(payvo.getPay_price_real());
+			orderList5.add(olvo);
+		}
+		model.addAttribute("Orderlist", orderList5);
+
 		// 상품문의내역
-		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
+		List<PRODUCT_Q_VO> selectQAList = mypageService.selectQAListD(memberVO.getMember_idx() );
 		model.addAttribute("selectQAList", selectQAList);
 		
-		// 1 : 1 문의 내역
-		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx());
-		model.addAttribute("selectOtoList", selectOtoList);
+//		// 1 : 1 문의 내역
+//		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx());
+//		model.addAttribute("selectOtoList", selectOtoList);
 		
-		// 1 : 1 문의 내역 역순
-		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx());
-		model.addAttribute("selectOtoListD",selectOtoListD);
+			// 1 : 1 문의 내역 역순
+			List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx());
+			model.addAttribute("selectOtoListD",selectOtoListD);
 		
 		// 나의후기
 		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
@@ -113,8 +133,6 @@ public class MypageController {
 		return "mypage/main";
 		
 	}
-
-
 			
 	
 	/*-------------------------------------------------------------------------------*/
@@ -148,8 +166,8 @@ public class MypageController {
 		model.addAttribute("ReviewCount", ReviewCount);
 		
 		//마이페이지-상세페이지-상품문의 리스트 
-		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
-		model.addAttribute("selectQAList", selectQAList);
+		List<PRODUCT_Q_VO> selectQAListD = mypageService.selectQAListD(memberVO.getMember_idx() );
+		model.addAttribute("selectQAList", selectQAListD);
 		
 	    int limit = 15; // 페이지당 게시물 수
 	    int start = (page - 1) * limit;
@@ -161,11 +179,11 @@ public class MypageController {
 	    	prod_List = mypageService.prod_search(searchText, searchOption, start, limit);
 	    	totalRecords = mypageService.prod_countSearchResults(searchText, searchOption);
 	    } else {
-	    	prod_List = mypageService.prod_list(limit, start);
+	    	prod_List = mypageService.prod_listD(limit, start);
 	    	totalRecords = mypageService.prod_countAll();
 	    }
 
-	    model.addAttribute("product", prod_List);
+	    model.addAttribute("prodqa", prod_List);
 
 	    int totalPages = (int) Math.ceil((double)	totalRecords / limit);
 	    model.addAttribute("totalPages", totalPages);
@@ -235,8 +253,8 @@ public class MypageController {
 		model.addAttribute("ReviewCount", ReviewCount);
 		
 		//마이페이지-상세페이지-상품문의 리스트 
-		List<PRODUCTQQ_VO> selectQAList = mypageService.selectQAList(memberVO.getMember_idx() );
-		model.addAttribute("selectQAList", selectQAList);
+		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx() );
+		model.addAttribute("selectOtoListD", selectOtoListD);
 		
 	    int limit = 15; // 페이지당 게시물 수
 	    int start = (page - 1) * limit;
@@ -395,9 +413,20 @@ public class MypageController {
 		model.addAttribute("ReviewCount", ReviewCount);		
 		
 		//마이페이지-상세페이지-주문목록리스트출력
-		List<ORDER_VO> selectOrderList = 
-				mypageService.selectOrderListService(memberVO.getMember_idx());
-				model.addAttribute("list", selectOrderList);
+		List<ORDER_VO> selectOrderList = mypageService.selectOrderListService(memberVO.getMember_idx());
+		List<ORDER_LIST_VO> orderList5 = new ArrayList<ORDER_LIST_VO>();
+		for( int i = 0; i < selectOrderList.size(); i++) {
+			ORDER_LIST_VO olvo = new ORDER_LIST_VO();
+			olvo.setOrder_date(selectOrderList.get(i).getOrder_date());
+			olvo.setOrder_state(selectOrderList.get(i).getOrder_state());
+			ORDER_DETAIL_VO odvo = mypageService.orderDetailOne(selectOrderList.get(i).getOrder_idx());
+			OPT_VO optvo =productService.optSelectOne(odvo.getOpt_tb_idx());
+			PRODUCT_VO pvo = productService.prodSelectOne(optvo.getProd_tb_idx());
+			olvo.setProd_name(pvo.getProd_name());
+			olvo.setProd_imgt(pvo.getProd_imgt());
+			orderList5.add(olvo);
+		}
+		model.addAttribute("list", orderList5);
 				
 		return "mypage/prodlist";
 	}
@@ -559,9 +588,12 @@ public class MypageController {
 	{	
 		HttpSession session = req.getSession();
 		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
+		
 		List<CART_VO> selectCartList = mypageService.selectCartListService(memberVO.getMember_idx());
+		
 		List<CARTP_VO> cartList = new ArrayList<CARTP_VO>();
-		for( int i = 0; i<selectCartList.size(); i++) {
+		
+		for( int i = 0; i < selectCartList.size(); i++) {
 			CARTP_VO cartpvo = new CARTP_VO();
 			cartpvo.setCart_amount(selectCartList.get(i).getCart_amount());
 			cartpvo.setCart_idx(selectCartList.get(i).getCart_idx());
@@ -580,9 +612,12 @@ public class MypageController {
 			
 			cartList.add(cartpvo);
 		}
+		
 		model.addAttribute("cartList",cartList);
 		return "mypage/cart";
 	}
+	
+	
 	//장바구니 넣기
 	@ResponseBody
 	@RequestMapping( value = "/cartInsert.do", method = RequestMethod.POST )
@@ -620,12 +655,89 @@ public class MypageController {
 	public void cartModify( CART_VO cvo ) {
 		mypageService.cartModify(cvo);
 	}
+	// 장바구니 옵션
+	@ResponseBody
+	@RequestMapping( value = "cartView.do", method = RequestMethod.POST )
+	public CARTP_VO cartView( CARTP_VO cpvo) {
+		CARTP_VO cpvovo = mypageService.cartView(cpvo);
+		return cpvovo;
+	}
+	// 장바구니 옵션
+	@ResponseBody
+	@RequestMapping( value = "cartView2.do", method = RequestMethod.POST )
+	public List<OPT_VO> cartView2( CARTP_VO cpvo) {
+		List<OPT_VO> opts = productService.optSelect(cpvo.getProd_idx());
+		return opts;
+	}
 	
-	// 장바구니 주문담기
-	@RequestMapping( value = "orderForm.do", method = RequestMethod.GET)
-	public String cartOrder( ORDER_LIST_VO olvo, Model model ) {
+	// 주문폼
+	@RequestMapping( value = "/orderForm.do", method = RequestMethod.GET )
+	public String orderForm( String opt_idx, String opt_qty, PRODOPT_VO povo, MEMBER_VO memberVO ,HttpSession session,  Model model ){
+		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
+		MEMBER_VO memvo = productService.orderMem(Login);
+		model.addAttribute("memvo",memvo);
+		ADDRESS_VO adr = productService.selectMemAddr(memvo);
+		model.addAttribute("adr",adr);
+		int savePoint = mypageService.selectPointBal(Login.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
 		
+		String optIdx = povo.getOpt_idx();
+		String[] optIdxSplit = optIdx.split(",");
+		String optQty = povo.getOpt_qty();
+		String[] optQtySplit = optQty.split(",");
+		List<PRODOPT_VO> optlist = new ArrayList<PRODOPT_VO>();
+		for( int i = 0; i<optIdxSplit.length; i++) {
+			PRODOPT_VO vovo = productService.prodOptSelect(Integer.parseInt(optIdxSplit[i]));
+			vovo.setOpt_qty(optQtySplit[i]);
+			optlist.add(vovo);
+		}
+		System.out.println("옵션스"+optIdx);
+		System.out.println("수량스"+optQty);
+		model.addAttribute("optlist",optlist);
 		
+		return "mypage/orderForm";
+	}
+
+	// 주문포스트
+	@RequestMapping( value = "/orderForm.do", method = RequestMethod.POST)
+	public @ResponseBody String orderForm( ORDER_LIST_VO olvo, HttpServletResponse rsp ){
+		
+		System.out.println();
+		
+		String optIdx = olvo.getOpt_tb_idx();
+		String[] optIdxSplit = optIdx.split(",");
+		String ordQty = olvo.getOrderd_qty();
+		String[] ordQtySplit = ordQty.split(",");
+		String ordPrice = olvo.getOrderd_price();
+		String[] ordPriceSplit = ordPrice.split(",");
+		int result = productService.insertOrder(olvo);
+		
+		if(result > 0 ) { 
+			int order_tb_idxs = productService.orderNum();
+			for( int i = 1; i<optIdxSplit.length; i++) {
+				olvo.setOpt_tb_idx(optIdxSplit[i]);
+				olvo.setOrder_tb_idx(order_tb_idxs);
+				olvo.setOrderd_qty(ordQtySplit[i]);
+				olvo.setOrderd_price(ordPriceSplit[i]);
+				productService.insertOrderDetail(olvo);
+			}
+			olvo.setOrder_tb_idx(order_tb_idxs);
+			int payResult = productService.insertPay(olvo);
+			return "success";
+		}else {
+			 
+		}
 		return "";
+		
+	}
+	
+	// 주문금액 계산
+	@ResponseBody
+	@RequestMapping( value = "/priceCal.do", method = RequestMethod.GET)
+	public int priceCal( int num1, int num2, Model model ) {
+		System.out.println(num1);
+		System.out.println(num2);
+		model.addAttribute("priceCalRRR",num2-num1);
+		return num2-num1;
 	}
 }

@@ -12,4 +12,9 @@
 		 ( #{order_tb_idx}, #{pay_type}, #{pay_price_real}, #{pay_price_deposit}, #{pay_deposit_name}, #{pay_deposit_bank})
 	</insert>
 	
+	<!-- 주문목록 금액 선택 -->
+	<select id="selectPayPrice" parameterType="int" resultType="payVO">
+		select * from pay_tb
+			where order_tb_idx = #{order_tb_idx}
+	</select>
 </mapper>

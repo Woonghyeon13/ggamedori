@@ -304,64 +304,6 @@
 		
 		
 		function requestPay() {
-		  	
-			var ordPric = $('input[id=ordPric]').val();
-			  if(ordPric == 0) { 
-				// ordPric 값이 0이면 바로 처리 로직으로 이동합니다.
-				  var member_tb_idx = $("#ord_memIdx").val();
-  		 		var coupon_tb_idx;
-  		 		var order_addr1 = $("#ord_addr1").val();
-  		 		var order_addr2 = $("#ord_addr2").val();
-  		 		var order_addr3 = $("#ord_addr3").val();
-  		 		var order_name = $("#ord_name").val();
-  		 		var order_phone = $("#ord_phone").val();
-  		 		var order_memo = $("#ord_memo").val();
-  		 		
-  		 		var opt_tb_idx = [];
-  		 		var orderd_qty = [];
-  		 		var orderd_price = [];
-  		 		
-  		 		var idxSize = $("input[name='opt_tb_idx']").length;
-  		 		for( i=0; i< idxSize; i++){
-  		 			opt_tb_idx.push($("input[name='opt_tb_idx']").eq(i).attr("value"));
-  		 		}
-  		 		for( i=0; i< idxSize; i++){
-  		 			orderd_qty.push($("input[name='orderd_qty']").eq(i).attr("value"));
-  		 		}
-  		 		for( i=0; i< idxSize; i++){
-  		 			orderd_price.push($("input[name='orderd_price']").eq(i).attr("value"));
-  		 		}
-  		 		console.log(orderd_qty);
-  		 		console.log(orderd_price);
-  		 		
-  		 		var pay_type = 1;
-  		 		var pay_price_real = $('input[id=ordPric]').val();
-  		 		//var pay_price_deposit = $('input[id=ordPric]').val();
-  		 		//var pay_deposit_name ;
-  		 		//var pay_bank;
-  	            // 결제 성공시 처리 로직
-  	            console.log("결제 성공창까지 넘어왔습니다.");
-  	            var orderPointCal = $("#orderPointCal").val(); // orderPointCal 값을 가져옵니다.
-  	            var ordPric = $("#ordPric").val(); // ordPric 값을 가져옵니다.
-  	            var data = {
-  	            		member_tb_idx : member_tb_idx,
-  	        			coupon_tb_idx : coupon_tb_idx,
-  	        			order_addr1 : order_addr1,
-  	        			order_addr2 : order_addr2,
-  	        			order_addr3 : order_addr3,
-  	        			order_name : order_name,
-  	        			order_phone : order_phone,
-  	        			order_memo : order_memo,
-  	        			opt_tb_idx : opt_tb_idx,
-  	        			orderd_qty : orderd_qty,
-  	        			orderd_price : orderd_price,
-  	        			pay_type : pay_type,
-  	        			pay_price_real : pay_price_real
-  	            };
-  	            updateSavedPoints(data);
-  	        } else
-				  
-			console.log("ㅇㅅㅇ"+$('input[id=ordPric]').val());
         	IMP.request_pay({
         		 pg : 'nice',
          	    pay_method : 'card',
