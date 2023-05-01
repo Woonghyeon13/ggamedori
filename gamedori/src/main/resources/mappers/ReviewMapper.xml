@@ -102,4 +102,16 @@
 		  </where>
 		</select>
 
+	<!-- 상품상세 리뷰목록 -->
+	<select id="prodReviewList" parameterType="int" resultType="reviewVO">
+		select * from review_tb r, member_tb m
+			where r.member_tb_idx = m.member_idx
+			and product_tb_idx = #{prod_idx}
+	</select>
+	
+	<!-- 상품상세 리뷰카운트 -->
+	<select id="prodReviewCnt" parameterType="int" resultType="int">
+		select count(*) from review_tb
+			where product_tb_idx = #{prod_idx}
+	</select>
 </mapper>

@@ -53,5 +53,13 @@ public class ReviewDAO {
 	    return sqlSession.selectOne("game.dori.mapper.reviewMapper.countSearchResults", params);
 	}
 	
+	// 상품상세 리뷰목록
+	public List<REVIEW_VO> prodReviewList( int prod_idx ){
+		return sqlSession.selectList("game.dori.mapper.reviewMapper.prodReviewList",prod_idx);
+	}
 	
+	// 상품상세 리뷰카운트
+	public int prodReviewCnt( int prod_idx ) {
+		return sqlSession.selectOne("game.dori.mapper.reviewMapper.prodReviewCnt",prod_idx);
+	}
 }

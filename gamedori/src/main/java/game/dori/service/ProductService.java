@@ -111,5 +111,10 @@ public interface ProductService {
 	
 	// 리뷰 등록 
 	public int review_insert(REVIEW_VO reviewVO);
-
+	
+	// 상품상세 리뷰목록
+	public List<REVIEW_VO> prodReviewList( int prod_idx );
+	
+	// 상품상세 리뷰카운트
+	public int prodReviewCnt( int prod_idx );
 }

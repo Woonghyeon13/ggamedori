@@ -121,6 +121,10 @@ public class ProductController {
 		model.addAttribute("pqlCnt",pqlCnt);
 		List<OPT_VO> optlist = productService.optSelect(prod_idx);
 		model.addAttribute("optlist",optlist);
+		List<REVIEW_VO> reviewlist = productService.prodReviewList(prod_idx);
+		model.addAttribute("reviewlist",reviewlist);
+		int reviewCnt = productService.prodReviewCnt(prod_idx);
+		model.addAttribute("reviewCnt",reviewCnt);
 		
 		return "prod/detail";
 	}

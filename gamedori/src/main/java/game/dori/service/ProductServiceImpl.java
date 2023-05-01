@@ -250,6 +250,18 @@ public class ProductServiceImpl implements ProductService{
 	public int insertPay(ORDER_LIST_VO olvo) {
 		return payDAO.insertPay(olvo);
 	}
+	
+	// 상품 상세 리뷰 목록
+	@Override
+	public List<REVIEW_VO> prodReviewList(int prod_idx) {
+		return reviewDAO.prodReviewList(prod_idx);
+	}
+
+	// 상품상세 리뷰카운트
+	@Override
+	public int prodReviewCnt(int prod_idx) {
+		return reviewDAO.prodReviewCnt(prod_idx);
+	}
 
 //	// 상품 문의사항 역순으로 출력
 //	@Override

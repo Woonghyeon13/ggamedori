@@ -88,8 +88,8 @@
 								</div>
 							</div>
 							<p style="font-size: 12px;">
-								최소 구매수량은 <span class="fw-bold" style="color: #ee4a44;">1개</span>,
-								최대 구매수량은 <span class="fw-bold" style="color: #ee4a44;">2개</span>입니다.
+								최소 구매수량은 <span class="fw-bold" style="color: #ee4a44;">${pvo.prod_qtymin}개</span>,
+								최대 구매수량은 <span class="fw-bold" style="color: #ee4a44;">${pvo.prod_qtymax}개</span>입니다.
 							</p>
 							<div class="row align-items-baseline">
 								<div class="col-3">
@@ -174,9 +174,9 @@
 				<li class="nav-item"><a class="nav-link text-reset"
 					href="#productNav2">배송안내</a></li>
 				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav3">고객리뷰(0)</a></li>
+					href="#productNav3">고객리뷰(${reviewCnt})</a></li>
 				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav4">상품문의</a></li>
+					href="#productNav4">상품문의(${pqlCnt})</a></li>
 			</ul>
 			<!--상세 사진 영역-->
 			<div class="container d-flex justify-content-center mt-3">
@@ -192,9 +192,9 @@
 					class="nav-link active text-reset fw-bold" href="#productNav2">배송안내</a>
 				</li>
 				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav3">고객리뷰(0)</a></li>
+					href="#productNav3">고객리뷰(${reviewCnt})</a></li>
 				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav4">상품문의</a></li>
+					href="#productNav4">상품문의(${pqlCnt})</a></li>
 			</ul>
 			<!--배송 안내 사진 영역-->
 			<div class="container">
@@ -204,7 +204,6 @@
 			</div>
 		</div>
 		<!-- 리뷰 ------------------------------------------------------------------------->
-		
 		<div class="container mt-5">
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
 				<li class="nav-item"><a class="nav-link text-reset"
@@ -212,52 +211,52 @@
 				<li class="nav-item"><a class="nav-link text-reset"
 					href="#productNav2">배송안내</a></li>
 				<li class="nav-item"><a id="productNav3"
-					class="nav-link active text-reset fw-bold" href="#productNav3">고객리뷰(0)</a>
+					class="nav-link active text-reset fw-bold" href="#productNav3">고객리뷰(${reviewCnt})</a>
 				</li>
 				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav4">상품문의</a></li>
+					href="#productNav4">상품문의(${pqlCnt})</a></li>
 			</ul>
 		</div>
 		<div class="container mt-5">
 			<div style="border-bottom: 2px solid #000;">
-				<h2>고객리뷰(0)</h2>
+				<h2>고객리뷰(${reviewCnt})</h2>
 			</div>
-			<table class="table w-100 text-center">
+			<table class="table w-100 text-center border-bottom">
+				<c:forEach var="reviews" items="${reviewlist}" varStatus="status">
 				<tr>
 					<td class="col-1 ps-3">
 					<div class="starCnt">
 						<div class="starRating-wrap">
 							<div id="starCenter">
 								<fieldset class="starRating">
-									<input type="radio" id="star5" name="review_star" value="10" onclick="return(false);"/><label for="star5" class="full" title="Awesome"></label>
-									<input type="radio" id="star4.5" name="review_star" value="9" onclick="return(false);"/><label for="star4.5" class="half"></label>
-									<input type="radio" id="star4" name="review_star" value="8" onclick="return(false);"/><label for="star4" class="full"></label>
-									<input type="radio" id="star3.5" name="review_star" value="7" onclick="return(false);" checked="checked"/><label for="star3.5" class="half"></label>
-									<input type="radio" id="star3" name="review_star" value="6" onclick="return(false);"/><label for="star3" class="full"></label>
-									<input type="radio" id="star2.5" name="review_star" value="5" onclick="return(false);"/><label for="star2.5" class="half"></label>
-									<input type="radio" id="star2" name="review_star" value="4" onclick="return(false);"/><label for="star2" class="full"></label>
-									<input type="radio" id="star1.5" name="review_star" value="3" onclick="return(false);"/><label for="star1.5" class="half"></label>
-									<input type="radio" id="star1" name="review_star" value="2" onclick="return(false);"/><label for="star1" class="full"></label>
-									<input type="radio" id="star0.5" name="review_star" value="1" onclick="return(false);"/><label for="star0.5" class="half"></label>
+									<input type="radio" id="star5" name="review_star${status.count}" value="10" onclick="return(false);" <c:if test="${reviews.review_star eq 10}">checked</c:if>/><label for="star5" class="full" title="Awesome"></label>
+									<input type="radio" id="star4.5" name="review_star${status.count}" value="9" onclick="return(false);" <c:if test="${reviews.review_star eq 9}">checked</c:if>/><label for="star4.5" class="half"></label>
+									<input type="radio" id="star4" name="review_star${status.count}" value="8" onclick="return(false);" <c:if test="${reviews.review_star eq 8}">checked</c:if>/><label for="star4" class="full"></label>
+									<input type="radio" id="star3.5" name="review_star${status.count}" value="7" onclick="return(false);" <c:if test="${reviews.review_star eq 7}">checked</c:if>/><label for="star3.5" class="half"></label>
+									<input type="radio" id="star3" name="review_star${status.count}" value="6" onclick="return(false);" <c:if test="${reviews.review_star eq 6}">checked</c:if>/><label for="star3" class="full"></label>
+									<input type="radio" id="star2.5" name="review_star${status.count}" value="5" onclick="return(false);" <c:if test="${reviews.review_star eq 5}">checked</c:if>/><label for="star2.5" class="half"></label>
+									<input type="radio" id="star2" name="review_star${status.count}" value="4" onclick="return(false);" <c:if test="${reviews.review_star eq 4}">checked</c:if>/><label for="star2" class="full"></label>
+									<input type="radio" id="star1.5" name="review_star${status.count}" value="3" onclick="return(false);" <c:if test="${reviews.review_star eq 3}">checked</c:if>/><label for="star1.5" class="half"></label>
+									<input type="radio" id="star1" name="review_star${status.count}" value="2" onclick="return(false);" <c:if test="${reviews.review_star eq 2}">checked</c:if>/><label for="star1" class="full"></label>
+									<input type="radio" id="star0.5" name="review_star${status.count}" value="1" onclick="return(false);" <c:if test="${reviews.review_star eq 1}">checked</c:if>/><label for="star0.5" class="half"></label>
 								</fieldset>
 							</div>
 						</div>
 					</div>
 					</td>
-					<td class="col-1 align-bottom"><p>작성자</p></td>
-					<td class="col-10 align-bottom" style="text-align: left;"><p>작성일</p></td>
+					<td class="col-1 align-bottom"><p>${reviews.member_name}</p></td>
+					<td class="col-10 align-bottom" style="text-align: left;"><p>${reviews.review_wdate}</p></td>
 				</tr>
-				<tr>
-					<td class="ps-3" colspan="3" style="text-align: left;"><span
-						class="fw-bold fs-4">title</span> <br> 내용 <br> <img
-						src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3"
-						style="border-radius: 6px;" alt="" width="100px" height="100px">
-						<img src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3"
-						style="border-radius: 6px;" alt="" width="100px" height="100px">
+				<tr class="border-bottom">
+					<td class="ps-3" colspan="1" style="text-align: left;">
+						<img src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3" style="border-radius: 6px;" alt="" width="100px" height="100px">
+					</td>
+					<td>
+						<span class="fw-bold fs-4">${reviews.review_title}</span> <br> ${reviews.review_contents} <br> 
 					</td>
 				</tr>
+				</c:forEach>
 				<!-- 리뷰 없음 -->
-				
 <!-- 
 		<tr>
           <td class="py-5">등록된 리뷰가 없습니다.</td>
@@ -292,9 +291,9 @@
 				<li class="nav-item"><a class="nav-link text-reset"
 					href="#productNav2">배송안내</a></li>
 				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav3">고객리뷰(0)</a></li>
+					href="#productNav3">고객리뷰(${reviewCnt})</a></li>
 				<li class="nav-item"><a id="productNav4"
-					class="nav-link active text-reset fw-bold" href="#productNav4">상품문의</a>
+					class="nav-link active text-reset fw-bold" href="#productNav4">상품문의(${pqlCnt})</a>
 				</li>
 			</ul>
 		</div>
