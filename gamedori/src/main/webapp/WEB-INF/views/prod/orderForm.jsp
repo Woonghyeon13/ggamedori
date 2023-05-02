@@ -453,6 +453,8 @@
         	
 			  
         }
+</script>
+<script>
  
 // 주문자 정보 동일 옮기기
 $(document).ready(function(){
@@ -514,6 +516,8 @@ $("#usePoint").change(function() {
 	    }
 	  });
 	});
+</script>
+<script>
 	
 function updateSavedPoints(data) {
     var usedPoints = $("#usePoint").val();
@@ -527,7 +531,7 @@ function updateSavedPoints(data) {
         success: function(response) {
             // 서버 처리가 성공적으로 이루어졌을 때
             console.log('결제 및 포인트 처리 완료');
-            // 재고감소
+            // 옵션재고감소
             var opt_idx = [];
 	 		var opt_qty = [];
 	 		var idxSize = $("input[name='opt_tb_idx']").length;
@@ -547,6 +551,17 @@ function updateSavedPoints(data) {
         		success : function(){
         		}
             });
+            // 상품재고감소
+            $.ajax({
+        		url : '<%=request.getContextPath()%>/mypage/prodStockMinus.do',
+        		type : 'post',
+        		data : { opt_idx : opt_idx,
+        			opt_qty : opt_qty},
+        		traditional: true,
+        		success : function(){
+        		}
+            });
+            
 
             alert('결제가 완료되었습니다.'); // 이 부분을 추가합니다.
             location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.

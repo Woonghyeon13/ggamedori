@@ -375,6 +375,12 @@ public class MypageServiceImpl implements MypageService{
 		return orderDAO.updateOrderCheck(order_idx);
 	}
 
+	// 회원 적립금 사용
+	@Override
+	public int insertPointUse(SAVEPOINT_VO savevo) {
+		return savepointDAO.insertPointUse(savevo);
+	}
+
 	
 	/*-------------------------------------------------------------------------------*/
 

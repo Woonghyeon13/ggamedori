@@ -156,6 +156,9 @@ public interface MypageService {
 	
 	// 회원 적립금 적립
 	public int insertPoint( SAVEPOINT_VO savevo );
+
+	// 회원 적립금 적립
+	public int insertPointUse( SAVEPOINT_VO savevo );
 	
 	// 구매확정
 	public int updateOrderCheck( int order_idx );

@@ -270,6 +270,12 @@ public class ProductServiceImpl implements ProductService{
 		return prodOptDAO.optStockMinus(povo);
 	}
 
+	// 상품 재고 감소
+	@Override
+	public int prodStockMinus(PRODOPT_VO optvo) {
+		return productDAO.prodStockMinus(optvo);
+	}
+
 //	// 상품 문의사항 역순으로 출력
 //	@Override
 //	public List<PRODUCT_Q_VO> prod_listD(int member_idx) {

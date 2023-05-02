@@ -57,4 +57,11 @@
 			( member_tb_idx, savept_amount, savept_balance)
 			values ( #{member_tb_idx}, #{savept_amount}, #{savept_balance})
 	</insert>
+
+	<!-- 회원 적립금 사용-->
+	<insert id="insertPointUse" parameterType="savepointVO">
+		insert into savepoint_tb
+			( member_tb_idx, savept_amount, savept_balance)
+			values ( #{member_tb_idx}, -#{savept_amount}, #{savept_balance})
+	</insert>
 </mapper>

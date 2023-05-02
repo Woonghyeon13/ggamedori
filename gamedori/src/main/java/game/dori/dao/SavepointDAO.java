@@ -50,4 +50,8 @@ public class SavepointDAO {
 	public int insertPoint( SAVEPOINT_VO savevo ) {
 		return sqlSession.insert("game.dori.mapper.savepointMapper.insertPoint",savevo);
 	}
+	// 회원 적립금 적립
+	public int insertPointUse( SAVEPOINT_VO savevo ) {
+		return sqlSession.insert("game.dori.mapper.savepointMapper.insertPointUse",savevo);
+	}
 }

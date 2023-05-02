@@ -762,6 +762,35 @@ public class MypageController {
 		}
 	}
 	
+	// 옵션 재고 감소
+	@ResponseBody
+	@RequestMapping( value = "/prodStockMinus.do", method = RequestMethod.POST)
+	public void prodStockMinus( PRODOPT_VO povo  ) {
+		String ordIdx = povo.getOpt_idx();
+		String[] ordIdxSplit = ordIdx.split(",");
+		String ordQty = povo.getOpt_qty();
+		String[] ordQtySplit = ordQty.split(",");
+		
+		for( int i=0; i<ordIdxSplit.length; i++) {
+			OPT_VO optvo = productService.optSelectOne(Integer.parseInt(ordIdxSplit[i]));
+			PRODOPT_VO delvo = new PRODOPT_VO();
+			delvo.setProd_idx(optvo.getProd_tb_idx());
+			delvo.setProd_stock(Integer.parseInt(ordQtySplit[i]));
+			productService.prodStockMinus(delvo);
+		}
+	}
+	
+	// 구매 포인트 사용
+	@ResponseBody
+	@RequestMapping( value = "/usePoint.do", method = RequestMethod.POST )
+	public void usePoint( int order_idx, SAVEPOINT_VO savevo ) {
+		SAVEPOINT_VO amount = mypageService.selectPointInfo(savevo.getMember_tb_idx());
+		SAVEPOINT_VO resultpoint = new SAVEPOINT_VO();
+		resultpoint.setMember_tb_idx(savevo.getMember_tb_idx());
+		resultpoint.setSavept_amount(savevo.getSavept_amount());
+		resultpoint.setSavept_balance(amount.getSavept_balance()-savevo.getSavept_amount());
+		int result = mypageService.insertPointUse(resultpoint);
+	}
 	// 구매확정 포인트 적립
 	@ResponseBody
 	@RequestMapping( value = "/savePoint.do", method = RequestMethod.POST )
@@ -770,7 +799,7 @@ public class MypageController {
 		SAVEPOINT_VO resultpoint = new SAVEPOINT_VO();
 		resultpoint.setMember_tb_idx(savevo.getMember_tb_idx());
 		resultpoint.setSavept_amount(savevo.getSavept_amount());
-		resultpoint.setSavept_balance(amount.getSavept_balance()-savevo.getSavept_amount());
+		resultpoint.setSavept_balance(amount.getSavept_balance()+savevo.getSavept_amount());
 		int result = mypageService.insertPoint(resultpoint);
 		System.out.println("오더번호임"+order_idx);
 		if( result > 0 ) {

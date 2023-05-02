@@ -121,4 +121,7 @@ public interface ProductService {
 	
 	// 옵션 재고 감소
 	public int optStockMinus( OPT_VO povo );
+	
+	// 상품 재고 감소
+	public int prodStockMinus( PRODOPT_VO optvo );
 }

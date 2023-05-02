@@ -176,7 +176,7 @@
 				<input type="hidden" id="memAddr1" value="${adr.addr_1}">
 				<input type="hidden" id="memAddr2" value="${adr.addr_2}">
 				<input type="hidden" id="backUrl" value="<c:url value='/list.do' />">
-				<input type="hidden" id="orderPoint" value="0">
+				<input type="hidden" id="orderUsePoint" value="0">
 				<button class="btn btn-danger btn-block mt-4" onclick=
 				"requestPay()" style="font-weight: bold">주문하기</button>
 				<button type="button" class="btn btn-danger btn-block mt-4" onclick="orderAjax()" style="font-weight: bold">주문테스트</button>
@@ -330,7 +330,7 @@
   		 		var order_name = $("#ord_name").val();
   		 		var order_phone = $("#ord_phone").val();
   		 		var order_memo = $("#ord_memo").val();
-  		 		var order_point = $("orderPoint").val();
+  		 		var order_point = $("#orderUsePoint").val();
   		 		
   		 		var opt_tb_idx = [];
   		 		var orderd_qty = [];
@@ -369,7 +369,8 @@
   	        			orderd_qty : orderd_qty,
   	        			orderd_price : orderd_price,
   	        			pay_type : pay_type,
-  	        			pay_price_real : pay_price_real
+  	        			pay_price_real : pay_price_real,
+  	        			order_point : order_point
   	            };
   	   
   	            updateSavedPoints(data);
@@ -400,7 +401,7 @@
         		 		var order_name = $("#ord_name").val();
         		 		var order_phone = $("#ord_phone").val();
         		 		var order_memo = $("#ord_memo").val();
-        		 		var order_point = $("orderPoint").val();
+        		 		var order_point = $("#orderUsePoint").val();
         		 		
         		 		var opt_tb_idx = [];
         		 		var orderd_qty = [];
@@ -441,7 +442,8 @@
         	        			orderd_qty : orderd_qty,
         	        			orderd_price : orderd_price,
         	        			pay_type : pay_type,
-        	        			pay_price_real : pay_price_real
+        	        			pay_price_real : pay_price_real,
+        	        			order_point : order_point
         	            };
         	            
         	 
@@ -452,6 +454,8 @@
         	
 			  
         }
+</script>
+<script>
  
 // 주문자 정보 동일 옮기기
 $(document).ready(function(){
@@ -513,9 +517,10 @@ $("#usePoint").change(function() {
 	    }
 	  });
 	});
-	
+</script>
+<script>
 function updateSavedPoints(data) {
-    var usedPoints = $("#usePoint").val();
+    var usedPoints = $("#orderUsePoint").val();
 
     // AJAX 요청으로 서버에 결제 정보 전송
     $.ajax({
@@ -540,7 +545,7 @@ function updateSavedPoints(data) {
         		success : function(){
         		}
         	});
-            // 재고감소
+            // 옵션재고감소
             var opt_idx = [];
 	 		var opt_qty = [];
 	 		var idxSize = $("input[name='opt_tb_idx']").length;
@@ -550,7 +555,6 @@ function updateSavedPoints(data) {
 	 		for( i=0; i< idxSize; i++){
 	 			opt_qty.push($("input[name='orderd_qty']").eq(i).attr("value"));
 	 		}
-	 		
             $.ajax({
         		url : '<%=request.getContextPath()%>/mypage/optStockMinus.do',
         		type : 'post',
@@ -560,7 +564,31 @@ function updateSavedPoints(data) {
         		success : function(){
         		}
             });
-            
+            // 상품재고감소
+            $.ajax({
+        		url : '<%=request.getContextPath()%>/mypage/prodStockMinus.do',
+        		type : 'post',
+        		data : { opt_idx : opt_idx,
+        			opt_qty : opt_qty},
+        		traditional: true,
+        		success : function(){
+        		}
+            });
+            // 포인트 삭감
+	 		var member_tb_idx = $("#ord_memIdx").val();
+
+            if( usedPoints > 0){
+            $.ajax({
+        		url : '<%=request.getContextPath()%>/mypage/usePoint.do',
+        		type : 'post',
+        		data : { member_tb_idx : member_tb_idx,
+        			savept_amount : usedPoints},
+        		traditional: true,
+        		success : function(){
+        		}
+            });
+            	
+            }
             
             alert('결제가 완료되었습니다.'); // 이 부분을 추가합니다.
             location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do';
