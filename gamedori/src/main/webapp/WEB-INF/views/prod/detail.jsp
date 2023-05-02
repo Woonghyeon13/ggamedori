@@ -191,347 +191,339 @@ if (starRating) {
 		</div>
 		<!-- 상품 상세정보 -------------------------------- -->
 		<div class="container mt-5">
-			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a id="productNav1"
-					class="nav-link active text-reset fw-bold" aria-current="page"
-					href="#productNav1">상품상세</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav2">배송안내</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav3">고객리뷰(0)</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav4">상품문의</a></li>
+		
+			<ul class="nav justify-content-center nav-fill nav-tabs text-black" id="tab_menu">
+			    <li class="nav-item">
+			        <a class="nav-link text-reset" href="#productNav1">상품상세</a>
+			    </li>
+			    <li class="nav-item">
+			        <a class="nav-link text-reset" href="#productNav2">배송안내</a>
+			    </li>
+			    <li class="nav-item">
+			        <a class="nav-link text-reset" href="#productNav3">고객리뷰(0)</a>
+			    </li>
+			    <li class="nav-item">
+			        <a class="nav-link text-reset" href="#productNav4">상품문의</a>
+			    </li>
 			</ul>
+			
+			<script>
+			    const tabs = document.querySelectorAll('.nav-item a');
+			
+			    tabs.forEach(tab => {
+			        tab.addEventListener('click', (event) => {
+			            event.preventDefault();
+			            tabs.forEach(tab => {
+			                tab.classList.remove('fw-bold');
+			                tab.classList.remove('active');
+			            });
+			            tab.classList.add('fw-bold');
+			            tab.classList.add('active');
+			            // TODO: 해당 탭에 대한 내용을 보여주는 코드 작성
+			        });
+			    });
+			</script>
+
+
+			
+			
 			<!--상세 사진 영역-->
-			<div class="container d-flex justify-content-center mt-3">
+			<div class="container d-flex justify-content-center mt-3" id="productNav1">
 				<img src="<c:url value='/images/${pvo.prod_imgd}' />" alt="">
 			</div>
-		</div>
-		<!-- 배송안내 -->
-		<div class="container mt-5">
-			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a class="nav-link text-reset"
-					aria-current="page" href="#productNav1">상품상세</a></li>
-				<li class="nav-item"><a id="productNav2"
-					class="nav-link active text-reset fw-bold" href="#productNav2">배송안내</a>
-				</li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav3">고객리뷰(0)</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav4">상품문의</a></li>
-			</ul>
-			<!--배송 안내 사진 영역-->
-			<div class="container">
-				<div class="container d-flex justify-content-center mt-3">
-					<img src="<c:url value='/images/겜우리 합배송 관련 주의사항.jpg' />" alt="">
-				</div>
-			</div>
-		</div>
-		<!-- 리뷰 ------------------------------------------------------------------------->
-		
-		<div class="container mt-5">
-			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a class="nav-link text-reset"
-					aria-current="page" href="#productNav1">상품상세</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav2">배송안내</a></li>
-				<li class="nav-item"><a id="productNav3"
-					class="nav-link active text-reset fw-bold" href="#productNav3">고객리뷰(0)</a>
-				</li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav4">상품문의</a></li>
-			</ul>
-		</div>
-		<div class="container mt-5">
-			<div style="border-bottom: 2px solid #000;">
-				<h2>고객리뷰(0)</h2>
-			</div>
-			<table class="table w-100 text-center">
-				<tr>
-					<td class="col-1 ps-3">
-					<div class="starCnt">
-						<div class="starRating-wrap">
-							<div id="starCenter">
-								<fieldset class="starRating">
-									<input type="radio" id="star5" name="review_star" value="10" onclick="return(false);"/><label for="star5" class="full" title="Awesome"></label>
-									<input type="radio" id="star4.5" name="review_star" value="9" onclick="return(false);"/><label for="star4.5" class="half"></label>
-									<input type="radio" id="star4" name="review_star" value="8" onclick="return(false);"/><label for="star4" class="full"></label>
-									<input type="radio" id="star3.5" name="review_star" value="7" onclick="return(false);" checked="checked"/><label for="star3.5" class="half"></label>
-									<input type="radio" id="star3" name="review_star" value="6" onclick="return(false);"/><label for="star3" class="full"></label>
-									<input type="radio" id="star2.5" name="review_star" value="5" onclick="return(false);"/><label for="star2.5" class="half"></label>
-									<input type="radio" id="star2" name="review_star" value="4" onclick="return(false);"/><label for="star2" class="full"></label>
-									<input type="radio" id="star1.5" name="review_star" value="3" onclick="return(false);"/><label for="star1.5" class="half"></label>
-									<input type="radio" id="star1" name="review_star" value="2" onclick="return(false);"/><label for="star1" class="full"></label>
-									<input type="radio" id="star0.5" name="review_star" value="1" onclick="return(false);"/><label for="star0.5" class="half"></label>
-								</fieldset>
-							</div>
-						</div>
-					</div>
-					</td>
-					<td class="col-1 align-bottom"><p>작성자</p></td>
-					<td class="col-10 align-bottom" style="text-align: left;"><p>작성일</p></td>
-				</tr>
-				<tr>
-					<td class="ps-3" colspan="3" style="text-align: left;"><span
-						class="fw-bold fs-4">title</span> <br> 내용 <br> <img
-						src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3"
-						style="border-radius: 6px;" alt="" width="100px" height="100px">
-						<img src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3"
-						style="border-radius: 6px;" alt="" width="100px" height="100px">
-					</td>
-				</tr>
-				<!-- 리뷰 없음 -->
-				
-<!-- 
-		<tr>
-          <td class="py-5">등록된 리뷰가 없습니다.</td>
-     	</tr>
-       -->
-			</table>
-			<div class="container d-flex justify-content-between mt-3">
-				<div></div>
-				<nav aria-label="Page navigation example">
-					<ul class="pagination text-black">
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&lt;</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">1</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">2</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">3</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&gt;</a></li>
-					</ul>
-				</nav>
-				<button type="button" class="btn btn-outline-light login me-2"
-					data-bs-toggle="modal" data-bs-target="#review"
-					style="height: 38px;">리뷰 작성하기</button>
-					
-				<!-- 리뷰 작성 모달---------------------------------------------------------------------------------------------------------->
-				
-				<div class="modal fade" id="review">
-					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-header d-flex flex-column logo">
-								<div class="mt-2">
-									<h4 class="modal-title fs-5">리뷰 작성</h4>
-								</div>
-							</div>
-							<div class="modal-body">
-								<form name="review_reg" method="post" action="review_reg.do">
-									<div class="form-group">
-										<input type="text" class="form-control" id="review_title" placeholder="제목" name="review_title">
-										<input type="hidden" name="member_email" value="${Login.member_email}"> 
-									</div>
-									<div class="form-group mt-2 col">
-										<textarea class="form-control h-25" rows="10" id="review_contents" placeholder="내용" name="review_contents"></textarea>
-									</div>
-										<div class="form-group mt-2 d-flex justify-content-between align-items-center">
-										  <div class="starCntVt">
-										    <div class="starRating-wrapVt">
-										      <div id="starCenterVt">
-										        <fieldset class="starRatingVt">
-										          <input type="radio" id="star5" name="review_star" value="10" /><label for="star5" class="full" title="Awesome"></label>
-										          <input type="radio" id="star4.5" name="review_star" value="9" /><label for="star4.5" class="half"></label>
-										          <input type="radio" id="star4" name="review_star" value="8"/><label for="star4" class="full"></label>
-										          <input type="radio" id="star3.5" name="review_star" value="7"/><label for="star3.5" class="half"></label>
-										          <input type="radio" id="star3" name="review_star" value="6"/><label for="star3" class="full"></label>
-										          <input type="radio" id="star2.5" name="review_star" value="5"/><label for="star2.5" class="half"></label>
-										          <input type="radio" id="star2" name="review_star" value="4"/><label for="star2" class="full"></label>
-										          <input type="radio" id="star1.5" name="review_star" value="3"/><label for="star1.5" class="half"></label>
-										          <input type="radio" id="star1" name="review_star" value="2"/><label for="star1" class="full"></label>
-										          <input type="radio" id="star0.5" name="review_star" value="1"/><label for="star0.5" class="half"></label>
-										        </fieldset>
-										      </div>
-										      <h4 id="rating-value"></h4>
-										    </div>
-										  </div>
-										</div>
-
-									<div class="form-group mt-2">
-										<div class="input-group mb-3">
-											<input type="file" class="form-control" id="inputGroupFile02" name="review_img">
-											<label class="input-group-text" for="inputGroupFile02">Upload</label>
-										</div>
-									</div>
-									<div class="d-grid gap-1 mt-2">
-										<input type="submit" class="btn btn-outline-light login btn-lg form-control" value="작성">
-									</div>
-									
-									<script>
-									const starRating = document.querySelector(".starRatingVt");
-									
-									if (starRating) {
-									  const stars = starRating.querySelectorAll("input[type='radio']");
-									  const labels = starRating.querySelectorAll("label");
-									
-									  stars.forEach((star) => {
-									    star.addEventListener("click", function (e) {
-									      labels.forEach((label) => {
-									        if (label.htmlFor === e.target.getAttribute("id")) {
-									          label.classList.add("checked");
-									        } else {
-									          label.classList.remove("checked");
-									        }
-									      });
-									    });
-									  });
-									}
-									
-									</script>
-								</form>
-							</div>
-						</div>
-					</div>
-					<script>
-		<!-- 별점 등록 자바스크립트 -->
-		<script>
-		let star = document.querySelectorAll('input');
-		let showValue = document.querySelector('#rating-value');
-		
-		for (let i = 0; i < star.length; i++) {
-			star[i].addEventListener('click', function() {
-				i = this.value;
-		
 			
-			});
-		}
-		
-		</script>
+			<!--배송 안내 사진 영역-->
+			<div class="container mt-5" id="productNav2">
+				<div class="container">
+					<div class="container d-flex justify-content-center mt-3">
+						<img src="<c:url value='/images/겜우리 합배송 관련 주의사항.jpg' />" alt="">
+					</div>
 				</div>
 			</div>
-		</div>
-		<!-- 문의----------------------------------------------------------- -->
-		<div class="container mt-5">
-			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a class="nav-link text-reset"
-					aria-current="page" href="#productNav1">상품상세</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav2">배송안내</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav3">고객리뷰(0)</a></li>
-				<li class="nav-item"><a id="productNav4"
-					class="nav-link active text-reset fw-bold" href="#productNav4">상품문의</a>
-				</li>
-			</ul>
-		</div>
-		<div class="container mt-5">
-			<div class="d-flex align-items-end"
-				style="border-bottom: 2px solid #000;">
-				<h2>상품문의(${pqlCnt})</h2>
-				<h6 class="ms-3">
-					상품의 취소/반품/교환/환불 및 배송관련 문의는 <a href="#"><strong>1:1문의</strong></a>를
-					이용해 주세요.
-				</h6>
-			</div>
-			<table class="w-100 table table-hover recruit mt-3">
-				<thead class="text-center">
-					<th class="col-1 fw-bold">답변상태</th>
-					<th class="col-8 fw-bold">제목</th>
-					<th class="col-1 fw-bold">이름</th>
-					<th class="col-1 fw-bold">작성일</th>
-				</thead>
-				<tbody>
-					<c:if test="${not empty pqllist}">
-						<c:forEach var="pql" items="${pqllist}">
-						<tr class="text-center qa_item border-bottom" style="cursor: pointer;">
-							<td style="text-align:center;">
-								<c:if test="${pql.prod_q_yn eq '1'}">답변완료</c:if>
-								<c:if test="${pql.prod_q_yn eq '2'}">미답변</c:if>
-							</td>
-							<td style="text-align: left;">${pql.prod_q_title}
-								<c:if test="${pql.prod_q_secret eq '1'}">
-								<i style="vertical-align: middle;" class="xi-lock-o"></i>
-								</c:if>
-							</td>
-							<td style="text-align:center;">${pql.member_name}</td>
-							<c:set var="pqlwdate" value="${pql.prod_q_wdate}" />
-							<c:set var="pqlwdates" value="${fn:substring(pqlwdate,0,10)}" />
-							<td style="text-align:center;">${pqlwdates}</td>
-						</tr>
-						<tr class="hide border-bottom">
-							<td></td>
-							
-							<c:if test="${pql.prod_q_secret eq '1' && pql.member_name == sessionScope.Login.member_name}">
-								<td colspan="4">${pql.prod_q_contents} <br>
-									<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
-									${pql.prod_q_reply}
-								</td>
-							</c:if>
-							
-							<c:if test="${pql.prod_q_secret eq '1' && pql.member_name != sessionScope.Login.member_name}">
-								<td colspan="4">
-									비밀글 입니다.
-								</td>
-							</c:if>
-						</tr>
-						</c:forEach>
-					</c:if>
-					<c:if test="${empty pqllist}">
-						<tr>
-							<td></td>
-							<td class="py-5">등록된 문의가 없습니다.</td>
-						</tr>
-					</c:if>
-				</tbody>
-			</table>
-			<div class="container d-flex justify-content-between">
-				<div></div>
-				<nav aria-label="Page navigation example">
-					<ul class="pagination text-black">
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&lt;</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">1</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">2</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">3</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&gt;</a></li>
-					</ul>
-				</nav>
-				<button type="button" class="btn btn-outline-light login me-2"
-					data-bs-toggle="modal" data-bs-target="#qa" style="height: 38px;">문의
-					작성하기</button>
-				<!-----------------------------------문의작성하기 모달----------------------------------------------->
-				<div class="modal fade" id="qa">
-					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-header d-flex flex-column logo">
-								<div class="mt-2">
-									<h4 class="modal-title fs-5">문의 하기</h4>
+			<!-- 리뷰 ------------------------------------------------------------------------->
+			<div class="container mt-5" id="productNav3">
+				<div style="border-bottom: 2px solid #000;">
+					<h2>고객리뷰(0)</h2>
+				</div>
+				<table class="table w-100 text-center">
+					<tr>
+						<td class="col-1 ps-3">
+						<div class="starCnt">
+							<div class="starRating-wrap">
+								<div id="starCenter">
+									<fieldset class="starRating">
+										<input type="radio" id="star5" name="review_star" value="10" onclick="return(false);"/><label for="star5" class="full" title="Awesome"></label>
+										<input type="radio" id="star4.5" name="review_star" value="9" onclick="return(false);"/><label for="star4.5" class="half"></label>
+										<input type="radio" id="star4" name="review_star" value="8" onclick="return(false);"/><label for="star4" class="full"></label>
+										<input type="radio" id="star3.5" name="review_star" value="7" onclick="return(false);" checked="checked"/><label for="star3.5" class="half"></label>
+										<input type="radio" id="star3" name="review_star" value="6" onclick="return(false);"/><label for="star3" class="full"></label>
+										<input type="radio" id="star2.5" name="review_star" value="5" onclick="return(false);"/><label for="star2.5" class="half"></label>
+										<input type="radio" id="star2" name="review_star" value="4" onclick="return(false);"/><label for="star2" class="full"></label>
+										<input type="radio" id="star1.5" name="review_star" value="3" onclick="return(false);"/><label for="star1.5" class="half"></label>
+										<input type="radio" id="star1" name="review_star" value="2" onclick="return(false);"/><label for="star1" class="full"></label>
+										<input type="radio" id="star0.5" name="review_star" value="1" onclick="return(false);"/><label for="star0.5" class="half"></label>
+									</fieldset>
 								</div>
 							</div>
-							<div class="modal-body">
-								<form name="qa" method="post" action="detail.do">
-									<input value="${pvo.prod_idx}" type="hidden" name="product_tb_idx" >
-									<input value="${Login.member_idx}" type="hidden" name="member_tb_idx" >
-									<div class="form-group">
-										<input type="text" class="form-control"	placeholder="제목" name="prod_q_title">
+						</div>
+						</td>
+						<td class="col-1 align-bottom"><p>작성자</p></td>
+						<td class="col-10 align-bottom" style="text-align: left;"><p>작성일</p></td>
+					</tr>
+					<tr>
+						<td class="ps-3" colspan="3" style="text-align: left;"><span
+							class="fw-bold fs-4">title</span> <br> 내용 <br> <img
+							src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3"
+							style="border-radius: 6px;" alt="" width="100px" height="100px">
+							<img src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3"
+							style="border-radius: 6px;" alt="" width="100px" height="100px">
+						</td>
+					</tr>
+					<!-- 리뷰 없음 -->
+					
+	
+			<tr>
+	          <td class="py-5">등록된 리뷰가 없습니다.</td>
+	     	</tr>
+	     	
+				</table>
+				<div class="container d-flex justify-content-between mt-3">
+					<div></div>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination text-black">
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">&lt;</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">1</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">2</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">3</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">&gt;</a></li>
+						</ul>
+					</nav>
+					<button type="button" class="btn btn-outline-light login me-2"
+						data-bs-toggle="modal" data-bs-target="#review"
+						style="height: 38px;">리뷰 작성하기</button>
+						
+					<!-- 리뷰 작성 모달---------------------------------------------------------------------------------------------------------->
+					
+					<div class="modal fade" id="review">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header d-flex flex-column logo">
+									<div class="mt-2">
+										<h4 class="modal-title fs-5">리뷰 작성</h4>
 									</div>
-									<div class="form-group mt-2 col">
-										<textarea class="form-control h-25" rows="10"
-											placeholder="내용" name="prod_q_contents"></textarea>
+								</div>
+								<div class="modal-body">
+									<form name="review_reg" method="post" action="review_reg.do">
+										<div class="form-group">
+											<input type="text" class="form-control" id="review_title" placeholder="제목" name="review_title">
+											<input type="hidden" name="member_email" value="${Login.member_email}"> 
+										</div>
+										<div class="form-group mt-2 col">
+											<textarea class="form-control h-25" rows="10" id="review_contents" placeholder="내용" name="review_contents"></textarea>
+										</div>
+											<div class="form-group mt-2 d-flex justify-content-between align-items-center">
+											  <div class="starCntVt">
+											    <div class="starRating-wrapVt">
+											      <div id="starCenterVt">
+											        <fieldset class="starRatingVt">
+											          <input type="radio" id="star5" name="review_star" value="10" /><label for="star5" class="full" title="Awesome"></label>
+											          <input type="radio" id="star4.5" name="review_star" value="9" /><label for="star4.5" class="half"></label>
+											          <input type="radio" id="star4" name="review_star" value="8"/><label for="star4" class="full"></label>
+											          <input type="radio" id="star3.5" name="review_star" value="7"/><label for="star3.5" class="half"></label>
+											          <input type="radio" id="star3" name="review_star" value="6"/><label for="star3" class="full"></label>
+											          <input type="radio" id="star2.5" name="review_star" value="5"/><label for="star2.5" class="half"></label>
+											          <input type="radio" id="star2" name="review_star" value="4"/><label for="star2" class="full"></label>
+											          <input type="radio" id="star1.5" name="review_star" value="3"/><label for="star1.5" class="half"></label>
+											          <input type="radio" id="star1" name="review_star" value="2"/><label for="star1" class="full"></label>
+											          <input type="radio" id="star0.5" name="review_star" value="1"/><label for="star0.5" class="half"></label>
+											        </fieldset>
+											      </div>
+											      <h4 id="rating-value"></h4>
+											    </div>
+											  </div>
+											</div>
+	
+										<div class="form-group mt-2">
+											<div class="input-group mb-3">
+												<input type="file" class="form-control" id="inputGroupFile02" name="review_img">
+												<label class="input-group-text" for="inputGroupFile02">Upload</label>
+											</div>
+										</div>
+										<div class="d-grid gap-1 mt-2">
+											<input type="submit" class="btn btn-outline-light login btn-lg form-control" value="작성">
+										</div>
+										
+										<script>
+										const starRating = document.querySelector(".starRatingVt");
+										
+										if (starRating) {
+										  const stars = starRating.querySelectorAll("input[type='radio']");
+										  const labels = starRating.querySelectorAll("label");
+										
+										  stars.forEach((star) => {
+										    star.addEventListener("click", function (e) {
+										      labels.forEach((label) => {
+										        if (label.htmlFor === e.target.getAttribute("id")) {
+										          label.classList.add("checked");
+										        } else {
+										          label.classList.remove("checked");
+										        }
+										      });
+										    });
+										  });
+										}
+										
+										</script>
+									</form>
+								</div>
+							</div>
+						</div>
+						<script>
+			<!-- 별점 등록 자바스크립트 -->
+			<script>
+			let star = document.querySelectorAll('input');
+			let showValue = document.querySelector('#rating-value');
+			
+			for (let i = 0; i < star.length; i++) {
+				star[i].addEventListener('click', function() {
+					i = this.value;
+			
+				
+				});
+			}
+			
+			</script>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 문의----------------------------------------------------------- -->
+			<div class="container mt-5" id="productNav4">
+				<div class="d-flex align-items-end" style="border-bottom: 2px solid #000;">
+					<h2>상품문의(${pqlCnt})</h2>
+					<h6 class="ms-3">
+						상품의 취소/반품/교환/환불 및 배송관련 문의는 <a href="#"><strong>1:1문의</strong></a>를
+						이용해 주세요.
+					</h6>
+				</div>
+				<table class="w-100 table table-hover recruit mt-3">
+					<thead class="text-center">
+						<th class="col-1 fw-bold">답변상태</th>
+						<th class="col-8 fw-bold">제목</th>
+						<th class="col-1 fw-bold">이름</th>
+						<th class="col-1 fw-bold">작성일</th>
+					</thead>
+					<tbody>
+						<c:if test="${not empty pqllist}">
+							<c:forEach var="pql" items="${pqllist}">
+							<tr class="text-center qa_item border-bottom" style="cursor: pointer;">
+								<td style="text-align:center;">
+									<c:if test="${pql.prod_q_yn eq '1'}">답변완료</c:if>
+									<c:if test="${pql.prod_q_yn eq '2'}">미답변</c:if>
+								</td>
+								<td style="text-align: left;">${pql.prod_q_title}
+									<c:if test="${pql.prod_q_secret eq '1'}">
+									<i style="vertical-align: middle;" class="xi-lock-o"></i>
+									</c:if>
+								</td>
+								<td style="text-align:center;">${pql.member_name}</td>
+								<c:set var="pqlwdate" value="${pql.prod_q_wdate}" />
+								<c:set var="pqlwdates" value="${fn:substring(pqlwdate,0,10)}" />
+								<td style="text-align:center;">${pqlwdates}</td>
+							</tr>
+							<tr class="hide border-bottom">
+								<td></td>
+								
+								<c:if test="${pql.prod_q_secret eq '1' && pql.member_name == sessionScope.Login.member_name}">
+									<td colspan="4">${pql.prod_q_contents} <br>
+										<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
+										${pql.prod_q_reply}
+									</td>
+								</c:if>
+								
+								<c:if test="${pql.prod_q_secret eq '1' && pql.member_name != sessionScope.Login.member_name}">
+									<td colspan="4">
+										비밀글 입니다.
+									</td>
+								</c:if>
+							</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${empty pqllist}">
+							<tr>
+								<td></td>
+								<td class="py-5">등록된 문의가 없습니다.</td>
+							</tr>
+						</c:if>
+					</tbody>
+				</table>
+				<div class="container d-flex justify-content-between">
+					<div></div>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination text-black">
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">&lt;</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">1</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">2</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">3</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">&gt;</a></li>
+						</ul>
+					</nav>
+					<button type="button" class="btn btn-outline-light login me-2"
+						data-bs-toggle="modal" data-bs-target="#qa" style="height: 38px;">문의
+						작성하기</button>
+					<!-----------------------------------문의작성하기 모달----------------------------------------------->
+					<div class="modal fade" id="qa">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header d-flex flex-column logo">
+									<div class="mt-2">
+										<h4 class="modal-title fs-5">문의 하기</h4>
 									</div>
-									<div class="d-grid gap-1 mt-2 d-flex align-items-center">
-										<span class="input-group-text" id="basic-addon1">비밀글여부</span>
-											<input name="prod_q_secret" type="radio" value="1">Y
-											<input name="prod_q_secret" type="radio" value="2">N
-									</div>
-									<div class="d-grid gap-1 mt-2">
-										<input type="submit"
-											class="btn btn-outline-light login btn-lg form-control"
-											value="작성">
-									</div>
-								</form>
+								</div>
+								<div class="modal-body">
+									<form name="qa" method="post" action="detail.do">
+										<input value="${pvo.prod_idx}" type="hidden" name="product_tb_idx" >
+										<input value="${Login.member_idx}" type="hidden" name="member_tb_idx" >
+										<div class="form-group">
+											<input type="text" class="form-control"	placeholder="제목" name="prod_q_title">
+										</div>
+										<div class="form-group mt-2 col">
+											<textarea class="form-control h-25" rows="10"
+												placeholder="내용" name="prod_q_contents"></textarea>
+										</div>
+										<div class="d-grid gap-1 mt-2 d-flex align-items-center">
+											<span class="input-group-text" id="basic-addon1">비밀글여부</span>
+												<input name="prod_q_secret" type="radio" value="1">Y
+												<input name="prod_q_secret" type="radio" value="2">N
+										</div>
+										<div class="d-grid gap-1 mt-2">
+											<input type="submit"
+												class="btn btn-outline-light login btn-lg form-control"
+												value="작성">
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>	<!-- end:#tab_menu -->
+		
+		<!-- 배송안내 -->
+		
+		
+		
 	</div>
 </main>
 <script>

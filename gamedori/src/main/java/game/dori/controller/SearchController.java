@@ -58,13 +58,17 @@ public class SearchController {
 	            totalResults = searchService.oto_countSearchResults(searchText, searchOption);
 	            break;
 	        case "qrod":
-	        	 searchResults = searchService.qaprod_search(searchText, searchOption, start, limit);
-		         totalResults = searchService.qaprod_countSearchResults(searchText, searchOption);
+	        	searchResults = searchService.qaprod_search(searchText, searchOption, start, limit);
+		        totalResults = searchService.qaprod_countSearchResults(searchText, searchOption);
 	        	break;
 	        case "prod":
-	        	 searchResults = searchService.prod_search(searchText, searchOption, start, limit);
-		         totalResults = searchService.prod_countSearchResults(searchText, searchOption);
+	        	searchResults = searchService.prod_search(searchText, searchOption, start, limit);
+		        totalResults = searchService.prod_countSearchResults(searchText, searchOption);
 	        	break;
+	        case "prodq":
+	        	searchResults = searchService.prodq_search(searchText, searchOption, start, limit);
+		        totalResults = searchService.prodq_countSearchResults(searchText, searchOption);
+		        break;
 	        case "orderlist":
 	        	searchResults = searchService.orderlist_search(searchText, searchOption, start, limit);
 		         totalResults = searchService.orderlist_countSearchResults(searchText, searchOption);

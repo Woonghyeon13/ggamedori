@@ -52,8 +52,6 @@
 	
 	<!-- 멤버리스트 관련 끝 -->
 	
-
-	
 	
 	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
 	<select id="oto_countAll" resultType="int">
@@ -189,6 +187,90 @@
 		    </choose>
 		  </where>
 	</select>
+	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->	
+	
+	<!-- 상품 문의사항 페이징 처리를 위한 QA_TB -->
+	<select id="prodq_countAll" resultType="int">
+		SELECT COUNT(*) FROM 
+				product_q_tb q,
+				member_tb m
+			where
+				q.member_tb_idx = m.member_idx 
+	</select>
+	
+	<!-- 상품 문의사항 글 검색 -->
+	<select id="prodq_search" resultType="product_q_VO" parameterType="map">
+		SELECT * FROM
+					product_q_tb q,
+					member_tb m
+				where
+					q.member_tb_idx = m.member_idx 
+		<where>
+		  <choose>
+		    <when test="searchOption == 'name'">
+		      <if test="searchText != null and searchText != ''">
+		        and member_name like CONCAT('%', #{searchText}, '%')
+		      </if>
+		    </when>
+			<when test="searchOption == 'title'">
+			  <if test="searchText != null and searchText != ''">
+			    AND prod_q_title LIKE CONCAT('%', #{searchText}, '%')
+			  </if>
+			</when>
+			<when test="searchOption == 'content'">
+			  <if test="searchText != null and searchText != ''">
+			    AND prod_q_contents LIKE CONCAT('%', #{searchText}, '%')
+			  </if>
+			</when>
+		    <otherwise>
+		      <if test="searchText != null and searchText != ''">
+		        AND (member_name LIKE CONCAT('%', #{searchText}, '%') OR prod_q_title LIKE CONCAT('%', #{searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{searchText}, '%'))
+		      </if>
+		    </otherwise>
+		  </choose>
+		</where>
+		ORDER BY prod_q_idx DESC
+		LIMIT #{start}, #{limit}
+	</select>
+	
+	
+	<!--  상품 문의사항 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+	<select id="prodq_countSearchResults" resultType="int" parameterType="map">
+		 SELECT COUNT(*) FROM
+			 			product_q_tb q,
+						member_tb m
+					where
+						q.member_tb_idx = m.member_idx 
+		 <where>
+		   <choose>
+		     <when test="searchOption == 'name'">
+		       <if test="searchText != null and searchText != ''">
+		         member_name like CONCAT('%', #{searchText}, '%')
+		       </if>
+		     </when>
+		     <when test="searchOption == 'title'">
+			  <if test="searchText != null and searchText != ''">
+			    prod_q_title LIKE CONCAT('%', #{searchText}, '%')
+			  </if>
+			 </when>
+		     <when test="searchOption == 'content'">
+		       <if test="searchText != null and searchText != ''">
+		         prod_q_contents LIKE CONCAT('%', #{searchText}, '%')
+		       </if>
+		     </when>
+		     <otherwise>
+		       <if test="searchText != null and searchText != ''">
+		         (member_name LIKE CONCAT('%', #{searchText}, '%') OR prod_q_title LIKE CONCAT('%', #{searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{searchText}, '%'))
+		       </if>
+		     </otherwise>
+		   </choose>
+		 </where>
+	</select>
+	
+	
+	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
 <!-- 상품문의 검색 -->
 <select id="qrod_search" resultType="pqlistVO" parameterType="map">

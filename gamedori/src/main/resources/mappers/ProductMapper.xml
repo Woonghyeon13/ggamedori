@@ -182,8 +182,8 @@
 	
 	<!-- 상품문의 상품명찾기 -->
 	<select id="prod_name" parameterType="int" resultType="productVO">
-		select * from product_tb
-			where prod_idx = #{prod_idx}
+		SELECT * FROM product_tb
+			WHERE prod_idx = #{prod_idx}
 	</select>
 	
 </mapper>

@@ -14,6 +14,7 @@ import game.dori.util.PRODOPT_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
+import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.QA_VO;
 
@@ -92,7 +93,7 @@ public class SearchDAO {
 	
 	
 	// 상품문의 검색 기능
-	public List<PROD_Q_LIST_VO> qrod_search(String searchText, String searchOption, int start, int limit) {
+	public List<PRODUCT_Q_VO> qrod_search(String searchText, String searchOption, int start, int limit) {
 	    Map<String, Object> params = new HashMap<String, Object>();
 	    params.put("searchText", searchText);
 	    params.put("searchOption", searchOption);
@@ -111,6 +112,35 @@ public class SearchDAO {
 	    return sqlSession.selectOne(namespace + "qrod_countSearchResults", params);
 	}
 	
+
+	/*---------------------------------------------------*/
+	
+	
+	// 상품문의 검색 기능2
+		public List<PRODUCT_Q_VO> prodq_search(String searchText, String searchOption, int start, int limit) {
+		    Map<String, Object> params = new HashMap<String, Object>();
+		    params.put("searchText", searchText);
+		    params.put("searchOption", searchOption);
+		    params.put("start", start);
+		    params.put("limit", limit);
+
+		    return sqlSession.selectList(namespace + "qrod_search", params);
+		}
+		
+		// 상품문의 글 검색 후 페이징에 쓸 갯수2
+		public int prodq_countSearchResults(String searchText, String searchOption) {
+		    Map<String, Object> params = new HashMap<String, Object>();
+		    params.put("searchText", searchText);
+		    params.put("searchOption", searchOption);
+		    
+		    return sqlSession.selectOne(namespace + "qrod_countSearchResults", params);
+		}
+	
+	
+	
+	/*---------------------------------------------------*/
+	
+	
 	// 상품 관리 검색 기능
 	public List<PRODUCT_VO> prod_search(String searchText, String searchOption, int start, int limit) {
 	    Map<String, Object> params = new HashMap<String, Object>();
@@ -121,6 +151,8 @@ public class SearchDAO {
 
 	    return sqlSession.selectList(namespace + "prod_search", params);
 	}
+	
+	
 	
 	// 상품 관리 글 검색 후 페이징에 쓸 갯수
 	public int prod_countSearchResults(String searchText, String searchOption) {

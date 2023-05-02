@@ -282,6 +282,7 @@
 					</li>
 				</ul>
 			</div>
+					
         <div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
