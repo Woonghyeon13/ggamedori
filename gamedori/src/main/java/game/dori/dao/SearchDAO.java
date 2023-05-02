@@ -150,4 +150,26 @@ public class SearchDAO {
 		    
 		    return sqlSession.selectOne(namespace + "orderlist_countSearchResults", params);
 		}
+		
+		
+		// 상품리스트 검색 기능
+		public List<PRODUCT_VO> prodlistsearch_search(String searchText, String searchOption, int start, int limit) {
+		    Map<String, Object> params = new HashMap<String, Object>();
+		    params.put("searchText", searchText);
+		    params.put("searchOption", searchOption);
+		    params.put("start", start);
+		    params.put("limit", limit);
+
+		    return sqlSession.selectList(namespace + "prodect_search", params);
+		}
+		
+		// 상품리스트 글 검색 후 페이징에 쓸 갯수
+		public List<PRODUCT_VO> prodlistsearch_countSearchResults(String searchText, String searchOption) {
+		    Map<String, Object> params = new HashMap<String, Object>();
+		    params.put("searchText", searchText);
+		    params.put("searchOption", searchOption);
+		    
+		    return sqlSession.selectOne(namespace + "prodect_countSearchResults", params);
+		}
+		
 }

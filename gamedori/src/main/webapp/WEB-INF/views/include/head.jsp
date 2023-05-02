@@ -78,9 +78,13 @@
 				<div class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 				</div>
 		
-				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 text-end" role="search">
-					<input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-				</form>
+				 <form class="d-flex justify-content-center align-items-center" action="<c:url value='/prod/search.do'/>" method="get" role="form" id="search-form"> <!-- id 추가 -->
+			        <div class="me-2">
+			            <input type="hidden" name="searchOption" value="name"> <!-- 히든 입력 필드 추가 -->
+			            <input class="form-control form-control-sm" type="text" placeholder="제목" name="searchText" aria-label=".form-control-sm example">
+			        </div>
+			         <button type="submit" style="display: none;"></button> 
+			    </form>
 		
 				<div class="text-end">
 					<ul class="d-flex flex-row mb-0 ps-0">
