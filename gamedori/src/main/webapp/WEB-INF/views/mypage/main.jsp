@@ -138,14 +138,14 @@
 									<c:if test="${status.index < 4}">
 										<tr>
 											<td>${vo.prod_q_idx}</td>
-											<td>${vo.prod_name}</td>
+											<td><a href="../prod/detail.do?prod_idx=${vo.product_tb_idx}">${vo.prod_name}</a></td>
 											<td>
-												${vo.prod_q_title}
 												<c:choose>
 													<c:when test="${vo.prod_q_secret == 1}">
-														<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
+														<img src= "<c:url value='/images/비밀글자물쇠.png'/>" style="width:20px;">
 													</c:when>
 												</c:choose>
+												${vo.prod_q_title}
 											</td>
 											<td>${vo.product_tb_idx}</td>	
 											<td>${vo.prod_q_wdate}</td>
@@ -239,7 +239,7 @@
 									<c:if test="${status.index < 4}">
 										<tr>
 											<td scope="row" class="table_number"></td>
-											<td>${vo.prod_name}</td>
+											<td><a href="../prod/detail.do?prod_idx=${vo.product_tb_idx}">${vo.prod_name}</a></td>
 											<td>${vo.review_title}</td>
 											<td>${vo.review_writer}</td>
 											<td class="wdate">${vo.review_wdate}</td>
