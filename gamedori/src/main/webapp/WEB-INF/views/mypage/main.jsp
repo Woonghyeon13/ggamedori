@@ -103,7 +103,7 @@
 											<fmt:formatNumber var="payPrice" value="${Orderlist.pay_price_real}" pattern="#,###"/>
 											${payPrice}원
 										</td>
-										<td class="align-middle"><button>상세보기</button></td>
+										<td class="align-middle"><button class="btn btn-outline-secondary btn-sm">상세보기</button></td>
 									</tr>
 								</c:forEach>
 								</tbody>

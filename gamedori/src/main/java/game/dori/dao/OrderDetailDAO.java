@@ -14,8 +14,8 @@ public class OrderDetailDAO {
 	private SqlSession sqlSession;
 	
 	// 주문상세상품 등록
-	public int insertOrderDetail( ORDER_LIST_VO olvo ) {
-		return sqlSession.insert("game.dori.mapper.orderDetailMapper.insertOrderDetail",olvo);
+	public int insertOrderDetail( ORDER_DETAIL_VO ordervo ) {
+		return sqlSession.insert("game.dori.mapper.orderDetailMapper.insertOrderDetail",ordervo);
 	}
 	
 	// 주문 목록 리스트 연결

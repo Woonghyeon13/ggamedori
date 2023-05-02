@@ -21,6 +21,7 @@ import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
+import game.dori.vo.ORDER_DETAIL_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.REVIEW_VO;
@@ -241,8 +242,8 @@ public class ProductServiceImpl implements ProductService{
 
 	// 주문 상세 상품 등록
 	@Override
-	public int insertOrderDetail(ORDER_LIST_VO olvo) {
-		return orderDetailDAO.insertOrderDetail(olvo);
+	public int insertOrderDetail(ORDER_DETAIL_VO ordervo) {
+		return orderDetailDAO.insertOrderDetail(ordervo);
 	}
 
 	// 주문결제서 생성
@@ -261,6 +262,12 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public int prodReviewCnt(int prod_idx) {
 		return reviewDAO.prodReviewCnt(prod_idx);
+	}
+
+	// 옵션 재고 감소
+	@Override
+	public int optStockMinus( OPT_VO povo ) {
+		return prodOptDAO.optStockMinus(povo);
 	}
 
 //	// 상품 문의사항 역순으로 출력

@@ -29,6 +29,7 @@ import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
+import game.dori.vo.ORDER_DETAIL_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.REVIEW_VO;
@@ -176,8 +177,6 @@ public class ProductController {
 	@RequestMapping( value = "/orderForm.do", method = RequestMethod.POST)
 	public @ResponseBody String orderForm( ORDER_LIST_VO olvo, HttpServletResponse rsp ){
 		
-		System.out.println();
-		
 		String optIdx = olvo.getOpt_tb_idx();
 		String[] optIdxSplit = optIdx.split(",");
 		String ordQty = olvo.getOrderd_qty();
@@ -188,20 +187,20 @@ public class ProductController {
 		
 		if(result > 0 ) { 
 			int order_tb_idxs = productService.orderNum();
-			for( int i = 1; i<optIdxSplit.length; i++) {
-				olvo.setOpt_tb_idx(optIdxSplit[i]);
-				olvo.setOrder_tb_idx(order_tb_idxs);
-				olvo.setOrderd_qty(ordQtySplit[i]);
-				olvo.setOrderd_price(ordPriceSplit[i]);
-				productService.insertOrderDetail(olvo);
+			for( int i = 0; i<optIdxSplit.length; i++) {
+				ORDER_DETAIL_VO ordervo = new ORDER_DETAIL_VO();
+				ordervo.setOpt_tb_idx(Integer.parseInt(optIdxSplit[i]));
+				ordervo.setOrder_tb_idx(order_tb_idxs);
+				ordervo.setOrderd_qty(Integer.parseInt(ordQtySplit[i]));
+				ordervo.setOrderd_price(Integer.parseInt(ordPriceSplit[i]));
+				productService.insertOrderDetail(ordervo);
 			}
 			olvo.setOrder_tb_idx(order_tb_idxs);
 			int payResult = productService.insertPay(olvo);
 			return "success";
 		}else {
-			 
+			return "";
 		}
-		return "";
 		
 	}
 

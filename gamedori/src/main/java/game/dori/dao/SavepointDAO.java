@@ -40,4 +40,14 @@ public class SavepointDAO {
 	public int selectPointBal( int member_idx ) {
 		return sqlSession.selectOne("game.dori.mapper.savepointMapper.selectPointBal",member_idx);
 	}
+	
+	// 회원 잔여 포인트 정보
+	public SAVEPOINT_VO selectPointInfo( int member_idx ) {
+		return sqlSession.selectOne("game.dori.mapper.savepointMapper.selectPointInfo",member_idx);
+	}
+	
+	// 회원 적립금 적립
+	public int insertPoint( SAVEPOINT_VO savevo ) {
+		return sqlSession.insert("game.dori.mapper.savepointMapper.insertPoint",savevo);
+	}
 }

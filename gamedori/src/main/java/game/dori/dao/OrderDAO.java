@@ -41,6 +41,10 @@ public class OrderDAO {
 		return sqlSession.update("game.dori.mapper.orderMapper.UpdateOrderStatus", member_tb_idx);
 	}
 	
+	// 구매확정
+	public int updateOrderCheck( int order_idx ) {
+		return sqlSession.update("game.dori.mapper.orderMapper.updateOrderCheck", order_idx);
+	}
 	
 }
 

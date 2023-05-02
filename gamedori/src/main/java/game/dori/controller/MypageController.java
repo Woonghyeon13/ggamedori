@@ -429,6 +429,7 @@ public class MypageController {
 			olvo.setProd_imgt(pvo.getProd_imgt());
 			olvo.setProd_idx(pvo.getProd_idx());
 			olvo.setPay_price_real(payvo.getPay_price_real());
+			olvo.setOrder_idx(selectOrderList.get(i).getOrder_idx());
 			orderList5.add(olvo);
 		}
 		model.addAttribute("list", orderList5);
@@ -644,8 +645,8 @@ public class MypageController {
 	// 장바구니 삭제
 	@ResponseBody
 	@RequestMapping( value = "cartDel.do", method = RequestMethod.POST )
-	public void cartDel( CART_VO cvo ){
-		String cartIdx = cvo.getCart_idx();
+	public void cartDel( String cart_idx ){
+		String cartIdx = cart_idx;
 		String[] cartIdxSplit = cartIdx.split(",");
 		
 		
@@ -677,7 +678,7 @@ public class MypageController {
 	
 	// 주문폼
 	@RequestMapping( value = "/orderForm.do", method = RequestMethod.GET )
-	public String orderForm( String opt_idx, String opt_qty, PRODOPT_VO povo, MEMBER_VO memberVO ,HttpSession session,  Model model ){
+	public String orderForm( String cart_idx , String opt_idx, String opt_qty, PRODOPT_VO povo, MEMBER_VO memberVO ,HttpSession session,  Model model ){
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		MEMBER_VO memvo = productService.orderMem(Login);
 		model.addAttribute("memvo",memvo);
@@ -690,14 +691,15 @@ public class MypageController {
 		String[] optIdxSplit = optIdx.split(",");
 		String optQty = povo.getOpt_qty();
 		String[] optQtySplit = optQty.split(",");
+		String cartIdx = cart_idx;
+		String[] cartIdxSplit = cartIdx.split(",");
 		List<PRODOPT_VO> optlist = new ArrayList<PRODOPT_VO>();
 		for( int i = 0; i<optIdxSplit.length; i++) {
 			PRODOPT_VO vovo = productService.prodOptSelect(Integer.parseInt(optIdxSplit[i]));
 			vovo.setOpt_qty(optQtySplit[i]);
+			vovo.setCart_idx(cartIdxSplit[i]);
 			optlist.add(vovo);
 		}
-		System.out.println("옵션스"+optIdx);
-		System.out.println("수량스"+optQty);
 		model.addAttribute("optlist",optlist);
 		
 		return "mypage/orderForm";
@@ -706,8 +708,6 @@ public class MypageController {
 	// 주문포스트
 	@RequestMapping( value = "/orderForm.do", method = RequestMethod.POST)
 	public @ResponseBody String orderForm( ORDER_LIST_VO olvo, HttpServletResponse rsp ){
-		
-		System.out.println();
 		
 		String optIdx = olvo.getOpt_tb_idx();
 		String[] optIdxSplit = optIdx.split(",");
@@ -719,20 +719,21 @@ public class MypageController {
 		
 		if(result > 0 ) { 
 			int order_tb_idxs = productService.orderNum();
-			for( int i = 1; i<optIdxSplit.length; i++) {
-				olvo.setOpt_tb_idx(optIdxSplit[i]);
-				olvo.setOrder_tb_idx(order_tb_idxs);
-				olvo.setOrderd_qty(ordQtySplit[i]);
-				olvo.setOrderd_price(ordPriceSplit[i]);
-				productService.insertOrderDetail(olvo);
+			for( int i = 0; i<optIdxSplit.length; i++) {
+				ORDER_DETAIL_VO ordervo = new ORDER_DETAIL_VO();
+				ordervo.setOpt_tb_idx(Integer.parseInt(optIdxSplit[i]));
+				ordervo.setOrder_tb_idx(order_tb_idxs);
+				ordervo.setOrderd_qty(Integer.parseInt(ordQtySplit[i]));
+				ordervo.setOrderd_price(Integer.parseInt(ordPriceSplit[i]));
+				int insertOrderD = productService.insertOrderDetail(ordervo);
 			}
+			
 			olvo.setOrder_tb_idx(order_tb_idxs);
 			int payResult = productService.insertPay(olvo);
 			return "success";
 		}else {
-			 
+			return "";
 		}
-		return "";
 		
 	}
 	
@@ -740,12 +741,42 @@ public class MypageController {
 	@ResponseBody
 	@RequestMapping( value = "/priceCal.do", method = RequestMethod.GET)
 	public int priceCal( int num1, int num2, Model model ) {
-		System.out.println(num1);
-		System.out.println(num2);
 		model.addAttribute("priceCalRRR",num2-num1);
 		return num2-num1;
 	}
 	
+	// 옵션 재고 감소
+	@ResponseBody
+	@RequestMapping( value = "/optStockMinus.do", method = RequestMethod.POST)
+	public void optStockMinus( PRODOPT_VO povo  ) {
+		String ordIdx = povo.getOpt_idx();
+		String[] ordIdxSplit = ordIdx.split(",");
+		String ordQty = povo.getOpt_qty();
+		String[] ordQtySplit = ordQty.split(",");
+		
+		for( int i=0; i<ordIdxSplit.length; i++) {
+			OPT_VO delvo = new OPT_VO();
+			delvo.setOpt_idx(Integer.parseInt(ordIdxSplit[i]));
+			delvo.setOpt_qty(Integer.parseInt(ordQtySplit[i]));
+			productService.optStockMinus(delvo);
+		}
+	}
+	
+	// 구매확정 포인트 적립
+	@ResponseBody
+	@RequestMapping( value = "/savePoint.do", method = RequestMethod.POST )
+	public void pointSave( int order_idx, SAVEPOINT_VO savevo ) {
+		SAVEPOINT_VO amount = mypageService.selectPointInfo(savevo.getMember_tb_idx());
+		SAVEPOINT_VO resultpoint = new SAVEPOINT_VO();
+		resultpoint.setMember_tb_idx(savevo.getMember_tb_idx());
+		resultpoint.setSavept_amount(savevo.getSavept_amount());
+		resultpoint.setSavept_balance(amount.getSavept_balance()-savevo.getSavept_amount());
+		int result = mypageService.insertPoint(resultpoint);
+		System.out.println("오더번호임"+order_idx);
+		if( result > 0 ) {
+			mypageService.updateOrderCheck(savevo.getOrder_idx());
+		}
+	}
 	// 리뷰작성
 	@ResponseBody
 	@RequestMapping( value = "reviewInsert.do", method = RequestMethod.POST )
@@ -763,7 +794,6 @@ public class MypageController {
 			prod_file1.transferTo(new File(path,newFileName));
 			review.setReview_img(newFileName);
 		}
-		System.out.println("별점임"+review.getReview_star());
 
 		rsp.setContentType("text/html; charset=utf-8");
 		PrintWriter pw = rsp.getWriter();

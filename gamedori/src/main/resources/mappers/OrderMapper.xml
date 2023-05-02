@@ -41,8 +41,8 @@
 	
 	<!-- 주문인덱스 생성 -->
 	<insert id="insertOrder" parameterType="orderlistVO">
-		insert into order_tb ( member_tb_idx, order_addr1, order_addr2, order_addr3, order_name, order_phone, order_memo)
-		 values( #{member_tb_idx}, #{order_addr1}, #{order_addr2}, #{order_addr3}, #{order_name}, #{order_phone}, #{order_memo})
+		insert into order_tb ( member_tb_idx, order_addr1, order_addr2, order_addr3, order_name, order_phone, order_memo, order_usepoint)
+		 values( #{member_tb_idx}, #{order_addr1}, #{order_addr2}, #{order_addr3}, #{order_name}, #{order_phone}, #{order_memo},#{order_usepoint})
 	</insert>
 	
 	<!-- 마이페이지 주문 환불  -->
@@ -52,6 +52,11 @@
 			WHERE 	MEMBER_IDX 	= #{member_idx}
 	</update>
 	
-	
+	<!-- 구매확정 -->
+	<update id="updateOrderCheck" parameterType="int">
+		update order_tb
+		set order_state = 9
+		where order_idx = #{order_idx}
+	</update>
 	
 </mapper>

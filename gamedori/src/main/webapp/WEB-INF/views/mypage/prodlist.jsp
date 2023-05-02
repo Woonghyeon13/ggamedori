@@ -74,6 +74,7 @@
 							<th scope="col">주문 일자</th>
 							<th style="width:12%;" scope="col">주문 상세</th>
 							<th style="width:12%;" scope="col">리뷰작성</th>
+							<th style="width:12%;" scope="col">구매확정</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -82,13 +83,34 @@
 							<td class="align-middle">
 							<c:choose>
 								<c:when test="${Orderlist.order_state == 1}">
-								    <c:out value="주문완료" />
+								    <c:out value="주문접수" />
 								</c:when>
 								<c:when test="${Orderlist.order_state == 2}">
-								    <c:out value="배송중" />
+								    <c:out value="결제완료" />
 								 </c:when>
 								 <c:when test="${Orderlist.order_state == 3}">
+								    <c:out value="상품준비중" />
+								 </c:when>
+								 <c:when test="${Orderlist.order_state == 4}">
+								    <c:out value="발송준비중" />
+								 </c:when>
+								 <c:when test="${Orderlist.order_state == 5}">
 								    <c:out value="배송완료" />
+								 </c:when>
+								 <c:when test="${Orderlist.order_state == 6}">
+								    <c:out value="주문취소" />
+								 </c:when>
+								 <c:when test="${Orderlist.order_state == 10}">
+								    <c:out value="주문취소접수" />
+								 </c:when>
+								 <c:when test="${Orderlist.order_state == 7}">
+								    <c:out value="반품접수" />
+								 </c:when>
+								 <c:when test="${Orderlist.order_state == 8}">
+								    <c:out value="반품완료" />
+								 </c:when>
+								 <c:when test="${Orderlist.order_state == 9}">
+								    <c:out value="구매확정" />
 								 </c:when>
 							</c:choose>
 							</td>
@@ -101,6 +123,17 @@
 							<td class="align-middle">
 								<input type="hidden" id="prodIdx" value="${Orderlist.prod_idx}">
 								<button id="clickBtn" type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#review">리뷰작성</button>
+							</td>
+							<td class="align-middle">
+								<input type="hidden" id="order_idx" value="${Orderlist.order_idx}">
+								<input type="hidden" id="member_idx" value="${Login.member_idx}">
+								<input type="hidden" id="savept_amount" value="${Orderlist.order_usepoint}">
+								<c:if test="${Orderlist.order_state == 9}">
+									구매확정<br/>완료
+								</c:if>
+								<c:if test="${Orderlist.order_state ne 9}">
+									<button onclick="savePoint()" type="button" class="btn btn-outline-secondary btn-sm">구매확정</button>
+								</c:if>
 							</td>
 						</tr>
 					</c:forEach>
@@ -325,6 +358,25 @@ $(document).on("click", "button[id=clickBtn]", function () {
 	$("#product_tb_idx").val(prodIdxx);
 })
 
+function savePoint(){
+	
+	var order_idx = $("#order_idx").val();
+	var member_tb_idx = $("#member_idx").val();
+	var savept_amount = $("#savept_amount").val();
+	$.ajax({
+		url : '<%=request.getContextPath()%>/mypage/savePoint.do',
+		type : 'POST',
+		data : {
+			member_tb_idx : member_tb_idx,
+			savept_amount : savept_amount,
+			order_idx : order_idx
+		},
+		success : function(data){
+			alert("구매확정 되었습니다.");
+			document.location.reload();
+		}
+	});
+};
 </script>
 
 

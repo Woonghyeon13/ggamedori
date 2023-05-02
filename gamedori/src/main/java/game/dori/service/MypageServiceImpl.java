@@ -357,6 +357,24 @@ public class MypageServiceImpl implements MypageService{
 		return orderDAO.selectOrderAllListDAO(memeber_tb_idx);
 	}
 
+	// 잔여 포인트 정보
+	@Override
+	public SAVEPOINT_VO selectPointInfo(int member_idx) {
+		return savepointDAO.selectPointInfo(member_idx);
+	}
+
+	// 회원 적립금 적립
+	@Override
+	public int insertPoint(SAVEPOINT_VO savevo) {
+		return savepointDAO.insertPoint(savevo);
+	}
+
+	// 구매확정
+	@Override
+	public int updateOrderCheck(int order_idx) {
+		return orderDAO.updateOrderCheck(order_idx);
+	}
+
 	
 	/*-------------------------------------------------------------------------------*/
 

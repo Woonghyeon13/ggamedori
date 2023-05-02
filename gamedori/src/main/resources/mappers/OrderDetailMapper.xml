@@ -5,7 +5,7 @@
  
 <mapper namespace="game.dori.mapper.orderDetailMapper">
 	<!-- 주문 상세 상품목록 -->
-	<insert id="insertOrderDetail" parameterType="orderlistVO">
+	<insert id="insertOrderDetail" parameterType="orderDetailVO">
 		insert into order_detail_tb
 		 (opt_tb_idx, order_tb_idx, orderd_qty, orderd_price)
 		 values (#{opt_tb_idx}, #{order_tb_idx}, #{orderd_qty}, #{orderd_price})

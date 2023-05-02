@@ -137,8 +137,14 @@
 							</p>
 							<div
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
+							<c:if test="${empty sessionScope.Login}">
+								<button type="button" class="btn btn-secondary" onclick="prodBtn()"
+									style="width: 280px; height: 60px;">장바구니 담기</button>
+							</c:if>
+							<c:if test="${not empty sessionScope.Login}">
 								<button class="btn btn-secondary" type="button" onclick="prodCart()"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
+							</c:if>
 							<c:if test="${empty sessionScope.Login}">
 								<button type="button" class="btn btn-outline-light login" onclick="prodBtn()"
 									style="width: 280px; height: 60px;">바로 구매하기</button>
@@ -251,7 +257,7 @@
 					<td class="ps-3" colspan="1" style="text-align: left;">
 						<img src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3" style="border-radius: 6px;" alt="" width="100px" height="100px">
 					</td>
-					<td>
+					<td colspan="2">
 						<span class="fw-bold fs-4">${reviews.review_title}</span> <br> ${reviews.review_contents} <br> 
 					</td>
 				</tr>
@@ -413,13 +419,12 @@
 				</div>
 			</div>
 		</div>
-	</div>
 </main>
 <script>
 	// 비로그인 상품구매 닫기
 	function prodBtn(){
 		alert('로그인이 필요합니다');
-	}
+	};
 	// 상품문의 답변
 	$(function(){  
 		var article = (".recruit .show");  
@@ -527,13 +532,13 @@ function updateTotalAmount() {
     }
 
     $("#total_amount").text(total_amount.toLocaleString());
-}
+};
 
 function closeOption(optionIndex) {
     $("#optSel" + optionIndex).hide();
     $("#ct_qty" + optionIndex).val(0);
     updateTotalAmount();
-}
+};
 
 $("#optClo1").on("click", function() {
     closeOption(1);
@@ -576,8 +581,9 @@ function change_qty(optionIndex, t) {
 
     ct_qty.val(this_qty);
     updateTotalAmount();
-}
-
+};
+</script>
+<script>
 function prodCart(){
 	
 	var member_tb_idx = ${Login.member_idx};
@@ -634,7 +640,6 @@ function prodCart(){
 			alert("장바구니에 담겼습니다.");
 		}
 	})
-}
-
+};
 </script>
 <%@ include file="../include/foot.jsp" %>

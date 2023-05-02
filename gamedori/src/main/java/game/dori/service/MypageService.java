@@ -150,4 +150,13 @@ public interface MypageService {
 	
 	// 주문목록 금액 선택
 	public PAY_VO selectPayPrice( int order_tb_idx );
+	
+	// 잔여 포인트 정보
+	public SAVEPOINT_VO selectPointInfo( int member_idx );
+	
+	// 회원 적립금 적립
+	public int insertPoint( SAVEPOINT_VO savevo );
+	
+	// 구매확정
+	public int updateOrderCheck( int order_idx );
 }

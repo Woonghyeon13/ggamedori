@@ -27,6 +27,15 @@ public class PRODOPT_VO {
 	private int opt_state;			// 1:판매중, 2:품절, 3:숨김처리
 	private String opt_qty;			// 옵션 수량
 	
+	private String cart_idx;			// 카트 인덱스
+
+	
+	public String getCart_idx() {
+		return cart_idx;
+	}
+	public void setCart_idx(String cart_idx) {
+		this.cart_idx = cart_idx;
+	}
 	public String getOpt_qty() {
 		return opt_qty;
 	}

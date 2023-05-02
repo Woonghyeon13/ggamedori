@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import game.dori.util.PRODOPT_VO;
 import game.dori.vo.OPT_VO;
+import game.dori.vo.ORDER_DETAIL_VO;
 
 @Repository
 public class ProdOptDAO {
@@ -54,5 +55,9 @@ public class ProdOptDAO {
 	// 상품옵션 상세정보 목록
 	public PRODOPT_VO prodOptSelect( int opt_idx ){
 		return sqlSession.selectOne("game.dori.mapper.prodOptMapper.prodOptSelect",opt_idx);
+	}
+	// 상품 옵션 재고 감소
+	public int optStockMinus( OPT_VO povo ) {
+		return sqlSession.update("game.dori.mapper.prodOptMapper.optStockMinus",povo);
 	}
 }
