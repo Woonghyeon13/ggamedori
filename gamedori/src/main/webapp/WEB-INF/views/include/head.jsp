@@ -67,6 +67,20 @@
 	<script src="<c:url value='/resources/js/script.js'/>"></script>
 
 </head>
+<script>
+    function sanitizeInput(input) {
+        var sanitizedValue = input.value.replace(/[<>&"']/g, function (match) {
+            return {
+                '<': '&lt;',
+                '>': '&gt;',
+                '&': '&amp;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[match];
+        });
+        input.value = sanitizedValue;
+    }
+</script>
 <body>
 	<header class="pt-4 pb-3 border-bottom border-2 mb-5">
 		<div class="container">
@@ -78,13 +92,14 @@
 				<div class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 				</div>
 		
-				 <form class="d-flex justify-content-center align-items-center" action="<c:url value='/prod/search.do'/>" method="get" role="form" id="search-form"> <!-- id 추가 -->
-			        <div class="me-2">
-			            <input type="hidden" name="searchOption" value="name"> <!-- 히든 입력 필드 추가 -->
-			            <input class="form-control form-control-sm" type="text" placeholder="제목" name="searchText" aria-label=".form-control-sm example">
-			        </div>
-			         <button type="submit" style="display: none;"></button> 
-			    </form>
+				 <form class="d-flex justify-content-center align-items-center" action="<c:url value='/prod/search.do'/>" method="get" role="form" id="search-form">
+				    <div class="me-2">
+				        <input type="hidden" name="searchOption" value="name">
+				        <input class="form-control form-control-sm" type="text" placeholder="제목" name="searchText" aria-label=".form-control-sm example" onkeyup="sanitizeInput(this)">
+				    </div>
+				    <button type="submit" style="display: none;"></button> 
+				</form>
+			    
 		
 				<div class="text-end">
 					<ul class="d-flex flex-row mb-0 ps-0">
