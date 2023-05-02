@@ -1,6 +1,10 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
 <main>
 	<div class="inner product_list">
 		<div>
@@ -139,26 +143,21 @@
             </ul>
         </div>
 
-        <!--페이지네이션-->
-		<div class="d-flex justify-content-center">
-		    <nav>
-		        <ul class="pagination">
-		            <li class="page-item">
-		                <a class="page-link text-reset" href="<c:url value='/.do'/>" aria-label="Previous">
-		                <span aria-hidden="true">&laquo;</span>
-		                </a>
-		            </li>
-		            <li class="page-item"><a class="page-link text-reset" href="#">1</a></li>
-		            <li class="page-item"><a class="page-link text-reset" href="#">2</a></li>
-		            <li class="page-item"><a class="page-link text-reset" href="#">3</a></li>
-					<li class="page-item">
-						<a class="page-link text-reset" href="#" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
-				</ul>
+       <!-- 페이징 -->
+		<div class="mt-3">
+			<nav>
+			  <ul class="pagination justify-content-center">
+			    <c:forEach var="i" begin="1" end="${totalPages}">
+			      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+			        <a class="page-link" >
+			          ${i}
+			        </a>
+			      </li>
+			    </c:forEach>
+			  </ul>
 			</nav>
 		</div>
+            
 
 	</div>
 

@@ -293,4 +293,34 @@
 		AND o.order_idx LIKE CONCAT('%', #{searchText}, '%')
 </select>
 
+<!--  상품 검색 -->
+	<select id="prodect_search" resultType="productVO" parameterType="map">
+	  SELECT * FROM product_tb
+	  <where>
+	    <choose>
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          PROD_NAME like CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	    </choose>
+	  </where>
+	  ORDER BY PROD_WDATE DESC
+	  LIMIT #{start}, #{limit}
+	</select>
+
+	
+<!-- 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+<select id="prodect_countSearchResults" resultType="int" parameterType="map">
+  SELECT COUNT(*) FROM product_tb
+  <where>
+    <choose>
+      <when test="searchOption == 'name'">
+        <if test="searchText != null and searchText != ''">
+          PROD_NAME like CONCAT('%', #{searchText}, '%')
+        </if>
+      </when>
+    </choose>
+  </where>
+</select>
 </mapper>
