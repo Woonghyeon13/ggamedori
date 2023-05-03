@@ -118,30 +118,40 @@ public class AdminController {
 	@RequestMapping( value = "/prodinsert.do", method = RequestMethod.POST )
 	public void prodinsert( OPT_VO opt, PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3 ) throws IllegalStateException, IOException{
 		
-		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
-		File dir = new File(path);
-		if(!dir.exists()) { 
-			dir.mkdirs();
+		String path1 = req.getSession().getServletContext().getRealPath("/resources/images/prod/thumb");
+		String path2 = req.getSession().getServletContext().getRealPath("/resources/images/prod/main");
+		String path3 = req.getSession().getServletContext().getRealPath("/resources/images/prod/detail");
+		File dir1 = new File(path1);
+		File dir2 = new File(path2);
+		File dir3 = new File(path3);
+		if(!dir1.exists()) { 
+			dir1.mkdirs();
+		}
+		if(!dir2.exists()) { 
+			dir2.mkdirs();
+		}
+		if(!dir3.exists()) { 
+			dir3.mkdirs();
 		}
 		String newFileName = "";
 		if(!prod_file1.getOriginalFilename().isEmpty()) { 
 			String FileName = System.currentTimeMillis()+prod_file1.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
-			prod_file1.transferTo(new File(path,newFileName));
+			prod_file1.transferTo(new File(path1,newFileName));
 			pvo.setProd_imgt(newFileName);
 			
-		}else
+		}
 		if(!prod_file2.getOriginalFilename().isEmpty()) { 
 			String FileName = System.currentTimeMillis()+prod_file2.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
-			prod_file2.transferTo(new File(path,newFileName));
+			prod_file2.transferTo(new File(path2,newFileName));
 			pvo.setProd_imgm(newFileName);
 			
-		}else
+		}
 		if(!prod_file3.getOriginalFilename().isEmpty()) { 
 			String FileName = System.currentTimeMillis()+prod_file3.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
-			prod_file3.transferTo(new File(path,newFileName));
+			prod_file3.transferTo(new File(path3,newFileName));
 			pvo.setProd_imgd(newFileName);
 			
 		}
@@ -184,54 +194,51 @@ public class AdminController {
 	@RequestMapping( value = "/prodmodify.do", method = RequestMethod.POST )
 	public void prodmodify( OPT_VO opt, PRODUCT_VO pvo, HttpServletRequest req, HttpServletResponse rsp ,MultipartFile prod_file1, MultipartFile prod_file2, MultipartFile prod_file3) throws IllegalStateException, IOException{
 		
-		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
-		
-		File dir = new File(path);
-		if(!dir.exists()) { 
-			dir.mkdirs();
+		String path1 = req.getSession().getServletContext().getRealPath("/resources/images/prod/thumb");
+		String path2 = req.getSession().getServletContext().getRealPath("/resources/images/prod/main");
+		String path3 = req.getSession().getServletContext().getRealPath("/resources/images/prod/detail");
+		System.out.println(path1);
+		File dir1 = new File(path1);
+		File dir2 = new File(path2);
+		File dir3 = new File(path3);
+		if(!dir1.exists()) { 
+			dir1.mkdirs();
+		}
+		if(!dir2.exists()) { 
+			dir2.mkdirs();
+		}
+		if(!dir3.exists()) { 
+			dir3.mkdirs();
 		}
 		String newFileName = "";
 		if(!prod_file1.getOriginalFilename().isEmpty()) { 
 			String FileName = System.currentTimeMillis()+prod_file1.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
-			prod_file1.transferTo(new File(path,newFileName));
-			pvo.setProd_imgt(prod_file1.getOriginalFilename());
-		}else
+			prod_file1.transferTo(new File(path1,newFileName));
+			pvo.setProd_imgt(newFileName);
+			
+		}
 		if(!prod_file2.getOriginalFilename().isEmpty()) { 
 			String FileName = System.currentTimeMillis()+prod_file2.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
-			prod_file2.transferTo(new File(path,newFileName));
-			pvo.setProd_imgm(prod_file2.getOriginalFilename());
-		}else
+			prod_file2.transferTo(new File(path2,newFileName));
+			pvo.setProd_imgm(newFileName);
+			
+		}
 		if(!prod_file3.getOriginalFilename().isEmpty()) { 
 			String FileName = System.currentTimeMillis()+prod_file3.getOriginalFilename();
 			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
-			prod_file3.transferTo(new File(path,newFileName));
-			pvo.setProd_imgd(prod_file3.getOriginalFilename());
+			prod_file3.transferTo(new File(path3,newFileName));
+			pvo.setProd_imgd(newFileName);
+			
 		}
 		
 		int result = productService.prodUpdate(pvo);
-		String optName = opt.getOpt_name();
-		String[] optNsplit = optName.split(",");
-		String optStock = opt.getOpt_stock();
-		String[] optSsplit = optStock.split(",");
-		String optPrice = opt.getOpt_price();
-		String[] optPsplit = optPrice.split(",");
 		rsp.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = rsp.getWriter();
-		System.out.println("optNsplit 길이 : " + optNsplit.length);
 		//상품수정 성공
 		if( result > 0 )
 		{
-			productService.optDel(pvo.getProd_idx());
-			for( int i=1; i<optNsplit.length; i++ ) {
-			opt.setProd_tb_idx(pvo.getProd_idx());
-			opt.setOpt_name(optNsplit[i]);
-			opt.setOpt_stock(optSsplit[i]);
-			opt.setOpt_price(optPsplit[i]);
-			System.out.println("옵션이름 ; " +optNsplit[i]);
-			productService.optInsert(opt);
-			}
 			pw.append("<script>alert('수정 완료');location.href='prod.do'</script>");
 		}else
 		{
@@ -308,6 +315,7 @@ public class AdminController {
 			pw.append("<script>alert('삭제 실패');location.href='prod.do'</script>");
 		}
 		pw.flush();
+		pw.close();
 	}
 	
 	// 반품관리

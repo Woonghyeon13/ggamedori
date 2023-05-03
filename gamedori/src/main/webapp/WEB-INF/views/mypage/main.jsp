@@ -228,28 +228,40 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th scope="col">번호</th>
-										<th scope="col">상품 정보</th>
-										<th scope="col">후기 제목</th>
-										<th scope="col">작성자 명</th>
-										<th scope="col">작성 일자</th>
-										<th scope="col">별 점</th>
+										<th class="align-middle">번호</th>
+										<th class="align-middle">상품 정보</th>
+										<th class="align-middle">후기 제목</th>
+										<th class="align-middle">작성자 명</th>
+										<th class="align-middle">작성 일자</th>
+										<th class="align-middle">별 점</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${selectReviewList}" var="vo" varStatus="status">
 									<c:if test="${status.index < 4}">
 										<tr>
-											<td scope="row" class="table_number"></td>
-											<td><a href="../prod/detail.do?prod_idx=${vo.product_tb_idx}">${vo.prod_name}</a></td>
-											<td>${vo.review_title}</td>
-											<td>${vo.review_writer}</td>
-											<td class="wdate">${vo.review_wdate}</td>
-											<td>
-												<c:set var="star" value="★ " />
-												<c:forEach begin="1" end="${vo.review_star}">
-												 ${star}
-												</c:forEach>
+											<td class="table_number align-middle"></td>
+											<td class="align-middle"><a href="../prod/detail.do?prod_idx=${vo.product_tb_idx}">${vo.prod_name}</a></td>
+											<td class="align-middle">${vo.review_title}</td>
+											<td class="align-middle">${vo.review_writer}</td>
+											<td class="wdate align-middle">${vo.review_wdate}</td>
+											<td class="align-middle">
+					<div class="starCnt" style="margin:0px;">
+						<div class="starRating-wrap align-middle" style="margin:0px; height:50px;">
+								<fieldset class="starRating">
+									<input type="radio" id="star5" name="review_star${status.count}" value="10" onclick="return(false);" <c:if test="${vo.review_star eq 10}">checked</c:if>/><label for="star5" class="full" title="Awesome"></label>
+									<input type="radio" id="star4.5" name="review_star${status.count}" value="9" onclick="return(false);" <c:if test="${vo.review_star eq 9}">checked</c:if>/><label for="star4.5" class="half"></label>
+									<input type="radio" id="star4" name="review_star${status.count}" value="8" onclick="return(false);" <c:if test="${vo.review_star eq 8}">checked</c:if>/><label for="star4" class="full"></label>
+									<input type="radio" id="star3.5" name="review_star${status.count}" value="7" onclick="return(false);" <c:if test="${vo.review_star eq 7}">checked</c:if>/><label for="star3.5" class="half"></label>
+									<input type="radio" id="star3" name="review_star${status.count}" value="6" onclick="return(false);" <c:if test="${vo.review_star eq 6}">checked</c:if>/><label for="star3" class="full"></label>
+									<input type="radio" id="star2.5" name="review_star${status.count}" value="5" onclick="return(false);" <c:if test="${vo.review_star eq 5}">checked</c:if>/><label for="star2.5" class="half"></label>
+									<input type="radio" id="star2" name="review_star${status.count}" value="4" onclick="return(false);" <c:if test="${vo.review_star eq 4}">checked</c:if>/><label for="star2" class="full"></label>
+									<input type="radio" id="star1.5" name="review_star${status.count}" value="3" onclick="return(false);" <c:if test="${vo.review_star eq 3}">checked</c:if>/><label for="star1.5" class="half"></label>
+									<input type="radio" id="star1" name="review_star${status.count}" value="2" onclick="return(false);" <c:if test="${vo.review_star eq 2}">checked</c:if>/><label for="star1" class="full"></label>
+									<input type="radio" id="star0.5" name="review_star${status.count}" value="1" onclick="return(false);" <c:if test="${vo.review_star eq 1}">checked</c:if>/><label for="star0.5" class="half"></label>
+								</fieldset>
+						</div>
+					</div>
 											</td>
 										</tr>
 									</c:if>

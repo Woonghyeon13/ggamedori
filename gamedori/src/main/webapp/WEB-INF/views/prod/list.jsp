@@ -3,8 +3,6 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/head.jsp" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 
 <main>
 	<div class="inner product_list">
@@ -189,10 +187,11 @@
 			            <li class="ms-1 me-1 mb-4" style="width: 200px;">
 			                <a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
 			                    <div style="text-align: center;">
-			                        <img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
+			                        <img src="<c:url value='/images/prod/thumb/${pvo.prod_imgt}'/>" alt="...">
 			                        <div>
 			                            <p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
-			                            <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${pvo.prod_price}</p>
+      									<fmt:formatNumber var="prodPrice" value="${pvo.prod_price}" pattern="#,###"/>
+			                            <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${prodPrice}원</p>
 			                            <c:if test="${pvo.prod_stock eq 0}">
 			                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
 			                            </c:if>

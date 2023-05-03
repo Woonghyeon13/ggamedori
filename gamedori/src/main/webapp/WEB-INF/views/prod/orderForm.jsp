@@ -138,7 +138,14 @@
 						</tr>
 						<tr class="pbb">
 							<td class="pbb2">배송비</td>
-							<td colspan="3">3,000원</td>
+							<td colspan="3">
+								<c:if test="${orderPrices lt 30000}">
+									3,000원
+								</c:if>
+								<c:if test="${orderPrices ge 30000}">
+									0원
+								</c:if>
+							</td>
 						</tr>
 						<tr class="pbb" style="border-bottom:1px solid #bdbdbd;">
 							<td class="pbb2">적립금</td>
@@ -149,9 +156,19 @@
 							</td>
 						</tr>
 						<tr class="pbb" style="height: 80px; vertical-align: middle;">
-							<fmt:formatNumber var="orderPointCal" value="${orderPrices +3000 - use_point}" pattern="#,###"/>
+							<c:if test="${orderPrices lt 30000}">
+								<fmt:formatNumber var="orderPointCal" value="${orderPrices +3000 - use_point}" pattern="#,###"/>
+							</c:if>
+							<c:if test="${orderPrices ge 30000}">
+								<fmt:formatNumber var="orderPointCal" value="${orderPrices - use_point}" pattern="#,###"/>
+							</c:if>
 							<td class="pbb2">
+							<c:if test="${orderPrices lt 30000}">
 								<input type="hidden" id="ordPric" value="${orderPrices +3000}">
+							</c:if>
+							<c:if test="${orderPrices ge 30000}">
+								<input type="hidden" id="ordPric" value="${orderPrices}">
+							</c:if>
 								총 결제금액
 							</td>
 							<td colspan="3" id="priCalResult">
@@ -469,7 +486,12 @@ $(document).ready(function(){
 });
 $("#usePoint").change(function() {
 	  var num1 = $("#usePoint").val();
-	  var num2 = ${orderPrices+3000};
+	  var num2 = ${orderPrices};
+	  if( num2 < 30000 ){
+		  num2 = ${orderPrices+3000};
+	  }else{
+		  num2 = ${orderPrices}
+	  }
 	  var savePoint = $("#savePoint").val();
 	  
 	  // 사용한 포인트를 총 결제 금액에서 빼서 업데이트

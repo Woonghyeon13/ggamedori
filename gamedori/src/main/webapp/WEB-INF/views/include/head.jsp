@@ -122,8 +122,12 @@
 								<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/admin/orderList.do'/>">관리자페이지</a></button></li>
 							</c:if>
 						</c:if>
-						<li><a href="<c:url value='/mypage/cart.do'/>" class="nav-link me-2 mt-1 text-muted" title="장바구니"><i class="xi-cart-o xi-2x"></i></a></li>
-						<li><a href="<c:url value='/mypage/wishlist.do'/>" class="nav-link mt-1 text-muted" title="찜 목록"><i class="xi-heart-o xi-2x jjim"></i></a></li>
+						<c:if test="${not empty sessionScope.Login}">
+							<li><a href="<c:url value='/mypage/cart.do'/>" class="nav-link me-2 mt-1 text-muted" title="장바구니"><i class="xi-cart-o xi-2x"></i></a></li>
+						</c:if>
+						<c:if test="${empty sessionScope.Login}">
+							<li><a href="#" onclick="alert('로그인이 필요합니다.')" class="nav-link me-2 mt-1 text-muted" title="장바구니"><i class="xi-cart-o xi-2x"></i></a></li>
+						</c:if>
 					</ul>
 				</div>
 			</div>

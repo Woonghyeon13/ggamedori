@@ -26,7 +26,6 @@
 	<div class="container mt-4">
 		<ul class="nav justify-content-end text-black">
 			<li class="nav-item"><a class="nav-link active text-reset fw-bold" href="<c:url value='/admin/prod.do' />">상품 등록</a></li>
-			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='' />">판매량 확인</a></li>
 		</ul>
 	</div>
 	<div class="container mt-1">
@@ -306,17 +305,31 @@
         noResultsRow.append(noResultsCell);
         tableBody.append(noResultsRow);
     } else {
+    	
         // 검색 결과가 있는 경우
         $.each(searchResults, function (index, result) {
             var newRow = $('<tr>');
+            if(result.prod_stock == 0){
+            	var stockState = '품절';
+            }else{
+            	var stockState = '정상';
+            }
 
             newRow.append($('<td class="text-center">').text(result.prod_idx));
             newRow.append($('<td class="text-center">').text(result.category_tb_code));
             newRow.append($('<td class="text-center">').text(result.prod_name));
-            newRow.append($('<td class="text-center">').text(result.prod_price));
             newRow.append($('<td class="text-center">').text(result.prod_wdate));
             newRow.append($('<td class="text-center">').text(result.prod_stock));
-            newRow.append($('<td class="text-center">').text(result.prod_co));
+   	        newRow.append($('<td class="text-center">').text(stockState));
+            newRow.append($('<td class="text-center">').html(
+            		   '<div class="d-flex justify-content-around">' +
+            		   '<button type="button" onclick="location.href=\'prodmodify.do?prod_idx=' + result.prod_idx + '\'" class="btn btn-outline-secondary btn-sm">수정</button>' +
+            		   '<form name="frm" action="prodDelete.do" method="post">' +
+            		   '<input name="prod_idx" type="hidden" value="' + result.prod_idx + '">' +
+            		   '<button id="prodDel" class="btn btn-outline-secondary btn-sm">삭제</button>' +
+            		   '</form>' +
+            		   '</div>'
+            		));
 
             // 답변 버튼 추가 (이 경우에는 필요 없어보이므로 제거합니다.)
 
