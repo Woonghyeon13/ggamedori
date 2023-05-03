@@ -42,6 +42,9 @@ public class SearchController {
 	    int start = (page - 1) * limit;
 	    int totalResults = 0;
 	    List<?> searchResults = null;
+	    
+	    System.out.println(searchText);
+	    System.out.println(searchOption);
 
 	    switch (searchType) {
 	        case "member":
