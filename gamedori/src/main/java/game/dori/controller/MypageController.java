@@ -94,21 +94,23 @@ public class MypageController {
 		//최근주문내역
 		List<ORDER_VO> selectOrderList = mypageService.selectOrderListService(memberVO.getMember_idx());
 		List<ORDER_LIST_VO> orderList5 = new ArrayList<ORDER_LIST_VO>();
-		for( int i = 0; i < selectOrderList.size(); i++) {
-			ORDER_LIST_VO olvo = new ORDER_LIST_VO();
-			olvo.setOrder_date(selectOrderList.get(i).getOrder_date());
-			olvo.setOrder_state(selectOrderList.get(i).getOrder_state());
-			ORDER_DETAIL_VO odvo = mypageService.orderDetailOne(selectOrderList.get(i).getOrder_idx());
-			OPT_VO optvo = productService.optSelectOne(odvo.getOpt_tb_idx());
-			PAY_VO payvo = mypageService.selectPayPrice(selectOrderList.get(i).getOrder_idx());
-			PRODUCT_VO pvo = productService.prodSelectOne(optvo.getProd_tb_idx());
-			olvo.setProd_name(pvo.getProd_name());
-			olvo.setProd_imgt(pvo.getProd_imgt());
-			olvo.setPay_price_real(payvo.getPay_price_real());
-			olvo.setOrder_idx(selectOrderList.get(i).getOrder_idx());
-			orderList5.add(olvo);
+
+		if( selectOrderList != null ) {
+			for( int i = 0; i < selectOrderList.size(); i++) {
+				ORDER_LIST_VO olvo = new ORDER_LIST_VO();
+				olvo.setOrder_date(selectOrderList.get(i).getOrder_date());
+				olvo.setOrder_state(selectOrderList.get(i).getOrder_state());
+				ORDER_DETAIL_VO odvo = mypageService.orderDetailOne(selectOrderList.get(i).getOrder_idx());
+				OPT_VO optvo = productService.optSelectOne(odvo.getOpt_tb_idx());
+				PAY_VO payvo = mypageService.selectPayPrice(selectOrderList.get(i).getOrder_idx());
+				PRODUCT_VO pvo = productService.prodSelectOne(optvo.getProd_tb_idx());
+				olvo.setProd_name(pvo.getProd_name());
+				olvo.setProd_imgt(pvo.getProd_imgt());
+				olvo.setPay_price_real(payvo.getPay_price_real());
+				orderList5.add(olvo);
+			}
+
 		}
-		
 		model.addAttribute("Orderlist", orderList5);
 
 		// 상품문의내역
@@ -332,8 +334,25 @@ public class MypageController {
 	
 	// 1 : 1 문의 사항 글 등록
 	@RequestMapping(value = "/oto_write.do", method = RequestMethod.GET)
-	public String oto_write() {
+	public String oto_write(Model model, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
 		
+		//상단 등급출력
+	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
+		model.addAttribute("level", selectMemberLevel);
+
+		//상단 적립금
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
+			
+		//상단 쿠폰개수출력
+		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+		model.addAttribute("CouponCount", CouponCount);
+			    
+		//상단 후기 개수
+		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
+		model.addAttribute("ReviewCount", ReviewCount);
 		return "mypage/oto_write";
 	}
 	

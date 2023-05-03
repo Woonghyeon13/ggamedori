@@ -77,7 +77,7 @@
 								<li class="ms-1 me-1 mb-4" style="width: 200px;">
 									<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
 										<div style="text-align: center;">
-											<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
+											<img src="<c:url value='/images/prod/thumb/${pvo.prod_imgt}'/>" alt="...">
 											<div>
 												<p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
 												<fmt:formatNumber var="prodPrice" value="${pvo.prod_price}" pattern="#,###"/>
@@ -109,7 +109,7 @@
 								<li class="ms-1 me-1 mb-4" style="width: 200px;">
 									<a href="<c:url value='/prod/detail.do?prod_idx=${rli.prod_idx}'/>">
 										<div style="text-align: center;">
-											<img src="<c:url value='/images/${rli.prod_imgt}'/>" alt="...">
+											<img src="<c:url value='/images/prod/thumb/${rli.prod_imgt}'/>" alt="...">
 											<div>
 												<p class="text-center fs-6 mb-0">${rli.prod_name}</p>
 												<fmt:formatNumber var="prodPrice2" value="${rli.prod_price}" pattern="#,###"/>

@@ -10,7 +10,7 @@
 		<div class="container mt-5">
 			<div class="row">
 				<div class="col-7">
-					<img class="border" src="<c:url value='/images/${pvo.prod_imgm}' />">
+					<img class="border" src="<c:url value='/images/prod/main/${pvo.prod_imgm}' />">
 				</div>
 				<div class="col-5">
 					<div class="container">
@@ -38,7 +38,7 @@
 							</div>
 							<div class="col-9">
 								<p>
-									<span>구매금액(추가옵션 제외)의 10%</span>
+									<span>구매금액의 10%</span>
 								</p>
 							</div>
 						</div>
@@ -47,7 +47,7 @@
 								<p class="fw-semibold">배송비</p>
 							</div>
 							<div class="col-9">
-								<p>주문시 결제</p>
+								<p><span>3,000원 ( 30,000원 이상 구매시 무료배송 ) </span></p>
 							</div>
 						</div>
 						<hr>
@@ -73,19 +73,19 @@
 								</div>
 								<div class="col-9">
 									<c:if test="${pvo.category_tb_code eq '100' or pvo.category_tb_code eq '101' or pvo.category_tb_code eq '102' or pvo.category_tb_code eq '103' or pvo.category_tb_code eq '104'}">
-										닌텐도 Switch
+										<p>닌텐도 Switch</p>
 									</c:if>
 									<c:if test="${param.cate_refcode eq '200' or pvo.category_tb_code eq '201' or pvo.category_tb_code eq '202' or pvo.category_tb_code eq '203'}">
-										PlayStation5
+										<p>PlayStation5</p>
 									</c:if>
 									<c:if test="${param.cate_refcode eq '300' or pvo.category_tb_code eq '301' or pvo.category_tb_code eq '302' or pvo.category_tb_code eq '303'}">
-										PlayStation4
+										<p>PlayStation4</p>
 									</c:if>
 									<c:if test="${pvo.category_tb_code eq '400' or pvo.category_tb_code eq '401' or pvo.category_tb_code eq '402' or pvo.category_tb_code eq '403'}">
-										XBOX
+										<p>XBOX</p>
 									</c:if>
 									<c:if test="${pvo.category_tb_code eq '500'}">
-										GOODS
+										<p>GOODS</p>
 									</c:if>
 								</div>
 							</div>
@@ -113,7 +113,7 @@
 											style="display: none;">
 											<div class="d-flex justify-content-between">
 												<div class="mt-3">
-													<p>${pvo.prod_name} : ${optt.opt_name}</p>
+													<p>${optt.opt_name}</p>
 												</div>
 												<div class="btn-group btn-group-sm my-3" role="group">
 												  <button type="button" class="btn btn-secondary"
@@ -175,44 +175,20 @@
 		</div>
 		<!-- 상품 상세정보 -------------------------------- -->
 		<div class="container mt-5">
-			<ul class="nav justify-content-center nav-fill nav-tabs text-black" id="tab_menu">
-			    <li class="nav-item">
-			        <a class="nav-link text-reset" href="#productNav1">상품상세</a>
-			    </li>
-			    <li class="nav-item">
-			        <a class="nav-link text-reset" href="#productNav2">배송안내</a>
-			    </li>
-			    <li class="nav-item">
-			        <a class="nav-link text-reset" href="#productNav3">고객리뷰(0)</a>
-			    </li>
-			    <li class="nav-item">
-			        <a class="nav-link text-reset" href="#productNav4">상품문의</a>
-			    </li>
+			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
+				<li class="nav-item"><a class="nav-link text-reset active fw-bold"
+					aria-current="page" href="#productNav1">상품상세</a></li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav2">배송안내</a></li>
+				<li class="nav-item"><a id="productNav3"
+					class="nav-link text-reset" href="#productNav3">고객리뷰(${reviewCnt})</a>
+				</li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav4">상품문의(${pqlCnt})</a></li>
 			</ul>
-			
-			<script>
-			    const tabs = document.querySelectorAll('.nav-item a');
-			
-			    tabs.forEach(tab => {
-			        tab.addEventListener('click', (event) => {
-			            event.preventDefault();
-			            tabs.forEach(tab => {
-			                tab.classList.remove('fw-bold');
-			                tab.classList.remove('active');
-			            });
-			            tab.classList.add('fw-bold');
-			            tab.classList.add('active');
-			            // TODO: 해당 탭에 대한 내용을 보여주는 코드 작성
-			        });
-			    });
-			</script>
- 
-
-			
-			
 			<!--상세 사진 영역-->
-			<div class="container d-flex justify-content-center mt-3" id="productNav1">
-				<img src="<c:url value='/images/${pvo.prod_imgd}' />" alt="">
+			<div class="container d-flex justify-content-center mt-3">
+				<img src="<c:url value='/images/prod/detail/${pvo.prod_imgd}' />" alt="">
 			</div>
 		</div>
 		<!-- 배송안내 -->
@@ -336,7 +312,7 @@
 				style="border-bottom: 2px solid #000;">
 				<h2>상품문의(${pqlCnt})</h2>
 				<h6 class="ms-3">
-					상품의 취소/반품/교환/환불 및 배송관련 문의는 <a href="#"><strong>1:1문의</strong></a>를
+					상품의 취소/반품/교환/환불 및 배송관련 문의는 <a href="<c:url value='/mypage/oto_write.do' />"><strong>1:1문의</strong></a>를
 					이용해 주세요.
 				</h6>
 			</div>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+
 <main>
 	<div class="inner product_list">
 		<div>
@@ -123,25 +124,40 @@
 		<input type="hidden" id="cate_rsv" value="${param.cate_rsv}">
         
 		<div class="mt-5">
-			 <ul class="d-flex flex-wrap product-list" style="padding: 0;">
-				<c:forEach var="pvo" items="${plist}">
-					<li class="ms-1 me-1 mb-4" style="width: 200px;">
-						<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
-							<div style="text-align: center;">
-								<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
-								<div>
-									<p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
-									<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${pvo.prod_price}</p>
-									<c:if test="${pvo.prod_stock eq 0}">
-										<p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
-									</c:if>
-								</div>
-							</div>
-						</a> 
-					</li>
-				</c:forEach>
-            </ul>
-        </div>
+			    <ul class="d-flex flex-wrap product-list" style="padding: 0;">
+			        <c:forEach var="pvo" items="${plist}">
+			            <li class="ms-1 me-1 mb-4" style="width: 200px;">
+			                <a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
+			                    <div style="text-align: center;">
+			                        <img src="<c:url value='/images/prod/thumb/${pvo.prod_imgt}'/>" alt="...">
+			                        <div>
+			                            <p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
+      									<fmt:formatNumber var="prodPrice" value="${pvo.prod_price}" pattern="#,###"/>
+			                            <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${prodPrice}원</p>
+			                            <c:if test="${pvo.prod_stock eq 0}">
+			                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+			                            </c:if>
+			                        </div>
+			                    </div>
+			                </a>
+			            </li>
+			        </c:forEach>
+			    </ul>
+			</div>
+       <!-- 페이징 -->
+		<div class="mt-3">
+			<nav>
+			  <ul class="pagination justify-content-center">
+			    <c:forEach var="i" begin="1" end="${totalPages}">
+			      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+			        <a class="page-link" >
+			          ${i}
+			        </a>
+			      </li>
+			    </c:forEach>
+			  </ul>
+			</nav>
+		</div>
 
 
 	</div>
