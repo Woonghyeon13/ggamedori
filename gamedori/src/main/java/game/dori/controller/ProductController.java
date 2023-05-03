@@ -55,52 +55,34 @@ public class ProductController {
 	// 상품 목록
 	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
 	public String list(
-			Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo,
-			HttpServletRequest request,
-			@RequestParam(required = false) String sort , 
-			@RequestParam(required = false) String cate_code,
-            @RequestParam(required = false) String cate_refcode,
-            @RequestParam(required = false) String cate_rsv,
-            @RequestParam(required = false) String cate_new
-		) {
-	
-		cvo.setCate_code(cate_code);
+	        Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo,
+	        HttpServletRequest request,
+	        @RequestParam(required = false) String sort,
+	        @RequestParam(required = false) String cate_code,
+	        @RequestParam(required = false) String cate_refcode,
+	        @RequestParam(required = false) String cate_rsv,
+	        @RequestParam(required = false) String cate_new
+	    ) {
+
+	    cvo.setCate_code(cate_code);
 	    cvo.setCate_refcode(cate_refcode);
 	    cvo.setCate_rsv(cate_rsv);
 	    cvo.setCate_new(cate_new);
-		List<PRODUCT_VO> plist = productService.list(cvo);
-
-		if(sort != null) {
-	    switch (sort) { 
 	    
-	        case "hot":
-	            plist = productService.list_hot(cvo);
-	            break;
-	        case "new":
-	            plist = productService.list_new(cvo);
-	            break;
-	        case "row":
-	            plist = productService.list_row(cvo);
-	            break;
-	        case "high":
-	            plist = productService.list_high(cvo);
-	            break;
-	        default:
-	            plist = productService.list(cvo);
-	            break;
-	    }
-		}
-	    	    
-		model.addAttribute("plist",plist);
-		
-		Map<String, String> cateImgs = adminService.selectCategoryImages();
-		model.addAttribute("cateImgs", cateImgs);
-
+	    // 추가된 부분: sort 값을 CATEGORY_VO 객체에 설정
+	    cvo.setSort(sort);
 	    
+	    List<PRODUCT_VO> plist = productService.list(cvo);
+	    
+	    model.addAttribute("plist", plist);
+
+	    Map<String, String> cateImgs = adminService.selectCategoryImages();
+	    model.addAttribute("cateImgs", cateImgs);
+
 	    int listCnt = productService.listCnt(cvo);
 	    model.addAttribute("listCnt", listCnt);
 	    System.out.println(listCnt);
-	    
+
 	    return "prod/list";
 	}
 	
