@@ -65,12 +65,16 @@ public interface AdminService {
 	
 	public Map<String, String> selectCategoryImages(); //카테고리 이미지 리스트 
 
-	//주문 상태(관리자 페이지)
+	//주문 상태 업데이트(관리자 페이지)
 	public int updateOrderState(ORDER_LIST_VO orderlistVO);
 	
 	//주문내역 상세 정보 가져오기
 	public List<ORDER_LIST_VO> getOrderDetail(int order_idx);
 	
 	//환불 리스트
-	public List<ORDER_LIST_VO> refundlist();
+	public List<ORDER_LIST_VO> refundlist(int limit, int start);
+	
+	//환불 가능 여부 업데이트
+	public int updateRefundYN(ORDER_LIST_VO orderlistVO);
+	
 }

@@ -341,13 +341,22 @@ public class AdminController {
 
 	// 환불관리
 	@RequestMapping( value = "/asrefund.do", method = RequestMethod.GET )
-	public String asrefund(HttpSession session,  HttpServletRequest req,HttpServletResponse rsp, Model model) throws IOException{
+	public String asrefund(HttpSession session,  HttpServletRequest req,HttpServletResponse rsp, Model model, @RequestParam(value = "page", defaultValue = "1") int page) throws IOException{
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
-				List<ORDER_LIST_VO> refundlist = AdminService.refundlist();
+				
+				int limit = 15; // 페이지당 게시물 수
+	            int start = (page - 1) * limit;
+	            
+				List<ORDER_LIST_VO> refundlist = AdminService.refundlist(limit, start);
+				for (ORDER_LIST_VO rlist : refundlist) {
+					String contentWithoutTag = rlist.getRefund_contents().replaceAll("<[^>]+>", "");
+					rlist.setContentWithoutTag(contentWithoutTag);
+				}
+				
 	    		model.addAttribute("refundlist", refundlist);
 				
 				return "admin/asrefund";

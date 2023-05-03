@@ -27,4 +27,13 @@
 	    and od.orderd_idx = r.orderd_tb_idx
 	  ORDER BY order_idx DESC
 	</select>
+	
+	<!-- 환불 승인 여부 업데이트  -->
+	<update id="updateRefundYN" parameterType="orderlistVO">
+	    UPDATE refund_tb
+	    SET
+	        refund_yn = #{refund_yn}
+	    WHERE
+	        refund_idx = #{refund_idx}
+	</update>
 </mapper>

@@ -12,19 +12,19 @@
 
 	<!-- 멤버 검색 -->
 	<select id="mSearch" resultType="memberVO" parameterType="map">
-	  SELECT * FROM member_tb WHERE member_role = "1"
+	  SELECT * FROM member_tb WHERE member_role = "1" AND
 	  <choose>
 	    <when test="searchOption == 'name'">
-	     and member_name like CONCAT('%', #{searchText}, '%')
+	      member_name like CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'email'">
-	     and member_email LIKE CONCAT('%', #{searchText}, '%')
+	      member_email LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'mLevel'">
-	     and member_level LIKE CONCAT('%', #{searchText}, '%')
+	      member_level LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'mState'">
-	     and member_state LIKE CONCAT('%', #{searchText}, '%')
+	      member_state LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	  </choose>
 	  ORDER BY member_idx DESC
@@ -33,19 +33,19 @@
 	
 	<!-- 검색된 결과 페이징 처리할때 사용(관리자페이지 멤버리스트) -->
 	<select id="mCountSearchResults" resultType="int" parameterType="map">
-	  SELECT COUNT(*) FROM member_tb WHERE member_role = "1"
+	  SELECT COUNT(*) FROM member_tb WHERE member_role = "1" AND
 	  <choose>
 	    <when test="searchOption == 'name'">
-	      AND member_name like CONCAT('%', #{searchText}, '%')
+	      member_name like CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'email'">
-	      AND member_email LIKE CONCAT('%', #{searchText}, '%')
+	      member_email LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'mLevel'">
-	      AND member_level LIKE CONCAT('%', #{searchText}, '%')
+	      member_level LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	    <when test="searchOption == 'mState'">
-	      AND member_state LIKE CONCAT('%', #{searchText}, '%')
+	      member_state LIKE CONCAT('%', #{searchText}, '%')
 	    </when>
 	  </choose>
 	</select>
@@ -73,9 +73,15 @@
 			    AND qa_title LIKE CONCAT('%', #{searchText}, '%')
 			  </if>
 			</when>
-		
+			<when test="searchOption == 'content'">
+			  <if test="searchText != null and searchText != ''">
+			    AND qa_contents LIKE CONCAT('%', #{searchText}, '%')
+			  </if>
+			</when>
 		    <otherwise>
-		      
+		      <if test="searchText != null and searchText != ''">
+		        AND (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+		      </if>
 		    </otherwise>
 		  </choose>
 		</where>
@@ -86,24 +92,28 @@
 	
 	<!--  1 : 1 문의사항 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
 	<select id="oto_countSearchResults" resultType="int" parameterType="map">
-	SELECT COUNT(*) FROM qa_tb qa
-		<where>
-		  <choose>
-		    <when test="searchOption == 'title'">
-		      <if test="searchText != null and searchText != ''">
-		        QA_TITLE like CONCAT('%', #{searchText}, '%')
-		      </if>
-		    </when>
-		    <when test="searchOption == 'writer'">
-		      <if test="searchText != null and searchText != ''">
-		        QA_WRITER like CONCAT('%', #{searchText}, '%')
-		      </if>
-		    </when>
-		  </choose>
-		</where>
+		 SELECT COUNT(*) FROM QA_TB
+		 <where>
+		   <choose>
+		     <when test="searchOption == 'name'">
+		       <if test="searchText != null and searchText != ''">
+		         qa_title like CONCAT('%', #{searchText}, '%')
+		       </if>
+		     </when>
+		     <when test="searchOption == 'content'">
+		       <if test="searchText != null and searchText != ''">
+		         qa_contents LIKE CONCAT('%', #{searchText}, '%')
+		       </if>
+		     </when>
+		     <otherwise>
+		       <if test="searchText != null and searchText != ''">
+		         (qa_writer LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
+		       </if>
+		     </otherwise>
+		   </choose>
+		 </where>
 	</select>
-	<!--  공지사항 매퍼 -->
-	<!--  select all notice_tb 에있는 모든데이터를 선택해서 저장, 페이지당 게시물 수  -->
+
 	
 	<!-- 페이징 처리를 위한 notice_board의 게시물 수값을 얻기위한 쿼리문 -->
 	<select id="notice_countAll" resultType="int">
@@ -397,8 +407,8 @@
   SELECT COUNT(*) FROM product_tb
   <where>
     <choose>
-      <when test="searchOption == 'name'">
-        <if test="searchText != null and searchText != ''">
+      <when test="searchhOption == 'name'">
+        <if test="searchhText != null and searchText != ''">
           PROD_NAME like CONCAT('%', #{searchText}, '%')
         </if>
       </when>

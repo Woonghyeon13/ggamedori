@@ -94,6 +94,7 @@ public class MypageController {
 		//최근주문내역
 		List<ORDER_VO> selectOrderList = mypageService.selectOrderListService(memberVO.getMember_idx());
 		List<ORDER_LIST_VO> orderList5 = new ArrayList<ORDER_LIST_VO>();
+
 		if( selectOrderList != null ) {
 			for( int i = 0; i < selectOrderList.size(); i++) {
 				ORDER_LIST_VO olvo = new ORDER_LIST_VO();
@@ -108,6 +109,7 @@ public class MypageController {
 				olvo.setPay_price_real(payvo.getPay_price_real());
 				orderList5.add(olvo);
 			}
+
 		}
 		model.addAttribute("Orderlist", orderList5);
 

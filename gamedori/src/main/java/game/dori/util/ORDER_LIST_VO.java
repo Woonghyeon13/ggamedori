@@ -87,9 +87,16 @@ public class ORDER_LIST_VO {
 	private int refund_yn;				//환불 상태
 	private String refund_date;			//환불 신청 시간
 
+	private String contentWithoutTag; //태그가 삭제된 내용
 	
 	
 	
+	public String getContentWithoutTag() {
+		return contentWithoutTag;
+	}
+	public void setContentWithoutTag(String contentWithoutTag) {
+		this.contentWithoutTag = contentWithoutTag;
+	}
 	public String getRefund_date() {
 		return refund_date;
 	}
