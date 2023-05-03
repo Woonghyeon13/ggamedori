@@ -44,8 +44,16 @@ public class PROD_Q_LIST_VO {
 	private int prod_qtymin;			// 최소구매수량
 	private int prod_qtymax;
 	
+	private String contentWithoutTag; //태그가 삭제된 내용
 	
 	
+	
+	public String getContentWithoutTag() {
+		return contentWithoutTag;
+	}
+	public void setContentWithoutTag(String contentWithoutTag) {
+		this.contentWithoutTag = contentWithoutTag;
+	}
 	public int getProd_q_idx() {
 		return prod_q_idx;
 	}

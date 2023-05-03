@@ -5,4 +5,26 @@
  
 <mapper namespace="game.dori.mapper.refundMapper">
 
+	<!-- 환불 리스트 -->
+	<select id="refundlist" parameterType="int" resultType="orderlistVO">
+	  SELECT *
+	  FROM 
+	    order_tb o, 
+	    order_detail_tb od,
+	    member_tb m,
+	    product_tb pr,
+	    opt_tb op,
+	    pay_tb p,
+	    coupon_tb c,
+	    refund_tb r
+	  WHERE 
+	    o.member_tb_idx = m.member_idx
+	    AND o.order_idx = od.order_tb_idx
+	    AND o.order_idx = p.order_tb_idx
+	    and pr.prod_idx = op.prod_tb_idx
+	    and op.opt_idx = od.opt_tb_idx
+	    and c.member_tb_idx = m.member_idx
+	    and od.orderd_idx = r.orderd_tb_idx
+	  ORDER BY order_idx DESC
+	</select>
 </mapper>

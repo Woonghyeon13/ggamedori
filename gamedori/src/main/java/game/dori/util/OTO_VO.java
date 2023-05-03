@@ -23,7 +23,16 @@ public class OTO_VO {
 	private String member_email_key; //이메일인증키
 	private int member_role; //회원권한 1:일반 2:관리자
 	
+	private String contentWithoutTag; //태그가 삭제된 내용
 	
+	
+	
+	public String getContentWithoutTag() {
+		return contentWithoutTag;
+	}
+	public void setContentWithoutTag(String contentWithoutTag) {
+		this.contentWithoutTag = contentWithoutTag;
+	}
 	public int getQa_idx() {
 		return qa_idx;
 	}

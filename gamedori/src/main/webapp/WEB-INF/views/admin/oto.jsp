@@ -30,6 +30,7 @@
 
 	 editor.setData(otoReply) ;
 	}
+	
 </script>
 
 <main>
@@ -66,32 +67,32 @@
 				<table class="table">
 					<thead class="table-light">
 						<tr>
-							<th class="text-center">번호</th>
-							<th class="text-center">제목</th>
-							<th class="text-center">회원명</th>
-							<th class="text-center">작성일자</th>
-							<th class="text-center">처리상태</th>
-							<th class="text-center">답변</th>
+							<th class="text-center align-middle">번호</th>
+							<th class="text-center align-middle">제목</th>
+							<th class="text-center align-middle">회원명</th>
+							<th class="text-center align-middle">작성일자</th>
+							<th class="text-center align-middle">처리상태</th>
+							<th class="text-center align-middle">답변</th>
 						</tr>
 					</thead>
 					  <tbody id = "table-body" >
 					<c:forEach var="otol" items="${otoList }">
 						<tr>
-							<td class="text-center">${otol.qa_idx }</td>
-							<td class="text-center">${otol.qa_title }</td>
-							<td class="text-center">${otol.member_name }</td>
-							<td class="text-center">${otol.qa_wdate }</td>
+							<td class="text-center align-middle">${otol.qa_idx }</td>
+							<td class="text-center align-middle">${otol.qa_title }</td>
+							<td class="text-center align-middle">${otol.member_name }</td>
+							<td class="text-center align-middle">${otol.qa_wdate }</td>
 						<c:if test="${otol.qa_yn == 1 }">
-							<td class="text-center">답변 완료</td>
+							<td class="text-center align-middle">답변 완료</td>
 						</c:if>	
 						<c:if test="${otol.qa_yn == 2 }">
-							<td class="text-center">답변 대기 중</td>
+							<td class="text-center align-middle">답변 대기 중</td>
 						</c:if>	
-							<td class="text-center">
+							<td class="text-center align-middle">
 								<button type="button" class="btn btn-secondary btn-sm"
 									data-bs-toggle="modal" data-bs-target="#otoRefund" 
 									onclick="sessionToModal('${otol.qa_idx }', '${otol.qa_title }',
-									 '${otol.qa_contents }', '${otol.member_name }', '${otol.qa_reply }')">답변</button>
+									 '${otol.contentWithoutTag }', '${otol.member_name }', '${otol.qa_reply }')">답변</button>
 							</td>
 						</tr>
 					</c:forEach>
@@ -120,7 +121,7 @@
 							</div>
 							<div class="form-group mt-3">
 								<label for="otoContents" class="form-label">문의 내용</label>
-								<textarea id="otoContents" class="form-control" style="resize: none;" readonly disabled></textarea>
+								<textarea id="otoContents" class="form-control" style="resize: none; height:15vw;" readonly disabled></textarea>
 							</div>
 							<hr>
 							<div class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
@@ -401,7 +402,10 @@
 	        // 검색 결과가 있는 경우
 	        $.each(searchResults, function (index, result) {
 	            var newRow = $('<tr>');
-	
+				
+	            var contentWithoutTag = result.qa_contents.replace(/<\/p>/gm, "\n");
+	            contentWithoutTag = contentWithoutTag.replace(/(<([^>]+)>)/gm,"");
+	            
 	            newRow.append($('<td class="text-center">').text(result.qa_idx));
 	            newRow.append($('<td class="text-center">').text(result.qa_title));
 	            newRow.append($('<td class="text-center">').text(result.member_name));
@@ -414,7 +418,7 @@
 
 	            // Add answer button
 	            var answerBtn = $('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#otoRefund">답변</button>').click(function () {
-	                sessionToModal(result.qa_idx, result.qa_title, result.qa_contents, result.member_name, result.qa_reply);
+	                sessionToModal(result.qa_idx, result.qa_title, contentWithoutTag, result.member_name, result.qa_reply);
 	            });
 	            newRow.append($('<td class="text-center">').append(answerBtn));
 
