@@ -13,6 +13,7 @@ import game.dori.util.PRODOPT_VO;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
+import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.QA_VO;
 
@@ -53,14 +54,12 @@ public class SearchServiceImpl implements SearchService {
     }
 
 	@Override
-	public List<PROD_Q_LIST_VO> qaprod_search(String searchText, String searchOption, int start, int limit) {
-		// TODO Auto-generated method stub
+	public List<PRODUCT_Q_VO> qaprod_search(String searchText, String searchOption, int start, int limit) {
 		  return searchDAO.qrod_search(searchText, searchOption, start, limit);
 	}
 
 	@Override
 	public int qaprod_countSearchResults(String searchText, String searchOption) {
-		// TODO Auto-generated method stub
 		 return searchDAO.qrod_countSearchResults(searchText, searchOption);
 	}
 
@@ -99,5 +98,8 @@ public class SearchServiceImpl implements SearchService {
 		// TODO Auto-generated method stub
 		return searchDAO.prod_countSearchResults(searchText, searchOption);
 	}
+
+	/*-----------------*/
+	
 
 }

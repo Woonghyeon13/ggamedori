@@ -215,21 +215,29 @@
 	        $.each(searchResults, function (index, result) {
 	            var newRow = $('<tr>');
 	
-	            newRow.append($('<td>').text(result.qa_idx));
-	            newRow.append($('<td>').append($('<a>').attr('href', 'oto_view.do?qa_idx=' + result.qa_idx).text(result.qa_title)));
-	            newRow.append($('<td>').text(result.qa_writer));
-	            newRow.append($('<td>').text(result.qa_wdate));
-	            newRow.append($('<td>').text(result.qa_yn == 1 ? '답변 완료' : '답변 처리중'));
+	            // 테이블에 행 추가
+	            newRow.append($('<td style="text-align:center;">').text(result.qa_idx));
+	            newRow.append($('<td style="text-align:center;">').append($('<a>').attr('href', 'oto_view.do?qa_idx=' + result.qa_idx).text(result.qa_title)));
+	            newRow.append($('<td style="text-align:center;">').text(result.qa_writer));
+	            newRow.append($('<td style="text-align:center;">').text(result.qa_wdate));
+	            
+	            var prodQynText = "";
+	            if (result.qa_yn === 2) {
+	              prodQynText = "답변 처리중";
+	            } else if (result.qa_yn === 1) {
+	              prodQynText = "답변 완료";
+	            }
+	            newRow.append($('<td style="text-align:center;">').text(prodQynText));
 	
-	         
 	            tableBody.append(newRow);
 	        });
 	    }
-	
+
 	    // 테이블을 보여줍니다.
 	    $('table').show();
 	}
-	</script>
+	  
+	  </script>
 	
 	  
 
@@ -281,6 +289,7 @@
 					</li>
 				</ul>
 			</div>
+					
         <div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
@@ -292,8 +301,7 @@
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
-					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의
-							후기</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의후기</a></li>
 					<!-- review_list.html -->
 					<li class="list-group-item"><a href="<c:url value='/user/modify.do' />">회원정보수정</a></li>
 					<li class="list-group-item"><a href="<c:url value='/user/withdraw.do' />">탈퇴하기</a></li>
@@ -361,13 +369,11 @@
 			  </ul>
 			</nav>
 		</div>
-            
+
 
              <c:if test="${Login.member_role == 1}">
 	 	           <button class="btn btn-dark" onclick="location.href='${pageContext.request.contextPath}/mypage/oto_write.do'" style="float:right; margin-top:20px;">문의하기</button>
 			 </c:if>  
-		         
-			    	
 				</div>	<!-- end:#one_to_one_inner -->
         	</div> <!-- end:#mypage_inner2 -->
         </div>	<!-- end:.mypage_inner -->
