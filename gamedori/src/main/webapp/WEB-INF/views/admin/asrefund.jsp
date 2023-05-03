@@ -23,7 +23,6 @@
 	<div class="container mt-4">
 		<ul class="nav justify-content-end text-black">
 			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/orderList.do' />">주문 내역</a></li>
-			<li class="nav-item"><a class="nav-link text-reset" href="<c:url value='/admin/asreturn.do' />">반품 관리</a></li>
 			<li class="nav-item"><a class="nav-link text-reset active fw-bold" href="<c:url value='/admin/asrefund.do' />">환불 관리</a></li>
 		</ul>
 	</div>
@@ -33,27 +32,39 @@
 			<table class="table table-sm">
 				<thead class="table-light">
 					<tr>
-						<th scope="col">환불신청일</th>
-						<th scope="col">주문번호</th>
-						<th scope="col">상품명</th>
-						<th scope="col">주문자</th>
-						<th scope="col">상태</th>
-						<th style="width: 120px;" scope="col">환불처리</th>
+						<th class="text-center align-middle">주문번호</th>
+						<th class="text-center align-middle">상품명</th>
+						<th class="text-center align-middle">주문자 이메일</th>
+						<th class="text-center align-middle">주문자명</th>
+						<th class="text-center align-middle">환불신청일</th>
+						<th class="text-center align-middle">처리상태</th>
+						<th class="text-center align-middle">상세보기</th>
 					</tr>
 				</thead>
 				<tbody>
+				<c:forEach var="rlist" items="${refundlist }">
 					<tr>
-						<td>2023-03-29</td>
-						<td>ere2185152</td>
-						<td>ㄴㅇㄹㅇㄴㅇ</td>
-						<td>Mark</td>
-						<td>환불접수</td>
-						<td>
-							<button type="button" class="btn btn-secondary btn-sm"
-								data-bs-toggle="modal" data-bs-target="#prodRefund">환불정보</button>
+						<td class="text-center align-middle">${rlist.order_idx }</td>
+						<td class="text-center align-middle">${rlist.prod_name }</td>
+						<td class="text-center align-middle">${rlist.member_email }</td>
+						<td class="text-center align-middle">${rlist.member_name }</td>
+						<td class="text-center align-middle">${rlist.refund_date }</td>
+					<c:if test="${rlist.refund_yn == 1 }">
+						<td class="text-center align-middle">승인</td>
+					</c:if>
+					<c:if test="${rlist.refund_yn == 2 }">
+						<td class="text-center align-middle">거절</td>
+					</c:if>
+					<c:if test="${rlist.refund_yn == 3 }">
+						<td class="text-center align-middle">대기중</td>
+					</c:if>	
+						<td class="text-center align-middle">
+							<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#prodRefund">
+								상세보기
+							</button>
 						</td>
 					</tr>
-
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -98,41 +109,7 @@
 		</div>
 
 
-		<!-- 검색폼 -->
-		<div class="container">
-			<form class="form-horizontal d-flex justify-content-center mt-3"
-				role="form">
-				<div>
-					<select class="form-select form-select-sm"
-						aria-label=".form-select-sm example">
-						<option value="1">상품명</option>
-						<option value="2">상품분류</option>
-					</select>
-				</div>
-				<div class="mx-2">
-					<input class="form-control form-control-sm" type="text"
-						placeholder="" aria-label=".form-control-sm example">
-				</div>
-				<div>
-					<button type="button" class="btn btn-outline-secondary btn-sm">검색</button>
-				</div>
-			</form>
-		</div>
-		<div class="container d-flex justify-content-center mt-3">
-			<nav aria-label="Page navigation example">
-				<ul class="pagination text-black">
-					<li class="page-item"><a class="page-link text-reset" href="#"
-						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-					</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">1</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">2</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#">3</a></li>
-					<li class="page-item"><a class="page-link text-reset" href="#"
-						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-					</a></li>
-				</ul>
-			</nav>
-		</div>
+
 	</div>
 	<!--  -->
 </main>

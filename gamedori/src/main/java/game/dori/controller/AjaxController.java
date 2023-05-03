@@ -2,14 +2,17 @@ package game.dori.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -155,4 +158,28 @@ public class AjaxController {
     public @ResponseBody void updateOrderState(HttpServletRequest request, ORDER_LIST_VO orderlistVO) {
     	AdminService.updateOrderState(orderlistVO);
     }
+    
+    //관리자 페이지 주문상세 데이터 보내주기
+//    @RequestMapping(value = "/admin/adminOrderDetail.do", method = RequestMethod.POST)
+//    @ResponseBody
+//    public List<Map<String, Object>> adminOrderDetail(@RequestParam int order_idx) {
+//    	 List<Map<String, Object>> data = new ArrayList<>();
+//    	    List<ORDER_LIST_VO> orderDetails = AdminService.getOrderDetail(order_idx);
+//    	    for (ORDER_LIST_VO orderDetail : orderDetails) {
+//    	        Map<String, Object> map = new HashMap<>();
+//    	        map.put("order_idx", orderDetail.getOrder_idx());
+//    	        map.put("prod_name", orderDetail.getProd_name());
+//    	        
+//    	        data.add(map);
+//    	    }
+//    	    return data;
+//    }
+
+    @RequestMapping(value = "/admin/adminOrderDetail.do", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ORDER_LIST_VO> adminOrderDetail(@RequestParam int order_idx, Model model) {
+        List<ORDER_LIST_VO> orderd = AdminService.getOrderDetail(order_idx);
+        return orderd;
+    }
+
 }

@@ -11,7 +11,7 @@ import game.dori.dao.OrderListDAO;
 import game.dori.dao.PageModifyDAO;
 import game.dori.dao.ProductQDAO;
 import game.dori.dao.QaDAO;
-import game.dori.dao.SearchDAO;
+import game.dori.dao.RefundDAO;
 import game.dori.dao.SearchDAO;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
@@ -19,7 +19,6 @@ import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.AD_VO;
 import game.dori.vo.CAROUSEL_VO;
 import game.dori.vo.CATEGORY_IMG_VO;
-import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
 
 @Service
@@ -42,6 +41,9 @@ public class AdminServiceImpl implements AdminService{
 
 	@Autowired
 	private SearchDAO scDAO;
+	
+	@Autowired
+	private RefundDAO refundDAO;
 	
 	// 공지사항 페이징
 	public List<NOTICE_VO> list(int limit, int start) {
@@ -149,13 +151,19 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 
-
-
-
+	@Override
+	public int updateOrderState(ORDER_LIST_VO orderlistVO) {// 주문 상태 변경
+		return orderlistDAO.updateOrderState(orderlistVO);
+	}
 
 	@Override
-	public int updateOrderState(ORDER_LIST_VO orderlistVO) {
-		return orderlistDAO.updateOrderState(orderlistVO);
+	public List<ORDER_LIST_VO> getOrderDetail(int order_idx) {
+		return orderlistDAO.getOrderDetail(order_idx);
+	}
+
+	@Override
+	public List<ORDER_LIST_VO> refundlist() {
+		return refundDAO.refundlist();
 	}
 
 }

@@ -339,6 +339,9 @@ public class AdminController {
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
+				List<ORDER_LIST_VO> refundlist = AdminService.refundlist();
+	    		model.addAttribute("refundlist", refundlist);
+				
 				return "admin/asrefund";
 			}else {
 				 rsp.setContentType("text/html; charset=utf-8");
@@ -401,6 +404,11 @@ public class AdminController {
 	            int start = (page - 1) * limit;
 				
 				List<OTO_VO> otoList = AdminService.otoList(limit, start);
+				for (OTO_VO oto : otoList) {
+					String contentWithoutTag = oto.getQa_contents().replaceAll("<[^>]+>", "");
+				    oto.setContentWithoutTag(contentWithoutTag);
+				}
+				
 				model.addAttribute("otoList", otoList);
 				return "admin/oto";
 			}
@@ -438,14 +446,20 @@ public class AdminController {
 	@RequestMapping( value = "/qaprod.do", method = RequestMethod.GET )
 	public String qaprod(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model) throws IOException{
 		
-		List<PROD_Q_LIST_VO> pqlist = AdminService.pqlist();
-		model.addAttribute("pqlist", pqlist);
-		
 		//관리자 계정 세션 제어
 		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
 		if(Login != null) {
 			int role = Login.getMember_role();
 			if(role == 2) {
+				
+				List<PROD_Q_LIST_VO> pqlist = AdminService.pqlist();
+				
+				for (PROD_Q_LIST_VO prodq : pqlist) {
+					String contentWithoutTag = prodq.getProd_q_contents().replaceAll("<[^>]+>", "");
+					prodq.setContentWithoutTag(contentWithoutTag);
+				}
+				model.addAttribute("pqlist", pqlist);
+				
 				return "admin/qaprod";
 			}
 			
@@ -621,7 +635,29 @@ public class AdminController {
 			
 	}
 	
-
+	//
+	@RequestMapping( value = "/orderdetail.do", method = RequestMethod.GET )
+	public String orderDetail(HttpSession session,HttpServletRequest req, HttpServletResponse rsp, Model model, @RequestParam(value = "page", defaultValue = "1") int page) throws IOException{
+		
+		//관리자 계정 세션 제어
+		MEMBER_VO Login = (MEMBER_VO) session.getAttribute("Login");
+		if(Login != null) {
+			int role = Login.getMember_role();
+			if(role == 2) {
+	    		
+				return "admin/orderdetail";
+			}
+		}
+		
+		rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+	    pw.append("<script>alert('관리자 계정으로 로그인해주세요.'); location.href='"
+	            + req.getContextPath() + "/';</script>");
+	    pw.flush();
+	    pw.close();
+		return null;
+		
+	}
 	
 		
 }

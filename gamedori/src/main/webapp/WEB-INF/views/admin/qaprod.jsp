@@ -100,7 +100,7 @@
 								<button type="button" class="btn btn-secondary btn-sm"
 									data-bs-toggle="modal" data-bs-target="#prodRefund"
 									onclick="sessionToModal('${pql.prod_q_idx }', '${pql.prod_q_title }', 
-									'${pql.prod_q_contents }', '${pql.member_name }', '${pql.prod_q_reply }' )">답변</button>
+									'${pql.contentWithoutTag }', '${pql.member_name }', '${pql.prod_q_reply }' )">답변</button>
 							</td>
 						</tr>
 					</c:forEach> --%>
@@ -410,6 +410,9 @@
 	        $.each(searchResults, function (index, result) {
 	        	var newRow = $('<tr>');
 
+        	  	var contentWithoutTag = result.prod_q_contents.replace(/<\/p>/gm, "\n");
+	            contentWithoutTag = contentWithoutTag.replace(/(<([^>]+)>)/gm,"");
+	        	
 	        	newRow.append($('<td class="text-center">').text(result.prod_q_idx));
 	        	newRow.append($('<td class="text-center">').text(result.prod_name));
 	        	newRow.append($('<td class="text-center">').text(result.prod_q_title));
@@ -420,7 +423,7 @@
 
 	        	// 답변 버튼 추가
 	        	var answerBtn = $('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#prodRefund">답변</button>').click(function () {
-	        	    sessionToModal(result.prod_q_idx, result.prod_q_title, result.prod_q_contents, result.member_name, result.prod_q_reply);
+	        	    sessionToModal(result.prod_q_idx, result.prod_q_title, contentWithoutTag, result.member_name, result.prod_q_reply);
 	        	});
 	        	newRow.append($('<td class="text-center">').append(answerBtn));
 
