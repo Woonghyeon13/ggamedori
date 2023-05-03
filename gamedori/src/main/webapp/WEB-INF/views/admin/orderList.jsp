@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/head.jsp" %>
 
 <script>
@@ -204,7 +205,8 @@
 						<td class="text-center align-middle">${olist.member_email }</td>
 						<td class="text-center align-middle">${olist.member_name }</td>
 						<td class="text-center align-middle">${olist.order_date }</td>
-						<td class="text-center align-middle">${olist.pay_price_real }</td>
+						<fmt:formatNumber var="payPrice" value="${olist.pay_price_real}" pattern="#,###"/>
+						<td class="text-center align-middle">${payPrice}원</td>
 						<td class="text-center align-middle">
 							<select class="form-select" onchange="updateOrderState(this,'${olist.order_idx }');">
 								<option value="1" <c:if test="${olist.order_state == 1}">selected</c:if>>주문접수</option>
@@ -477,7 +479,7 @@
     	        newRow.append($('<td class="text-center">').text(result.member_email));
     	        newRow.append($('<td class="text-center">').text(result.member_name));
     	        newRow.append($('<td class="text-center">').text(result.order_date));
-    	        newRow.append($('<td class="text-center">').text(result.orderd_price));
+    	        newRow.append($('<td class="text-center">').html(result.orderd_price.toLocaleString())+"원");
 
     	       		 newRow.append($('<td class="text-center">').append(
     	            $('<select class="form-select" onchange="updateOrderState(this, \'' + result.order_idx + '\');">')

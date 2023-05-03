@@ -107,6 +107,7 @@ public class MypageController {
 				olvo.setProd_name(pvo.getProd_name());
 				olvo.setProd_imgt(pvo.getProd_imgt());
 				olvo.setPay_price_real(payvo.getPay_price_real());
+				olvo.setOrder_idx(selectOrderList.get(i).getOrder_idx());
 				orderList5.add(olvo);
 			}
 

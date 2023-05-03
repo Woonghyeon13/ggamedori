@@ -37,7 +37,9 @@
 									<input type="hidden" id="cartIdx" value="${vo.cart_idx}">
 									<input type="hidden" id="pricePlus" value="${vo.cart_amount * vo.opt_price}">
 								</td>
-								<td class="text-center align-middle"><a href="#"><img src=></a></td>
+								<td class="text-center align-middle"><a href="#">
+		                        <img src="<c:url value='/images/prod/thumb/${vo.prod_imgt}'/>" alt="...">
+								</a></td>
 								<td class="align-middle">
 									<ul class="list-unstyled mb-0 ps-2 pe-2">
 										<li><a href="#">${vo.prod_name}</a></li>

@@ -96,7 +96,7 @@
 					<tbody>
 					<c:forEach var="optvo" items="${optlist}" varStatus="status">
 						<tr class="table-light text-center" style="border-bottom:1px solid #bdbdbd;">
-							<td><img src="./images/HOT1.jpg" style="width: 100px; height: 100px;"></td>
+							<td><img src="<c:url value='/images/prod/thumb/${optvo.prod_imgt}'/>" style="width: 100px; height: 100px;"></td>
 							<td class="pbb3">
 								<input type="hidden" id="optName${status.count}" value="${optvo.prod_name}">
 								<input type="hidden" id="ord_optIdx" name="opt_tb_idx" value="${optvo.opt_idx}">
