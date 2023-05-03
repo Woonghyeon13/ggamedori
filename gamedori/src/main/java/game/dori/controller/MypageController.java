@@ -79,9 +79,8 @@ public class MypageController {
 		 model.addAttribute("level", selectMemberLevel);
 		 
 		 //상단 적립금 
-		 int selectPointBalance =
-		 mypageService.selectPointBalanceService(memberVO.getMember_idx()); 
-		 model.addAttribute("PointBalance", selectPointBalance);
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
 		 
 		 //상단 쿠폰개수출력 
 		 int CouponCount =
@@ -156,8 +155,8 @@ public class MypageController {
 		model.addAttribute("level", selectMemberLevel);
 
 		//상단 적립금
-		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		model.addAttribute("PointBalance", selectPointBalance);
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
 			
 		//상단 쿠폰개수출력
 		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
@@ -243,8 +242,8 @@ public class MypageController {
 		model.addAttribute("level", selectMemberLevel);
 
 		//상단 적립금
-		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		model.addAttribute("PointBalance", selectPointBalance);
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
 			
 		//상단 쿠폰개수출력
 		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
@@ -403,8 +402,8 @@ public class MypageController {
 		model.addAttribute("level", selectMemberLevel);
 		
 		//상단 적립금
-		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		model.addAttribute("PointBalance", selectPointBalance);
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
 	
 		//상단 쿠폰개수출력
 		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
@@ -470,8 +469,8 @@ public class MypageController {
 		model.addAttribute("level", selectMemberLevel);
 
 		//상단 적립금
-		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		model.addAttribute("PointBalance", selectPointBalance);
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
 			
 		//상단 쿠폰개수출력
 		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
@@ -506,8 +505,8 @@ public class MypageController {
 		model.addAttribute("level", selectMemberLevel);
 
 		//상단 적립금
-		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		model.addAttribute("PointBalance", selectPointBalance);
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
 			
 		//상단 쿠폰개수출력
 		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
@@ -565,8 +564,8 @@ public class MypageController {
 		model.addAttribute("level", selectMemberLevel);
 
 		//상단 적립금
-		int selectPointBalance = mypageService.selectPointBalanceService(memberVO.getMember_idx());
-		model.addAttribute("PointBalance", selectPointBalance);
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
 			
 		//상단 쿠폰개수출력
 		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
@@ -649,8 +648,7 @@ public class MypageController {
 		String cartIdx = cart_idx;
 		String[] cartIdxSplit = cartIdx.split(",");
 		
-		
-		for( int i = 0; i < cartIdx.length(); i++) {
+		for( int i = 0; i < cartIdxSplit.length; i++) {
 			mypageService.cartDel(Integer.parseInt(cartIdxSplit[i]));
 		}
 	}
@@ -783,12 +781,14 @@ public class MypageController {
 	// 구매 포인트 사용
 	@ResponseBody
 	@RequestMapping( value = "/usePoint.do", method = RequestMethod.POST )
-	public void usePoint( int order_idx, SAVEPOINT_VO savevo ) {
+	public void usePoint( SAVEPOINT_VO savevo ) {
 		SAVEPOINT_VO amount = mypageService.selectPointInfo(savevo.getMember_tb_idx());
 		SAVEPOINT_VO resultpoint = new SAVEPOINT_VO();
+		int balance = amount.getSavept_balance();
+		int usepoint = savevo.getSavept_amount();
 		resultpoint.setMember_tb_idx(savevo.getMember_tb_idx());
-		resultpoint.setSavept_amount(savevo.getSavept_amount());
-		resultpoint.setSavept_balance(amount.getSavept_balance()-savevo.getSavept_amount());
+		resultpoint.setSavept_amount(usepoint);
+		resultpoint.setSavept_balance(balance-usepoint);
 		int result = mypageService.insertPointUse(resultpoint);
 	}
 	// 구매확정 포인트 적립
@@ -801,7 +801,6 @@ public class MypageController {
 		resultpoint.setSavept_amount(savevo.getSavept_amount());
 		resultpoint.setSavept_balance(amount.getSavept_balance()+savevo.getSavept_amount());
 		int result = mypageService.insertPoint(resultpoint);
-		System.out.println("오더번호임"+order_idx);
 		if( result > 0 ) {
 			mypageService.updateOrderCheck(savevo.getOrder_idx());
 		}

@@ -562,7 +562,22 @@ function updateSavedPoints(data) {
         		}
             });
             
+            // 포인트 삭감
+	 		var member_tb_idx = $("#ord_memIdx").val();
 
+            if( usedPoints > 0){
+            $.ajax({
+        		url : '<%=request.getContextPath()%>/mypage/usePoint.do',
+        		type : 'post',
+        		data : { member_tb_idx : member_tb_idx,
+        			savept_amount : usedPoints},
+        		traditional: true,
+        		success : function(){
+        		}
+            });
+            	
+            }
+            
             alert('결제가 완료되었습니다.'); // 이 부분을 추가합니다.
             location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
         },

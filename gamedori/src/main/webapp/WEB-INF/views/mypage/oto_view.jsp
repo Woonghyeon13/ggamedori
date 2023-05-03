@@ -21,8 +21,8 @@
                 </li>
                 <li>
                     <h5>적립금</h5>
-                    <p><c:if test="${result eq null}">0 </c:if>${result}원</p>
-                    <a href="s_money_check.html">적립금 확인 > </a>  <!--s_money2.html-->
+					<fmt:formatNumber var="savePointt" value="${savePoint}" pattern="#,###"/>
+					<p>${savePointt}원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
                 </li>
                 <li>
                     <h5>쿠폰</h5>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/head.jsp" %>
 <main>
 	<!-- 상품 정보 -------------------------------------------->
@@ -25,7 +26,8 @@
 							</div>
 							<div class="col-9 d-flex">
 								<h6>
-									<span class="fw-bold fs-5 me-1" style="color: #ee4a44;">${pvo.prod_price}</span>
+									<fmt:formatNumber var="prodPrice" value="${pvo.prod_price}" pattern="#,###"/>
+									<span class="fw-bold fs-5 me-1" style="color: #ee4a44;">${prodPrice}</span>
 								</h6>
 								<p>원</p>
 							</div>
@@ -36,7 +38,7 @@
 							</div>
 							<div class="col-9">
 								<p>
-									<span>구매금액(추가옵션 제외)의 1%</span>
+									<span>구매금액(추가옵션 제외)의 10%</span>
 								</p>
 							</div>
 						</div>

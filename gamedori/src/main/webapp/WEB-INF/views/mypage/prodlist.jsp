@@ -28,7 +28,8 @@
 					</li>
 					<li>
 						<h4>적립금</h4>
-						<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+						<fmt:formatNumber var="savePointt" value="${savePoint}" pattern="#,###"/>
+						<p>${savePointt}원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
 						<!--s_money_check.html -->
 					</li>
 					<li>
@@ -47,7 +48,7 @@
 					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
-				<ol id="ol_li" class="list-group list-group-numbered">
+				<ol id="ol_li" class="list-group">
 					<li class="list-group-item"><a href="<c:url value='/mypage/cart.do' />">장바구니</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
