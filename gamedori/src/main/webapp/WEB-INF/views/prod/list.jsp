@@ -144,20 +144,6 @@
 			        </c:forEach>
 			    </ul>
 			</div>
-       <!-- 페이징 -->
-		<div class="mt-3">
-			<nav>
-			  <ul class="pagination justify-content-center">
-			    <c:forEach var="i" begin="1" end="${totalPages}">
-			      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
-			        <a class="page-link" >
-			          ${i}
-			        </a>
-			      </li>
-			    </c:forEach>
-			  </ul>
-			</nav>
-		</div>
 
 
 	</div>
