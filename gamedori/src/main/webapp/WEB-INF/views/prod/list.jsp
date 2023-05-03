@@ -201,7 +201,6 @@
 			        </c:forEach>
 			    </ul>
 			</div>
-
        <!-- 페이징 -->
 		<div class="mt-3">
 			<nav>
@@ -219,8 +218,48 @@
             
 
 	</div>
+	
+	
 
 
+	<script>
+	function sortProducts(sort) {
+		event.preventDefault();
+		var sort = $(this).attr('id');
+	    var cate_refcode 	= '<%=request.getParameter("cate_refcode")%>'|| '';
+	    var cate_code 		= '<%=request.getParameter("cate_code")%>'	 || '';
+	    var cate_rsv 		= '<%=request.getParameter("cate_rsv")%>'	 || '';
+	    var cate_new 		= '<%=request.getParameter("cate_new")%>'	 || '';
+	    
+		$.ajax
+		({
+			url: '<%=request.getContextPath()%>/prod/list.do',
+			method: 'GET',
+			data: 
+			{	//파라미터
+				sort:sort, 
+				cate_refcode: cate_refcode, 
+		        cate_code: cate_code,
+		        cate_rsv: cate_rsv,
+		        cate_new: cate_new
+			},
+			success: function(data)
+			{
+				 console.log(data)
+				 var product_list = $(data).find('.product-list');
+	                $('.product-list').html(product_list.html());
+		             
+			},
+			error: function(xhr, status, error)
+			{
+				console.log('Error:', error);	
+			}
+			
+		});
+	});
+	
+	
+</script>
 
 
 </main>

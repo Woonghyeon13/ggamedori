@@ -90,9 +90,10 @@
 									<a href="prod_q_view.do?prod_q_idx=${vo.prod_q_idx}">${vo.prod_q_title}</a>
 									<c:choose>
 										<c:when test="${vo.prod_q_secret == 1}">
-											<img src= "<c:url value='/images/비밀글자물쇠.png'/>">
+											<img src= "<c:url value='/images/비밀글자물쇠.png'/>" style="width:20px;">
 										</c:when>
 									</c:choose>
+									${vo.prod_q_title}
 								</td>
 								<td class="wdate">${vo.prod_q_wdate}</td>
 								<td>
