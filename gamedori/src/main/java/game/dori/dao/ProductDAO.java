@@ -26,27 +26,7 @@ public class ProductDAO {
 	public List<PRODUCT_VO> list( CATEGORY_VO cvo ){
 		return sqlSession.selectList("game.dori.mapper.productMapper.prodSelectAll",cvo);
 	}
-	
-	
-	 // 상품 목록(인기순) 
-	public List<PRODUCT_VO> list_hot(CATEGORY_VO cvo){ return
-	 sqlSession.selectList("game.dori.mapper.productMapper.prodSelect_hot",cvo); }
-	 
-	 // 상품 목록(최신순) 
-	public List<PRODUCT_VO> list_new(CATEGORY_VO cvo){ return
-	 sqlSession.selectList("game.dori.mapper.productMapper.prodSelect_new",cvo); }
-	 
-	 // 상품 목록(낮은 가격순) 
-	public List<PRODUCT_VO> list_row(CATEGORY_VO cvo){ return
-	 sqlSession.selectList("game.dori.mapper.productMapper.prodSelect_row",cvo); }
-	 
-	  // 상품 목록(높은 가격순) 
-	public List<PRODUCT_VO> list_high(CATEGORY_VO cvo){ return
-	  sqlSession.selectList("game.dori.mapper.productMapper.prodSelect_high",cvo);
-	  }
-	
-	
-	
+
 	
 	
 	// 상품 목록 카운트
