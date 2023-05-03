@@ -55,67 +55,45 @@ public class ProductController {
 	// 상품 목록
 	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
 	public String list(
-			Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo,
-			HttpServletRequest request,
-			@RequestParam(required = false) String sort , 
-			@RequestParam(required = false) String cate_code,
-            @RequestParam(required = false) String cate_refcode,
-            @RequestParam(required = false) String cate_rsv,
-            @RequestParam(required = false) String cate_new
-		) {
-		
-		//정렬
-		cvo.setCate_code(cate_code);
+	        Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo,
+	        HttpServletRequest request,
+	        @RequestParam(required = false) String sort,
+	        @RequestParam(required = false) String cate_code,
+	        @RequestParam(required = false) String cate_refcode,
+	        @RequestParam(required = false) String cate_rsv,
+	        @RequestParam(required = false) String cate_new
+	    ) {
+
+	    cvo.setCate_code(cate_code);
 	    cvo.setCate_refcode(cate_refcode);
 	    cvo.setCate_rsv(cate_rsv);
 	    cvo.setCate_new(cate_new);
-
+	    
+	    // 추가된 부분: sort 값을 CATEGORY_VO 객체에 설정
+	    cvo.setSort(sort);
+	    
 	    List<PRODUCT_VO> plist = productService.list(cvo);
 	    
-		
-		
-		model.addAttribute("plist",plist);
+	    model.addAttribute("plist", plist);
 
-		
-		System.out.println(cate_code);
-		System.out.println(cate_rsv);
-		CATEGORY_VO categoryVO = new CATEGORY_VO();
-	        categoryVO.setCate_code(cate_code);
-	        categoryVO.setCate_refcode(cate_refcode);
-	        categoryVO.setCate_rsv(cate_rsv);
-	        categoryVO.setSort(sort);
-	        
-	  
-	    // 상품 리스트 조회
-	      List<PRODUCT_VO> productList = productService.list(categoryVO);
-
-	    model.addAttribute("plist", productList);
-
-	    // 카테고리 이미지 조회
 	    Map<String, String> cateImgs = adminService.selectCategoryImages();
 	    model.addAttribute("cateImgs", cateImgs);
 
-	    // 상품 개수 조회
 	    int listCnt = productService.listCnt(cvo);
 	    model.addAttribute("listCnt", listCnt);
-	    
 	    System.out.println(listCnt);
-	    System.out.println(cate_refcode);
-	    System.out.println(cate_code);
-	    System.out.println(cate_rsv);
-	    System.out.println(cate_new);
 
 	    return "prod/list";
 	}
 	
 	//검색 결과페이지
 	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
-	public String search(@RequestParam("searchOption") String searchOption,
-	                     @RequestParam("searchText") String searchText,
+	public String search(@RequestParam("searchhOption") String searchhOption,
+	                     @RequestParam("searchhText") String searchhText,
 	                     Model model) {
 		
-		 model.addAttribute("searchOption", searchOption);
-		 model.addAttribute("searchText", searchText);
+		 model.addAttribute("searchOption", searchhOption);
+		 model.addAttribute("searchText", searchhText);
 	    
 	    return "prod/search-result"; // 결과 페이지 뷰 이름
 	}
