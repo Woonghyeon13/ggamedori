@@ -65,10 +65,6 @@ public class SearchController {
 	        	searchResults = searchService.prod_search(searchText, searchOption, start, limit);
 		        totalResults = searchService.prod_countSearchResults(searchText, searchOption);
 	        	break;
-	        case "prodq":
-	        	searchResults = searchService.prodq_search(searchText, searchOption, start, limit);
-		        totalResults = searchService.prodq_countSearchResults(searchText, searchOption);
-		        break;
 	        case "orderlist":
 	        	searchResults = searchService.orderlist_search(searchText, searchOption, start, limit);
 		         totalResults = searchService.orderlist_countSearchResults(searchText, searchOption);

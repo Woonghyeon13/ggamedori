@@ -91,16 +91,5 @@ public class SearchServiceImpl implements SearchService {
 
 	/*-----------------*/
 	
-	@Override
-	public List<PRODUCT_Q_VO> prodq_search(String searchText, String searchOption, int start, int limit) {
-		// TODO Auto-generated method stub
-		return searchDAO.prodq_search(searchText, searchOption, start, limit);
-	}
-
-	@Override
-	public int prodq_countSearchResults(String searchText, String searchOption) {
-		// TODO Auto-generated method stub
-		return searchDAO.prodq_countSearchResults(searchText, searchOption);
-	}
 
 }

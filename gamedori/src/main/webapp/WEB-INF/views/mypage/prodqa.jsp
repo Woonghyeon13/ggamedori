@@ -117,21 +117,21 @@
 			    <tr>                        
 			        <td class="d-flex align-items-center justify-content-between">
 			           <form class="d-flex justify-content-center align-items-center" role="form">
-			        <div class="me-2">
-			            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
-			                <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
-			                <option value="name" selected>제목으로 검색</option>
-			                <option value="content">내용으로 검색</option>
-			                <option value="ncontent">제목+내용으로검색</option>
-			            </select>
-			        </div>
-			        <div class="me-2">
-			            <input class="form-control form-control-sm" type="text" placeholder="제목"  name="searchText"aria-label=".form-control-sm example">
-			        </div>
-			        <div>
-			            <button type="submit" class="btn btn-dark btn_search">검색</button>
-			        </div>
-			    </form>
+					        <div class="me-2">
+					            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
+					                <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
+					                <option value="name" selected>제목으로 검색</option>
+					                <option value="content">내용으로 검색</option>
+					                <option value="ncontent">제목+내용으로검색</option>
+					            </select>
+					        </div>
+					        <div class="me-2">
+					            <input class="form-control form-control-sm" type="text" placeholder="제목"  name="searchText"aria-label=".form-control-sm example">
+					        </div>
+					        <div>
+					            <button type="submit" class="btn btn-dark btn_search">검색</button>
+					        </div>
+					    </form>
 		             </td>
 				</tr>
 	
@@ -360,7 +360,7 @@
 	            }
 	            newRow.append($('<td style="text-align:center;">').append($('<a>').attr('href', 'prod_q_view.do?prod_q_idx=' + result.prod_q_idx).text(productName)));	  
 	            
-	            var img = document.createElement('img');
+	            var img = document.createElement('img'); 
 	            img.src = "c:url value=/images/비밀글자물쇠.png";
 
 	            var anchor = $('<a>').attr('href', 'prod_q_view.do?prod_q_idx=' + result.prod_q_idx).text(result.prod_q_title);
@@ -397,18 +397,18 @@
 							<!-- 페이징 -->
 			
 		
-			    	</div> <!-- end:.container -->
-		 <nav aria-label="Page navigation example" style="margin-top:20px;">
-		    <ul class="pagination justify-content-center">
-		      <c:forEach var="i" begin="1" end="${totalPages}">
-		        <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
-		          <a class="page-link">
-		            ${i}
-		          </a>
-		        </li>
-		      </c:forEach>
-		    </ul>
-		  </nav>
+			    </div> <!-- end:.container -->
+				 <nav aria-label="Page navigation example" style="margin-top:20px;">
+				    <ul class="pagination justify-content-center">
+				      <c:forEach var="i" begin="1" end="${totalPages}">
+				        <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+				          <a class="page-link">
+				            ${i}
+				          </a>
+				        </li>
+				      </c:forEach>
+				    </ul>
+				  </nav>
 			</div>	<!-- end:#enquiry_inner -->
 		</div>	<!-- end:#mypage_inner2 -->
 		

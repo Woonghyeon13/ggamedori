@@ -26,14 +26,6 @@ public interface SearchService {
     List<PRODUCT_Q_VO> qaprod_search(String searchText, String searchOption, int start, int limit);
     
     int qaprod_countSearchResults(String searchText, String searchOption);
-    
-    /*------*/
-    
-    List<PRODUCT_Q_VO> prodq_search(String searchText, String searchOption, int start, int limit);
-    
-    int prodq_countSearchResults(String searchText, String searchOption);
-    
-    /*------*/
 
     List<PRODUCT_VO> prod_search(String searchText, String searchOption, int start, int limit);
 
