@@ -54,9 +54,20 @@ public class ProductController {
 	
 	// 상품 목록
 	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
-	public String list(Model model, CATEGORY_VO cvo, @RequestParam(required=false) String sort) {
+	public String list(
+			Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo,
+			HttpServletRequest request,
+			@RequestParam(required = false) String sort , 
+			@RequestParam(required = false) String cate_code,
+            @RequestParam(required = false) String cate_refcode,
+            @RequestParam(required = false) String cate_rsv,
+            @RequestParam(required = false) String cate_new
+		) {
 	
-		
+		cvo.setCate_code(cate_code);
+	    cvo.setCate_refcode(cate_refcode);
+	    cvo.setCate_rsv(cate_rsv);
+	    cvo.setCate_new(cate_new);
 		List<PRODUCT_VO> plist = productService.list(cvo);
 
 		if(sort != null) {
