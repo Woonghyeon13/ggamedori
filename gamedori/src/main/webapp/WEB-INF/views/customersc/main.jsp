@@ -303,7 +303,7 @@
 		<!-- 페이징 -->
 			
 		
-	</div>
+	
 		 <nav aria-label="Page navigation example" style="margin-top:20px;">
 		    <ul class="pagination justify-content-center">
 		      <c:forEach var="i" begin="1" end="${totalPages}">
@@ -315,6 +315,7 @@
 		      </c:forEach>
 		    </ul>
 		  </nav>
+		 </div>
 <!---------customer 끝-------------------------------------------------------------->
 
 

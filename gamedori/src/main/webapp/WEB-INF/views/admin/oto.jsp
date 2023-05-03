@@ -76,7 +76,7 @@
 						</tr>
 					</thead>
 					  <tbody id = "table-body" >
-					<c:forEach var="otol" items="${otoList }">
+					<%-- <c:forEach var="otol" items="${otoList }">
 						<tr>
 							<td class="text-center align-middle">${otol.qa_idx }</td>
 							<td class="text-center align-middle">${otol.qa_title }</td>
@@ -95,7 +95,7 @@
 									 '${otol.contentWithoutTag }', '${otol.member_name }', '${otol.qa_reply }')">답변</button>
 							</td>
 						</tr>
-					</c:forEach>
+					</c:forEach> --%>
 					</tbody>
 				</table>
 		</div>
@@ -179,8 +179,7 @@
 		            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
 		                <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
 		                <option value="name" selected>회원명으로 검색</option>
-		                <option value="title">제목으로 검색</option>
-		                <option value="content">내용으로 검색</option>
+		                <option value="title" selected>제목으로 검색</option>
 		            </select>
 		        </div>
 		        <div class="me-2">
@@ -408,7 +407,7 @@
 	            
 	            newRow.append($('<td class="text-center">').text(result.qa_idx));
 	            newRow.append($('<td class="text-center">').text(result.qa_title));
-	            newRow.append($('<td class="text-center">').text(result.member_name));
+	            newRow.append($('<td class="text-center">').text(result.qa_writer));
 	            newRow.append($('<td class="text-center">').text(result.qa_wdate));
 	            if (result.qa_yn === 1){
 	                newRow.append($('<td class="text-center">').text('답변 완료'));

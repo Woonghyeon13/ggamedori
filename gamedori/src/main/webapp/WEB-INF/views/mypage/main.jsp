@@ -126,7 +126,7 @@
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
-										<th scope="col">상품 정보</th>
+										<th scope="col">상품 명</th>
 										<th scope="col">문의 제목</th>
 										<th scope="col">주문 번호</th>
 										<th scope="col">작성 일자</th>
@@ -134,6 +134,7 @@
 									</tr>
 								</thead>
 								<tbody>
+								
 								<c:forEach items="${selectQAList}" var="vo" varStatus="status">
 									<c:if test="${status.index < 4}">
 										<tr>
@@ -148,7 +149,7 @@
 												</c:choose>
 											</td>
 											<td>${vo.product_tb_idx}</td>	
-											<td>${vo.prod_q_wdate}</td>
+											<td class="wdate">${vo.prod_q_wdate}</td>
 										<td>
 										<c:choose>
 											<c:when test="${vo.prod_q_yn == 1}">
@@ -162,6 +163,7 @@
 										</tr>
 									</c:if>
 								</c:forEach>
+								
 								</tbody>
 							</table>
 							<p id="breakdown1">

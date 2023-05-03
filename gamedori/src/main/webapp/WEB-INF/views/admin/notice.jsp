@@ -56,7 +56,7 @@
 						</tr>
 					</thead>
 					<tbody id="table-body">
-						<c:forEach var="noticeVO" items="${notice}">
+						<%-- <c:forEach var="noticeVO" items="${notice}">
 					    <tr>
 					      <td>${noticeVO.notice_idx}</td>
 					      <td><a href="view.do?notice_idx=${noticeVO.notice_idx}">${noticeVO.notice_title}</a></td>
@@ -70,7 +70,7 @@
 							 <button class="btn btn-secondary btn-sm" onclick="deleteNotice(${noticeVO.notice_idx})">삭제</button>
 						</td>
 						 </tr>
-		 			 </c:forEach>
+		 			 </c:forEach> --%>
 					</tbody>
 				</table>
 		</div>
@@ -291,7 +291,6 @@
 	        }
 	    });
 	}
-	
 	function updatePagination(totalPages, searchText, searchOption, currentPage) {
 	    var pagesToShow = 5; // 한 번에 표시할 페이지 번호의 개수를 설정합니다.
 	    var pagination = $('.pagination');
@@ -393,23 +392,24 @@
 	            var newRow = $('<tr>');
 	
 	            // 테이블에 행 추가
-	            newRow.append($('<td style="text-align:center;">').text(result.notice_idx));
-	            newRow.append($('<td style="text-align:center;">').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
-	            newRow.append($('<td style="text-align:center;">').text(result.notice_writer));
-	            newRow.append($('<td style="text-align:center;">').text(result.notice_hit));
-	            newRow.append($('<td style="text-align:center;">').text(result.notice_wdate));       	
-           	newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr({ 'type': 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#noticeModify' }).text('수정').click(function () { prepareModify(result.notice_idx); })));
-            newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr('onclick', 'deleteNotice(' + result.notice_idx + ')').text('삭제')));
+	            newRow.append($('<td>').text(result.notice_idx));
+	            newRow.append($('<td>').append($('<a>').attr('href', 'view.do?notice_idx=' + result.notice_idx).text(result.notice_title)));
+	            newRow.append($('<td>').text(result.notice_writer));
+	            newRow.append($('<td>').text(result.notice_hit));
+	            newRow.append($('<td>').text(result.notice_wdate));       	
+	        	newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr({ 'type': 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#noticeModify' }).text('수정').click(function () { prepareModify(result.notice_idx); })));
+	            newRow.append($('<td>').append($('<button>').addClass('btn btn-secondary btn-sm').attr('onclick', 'deleteNotice(' + result.notice_idx + ')').text('삭제')));
 
-            tableBody.append(newRow);
-        });
-    }
-
-    // 테이블을 보여줍니다.
-    $('table').show();
-}
-  
-	  </script>	
+	
+	            tableBody.append(newRow);
+	        });
+	    }
+	
+	    // 테이블을 보여줍니다.
+	    $('table').show();
+	}
+	  
+	</script>	
 			
 	
 		<!-- 페이징 -->

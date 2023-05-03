@@ -26,6 +26,7 @@ import game.dori.service.ProductService;
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.PRODOPT_VO;
 import game.dori.vo.ADDRESS_VO;
+import game.dori.vo.CATEGORY_IMG_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
@@ -49,65 +50,58 @@ public class ProductController {
 	@Autowired
 	private AdminService adminService;
 	
-//	// 상품 목록
-//	@RequestMapping( value = "/list.do", method = RequestMethod.GET )
-//	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo ) {
-//		
-//		List<PRODUCT_VO> plist = productService.list(cvo);
-//		model.addAttribute("plist",plist);
-//		
-//		Map<String, String> cateImgs = adminService.selectCategoryImages();
-//		model.addAttribute("cateImgs", cateImgs);
-//		
-//		int listCnt = productService.listCnt(cvo);
-//		model.addAttribute("listCnt",listCnt);
-//		System.out.println(listCnt);
-//	
-//		return "prod/list";
-//	}
+
 	
 	
 	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
-	public String list(Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, @RequestParam(required=false) String sort) {
-	
-		
-		List<PRODUCT_VO> plist = productService.list(cvo);
-
-		if(sort != null) {
-	    switch (sort) { 
+	public String list(
+	        Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo,
+	        HttpServletRequest request,
+	        @RequestParam(required = false, defaultValue = "default") String sort , 
+	        @RequestParam(required = false) String cate_code,
+	        @RequestParam(required = false) String cate_refcode,
+	        @RequestParam(required = false) String cate_rsv,
+	        @RequestParam(required = false) String cate_new
+	    ) {
 	    
-	        case "hot":
-	            plist = productService.list_hot(cvo);
-	            break;
-	        case "new":
-	            plist = productService.list_new(cvo);
-	            break;
-	        case "row":
-	            plist = productService.list_row(cvo);
-	            break;
-	        case "high":
-	            plist = productService.list_high(cvo);
-	            break;
-	        default:
-	            plist = productService.list(cvo);
-	            break;
-	    }
-		}
-	    	    
-		model.addAttribute("plist",plist);
 		
-		Map<String, String> cateImgs = adminService.selectCategoryImages();
-		model.addAttribute("cateImgs", cateImgs);
+		System.out.println(cate_code);
+		System.out.println(cate_rsv);
+		CATEGORY_VO categoryVO = new CATEGORY_VO();
+	        categoryVO.setCate_code(cate_code);
+	        categoryVO.setCate_refcode(cate_refcode);
+	        categoryVO.setCate_rsv(cate_rsv);
+	        categoryVO.setSort(sort);
+	        
+	  
+	    // 상품 리스트 조회
+	      List<PRODUCT_VO> productList = productService.list(categoryVO);
 
-	    
+	    model.addAttribute("plist", productList);
+
+	    // 카테고리 이미지 조회
+	    Map<String, String> cateImgs = adminService.selectCategoryImages();
+	    model.addAttribute("cateImgs", cateImgs);
+
+	    // 상품 개수 조회
 	    int listCnt = productService.listCnt(cvo);
 	    model.addAttribute("listCnt", listCnt);
 	    System.out.println(listCnt);
-	    
+
 	    return "prod/list";
 	}
 	
-	
+	//검색 결과페이지
+	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+	public String search(@RequestParam("searchOption") String searchOption,
+	                     @RequestParam("searchText") String searchText,
+	                     Model model) {
+		
+		 model.addAttribute("searchOption", searchOption);
+		 model.addAttribute("searchText", searchText);
+	    
+	    return "prod/search-result"; // 결과 페이지 뷰 이름
+	}
 
 	// 상품 상세
 	@RequestMapping( value = "/detail.do", method = RequestMethod.GET )
@@ -228,7 +222,8 @@ public class ProductController {
 		pw.flush();
 	}
 	
-	// 상품 문의사항 비밀글
+	
+	
 	
 	/*-----------------------------------------------------------------------*/
 	

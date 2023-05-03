@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
+import game.dori.vo.PRODUCT_VO;
 
 @Repository
 public class ProductQDAO {
@@ -24,10 +25,10 @@ public class ProductQDAO {
 		return sqlSession.selectList("game.dori.mapper.productQMapper.selectQAList", member_idx); //매개변수릉통해 인자로전달  쿼리에서사용
 	}
 	
-//	// 마이페이지 상품 문의사항 리스트 역순으로 출력
-//	public List<PRODUCT_Q_VO> selectQAListD(int member_idx){
-//		return sqlSession.selectList("game.dori.mapper.productQMapper.prod_selectD", member_idx);
-//	}
+	// 마이페이지 상품 문의사항 리스트 역순으로 출력
+	public List<PRODUCT_Q_VO> selectQAListD(int member_idx){
+		return sqlSession.selectList("game.dori.mapper.productQMapper.prod_selectD", member_idx);
+	}
 	
 	public List<PRODUCT_Q_VO> prod_listD(int prod_idx){
 		return sqlSession.selectList("game.dori.mapper.productQMapper.prod_selectD", prod_idx);
@@ -98,20 +99,7 @@ public class ProductQDAO {
 	    return sqlSession.selectList("game.dori.mapper.productQMapper.prod_search", params);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	// 상품 문의사항 상세보기
 	public PRODUCT_Q_VO prod_select(int prod_q_idx) {
 		return sqlSession.selectOne("game.dori.mapper.productQMapper.prod_select", prod_q_idx);
