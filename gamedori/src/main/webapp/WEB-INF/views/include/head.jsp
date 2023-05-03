@@ -5,45 +5,7 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>겜도리</title>
-	
-	<!--파비콘-->
-	<link href="<c:url value='/resources/images/f.png'/>" rel="shortcut icon">
-	
-	<!-- 스타일 시트 연결 -->
-	<link rel="stylesheet" href="<c:url value='/resources/css/reset.css'/>" >
-	<link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>" >
-	
-	<!-- 부트스트랩 -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-	
-	<!-- 폰트 -->
-	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-	
-	<!--jquery-->
-	<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-	<!--xeicon-->
-	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-	
-	<!--자바스크립트-->
-	<script src="<c:url value='/resources/js/script.js'/>"></script>
-	
-	<!-- CKEditor -->
-	<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-	<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/translations/ko.js"></script>
-	
-
-</head>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -95,8 +57,8 @@
 		
 				 <form class="d-flex justify-content-center align-items-center" action="<c:url value='/prod/search.do'/>" method="get" role="form" id="search-form">
 				    <div class="me-2">
-				        <input type="hidden" name="searchOption" value="name">
-				        <input class="form-control form-control-sm" type="text" placeholder="제목" name="searchText" aria-label=".form-control-sm example" onkeyup="sanitizeInput(this)">
+				        <input type="hidden" name="searchhOption" value="name">
+				        <input class="form-control form-control-sm" type="text" placeholder="제목" name="searchhText" aria-label=".form-control-sm example" onkeyup="sanitizeInput(this)">
 				    </div>
 				    <button type="submit" style="display: none;"></button> 
 				</form>

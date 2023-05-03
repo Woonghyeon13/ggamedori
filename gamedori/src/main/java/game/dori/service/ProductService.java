@@ -24,15 +24,20 @@ public interface ProductService {
 	// 상품목록
 	List<PRODUCT_VO> list(CATEGORY_VO categoryVO);
 
-	/*
-	 * // 상품목록 인기순 public List<PRODUCT_VO> list_hot(CATEGORY_VO cvo);
-	 * 
-	 * // 상품목록 최신순 public List<PRODUCT_VO> list_new(CATEGORY_VO cvo);
-	 * 
-	 * // 상품목록 낮은가격순 public List<PRODUCT_VO> list_row(CATEGORY_VO cvo);
-	 * 
-	 * // 상품목록 높은가격순 public List<PRODUCT_VO> list_high(CATEGORY_VO cvo);
-	 */
+
+	 // 상품목록 인기순 
+	 public List<PRODUCT_VO> list_hot(CATEGORY_VO cvo);
+	 
+	  //상품목록 최신순 
+	 public List<PRODUCT_VO> list_new(CATEGORY_VO cvo);
+	
+	  //상품목록 낮은가격순 
+	 public List<PRODUCT_VO> list_row(CATEGORY_VO cvo);
+	
+	 
+	 // 상품목록 높은가격순 
+	 public List<PRODUCT_VO> list_high(CATEGORY_VO cvo);
+	
 	// 상품목록 카운트
 	public int listCnt( CATEGORY_VO cvo );
 	
