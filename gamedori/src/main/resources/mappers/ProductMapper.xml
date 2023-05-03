@@ -12,27 +12,41 @@
 		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_rdate}, #{prod_reserv}, #{prod_imgt}, #{prod_imgm}, #{prod_imgd}, #{prod_qtymin}, #{prod_qtymax});
 	</insert>
 	
-<!-- 상품 리스트 -->
+	<!--  상품 리스트 -->
 <select id="prodSelectAll" resultType="productVO" parameterType="categoryVO">
-		SELECT * FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
-		<choose>
-			<when test="cate_refcode != null">
-				and cate_refcode = #{cate_refcode} order by p.prod_idx desc
-			</when>
-			<when test='cate_rsv != null'>
-				and prod_reserv = #{cate_rsv} order by p.prod_idx desc
-			</when>
-			<when test='cate_refcode == null and cate_code != null'>
-				and category_tb_code = #{cate_code} order by p.prod_idx desc
-			</when>
-			<when test= 'cate_new != null'>
-				order by p.prod_idx desc limit 50
-			</when>
-			<otherwise>
-				order by p.prod_idx desc
-			</otherwise>
-		</choose>
-	</select>
+    SELECT * FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
+    <choose>
+        <when test="cate_refcode != null">
+            and cate_refcode = #{cate_refcode}
+        </when>
+        <when test='cate_rsv != null and cate_rsv != "1"'>
+            and prod_reserv = #{cate_rsv}
+        </when>
+        <when test='cate_refcode == null and cate_code != null'>
+            and category_tb_code = #{cate_code}
+        </when>
+    </choose>
+    <choose>
+        <when test="sort == 'hot'">
+            ORDER BY PROD_HIT DESC
+        </when>
+        <when test="sort == 'new'">
+            ORDER BY PROD_RDATE DESC
+        </when>
+        <when test="sort == 'low'">
+            ORDER BY PROD_PRICE ASC
+        </when>
+        <when test="sort == 'high'">
+            ORDER BY PROD_PRICE DESC
+        </when>
+        <otherwise>
+            ORDER BY p.prod_idx DESC
+        </otherwise>
+    </choose>
+    <if test="cate_new != null and cate_new != '1'">
+        LIMIT 20
+    </if>
+</select>
 
 
 	<!-- 상품리스트 카운트 -->

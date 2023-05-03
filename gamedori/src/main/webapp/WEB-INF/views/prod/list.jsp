@@ -110,13 +110,17 @@
 					카테고리에 총 ${listCnt}개의 상품이있습니다.
 				</p>
 				<ul class="col-6 d-flex justify-content-end product_sort">
-					<li><a href="#" data-sort="high" id="tag">높은가격순</a></li>
-					<li><a href="#" data-sort="row" id="tag">낮은가격순</a></li>
-					<li><a href="#" data-sort="hot" id="tag">인기상품</a></li>
-					<li><a href="#" data-sort="new" id="tag">최근순</a></li>
+				    <li><a href="#" class="sort-option" data-sort="high" id="tag">높은가격순</a></li>
+				    <li><a href="#" class="sort-option" data-sort="low" id="tag">낮은가격순</a></li>
+				    <li><a href="#" class="sort-option" data-sort="hot" id="tag">인기상품</a></li>
+				    <li><a href="#" class="sort-option" data-sort="new" id="tag">최근순</a></li>
 				</ul>
 			</div>
 		</div>
+		<input type="hidden" id="cate_refcode" value="${param.cate_refcode}">
+		<input type="hidden" id="cate_code" value="${param.cate_code}">
+		<input type="hidden" id="cate_new" value="${param.cate_new}">
+		<input type="hidden" id="cate_rsv" value="${param.cate_rsv}">
         
 		<div class="mt-5">
 			 <ul class="d-flex flex-wrap product-list" style="padding: 0;">
@@ -145,23 +149,23 @@
 
 <script>
 
-function changeSort(event, sort, cateRefCode, cateCode) {
+function changeSort(event, sort, cateRefCode, cateCode, cateNew, cateRsv) {
     event.preventDefault();
 
     var contextPath = '<%= request.getContextPath() %>';
     var url = contextPath + '/prod/list.do?sort=' + sort;
     
-    // cateRefCode와 cateCode가 존재한다면 URL에 추가
-    if (cateRefCode) {
+    // cateRefCode와 cateCode가 존재하고 값이 null이 아니라면 URL에 추가
+    if (cateRefCode && cateRefCode !== 'null') {
         url += '&cate_refcode=' + cateRefCode;
     }
-    if (cateCode) {
+    if (cateCode && cateCode !== 'null') {
         url += '&cate_code=' + cateCode;
     }
-    if (cateNew) {
+    if (cateNew && cateNew === '1') {
         url += '&cate_new=' + cateNew;
     }
-    if (cateRsv) {
+    if (cateRsv && cateRsv === '1') {
         url += '&cate_rsv=' + cateRsv;
     }
 
@@ -178,17 +182,21 @@ function changeSort(event, sort, cateRefCode, cateCode) {
     });
 }
 
-$('.product_sort a').on('click', function (event) {
+$('.sort-option').on('click', function (event) {
+    event.preventDefault();
     var sort = $(this).data('sort');
-    var cateRefCode = '<%= request.getParameter("cate_refcode") %>';
-    var cateCode = '<%= request.getParameter("cate_code") %>';
-    var cateNew = '<%= request.getParameter("cate_new") %>';
-    var cateRsv = '<%= request.getParameter("cate_rsv") %>';
+    
+    // Get the cate_refcode and cate_code from the page
+    var cateRefCode = $('#cate_refcode').val();
+    var cateCode = $('#cate_code').val();
+    var cateNew = $('#cate_new').val();
+    var cateRsv = $('#cate_rsv').val();
+    
     changeSort(event, sort, cateRefCode, cateCode, cateNew, cateRsv);
 });
+
 	
-	
-	
+
 </script>
 
 </main>
