@@ -68,7 +68,7 @@
 					</tr>
 				</thead>
 				<tbody id = "table-body" >
-				<c:forEach var="olist" items="${orderList }">
+				<%-- <c:forEach var="olist" items="${orderList }">
 					<tr>
 						<td class="text-center">${olist.order_idx }</td>
 						<td class="text-center">${olist.member_email }</td>
@@ -90,7 +90,7 @@
 								data-bs-toggle="modal" data-bs-target="#orderdetail">상세보기</button>
 						</td>
 					</tr>
-				</c:forEach>
+				</c:forEach> --%>
 				</tbody>
 			</table>
 		</div>
@@ -223,7 +223,7 @@
 	        </div>
 	    </form>
 	</div>
-<%-- <script>
+ <script>
 	var originalTableData = [];
 	
 	
@@ -432,25 +432,30 @@
         tableBody.append(noResultsRow);
     	}else {
 	        // 검색 결과가 있는 경우
-	        $.each(searchResults, function (index, result) {
-	            var newRow = $('<tr>');
-	
-	            // 테이블에 행 추가
-	            newRow.append($('<td class="text-center">').text(result.order_idx));
-            newRow.append($('<td class="text-center">').text('주문정보')); // 주문정보 처리 방법을 알려주시면 수정하겠습니다.
-            newRow.append($('<td class="text-center">').text(result.member_email));
-            newRow.append($('<td class="text-center">').text(result.member_name));
-            newRow.append($('<td class="text-center">').text(result.order_date));
-            newRow.append($('<td class="text-center">').text('주문금액')); // 주문금액 처리 방법을 알려주시면 수정하겠습니다.
-    
-            const orderState = getOrderState(result.order_state);
-            newRow.append($('<td class="text-center">').text(orderState));
-    
-            newRow.append($('<td class="text-center">').append($('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#prodRefund">상세보기</button>')));
-    	
-	
-	            tableBody.append(newRow);
-	        });
+    		$.each(searchResults, function (index, result) {
+    	        var newRow = $('<tr>');
+
+    	        // 테이블에 행 추가
+    	        newRow.append($('<td class="text-center">').text(result.order_idx));
+    	        newRow.append($('<td class="text-center">').text(result.member_email));
+    	        newRow.append($('<td class="text-center">').text(result.member_name));
+    	        newRow.append($('<td class="text-center">').text(result.order_date));
+    	        newRow.append($('<td class="text-center">').text(result.orderd_price));
+
+    	       		 newRow.append($('<td class="text-center">').append(
+    	            $('<select class="form-select" onchange="updateOrderState(this, \'' + result.order_idx + '\');">')
+    	            .append($('<option value="1" ' + (result.order_state == 1 ? 'selected' : '') + '>주문접수</option>'))
+    	            .append($('<option value="2" ' + (result.order_state == 2 ? 'selected' : '') + '>결제완료</option>'))
+    	            .append($('<option value="3" ' + (result.order_state == 3 ? 'selected' : '') + '>상품 준비중</option>'))
+    	            .append($('<option value="4" ' + (result.order_state == 4 ? 'selected' : '') + '>발송 준비중</option>'))
+    	            .append($('<option value="5" ' + (result.order_state == 5 ? 'selected' : '') + '>발송 완료</option>'))
+    	            .append($('<option value="6" ' + (result.order_state == 6 ? 'selected' : '') + '>주문 취소</option>'))
+    	        ));
+
+    	        newRow.append($('<td class="text-center">').append($('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#orderdetail">상세보기</button>')));
+
+    	        $('#table-body').append(newRow);
+    	    });
 	    }
 	
 	    // 테이블을 보여줍니다.
@@ -475,7 +480,7 @@
 		    </ul>
 		  </nav>
 	</div>
-	 --%>
+
 </main>
 
 

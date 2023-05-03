@@ -81,12 +81,22 @@ public class SearchServiceImpl implements SearchService {
 		return searchDAO.orderlist_search(searchText, searchOption, start, limit);
 	}
 
-	
-
 	@Override
 	public int orderlist_countSearchResults(String searchText, String searchOption) {
 		// TODO Auto-generated method stub
-		return searchDAO.oto_countSearchResults(searchText, searchOption);
+		return searchDAO.orderlist_countSearchResults(searchText, searchOption);
+	}
+
+	@Override
+	public List<PRODUCT_VO> prodlistsearch_search(String searchText, String searchOption, int start, int limit) {
+
+		return searchDAO.prodlistsearch_search(searchText, searchOption, start, limit);
+	}
+
+	@Override
+	public int prodlistsearch_countSearchResults(String searchText, String searchOption) {
+		// TODO Auto-generated method stub
+		return searchDAO.prod_countSearchResults(searchText, searchOption);
 	}
 
 	/*-----------------*/

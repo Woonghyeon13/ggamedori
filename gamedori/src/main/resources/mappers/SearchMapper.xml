@@ -55,25 +55,17 @@
 	
 	<!-- 1 : 1 문의사항 페이징 처리를 위한 QA_TB -->
 	<select id="oto_countAll" resultType="int">
-		SELECT COUNT(*) FROM 
-				qa_tb q,
-				member_tb m
-			where
-				q.member_tb_idx = m.member_idx 
+		SELECT COUNT(*) FROM QA_TB
 	</select>
 	
 	<!-- 1 : 1 문의사항 글 검색 -->
 	<select id="oto_search" resultType="qaVO" parameterType="map">
-		SELECT * FROM
-					qa_tb q,
-					member_tb m
-				where
-					q.member_tb_idx = m.member_idx 
+		SELECT * FROM QA_TB
 		<where>
 		  <choose>
 		    <when test="searchOption == 'name'">
 		      <if test="searchText != null and searchText != ''">
-		        and member_name like CONCAT('%', #{searchText}, '%')
+		        and QA_WRITER like CONCAT('%', #{searchText}, '%')
 		      </if>
 		    </when>
 			<when test="searchOption == 'title'">
@@ -81,15 +73,9 @@
 			    AND qa_title LIKE CONCAT('%', #{searchText}, '%')
 			  </if>
 			</when>
-			<when test="searchOption == 'content'">
-			  <if test="searchText != null and searchText != ''">
-			    AND qa_contents LIKE CONCAT('%', #{searchText}, '%')
-			  </if>
-			</when>
+		
 		    <otherwise>
-		      <if test="searchText != null and searchText != ''">
-		        AND (member_name LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
-		      </if>
+		      
 		    </otherwise>
 		  </choose>
 		</where>
@@ -100,35 +86,21 @@
 	
 	<!--  1 : 1 문의사항 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
 	<select id="oto_countSearchResults" resultType="int" parameterType="map">
-		 SELECT COUNT(*) FROM
-			 			qa_tb q,
-						member_tb m
-					where
-						q.member_tb_idx = m.member_idx 
-		 <where>
-		   <choose>
-		     <when test="searchOption == 'name'">
-		       <if test="searchText != null and searchText != ''">
-		         member_name like CONCAT('%', #{searchText}, '%')
-		       </if>
-		     </when>
-		     <when test="searchOption == 'title'">
-			  <if test="searchText != null and searchText != ''">
-			    qa_title LIKE CONCAT('%', #{searchText}, '%')
-			  </if>
-			 </when>
-		     <when test="searchOption == 'content'">
-		       <if test="searchText != null and searchText != ''">
-		         qa_contents LIKE CONCAT('%', #{searchText}, '%')
-		       </if>
-		     </when>
-		     <otherwise>
-		       <if test="searchText != null and searchText != ''">
-		         (member_name LIKE CONCAT('%', #{searchText}, '%') OR qa_title LIKE CONCAT('%', #{searchText}, '%') OR qa_contents LIKE CONCAT('%', #{searchText}, '%'))
-		       </if>
-		     </otherwise>
-		   </choose>
-		 </where>
+	SELECT COUNT(*) FROM qa_tb qa
+		<where>
+		  <choose>
+		    <when test="searchOption == 'title'">
+		      <if test="searchText != null and searchText != ''">
+		        QA_TITLE like CONCAT('%', #{searchText}, '%')
+		      </if>
+		    </when>
+		    <when test="searchOption == 'writer'">
+		      <if test="searchText != null and searchText != ''">
+		        QA_WRITER like CONCAT('%', #{searchText}, '%')
+		      </if>
+		    </when>
+		  </choose>
+		</where>
 	</select>
 	<!--  공지사항 매퍼 -->
 	<!--  select all notice_tb 에있는 모든데이터를 선택해서 저장, 페이지당 게시물 수  -->
@@ -145,17 +117,17 @@
 	    <choose>
 	      <when test="searchOption == 'name'">
 	        <if test="searchText != null and searchText != ''">
-	          and notice_title like CONCAT('%', #{searchText}, '%')
+	          notice_title like CONCAT('%', #{searchText}, '%')
 	        </if>
 	      </when>
 	      <when test="searchOption == 'content'">
 	        <if test="searchText != null and searchText != ''">
-	          AND notice_contents LIKE CONCAT('%', #{searchText}, '%')
+	          notice_contents LIKE CONCAT('%', #{searchText}, '%')
 	        </if>
 	      </when>
 	      <otherwise>
 	        <if test="searchText != null and searchText != ''">
-	          AND notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%')
+	          notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%')
 	        </if>
 	      </otherwise>
 	    </choose>
@@ -163,30 +135,31 @@
 	  ORDER BY notice_idx DESC
 	  LIMIT #{start}, #{limit}
 	</select>
+
 	
-	<!--  검색된 쿼리의 갯수도 얻어오기위해 사용 -->
-	<select id="notice_countSearchResults" resultType="int" parameterType="map">
-		  SELECT COUNT(*) FROM notice_tb
-		  <where>
-		    <choose>
-		      <when test="searchOption == 'name'">
-		        <if test="searchText != null and searchText != ''">
-		          notice_title like CONCAT('%', #{searchText}, '%')
-		        </if>
-		      </when>
-		      <when test="searchOption == 'content'">
-		        <if test="searchText != null and searchText != ''">
-		          (notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
-		        </if>
-		      </when>
-		      <otherwise>
-		        <if test="searchText != null and searchText != ''">
-		          (notice_writer LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%'))
-		        </if>
-		      </otherwise>
-		    </choose>
-		  </where>
-	</select>
+	<!-- 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+<select id="notice_countSearchResults" resultType="int" parameterType="map">
+  SELECT COUNT(*) FROM notice_tb
+  <where>
+    <choose>
+      <when test="searchOption == 'name'">
+        <if test="searchText != null and searchText != ''">
+          notice_title like CONCAT('%', #{searchText}, '%')
+        </if>
+      </when>
+      <when test="searchOption == 'content'">
+        <if test="searchText != null and searchText != ''">
+          notice_contents LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+      </when>
+      <otherwise>
+        <if test="searchText != null and searchText != ''">
+          notice_writer LIKE CONCAT('%', #{searchText}, '%') OR notice_title LIKE CONCAT('%', #{searchText}, '%') OR notice_contents LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+      </otherwise>
+    </choose>
+  </where>
+</select>
 	
 	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->	
 	
@@ -347,19 +320,19 @@
 	  LIMIT #{start}, #{limit}
 </select>
 
-	<select id="prod_countSearchResults" resultType="int" parameterType="map">
-		 SELECT COUNT(*) FROM product_tb 
-		  <where>
-		    <choose>
-		      <when test="searchOption == 'name'">
-		        <if test="searchText != null and searchText != ''">
-		          PROD_NAME like CONCAT('%', #{searchText}, '%')
-		        </if>
-		      </when>
-		     
-		    </choose>
-		    </where>
-	</select>
+<select id="prod_countSearchResults" resultType="int" parameterType="map">
+	 SELECT COUNT(*) FROM product_tb 
+	  <where>
+	    <choose>
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          PROD_NAME like CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	     
+	    </choose>
+	    </where>
+</select>
 
 
 
@@ -396,27 +369,40 @@
 </select>
 
 <select id="orderlist_countSearchResults" resultType="int" parameterType="map">
-  SELECT COUNT(*) 
-  FROM 
-    order_tb o, 
-    order_detail_tb od,
-    member_tb m
+   SELECT COUNT(*)
+		FROM order_tb o, member_tb m
+		WHERE o.member_tb_idx = m.member_idx
+		AND o.order_idx LIKE CONCAT('%', #{searchText}, '%')
+</select>
+
+<!--  상품 검색 -->
+	<select id="prodect_search" resultType="productVO" parameterType="map">
+	  SELECT * FROM product_tb
+	  <where>
+	    <choose>
+	      <when test="searchOption == 'name'">
+	        <if test="searchText != null and searchText != ''">
+	          PROD_NAME like CONCAT('%', #{searchText}, '%')
+	        </if>
+	      </when>
+	    </choose>
+	  </where>
+	  ORDER BY PROD_WDATE DESC
+	  LIMIT #{start}, #{limit}
+	</select>
+
+	
+<!-- 검색된 쿼리의 갯수도 얻어오기위해 사용 -->
+<select id="prodect_countSearchResults" resultType="int" parameterType="map">
+  SELECT COUNT(*) FROM product_tb
   <where>
-    o.order_idx = od.order_tb_idx
-    AND o.member_tb_idx = m.member_idx
     <choose>
       <when test="searchOption == 'name'">
         <if test="searchText != null and searchText != ''">
-          AND m.member_name LIKE CONCAT('%', #{searchText}, '%')
-        </if>
-      </when>
-      <when test="searchOption == 'idx'">
-        <if test="searchText != null and searchText != ''">
-          AND o.order_idx LIKE CONCAT('%', #{searchText}, '%')
+          PROD_NAME like CONCAT('%', #{searchText}, '%')
         </if>
       </when>
     </choose>
   </where>
 </select>
-
 </mapper>

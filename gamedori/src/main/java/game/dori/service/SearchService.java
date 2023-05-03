@@ -34,6 +34,10 @@ public interface SearchService {
     List<ORDER_LIST_VO> orderlist_search(String searchText, String searchOption, int start, int limit);
 
     int orderlist_countSearchResults(String searchText, String searchOption);
-   
+    
+    List<PRODUCT_VO> prodlistsearch_search(String searchText, String searchOption, int start, int limit);
+
+    int prodlistsearch_countSearchResults(String searchText, String searchOption);
+ 
   
 }

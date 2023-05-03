@@ -11,8 +11,15 @@ public class CATEGORY_VO {
 	private int level;
 	private String cate_rsv;		// 예약여부
 	private String cate_new;		//새로운 상품
+	private String sort;  			//정렬 방법
 	
 	
+	public String getSort() {
+		return sort;
+	}
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
 	public String getCate_new() {
 		return cate_new;
 	}
