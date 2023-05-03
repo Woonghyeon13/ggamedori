@@ -271,6 +271,7 @@
 	    sendAjaxRequest('notice',searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
+	        updatePaginationForAll();
 	    });
 	}
 	

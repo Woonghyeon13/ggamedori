@@ -46,8 +46,6 @@ public class AjaxController {
 		
 		String path = req.getSession().getServletContext().getRealPath("/resources/images/carousel");
 		
-		System.out.println(path);
-		
 		File dir = new File(path);
 		if(!dir.exists()) { 
 			dir.mkdirs();
@@ -159,27 +157,26 @@ public class AjaxController {
     	AdminService.updateOrderState(orderlistVO);
     }
     
-    //관리자 페이지 주문상세 데이터 보내주기
-//    @RequestMapping(value = "/admin/adminOrderDetail.do", method = RequestMethod.POST)
-//    @ResponseBody
-//    public List<Map<String, Object>> adminOrderDetail(@RequestParam int order_idx) {
-//    	 List<Map<String, Object>> data = new ArrayList<>();
-//    	    List<ORDER_LIST_VO> orderDetails = AdminService.getOrderDetail(order_idx);
-//    	    for (ORDER_LIST_VO orderDetail : orderDetails) {
-//    	        Map<String, Object> map = new HashMap<>();
-//    	        map.put("order_idx", orderDetail.getOrder_idx());
-//    	        map.put("prod_name", orderDetail.getProd_name());
-//    	        
-//    	        data.add(map);
-//    	    }
-//    	    return data;
-//    }
-
+    //주문 상세 정보 (관리자)
     @RequestMapping(value = "/admin/adminOrderDetail.do", method = RequestMethod.POST)
     @ResponseBody
     public List<ORDER_LIST_VO> adminOrderDetail(@RequestParam int order_idx, Model model) {
         List<ORDER_LIST_VO> orderd = AdminService.getOrderDetail(order_idx);
         return orderd;
+    }
+    
+    //주문 상세 정보 (마이페이지)
+    @RequestMapping(value = "/mypage/orderDetail.do", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ORDER_LIST_VO> mypageOrderDetail(@RequestParam int order_idx, Model model) {
+        List<ORDER_LIST_VO> orderd = AdminService.getOrderDetail(order_idx);
+        return orderd;
+    }
+    
+	//환불 승인 여부
+    @RequestMapping(value="/admin/updateRefundYN.do", method=RequestMethod.POST)
+    public @ResponseBody void updateRefundYN(HttpServletRequest request, ORDER_LIST_VO orderlistVO) {
+    	AdminService.updateRefundYN(orderlistVO);
     }
 
 }

@@ -162,8 +162,13 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<ORDER_LIST_VO> refundlist() {
-		return refundDAO.refundlist();
+	public List<ORDER_LIST_VO> refundlist(int limit, int start) {
+		return refundDAO.refundlist(limit, start);
+	}
+
+	@Override
+	public int updateRefundYN(ORDER_LIST_VO orderlistVO) {
+		return refundDAO.updateRefundYN(orderlistVO);
 	}
 
 }

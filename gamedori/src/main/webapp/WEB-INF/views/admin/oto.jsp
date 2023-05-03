@@ -76,7 +76,7 @@
 						</tr>
 					</thead>
 					  <tbody id = "table-body" >
-					<%-- <c:forEach var="otol" items="${otoList }">
+					<!--<c:forEach var="otol" items="${otoList }">
 						<tr>
 							<td class="text-center align-middle">${otol.qa_idx }</td>
 							<td class="text-center align-middle">${otol.qa_title }</td>
@@ -95,7 +95,7 @@
 									 '${otol.contentWithoutTag }', '${otol.member_name }', '${otol.qa_reply }')">답변</button>
 							</td>
 						</tr>
-					</c:forEach> --%>
+					</c:forEach>-->
 					</tbody>
 				</table>
 		</div>
@@ -282,6 +282,7 @@
 	    sendAjaxRequest('aoto',searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
+	        updatePaginationForAll();
 	    });
 	}
 	
