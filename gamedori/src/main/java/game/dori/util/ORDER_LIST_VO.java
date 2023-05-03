@@ -120,12 +120,6 @@ public class ORDER_LIST_VO {
 	public void setRefund_yn(int refund_yn) {
 		this.refund_yn = refund_yn;
 	}
-	public int getOrder_usepoint() {
-		return order_usepoint;
-	}
-	public void setOrder_usepoint(int order_usepoint) {
-		this.order_usepoint = order_usepoint;
-	}
 	public int getOrderd_order_state() {
 		return orderd_order_state;
 	}

@@ -133,7 +133,7 @@
 				
 			</div>
 			
-			<div id="Award" style="overflow: hidden">
+			<div id="Award" style="overflow: hidden;">
 				<img src="<c:url value='/images/aw_bg.png' />">
 				<div id="index_4_Content" ><img src="<c:url value='/images/aw_fg.png' />"></div>
 			</div>

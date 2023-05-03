@@ -347,32 +347,13 @@
 					<th class="col-1 fw-bold">이름</th>
 					<th class="col-1 fw-bold">작성일</th>
 				</thead>
-				<tbody>
-					<c:if test="${not empty pqllist}">
-						<c:forEach var="pql" items="${pqllist}">
-						<tr class="text-center qa_item border-bottom" style="cursor: pointer;">
-							<td style="text-align:center;">
-								<c:if test="${pql.prod_q_yn eq '1'}">답변완료</c:if>
-								<c:if test="${pql.prod_q_yn eq '2'}">미답변</c:if>
-							</td>
-							<td style="text-align: left;">${pql.prod_q_title}
-								<c:if test="${pql.prod_q_secret eq '1'}">
-								<i style="vertical-align: middle;" class="xi-lock-o"></i>
-								</c:if>
-							</td>
-							<td style="text-align:center;">${pql.member_name}</td>
-							<c:set var="pqlwdate" value="${pql.prod_q_wdate}" />
-							<c:set var="pqlwdates" value="${fn:substring(pqlwdate,0,10)}" />
-							<td style="text-align:center;">${pqlwdates}</td>
-						</tr>
-						<tr class="hide border-bottom">
-							<td></td>
-							
-							<c:if test="${pql.prod_q_secret eq '1' && pql.member_name == sessionScope.Login.member_name}">
-								<td colspan="4">${pql.prod_q_contents} <br>
-									<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
-									${pql.prod_q_reply}
-
+<tbody>
+						<c:if test="${not empty pqllist}">
+							<c:forEach var="pql" items="${pqllist}">
+							<tr class="text-center qa_item border-bottom" style="cursor: pointer;">
+								<td style="text-align:center;">
+									<c:if test="${pql.prod_q_yn eq '1'}">답변완료</c:if>
+									<c:if test="${pql.prod_q_yn eq '2'}">미답변</c:if>
 								</td>
 								<td style="text-align: left;">${pql.prod_q_title}
 									<c:if test="${pql.prod_q_secret eq '1'}">
@@ -467,7 +448,6 @@
 				</div>
 			</div>
 
-		</div>
 
 
 </main>
