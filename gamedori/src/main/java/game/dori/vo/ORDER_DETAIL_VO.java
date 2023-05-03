@@ -46,5 +46,7 @@ public class ORDER_DETAIL_VO {
 	public void setOpt_tb_idx(int opt_tb_idx) {
 		this.opt_tb_idx = opt_tb_idx;
 	}
+	
+	
 
 }

@@ -79,11 +79,12 @@
 					</table>
 					<input type="hidden" name="opt_idx">
 					<input type="hidden" name="opt_qty">
+					<input type="hidden" name="cart_idx">
 					<button type="submit" class="btn btn-outline-light login mt-5 d-grid gap-2 col-6 mx-auto"><b>주문하기</b></button>
 				</form>
 			</div>
 			<!-- Modal -->
-			<div class="container-fluid" id="modalCnt"></div>
+			<div class="container-fluid modal-body" id="modalCnt"></div>
 		</section>
 	</div>
 </main>
@@ -110,6 +111,8 @@ function cartDelBtn(){
 		}
 	});
 }
+</script>
+<script>
 // 수정모달
 function cartView(cart_idx, member_idx, prod_idx ){
 	var cart_idx = cart_idx;
@@ -120,7 +123,7 @@ function cartView(cart_idx, member_idx, prod_idx ){
 		type : 'post',
 		success : function(data){
 			htmlStr = "";
-			htmlStr +=	'<div class="modal" id="shitModal" tabindex="-1" aria-hidden="true">';
+			htmlStr +=	'<div class="modal" id="optModal" tabindex="-1" aria-hidden="true">';
 			htmlStr +=	'<div class="modal-dialog modal-sm modal-dialog-centered">';
 			htmlStr +=	'<div class="modal-content">';
 			htmlStr +=	'<div class="modal-header">';
@@ -178,11 +181,12 @@ function cartView(cart_idx, member_idx, prod_idx ){
 			htmlStr +=	'</div>';
 			
 			$("#modalCnt").html(htmlStr);
-			$("#shitModal").show();
+			$("#optModal").show();
 		}
 	});
 }
-
+</script>
+<script>
 // 주문수정
 function cartModify(){
 	
@@ -207,6 +211,8 @@ function cartModify(){
 		}
 	});
 };
+</script>
+<script>
 // 수량바꾸기
 function change_qty(t) {
     var min_qty = 1;
@@ -235,12 +241,71 @@ function cartViewClose(){
 }
 // 모달밖선택
 $('html').click(function(e){
-	if($(e.target).parents('#shitModal').length < 1){
+	if($(e.target).parents('#optModal').length < 1){
     	$("#modalCnt").empty();
     }
 })
+</script>
+<script>
+
 // 금액 계산
+	$("input[id=check-all]").change(function() {
+		if($("input[id=check-all]").is(":checked")) {
+			$("input[id=checkBoxes]").prop("checked", true);
+		}else{
+			$("input[id=checkBoxes]").prop("checked", false);
+		}
+
+		var priceCal = 0;
+		var priceDel = 0;
+		priceCal = parseInt(priceCal);
+		$('input[id=checkBoxes]:checked').each(function(){
+			var plusCal = $(this).next().next().val();
+			plusCal = parseInt(plusCal);
+			priceCal = priceCal+plusCal;
+		});
+			console.log("배송비"+priceCal)
+		if( priceCal == 0 ){
+			priceDel = 3000;
+			$("#del_amount").html(priceDel.toLocaleString());
+			$("#total_amount").html(priceCal.toLocaleString());
+			$("#total_amountCal").html(0);
+		}else if( priceCal < 30000 ){
+			priceDel = 3000;
+			priceCalDel = priceCal + 3000;
+			$("#del_amount").html(priceDel.toLocaleString());
+			$("#total_amount").html(priceCal.toLocaleString());
+			$("#total_amountCal").html(priceCalDel.toLocaleString());
+		}else{
+			$("#del_amount").html(priceDel.toLocaleString());
+			$("#total_amount").html(priceCal.toLocaleString());
+			$("#total_amountCal").html(priceCal.toLocaleString());
+		}
+			var opt_idx = [];
+			var opt_qty = [];
+			var cart_idx = [];
+			$('input[id=checkBoxes]:checked').each(function(){
+				var opt_idxs = $(this).prev().prev().val();
+				var opt_qtys = $(this).prev().val();
+				var cart_idxs = $(this).next().val();
+				opt_idx.push(opt_idxs);
+				opt_qty.push(opt_qtys);
+				cart_idx.push(cart_idxs);
+			});
+			$('input[name=opt_idx]').val(opt_idx);
+			$('input[name=opt_qty]').val(opt_qty);
+			$('input[name=cart_idx]').val(cart_idx);
+	});
+</script>
+<script>
 $('input[id=checkBoxes]').change(function(){
+		var total = $("input[id=checkBoxes]").length;
+		var checkedd = $("input[id=checkBoxes]:checked").length;
+		if(total != checkedd){
+			$("input[id=check-all]").prop("checked", false);
+		}else if( total == checkedd){
+			$("input[id=check-all]").prop("checked", true); 
+		}
 	var priceCal = 0;
 	var priceDel = 0;
 	priceCal = parseInt(priceCal);
@@ -250,29 +315,37 @@ $('input[id=checkBoxes]').change(function(){
 		priceCal = priceCal+plusCal;
 	});
 		console.log("배송비"+priceCal)
-	if( priceCal < 30000 ){
-		priceCalDel = priceCal + 3000;
-		priceDel = 3000;
-		$("#del_amount").html(priceDel.toLocaleString());
-		$("#total_amount").html(priceCal.toLocaleString());
-		$("#total_amountCal").html(priceCalDel.toLocaleString());
-	}else{
-		$("#del_amount").html(priceDel.toLocaleString());
-		$("#total_amount").html(priceCal.toLocaleString());
-		$("#total_amountCal").html(priceCal.toLocaleString());
-	}
-		
+		if( priceCal == 0 ){
+			priceDel = 3000;
+			$("#del_amount").html(priceDel.toLocaleString());
+			$("#total_amount").html(priceCal.toLocaleString());
+			$("#total_amountCal").html(0);
+		}else if( priceCal < 30000 ){
+			priceDel = 3000;
+			priceCalDel = priceCal + 3000;
+			$("#del_amount").html(priceDel.toLocaleString());
+			$("#total_amount").html(priceCal.toLocaleString());
+			$("#total_amountCal").html(priceCalDel.toLocaleString());
+		}else{
+			$("#del_amount").html(priceDel.toLocaleString());
+			$("#total_amount").html(priceCal.toLocaleString());
+			$("#total_amountCal").html(priceCal.toLocaleString());
+		}
 		var opt_idx = [];
 		var opt_qty = [];
+		var cart_idx = [];
 		$('input[id=checkBoxes]:checked').each(function(){
 			var opt_idxs = $(this).prev().prev().val();
 			var opt_qtys = $(this).prev().val();
+			var cart_idxs = $(this).next().val();
 			opt_idx.push(opt_idxs);
 			opt_qty.push(opt_qtys);
+			cart_idx.push(cart_idxs);
 		});
 		$('input[name=opt_idx]').val(opt_idx);
 		$('input[name=opt_qty]').val(opt_qty);
-})
+		$('input[name=cart_idx]').val(cart_idx);
+	});
 
 
 </script>

@@ -311,8 +311,8 @@
             var newRow = $('<tr>');
 
             newRow.append($('<td class="text-center">').text(result.prod_idx));
-            newRow.append($('<td class="text-center">').text(result.prod_name));
             newRow.append($('<td class="text-center">').text(result.category_tb_code));
+            newRow.append($('<td class="text-center">').text(result.prod_name));
             newRow.append($('<td class="text-center">').text(result.prod_price));
             newRow.append($('<td class="text-center">').text(result.prod_wdate));
             newRow.append($('<td class="text-center">').text(result.prod_stock));

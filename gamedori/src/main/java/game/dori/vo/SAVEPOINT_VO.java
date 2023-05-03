@@ -8,8 +8,15 @@ public class SAVEPOINT_VO {
 	private int savept_balance; //잔액적립금
 	private String savept_created; //적립시점
 	
+	private int order_idx; //주문인덱스
 	
 	
+	public int getOrder_idx() {
+		return order_idx;
+	}
+	public void setOrder_idx(int order_idx) {
+		this.order_idx = order_idx;
+	}
 	public int getSavept_idx() {
 		return savept_idx;
 	}

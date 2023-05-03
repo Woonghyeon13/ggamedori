@@ -54,4 +54,9 @@
 			 and opt_idx = #{opt_idx}
 	</select>
 	
+	<!-- 옵션 재고 감소 -->
+	<update id="optStockMinus" parameterType="optVO">
+		update opt_tb set opt_stock = opt_stock - #{opt_qty}
+			where opt_idx = #{opt_idx}
+	</update>
 </mapper>

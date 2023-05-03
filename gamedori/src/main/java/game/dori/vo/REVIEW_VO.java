@@ -20,7 +20,14 @@ public class REVIEW_VO{
 	private String R_searchType;	// 검색 타입
 	private String R_searchValue;	// 검색 값
 	
+	private String member_name;		//작성자
 	
+	public String getMember_name() {
+		return member_name;
+	}
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
+	}
 	public int getReview_idx() {
 		return review_idx;
 	}

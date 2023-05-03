@@ -8,6 +8,7 @@ import game.dori.vo.ADDRESS_VO;
 import game.dori.vo.CATEGORY_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
+import game.dori.vo.ORDER_DETAIL_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.REVIEW_VO;
@@ -94,7 +95,7 @@ public interface ProductService {
 	// 상품 옵션 상세 정보
 	public List<PRODOPT_VO> prodOptList( PRODOPT_VO povo );
 	// 주문 상세 상품등록
-	public int insertOrderDetail( ORDER_LIST_VO olvo );
+	public int insertOrderDetail( ORDER_DETAIL_VO ordervo );
 	// 주문 결제서 생성
 	public int insertPay( ORDER_LIST_VO olvo );
 	
@@ -109,6 +110,16 @@ public interface ProductService {
 	// 리뷰 등록 
 	public int review_insert(REVIEW_VO reviewVO);
 
+	// 상품상세 리뷰목록
+	public List<REVIEW_VO> prodReviewList( int prod_idx );
 	
+	// 상품상세 리뷰카운트
+	public int prodReviewCnt( int prod_idx );
+	
+	// 옵션 재고 감소
+	public int optStockMinus( OPT_VO povo );
+	
+	// 상품 재고 감소
+	public int prodStockMinus( PRODOPT_VO optvo );
 
 }

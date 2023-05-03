@@ -13,7 +13,7 @@ public class ORDER_LIST_VO {
 	private int order_del_type; //배송조건 1:일반 2:도서산간 
 	private String order_memo; //배송메모
 	private int order_state;	// 처리상태 1:주문접수,2:결제완료,3:상품준비중,4:발송준비중,5:발송완료,6:주문취소,7:반품접수,8:반품완료
-	private int order_usepoint; // 사용할 적립금
+	private int order_usepoint; //사용적립금
 	
 	private int orderd_idx;			// 주문상세 인덱스
 	private int order_tb_idx;		// 주문번호 인덱스
@@ -78,12 +78,15 @@ public class ORDER_LIST_VO {
 	private int 	pay_price_deposit;	// 입금액
 	private String 	pay_deposit_name;	// 입금자명
 	private int 	pay_deposit_bank; 			// 입금은행
-	
+
+	private String cart_idx;			// 카트 인덱스
+
 	private int refund_idx; 			//환불 인덱스
 	private String refund_contents;		//환불 사유
 	private String refund_img;			//환불 이미지
 	private int refund_yn;				//환불 상태
 	private String refund_date;			//환불 신청 시간
+
 	
 	
 	
@@ -530,6 +533,18 @@ public class ORDER_LIST_VO {
 	}
 	public void setPay_deposit_bank(int pay_deposit_bank) {
 		this.pay_deposit_bank = pay_deposit_bank;
+	}
+	public String getCart_idx() {
+		return cart_idx;
+	}
+	public void setCart_idx(String cart_idx) {
+		this.cart_idx = cart_idx;
+	}
+	public int getOrder_usepoint() {
+		return order_usepoint;
+	}
+	public void setOrder_usepoint(int order_usepoint) {
+		this.order_usepoint = order_usepoint;
 	}
 	
 

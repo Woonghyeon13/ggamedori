@@ -208,4 +208,10 @@
 			WHERE prod_idx = #{prod_idx}
 	</select>
 	
+	<!-- 상품 재고감소 -->
+	<update id="prodStockMinus" parameterType="prodoptVO">
+		update product_tb
+			set  prod_stock = prod_stock - #{prod_stock}
+			where prod_idx = #{prod_idx}
+	</update>
 </mapper>

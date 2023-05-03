@@ -38,6 +38,12 @@
 		 where member_tb_idx = #{member_idx}
 		 order by savept_idx desc limit 1
 	</select>
+	<!-- 회원 잔여 포인트 정보 -->
+	<select id="selectPointInfo" resultType="savepointVO" parameterType="int">
+		select * from savepoint_tb
+		 where member_tb_idx = #{member_idx}
+		 order by savept_idx desc limit 1
+	</select>
 	
 	<!--  포인트 삭제 -->
 	<delete id="deletePoint" parameterType="MemberVO">
@@ -45,7 +51,17 @@
 	  WHERE MEMBER_TB_IDX = (SELECT MEMBER_IDX FROM member_tb WHERE member_email = #{member_email} AND member_pw = #{member_pw})
 	</delete>
 	
-	<!-- 회원 잔여 적립금 조회 -->
-	<select id="selectBalPoint">
-	</select>
+	<!-- 회원 적립금 적립 -->
+	<insert id="insertPoint" parameterType="savepointVO">
+		insert into savepoint_tb
+			( member_tb_idx, savept_amount, savept_balance)
+			values ( #{member_tb_idx}, #{savept_amount}, #{savept_balance})
+	</insert>
+
+	<!-- 회원 적립금 사용-->
+	<insert id="insertPointUse" parameterType="savepointVO">
+		insert into savepoint_tb
+			( member_tb_idx, savept_amount, savept_balance)
+			values ( #{member_tb_idx}, -#{savept_amount}, #{savept_balance})
+	</insert>
 </mapper>

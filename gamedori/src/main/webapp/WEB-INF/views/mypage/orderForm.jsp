@@ -99,6 +99,7 @@
 							<td><img src="./images/HOT1.jpg" style="width: 100px; height: 100px;"></td>
 							<td class="pbb3">
 								<input type="hidden" id="optName${status.count}" value="${optvo.prod_name}">
+								<input type="hidden" name="cart_idx" value="${optvo.cart_idx}">
 								<input type="hidden" id="ord_optIdx" name="opt_tb_idx" value="${optvo.opt_idx}">
 								<input type="hidden" id="ord_optQty" name="orderd_qty" value="${optvo.opt_qty}">
 								<input type="hidden" id="ord_optPrice" name="orderd_price" value="${optvo.opt_price * optvo.opt_qty}">
@@ -175,7 +176,7 @@
 				<input type="hidden" id="memAddr1" value="${adr.addr_1}">
 				<input type="hidden" id="memAddr2" value="${adr.addr_2}">
 				<input type="hidden" id="backUrl" value="<c:url value='/list.do' />">
-				<input type="hidden" id="orderPoint" value="0">
+				<input type="hidden" id="orderUsePoint" value="0">
 				<button class="btn btn-danger btn-block mt-4" onclick=
 				"requestPay()" style="font-weight: bold">주문하기</button>
 				<button type="button" class="btn btn-danger btn-block mt-4" onclick="orderAjax()" style="font-weight: bold">주문테스트</button>
@@ -329,7 +330,7 @@
   		 		var order_name = $("#ord_name").val();
   		 		var order_phone = $("#ord_phone").val();
   		 		var order_memo = $("#ord_memo").val();
-  		 		var order_usepoint = $("orderPoint").val();
+  		 		var order_point = $("#orderUsePoint").val();
   		 		
   		 		var opt_tb_idx = [];
   		 		var orderd_qty = [];
@@ -369,7 +370,7 @@
   	        			orderd_price : orderd_price,
   	        			pay_type : pay_type,
   	        			pay_price_real : pay_price_real,
-  	        			order_usepoint : order_usepoint
+  	        			order_point : order_point
   	            };
   	   
   	            updateSavedPoints(data);
@@ -400,7 +401,7 @@
         		 		var order_name = $("#ord_name").val();
         		 		var order_phone = $("#ord_phone").val();
         		 		var order_memo = $("#ord_memo").val();
-        		 		var order_usepoint = $("orderPoint").val();
+        		 		var order_point = $("#orderUsePoint").val();
         		 		
         		 		var opt_tb_idx = [];
         		 		var orderd_qty = [];
@@ -442,7 +443,7 @@
         	        			orderd_price : orderd_price,
         	        			pay_type : pay_type,
         	        			pay_price_real : pay_price_real,
-        	        			order_usepoint : order_usepoint
+        	        			order_point : order_point
         	            };
         	            
         	 
@@ -503,7 +504,7 @@ $("#usePoint").change(function() {
 	  // 포맷팅된 남은 포인트를 표시
 	  var formattedRemainingPoints = remainingPoints.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	  $('p:contains("보유 적립금")').html("보유 적립금 : " + formattedRemainingPoints + "점");
-		$("#orderPoint").val(num1);
+
 	  $.ajax({
 	    url : "priceCal.do",
 	    typt : 'get',
@@ -518,9 +519,8 @@ $("#usePoint").change(function() {
 	});
 </script>
 <script>
-	
 function updateSavedPoints(data) {
-    var usedPoints = $("#usePoint").val();
+    var usedPoints = $("#orderUsePoint").val();
 
     // AJAX 요청으로 서버에 결제 정보 전송
     $.ajax({
@@ -531,6 +531,20 @@ function updateSavedPoints(data) {
         success: function(response) {
             // 서버 처리가 성공적으로 이루어졌을 때
             console.log('결제 및 포인트 처리 완료');
+			// 카트 비우기
+            var cart_idx = [];
+	 		var cartSize = $("input[name='cart_idx']").length;
+	 		for( i=0; i<cartSize; i++){
+	 			cart_idx.push($("input[name='cart_idx']").eq(i).attr("value"));
+	 		}
+            $.ajax({
+        		url : '<%=request.getContextPath()%>/mypage/cartDel.do',
+        		type : 'post',
+        		data : { cart_idx : cart_idx },
+        		traditional: true,
+        		success : function(){
+        		}
+        	});
             // 옵션재고감소
             var opt_idx = [];
 	 		var opt_qty = [];
@@ -541,7 +555,6 @@ function updateSavedPoints(data) {
 	 		for( i=0; i< idxSize; i++){
 	 			opt_qty.push($("input[name='orderd_qty']").eq(i).attr("value"));
 	 		}
-	 		
             $.ajax({
         		url : '<%=request.getContextPath()%>/mypage/optStockMinus.do',
         		type : 'post',
@@ -561,7 +574,6 @@ function updateSavedPoints(data) {
         		success : function(){
         		}
             });
-            
             // 포인트 삭감
 	 		var member_tb_idx = $("#ord_memIdx").val();
 
@@ -579,7 +591,8 @@ function updateSavedPoints(data) {
             }
             
             alert('결제가 완료되었습니다.'); // 이 부분을 추가합니다.
-            location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
+            location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do';
+			
         },
         error: function() {
             // 서버 처리 중 오류 발생 시
@@ -589,6 +602,7 @@ function updateSavedPoints(data) {
     });
 }
 </script>
+
 
 
 

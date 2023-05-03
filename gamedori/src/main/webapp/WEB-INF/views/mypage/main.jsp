@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
@@ -29,7 +28,8 @@
 				</li>
 				<li>
 					<h4>적립금</h4>
-					<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+					<fmt:formatNumber var="savePointt" value="${savePoint}" pattern="#,###"/>
+					<p>${savePointt}원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
 					<!--s_money_check.html -->
 				</li>
 				<li>
@@ -49,7 +49,7 @@
 					<span>${sessionScope.Login.member_name}</span>님 환영합니다.
 				</p>
 
-				<ol id="ol_li" class="list-group list-group-numbered">
+				<ol id="ol_li" class="list-group">
 					<li class="list-group-item"><a href="<c:url value='/mypage/cart.do' />">장바구니</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
@@ -104,7 +104,7 @@
 											<fmt:formatNumber var="payPrice" value="${Orderlist.pay_price_real}" pattern="#,###"/>
 											${payPrice}원
 										</td>
-										<td class="align-middle"><button>상세보기</button></td>
+										<td class="align-middle"><button class="btn btn-outline-secondary btn-sm">상세보기</button></td>
 									</tr>
 								</c:forEach>
 								</tbody>

@@ -325,7 +325,6 @@ public class MypageServiceImpl implements MypageService{
 	// 문의사항 상품 명찾기
 	@Override
 	public PRODUCT_VO prod_name(int prod_idx) {
-		
 		return productDAO.prod_name(prod_idx);
 	}
 
@@ -345,6 +344,36 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public PAY_VO selectPayPrice(int order_tb_idx) {
 		return payDAO.selectPayPrice(order_tb_idx);
+	}
+
+	// 주문전체목록 리스트
+	@Override
+	public List<ORDER_VO> selectOrderAllListService(int memeber_tb_idx) {
+		return orderDAO.selectOrderAllListDAO(memeber_tb_idx);
+	}
+
+	// 잔여 포인트 정보
+	@Override
+	public SAVEPOINT_VO selectPointInfo(int member_idx) {
+		return savepointDAO.selectPointInfo(member_idx);
+	}
+
+	// 회원 적립금 적립
+	@Override
+	public int insertPoint(SAVEPOINT_VO savevo) {
+		return savepointDAO.insertPoint(savevo);
+	}
+
+	// 구매확정
+	@Override
+	public int updateOrderCheck(int order_idx) {
+		return orderDAO.updateOrderCheck(order_idx);
+	}
+
+	// 회원 적립금 사용
+	@Override
+	public int insertPointUse(SAVEPOINT_VO savevo) {
+		return savepointDAO.insertPointUse(savevo);
 	}
 
 

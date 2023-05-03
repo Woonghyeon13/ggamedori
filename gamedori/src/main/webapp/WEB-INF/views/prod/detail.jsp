@@ -1,31 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/head.jsp" %>
-
-<!-- 별점 등록 자바스크립트 -->
-<script>
-const starRating = document.querySelector(".starRatingVt");
-
-if (starRating) {
-  const stars = starRating.querySelectorAll("input[type='radio']");
-  const labels = starRating.querySelectorAll("label");
-
-  stars.forEach((star) => {
-    star.addEventListener("click", function (e) {
-      labels.forEach((label) => {
-        if (label.htmlFor === e.target.getAttribute("id")) {
-          label.classList.add("checked");
-        } else {
-          label.classList.remove("checked");
-        }
-      });
-    });
-  });
-}
-
-</script>
-
 <main>
 	<!-- 상품 정보 -------------------------------------------->
 	<input type="hidden" name="member_idx" value="${Login.member_idx}">
@@ -49,7 +26,8 @@ if (starRating) {
 							</div>
 							<div class="col-9 d-flex">
 								<h6>
-									<span class="fw-bold fs-5 me-1" style="color: #ee4a44;">${pvo.prod_price}</span>
+									<fmt:formatNumber var="prodPrice" value="${pvo.prod_price}" pattern="#,###"/>
+									<span class="fw-bold fs-5 me-1" style="color: #ee4a44;">${prodPrice}</span>
 								</h6>
 								<p>원</p>
 							</div>
@@ -60,7 +38,7 @@ if (starRating) {
 							</div>
 							<div class="col-9">
 								<p>
-									<span>구매금액(추가옵션 제외)의 1%</span>
+									<span>구매금액(추가옵션 제외)의 10%</span>
 								</p>
 							</div>
 						</div>
@@ -112,8 +90,8 @@ if (starRating) {
 								</div>
 							</div>
 							<p style="font-size: 12px;">
-								최소 구매수량은 <span class="fw-bold" style="color: #ee4a44;">1개</span>,
-								최대 구매수량은 <span class="fw-bold" style="color: #ee4a44;">2개</span>입니다.
+								최소 구매수량은 <span class="fw-bold" style="color: #ee4a44;">${pvo.prod_qtymin}개</span>,
+								최대 구매수량은 <span class="fw-bold" style="color: #ee4a44;">${pvo.prod_qtymax}개</span>입니다.
 							</p>
 							<div class="row align-items-baseline">
 								<div class="col-3">
@@ -161,8 +139,14 @@ if (starRating) {
 							</p>
 							<div
 								class="d-grid gap-2 d-md-flex justify-content-between align-items-baseline">
+							<c:if test="${empty sessionScope.Login}">
+								<button type="button" class="btn btn-secondary" onclick="prodBtn()"
+									style="width: 280px; height: 60px;">장바구니 담기</button>
+							</c:if>
+							<c:if test="${not empty sessionScope.Login}">
 								<button class="btn btn-secondary" type="button" onclick="prodCart()"
 									style="width: 280px; height: 60px;">장바구니 담기</button>
+							</c:if>
 							<c:if test="${empty sessionScope.Login}">
 								<button type="button" class="btn btn-outline-light login" onclick="prodBtn()"
 									style="width: 280px; height: 60px;">바로 구매하기</button>
@@ -191,7 +175,6 @@ if (starRating) {
 		</div>
 		<!-- 상품 상세정보 -------------------------------- -->
 		<div class="container mt-5">
-		
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black" id="tab_menu">
 			    <li class="nav-item">
 			        <a class="nav-link text-reset" href="#productNav1">상품상세</a>
@@ -231,7 +214,20 @@ if (starRating) {
 			<div class="container d-flex justify-content-center mt-3" id="productNav1">
 				<img src="<c:url value='/images/${pvo.prod_imgd}' />" alt="">
 			</div>
-			
+		</div>
+		<!-- 배송안내 -->
+		<div class="container mt-5">
+			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
+				<li class="nav-item"><a class="nav-link text-reset"
+					aria-current="page" href="#productNav1">상품상세</a></li>
+				<li class="nav-item"><a id="productNav2"
+					class="nav-link active text-reset fw-bold" href="#productNav2">배송안내</a>
+				</li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav3">고객리뷰(${reviewCnt})</a></li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav4">상품문의(${pqlCnt})</a></li>
+			</ul>
 			<!--배송 안내 사진 영역-->
 			<div class="container mt-5" id="productNav2">
 				<div class="container">
@@ -240,192 +236,143 @@ if (starRating) {
 					</div>
 				</div>
 			</div>
-			
-			<!-- 리뷰 ------------------------------------------------------------------------->
-			<div class="container mt-5" id="productNav3">
-				<div style="border-bottom: 2px solid #000;">
-					<h2>고객리뷰(0)</h2>
-				</div>
-				<table class="table w-100 text-center">
-					<tr>
-						<td class="col-1 ps-3">
-						<div class="starCnt">
-							<div class="starRating-wrap">
-								<div id="starCenter">
-									<fieldset class="starRating">
-										<input type="radio" id="star5" name="review_star" value="10" onclick="return(false);"/><label for="star5" class="full" title="Awesome"></label>
-										<input type="radio" id="star4.5" name="review_star" value="9" onclick="return(false);"/><label for="star4.5" class="half"></label>
-										<input type="radio" id="star4" name="review_star" value="8" onclick="return(false);"/><label for="star4" class="full"></label>
-										<input type="radio" id="star3.5" name="review_star" value="7" onclick="return(false);" checked="checked"/><label for="star3.5" class="half"></label>
-										<input type="radio" id="star3" name="review_star" value="6" onclick="return(false);"/><label for="star3" class="full"></label>
-										<input type="radio" id="star2.5" name="review_star" value="5" onclick="return(false);"/><label for="star2.5" class="half"></label>
-										<input type="radio" id="star2" name="review_star" value="4" onclick="return(false);"/><label for="star2" class="full"></label>
-										<input type="radio" id="star1.5" name="review_star" value="3" onclick="return(false);"/><label for="star1.5" class="half"></label>
-										<input type="radio" id="star1" name="review_star" value="2" onclick="return(false);"/><label for="star1" class="full"></label>
-										<input type="radio" id="star0.5" name="review_star" value="1" onclick="return(false);"/><label for="star0.5" class="half"></label>
-									</fieldset>
-								</div>
+		</div>
+		<!-- 리뷰 ------------------------------------------------------------------------->
+		<div class="container mt-5">
+			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
+				<li class="nav-item"><a class="nav-link text-reset"
+					aria-current="page" href="#productNav1">상품상세</a></li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav2">배송안내</a></li>
+				<li class="nav-item"><a id="productNav3"
+					class="nav-link active text-reset fw-bold" href="#productNav3">고객리뷰(${reviewCnt})</a>
+				</li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav4">상품문의(${pqlCnt})</a></li>
+			</ul>
+		</div>
+		<div class="container mt-5">
+			<div style="border-bottom: 2px solid #000;">
+				<h2>고객리뷰(${reviewCnt})</h2>
+			</div>
+			<table class="table w-100 text-center border-bottom">
+				<c:forEach var="reviews" items="${reviewlist}" varStatus="status">
+				<tr>
+					<td class="col-1 ps-3">
+					<div class="starCnt">
+						<div class="starRating-wrap">
+							<div id="starCenter">
+								<fieldset class="starRating">
+									<input type="radio" id="star5" name="review_star${status.count}" value="10" onclick="return(false);" <c:if test="${reviews.review_star eq 10}">checked</c:if>/><label for="star5" class="full" title="Awesome"></label>
+									<input type="radio" id="star4.5" name="review_star${status.count}" value="9" onclick="return(false);" <c:if test="${reviews.review_star eq 9}">checked</c:if>/><label for="star4.5" class="half"></label>
+									<input type="radio" id="star4" name="review_star${status.count}" value="8" onclick="return(false);" <c:if test="${reviews.review_star eq 8}">checked</c:if>/><label for="star4" class="full"></label>
+									<input type="radio" id="star3.5" name="review_star${status.count}" value="7" onclick="return(false);" <c:if test="${reviews.review_star eq 7}">checked</c:if>/><label for="star3.5" class="half"></label>
+									<input type="radio" id="star3" name="review_star${status.count}" value="6" onclick="return(false);" <c:if test="${reviews.review_star eq 6}">checked</c:if>/><label for="star3" class="full"></label>
+									<input type="radio" id="star2.5" name="review_star${status.count}" value="5" onclick="return(false);" <c:if test="${reviews.review_star eq 5}">checked</c:if>/><label for="star2.5" class="half"></label>
+									<input type="radio" id="star2" name="review_star${status.count}" value="4" onclick="return(false);" <c:if test="${reviews.review_star eq 4}">checked</c:if>/><label for="star2" class="full"></label>
+									<input type="radio" id="star1.5" name="review_star${status.count}" value="3" onclick="return(false);" <c:if test="${reviews.review_star eq 3}">checked</c:if>/><label for="star1.5" class="half"></label>
+									<input type="radio" id="star1" name="review_star${status.count}" value="2" onclick="return(false);" <c:if test="${reviews.review_star eq 2}">checked</c:if>/><label for="star1" class="full"></label>
+									<input type="radio" id="star0.5" name="review_star${status.count}" value="1" onclick="return(false);" <c:if test="${reviews.review_star eq 1}">checked</c:if>/><label for="star0.5" class="half"></label>
+								</fieldset>
 							</div>
 						</div>
-						</td>
-						<td class="col-1 align-bottom"><p>작성자</p></td>
-						<td class="col-10 align-bottom" style="text-align: left;"><p>작성일</p></td>
-					</tr>
-					<tr>
-						<td class="ps-3" colspan="3" style="text-align: left;"><span
-							class="fw-bold fs-4">title</span> <br> 내용 <br> <img
-							src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3"
-							style="border-radius: 6px;" alt="" width="100px" height="100px">
-							<img src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3"
-							style="border-radius: 6px;" alt="" width="100px" height="100px">
-						</td>
-					</tr>
-					<!-- 리뷰 없음 -->
-					
-	
-			<tr>
-	          <td class="py-5">등록된 리뷰가 없습니다.</td>
-	     	</tr>
-	     	
-				</table>
-				<div class="container d-flex justify-content-between mt-3">
-					<div></div>
-					<nav aria-label="Page navigation example">
-						<ul class="pagination text-black">
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">&lt;</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">1</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">2</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">3</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">&gt;</a></li>
-						</ul>
-					</nav>
-					<button type="button" class="btn btn-outline-light login me-2"
-						data-bs-toggle="modal" data-bs-target="#review"
-						style="height: 38px;">리뷰 작성하기</button>
-						
-					<!-- 리뷰 작성 모달---------------------------------------------------------------------------------------------------------->
-					
-					<div class="modal fade" id="review">
-						<div class="modal-dialog modal-dialog-centered">
-							<div class="modal-content">
-								<div class="modal-header d-flex flex-column logo">
-									<div class="mt-2">
-										<h4 class="modal-title fs-5">리뷰 작성</h4>
-									</div>
-								</div>
-								<div class="modal-body">
-									<form name="review_reg" method="post" action="review_reg.do">
-										<div class="form-group">
-											<input type="text" class="form-control" id="review_title" placeholder="제목" name="review_title">
-											<input type="hidden" name="member_email" value="${Login.member_email}"> 
-										</div>
-										<div class="form-group mt-2 col">
-											<textarea class="form-control h-25" rows="10" id="review_contents" placeholder="내용" name="review_contents"></textarea>
-										</div>
-											<div class="form-group mt-2 d-flex justify-content-between align-items-center">
-											  <div class="starCntVt">
-											    <div class="starRating-wrapVt">
-											      <div id="starCenterVt">
-											        <fieldset class="starRatingVt">
-											          <input type="radio" id="star5" name="review_star" value="10" /><label for="star5" class="full" title="Awesome"></label>
-											          <input type="radio" id="star4.5" name="review_star" value="9" /><label for="star4.5" class="half"></label>
-											          <input type="radio" id="star4" name="review_star" value="8"/><label for="star4" class="full"></label>
-											          <input type="radio" id="star3.5" name="review_star" value="7"/><label for="star3.5" class="half"></label>
-											          <input type="radio" id="star3" name="review_star" value="6"/><label for="star3" class="full"></label>
-											          <input type="radio" id="star2.5" name="review_star" value="5"/><label for="star2.5" class="half"></label>
-											          <input type="radio" id="star2" name="review_star" value="4"/><label for="star2" class="full"></label>
-											          <input type="radio" id="star1.5" name="review_star" value="3"/><label for="star1.5" class="half"></label>
-											          <input type="radio" id="star1" name="review_star" value="2"/><label for="star1" class="full"></label>
-											          <input type="radio" id="star0.5" name="review_star" value="1"/><label for="star0.5" class="half"></label>
-											        </fieldset>
-											      </div>
-											      <h4 id="rating-value"></h4>
-											    </div>
-											  </div>
-											</div>
-	
-										<div class="form-group mt-2">
-											<div class="input-group mb-3">
-												<input type="file" class="form-control" id="inputGroupFile02" name="review_img">
-												<label class="input-group-text" for="inputGroupFile02">Upload</label>
-											</div>
-										</div>
-										<div class="d-grid gap-1 mt-2">
-											<input type="submit" class="btn btn-outline-light login btn-lg form-control" value="작성">
-										</div>
-										
-										<script>
-										const starRating = document.querySelector(".starRatingVt");
-										
-										if (starRating) {
-										  const stars = starRating.querySelectorAll("input[type='radio']");
-										  const labels = starRating.querySelectorAll("label");
-										
-										  stars.forEach((star) => {
-										    star.addEventListener("click", function (e) {
-										      labels.forEach((label) => {
-										        if (label.htmlFor === e.target.getAttribute("id")) {
-										          label.classList.add("checked");
-										        } else {
-										          label.classList.remove("checked");
-										        }
-										      });
-										    });
-										  });
-										}
-										
-										</script>
-									</form>
-								</div>
-							</div>
-						</div>
-						<script>
-			<!-- 별점 등록 자바스크립트 -->
-			<script>
-			let star = document.querySelectorAll('input');
-			let showValue = document.querySelector('#rating-value');
-			
-			for (let i = 0; i < star.length; i++) {
-				star[i].addEventListener('click', function() {
-					i = this.value;
-			
-				
-				});
-			}
-			
-			</script>
 					</div>
+					</td>
+					<td class="col-1 align-bottom"><p>${reviews.member_name}</p></td>
+					<td class="col-10 align-bottom" style="text-align: left;"><p>${reviews.review_wdate}</p></td>
+				</tr>
+				<tr class="border-bottom">
+					<td class="ps-3" colspan="1" style="text-align: left;">
+						<img src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3" style="border-radius: 6px;" alt="" width="100px" height="100px">
+					</td>
+					<td colspan="2">
+						<span class="fw-bold fs-4">${reviews.review_title}</span> <br> ${reviews.review_contents} <br> 
+					</td>
+				</tr>
+				</c:forEach>
+				<!-- 리뷰 없음 -->
+<!-- 
+		<tr>
+          <td class="py-5">등록된 리뷰가 없습니다.</td>
+     	</tr>
+       -->
+			</table>
+			<div class="container d-flex justify-content-between mt-3">
+				<div></div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination text-black">
+						<li class="page-item"><a class="page-link text-reset"
+							href="#">&lt;</a></li>
+						<li class="page-item"><a class="page-link text-reset"
+							href="#">1</a></li>
+						<li class="page-item"><a class="page-link text-reset"
+							href="#">2</a></li>
+						<li class="page-item"><a class="page-link text-reset"
+							href="#">3</a></li>
+						<li class="page-item"><a class="page-link text-reset"
+							href="#">&gt;</a></li>
+					</ul>
+				</nav>
+				<div></div>
 				</div>
 			</div>
-			
-			<!-- 문의----------------------------------------------------------- -->
-			<div class="container mt-5" id="productNav4">
-				<div class="d-flex align-items-end" style="border-bottom: 2px solid #000;">
-					<h2>상품문의(${pqlCnt})</h2>
-					<h6 class="ms-3">
-						상품의 취소/반품/교환/환불 및 배송관련 문의는 <a href="#"><strong>1:1문의</strong></a>를
-						이용해 주세요.
-					</h6>
-				</div>
-				<table class="w-100 table table-hover recruit mt-3">
-					<thead class="text-center">
-						<th class="col-1 fw-bold">답변상태</th>
-						<th class="col-8 fw-bold">제목</th>
-						<th class="col-1 fw-bold">이름</th>
-						<th class="col-1 fw-bold">작성일</th>
-					</thead>
-					<tbody>
-						<c:if test="${not empty pqllist}">
-							<c:forEach var="pql" items="${pqllist}">
-							<tr class="text-center qa_item border-bottom" style="cursor: pointer;">
-								<td style="text-align:center;">
-									<c:if test="${pql.prod_q_yn eq '1'}">답변완료</c:if>
-									<c:if test="${pql.prod_q_yn eq '2'}">미답변</c:if>
+		</div>
+		<!-- 문의----------------------------------------------------------- -->
+		<div class="container mt-5">
+			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
+				<li class="nav-item"><a class="nav-link text-reset"
+					aria-current="page" href="#productNav1">상품상세</a></li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav2">배송안내</a></li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav3">고객리뷰(${reviewCnt})</a></li>
+				<li class="nav-item"><a id="productNav4"
+					class="nav-link active text-reset fw-bold" href="#productNav4">상품문의(${pqlCnt})</a>
+				</li>
+			</ul>
+		</div>
+		<div class="container mt-5">
+			<div class="d-flex align-items-end"
+				style="border-bottom: 2px solid #000;">
+				<h2>상품문의(${pqlCnt})</h2>
+				<h6 class="ms-3">
+					상품의 취소/반품/교환/환불 및 배송관련 문의는 <a href="#"><strong>1:1문의</strong></a>를
+					이용해 주세요.
+				</h6>
+			</div>
+			<table class="w-100 table table-hover recruit mt-3">
+				<thead class="text-center">
+					<th class="col-1 fw-bold">답변상태</th>
+					<th class="col-8 fw-bold">제목</th>
+					<th class="col-1 fw-bold">이름</th>
+					<th class="col-1 fw-bold">작성일</th>
+				</thead>
+				<tbody>
+					<c:if test="${not empty pqllist}">
+						<c:forEach var="pql" items="${pqllist}">
+						<tr class="text-center qa_item border-bottom" style="cursor: pointer;">
+							<td style="text-align:center;">
+								<c:if test="${pql.prod_q_yn eq '1'}">답변완료</c:if>
+								<c:if test="${pql.prod_q_yn eq '2'}">미답변</c:if>
+							</td>
+							<td style="text-align: left;">${pql.prod_q_title}
+								<c:if test="${pql.prod_q_secret eq '1'}">
+								<i style="vertical-align: middle;" class="xi-lock-o"></i>
+								</c:if>
+							</td>
+							<td style="text-align:center;">${pql.member_name}</td>
+							<c:set var="pqlwdate" value="${pql.prod_q_wdate}" />
+							<c:set var="pqlwdates" value="${fn:substring(pqlwdate,0,10)}" />
+							<td style="text-align:center;">${pqlwdates}</td>
+						</tr>
+						<tr class="hide border-bottom">
+							<td></td>
+							
+							<c:if test="${pql.prod_q_secret eq '1' && pql.member_name == sessionScope.Login.member_name}">
+								<td colspan="4">${pql.prod_q_contents} <br>
+									<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
+									${pql.prod_q_reply}
+
 								</td>
 								<td style="text-align: left;">${pql.prod_q_title}
 									<c:if test="${pql.prod_q_secret eq '1'}">
@@ -519,19 +466,16 @@ if (starRating) {
 					</div>
 				</div>
 			</div>
-		</div>	<!-- end:#tab_menu -->
-		
-		<!-- 배송안내 -->
-		
-		
-		
-	</div>
+
+		</div>
+
+
 </main>
 <script>
 	// 비로그인 상품구매 닫기
 	function prodBtn(){
 		alert('로그인이 필요합니다');
-	}
+	};
 	// 상품문의 답변
 	$(function(){  
 		var article = (".recruit .show");  
@@ -639,13 +583,13 @@ function updateTotalAmount() {
     }
 
     $("#total_amount").text(total_amount.toLocaleString());
-}
+};
 
 function closeOption(optionIndex) {
     $("#optSel" + optionIndex).hide();
     $("#ct_qty" + optionIndex).val(0);
     updateTotalAmount();
-}
+};
 
 $("#optClo1").on("click", function() {
     closeOption(1);
@@ -688,8 +632,9 @@ function change_qty(optionIndex, t) {
 
     ct_qty.val(this_qty);
     updateTotalAmount();
-}
-
+};
+</script>
+<script>
 function prodCart(){
 	
 	var member_tb_idx = ${Login.member_idx};
@@ -746,7 +691,6 @@ function prodCart(){
 			alert("장바구니에 담겼습니다.");
 		}
 	})
-}
-
+};
 </script>
 <%@ include file="../include/foot.jsp" %>
