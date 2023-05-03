@@ -2,6 +2,139 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ include file="../include/head.jsp" %>
+<script>
+	//주문 상세정보 모달창 열기
+	function orderdetailToModal(idx) {
+	var orderIdx = idx;
+	 $.ajax({
+	   type: 'POST',
+	   url: 'orderDetail.do',
+	   data: { 'order_idx': orderIdx },
+	   success: function(data) {
+		   
+		   var html = "";
+		   
+		   		html += '<div class="row container m-0">'
+		   		html += '<div class="col mb-0 p-0">'
+		   		html += '<p class="mb-0 p-0">주문번호: &nbsp; '+data[0].order_idx+'</p>'
+		   		html += '</div>'
+		   		html += '<div class="col mb-0 p-0">'
+		   		html += '<p class="mb-0 col text-end p-0">주문일자: &nbsp; '+data[0].order_date+'</p>'
+		   		html += '</div>'
+		   		html += '</div>'
+		   		
+		   		html += '<div class="container mt-4">'	    	   		
+		   		html += '<div>'
+		   		html += '<h5>주문 정보</h5>'
+		   		html += '</div>'
+		   		html += '<hr>'
+		   	for (var i = 0; i < data.length; i++) {
+		   		html += '<div class="row mb-3">'
+		   		html += '<div id="p_left" class="col-3">'
+		   		html += '<img src="<c:url value="/images/' + data[i].prod_imgt + '" />" style="width:85px; height:85px;">';
+		   		html += '</div>'
+		   		html += '<div id="p_right" class="col-9 mt-2">'
+		   		html += '<p>'+data[i].prod_name+'</p>'
+		   		html += '<div class="row">'
+		   		html += '<p class="col">가격: &nbsp'+data[i].opt_price+'원</p>'
+		   		html += '<p class="col">주문 수량: &nbsp'+data[i].orderd_qty+'개</p>'
+		   		html += '</div>'
+		   		html += '</div>'
+		   		html += '</div>'
+		   	}
+		   		html += '</div>'
+		   		
+		   		html += '<div class="container mt-4">'
+		   		html += '<div>'
+		   		html += '<h5>배송지 정보</h5>'
+		   		html += '</div>'
+		   		html += '<hr>'
+		   		html += '<table class="table">'
+		   		html += '<tbody>'
+		   		html += '<tr>'
+		   		html += '<td class="col-2" style="color: #8f8f8f;">수령인</td>'
+		   		html += '<td class="col-8" style="border-bottom: 0px">'+data[0].member_name+'</td>'
+		   		html += '</tr>'
+		   		html += '<tr>'
+		   		html += '<td class="col-2" style="color: #8f8f8f;">연락처</td>'
+		   		html += '<td class="col-8" style="border-bottom: 0px">'+data[0].member_phone+'</td>'
+		   		html += '</tr>'
+		   		html += '<tr>'
+		   		html += '<td class="col-2" style="color: #8f8f8f;">배송지</td>'
+		   		html += '<td class="col-8" style="border-bottom: 0px">('+data[0].order_addr1+')&nbsp; '+data[0].order_addr2+ data[0].order_addr3+'</td>'
+		   		html += '</tr>'
+		   		html += '<tr>'
+		   		html += '<td class="col-2" style="color: #8f8f8f;">배송 메모</td>'
+		   	if(data[0].order_memo == null){	    	   		
+		   		html += '<td class="col-2" style="border-bottom: 0px">-</td>'
+		   	}else{	    	   		
+		   		html += '<td class="col-2" style="border-bottom: 0px">'+data[0].order_memo+'</td>'
+		   	}
+		   		html += '</tr>'
+		   		html += '</tbody>'
+		   		html += '</table>'
+		   		html += '</div>'
+		   		
+		   		html += '<div class="container mt-4">'
+		   		html += '<div class="row">'
+		   		html += '<h5 class="col mb-0">최종 주문 금액</h5>'
+		   		html += '<p class="col text-end mb-0 fs-5" style="color: #ee4a44;">'+data[0].pay_price_real+'원</p>'
+		   		html += '</div>'
+		   		html += '<hr>'
+		   		html += '<table class="table">'
+		   		html += '<tr>'
+		   		html += '<td style="color: #8f8f8f;">상품 금액</td>'
+		  
+		   	var j =0;
+		   	for (var i = 0; i < data.length; i++){	    	   		
+				j = j + data[i].opt_price * data[i].orderd_qty;
+		   	}
+		   		html += '<td style="text-align: right">'+j+'원</td>'
+		   		
+		   		html += '</tr>'
+		   		html += '<tr>'
+		   		html += '<td style="color: #8f8f8f;">배송비</td>'
+		   		html += '<td style="text-align: right">3000원</td>'
+		   		html += '</tr>'
+		   		html += '<tr>'
+		   		html += '<td style="color: #8f8f8f;">적립금 사용</td>'
+		   		html += '<td style="text-align: right">'+data[0].order_usepoint+'원</td>'
+		   		html += '</tr>'
+		   		html += '<tr>'
+		   		html += '<td style="color: #8f8f8f;">결제 수단</td>'
+		   		html += '<td style="text-align: right">신용카드 / 일시불</td>'
+		   		html += '</tr>'
+		   		html += '</table>'
+		   		html += '</div>'
+		   		
+		   		html += '<div class="container mt-4">'
+		   		html += '<div>'
+		   		html += '<h5>포인트 혜택</h5>'
+		   		html += '</div>'
+		   		html += '<hr>'
+		   		html += '<table class="table">'
+		   		html += '<tr>'
+		   		html += '<td style="color: #8f8f8f;">구매 적립</td>'
+		   		html += '<td style="text-align: right">'+(data[0].pay_price_real/10)+'원</td>'
+		   		html += '</tr>'
+		   		html += '</table>'
+		   		html += '</div>'
+		   	
+	
+	        $('#orderdetail .modal-body ').html(html);
+	        
+	        // 모달창 열기
+	        $('#orderdetail').modal('show');
+	    
+	   },
+	   error: function() {
+	     alert('서버 오류가 발생했습니다.');
+	   }
+	 });
+	}
+
+</script>
+
 <main>
 
 	<!-- 주문상품 전체보기 ------------------------------------------------------ -->
@@ -120,7 +253,9 @@
 							</td>
 							<td class="align-middle">${Orderlist.prod_name}</td>
 							<td class="align-middle">${fn:substring(Orderlist.order_date,0,10)}</td>
-							<td class="align-middle"><button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#orderdetail">상세보기</button></td>
+							<td class="align-middle">
+								<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#orderdetail" onclick="orderdetailToModal('${Orderlist.order_idx}')">상세보기</button>
+							</td>
 							<td class="align-middle">
 								<input type="hidden" id="prodIdx" value="${Orderlist.prod_idx}">
 								<button id="clickBtn" type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#review">리뷰작성</button>
@@ -241,115 +376,20 @@
 				</div>
 			</div>
 			</div>
-			<!-- 주문 상세 모달창-->
-		<div class="modal fade" id="orderdetail">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header d-flex flex-column logo">
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						<h4 class="modal-title fs-5">주문내역 상세보기</h4>
-					</div>
-					<div class="modal-body">
-						<div class="row container m-0">
-							<p class="mb-0 col p-0">주문번호 : 12345678</p>
-							<p class="mb-0 col text-end p-0">주문일자 : 2023-03-27</p>
+		<!-- 주문 상세 모달창-->
+			<div class="modal fade" id="orderdetail">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
+					<div class="modal-content" id="modal-content">
+						<div class="modal-header d-flex flex-column logo">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							<h4 class="modal-title fs-5">주문내역 상세보기</h4>
 						</div>
-						<div class="container mt-4">
-							<div>
-								<h5>주문 정보</h5>
-							</div>
-							<hr>
-							<div class="row">
-								<div id="p_left" class="col-3">
-									<img src="<c:url value='/images/mario.png'/>" style="width:85px; height:85px;">
-								</div>
-								<div id="p_right" class="col-9">
-									<p>닌텐도 스위치 마리오 + 래비드 반짝이는 희망 은하계 에디션</p>
-									<div class="row">
-										<p class="col">가격 : 64800원</p>
-										<p class="col">주문 수량 : 1개</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="container mt-4">
-							<div>
-								<h5>배송지 정보</h5>
-							</div>	
-							<hr>
-							<table class="table">
-								<tbody>
-									<tr>
-										<td class="col-2" style="color: #8f8f8f;">수령인</td>
-										<td class="col-8" style="border-bottom: 0px">
-											[이름 표시 ex ) 홍길동 ]
-										</td>
-									</tr>
-									<tr>
-										<td class="col-2" style="color: #8f8f8f;">연락처</td>
-										<td class="col-8" style="border-bottom: 0px">
-											[연락처 표시] ex ) 010-0000-0000 ]
-										</td>
-									</tr>
-									<tr>
-										<td class="col-2" style="color: #8f8f8f;">배송지</td>
-										<td class="col-8" style="border-bottom: 0px">
-											[주소 표시 ex ) 전라북도 전주시 덕진구 백제대로 572 5층 이젠컴퓨터학원 ]
-										</td>
-									</tr>
-									<tr>
-										<td class="col-2" style="color: #8f8f8f;">배송 메모</td>
-										<td class="col-8" style="border-bottom: 0px">
-											[메모 표시 ex ) 부재시 경비실에 맡겨주세요. ]
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+						<div class="modal-body" id="orderdetailContents">
 						
-						<div class="container mt-4">
-							<div class="row">
-								<h5 class="col mb-0">최종 주문 금액</h5>
-								<p class="col text-end mb-0 fs-5" style="color: #ee4a44;">77,777원</p>
-							</div>
-							<hr>
-							<table class="table">
-								<tr>
-									<td style="color: #8f8f8f;">상품 금액</td>
-									<td style="text-align: right">64,800원</td>
-								</tr>
-								<tr>
-									<td style="color: #8f8f8f;">배송비</td>
-									<td style="text-align: right">0원</td>
-								</tr>
-								<tr>
-									<td style="color: #8f8f8f;">적립금 사용</td>
-									<td style="text-align: right">100원</td>
-								</tr>
-								<tr>
-									<td style="color: #8f8f8f;">결제 수단</td>
-									<td style="text-align: right">신한카드 / 일시불</td>
-								</tr>
-							</table>
 						</div>
-				
-						<div class="container mt-4">
-							<div>
-								<h5>포인트 혜택</h5>
-							</div>
-							<hr>
-							<table class="table">
-								<tr>
-									<td style="color: #8f8f8f;">구매 적립</td>
-									<td style="text-align: right">648원</td>
-								</tr>
-							</table>
-						</div>
-						
 					</div>
 				</div>
 			</div>
-		</div>
 </main>
 <script>
 $(document).on("click", "button[id=clickBtn]", function () {

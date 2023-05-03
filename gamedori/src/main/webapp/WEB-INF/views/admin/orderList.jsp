@@ -198,7 +198,7 @@
 					</tr>
 				</thead>
 				<tbody id = "table-body" >
-				<%-- <c:forEach var="olist" items="${orderList }">
+				<c:forEach var="olist" items="${OrderList }">
 					<tr>
 						<td class="text-center align-middle">${olist.order_idx }</td>
 						<td class="text-center align-middle">${olist.member_email }</td>
@@ -222,7 +222,7 @@
 								onclick="orderdetailToModal('${olist.order_idx}')">상세보기</button>
 						</td>
 					</tr>
-				</c:forEach> --%>
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -260,7 +260,6 @@
 	        </div>
 	    </form>
 	</div>
-\
  <script>
 	var originalTableData = [];
 	
@@ -274,7 +273,6 @@
 	            pageLink.css({
 	                'background-color': '#dadbdd',
 	                'border-color': '#dee2e6'
-
 	            });
 	        } else {
 	            pageLink.css({
@@ -353,6 +351,7 @@
 	    sendAjaxRequest('orderlist',searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
+	        updatePaginationForAll();
 	    });
 	}
 	
@@ -488,9 +487,10 @@
     	            .append($('<option value="4" ' + (result.order_state == 4 ? 'selected' : '') + '>발송 준비중</option>'))
     	            .append($('<option value="5" ' + (result.order_state == 5 ? 'selected' : '') + '>발송 완료</option>'))
     	            .append($('<option value="6" ' + (result.order_state == 6 ? 'selected' : '') + '>주문 취소</option>'))
+    	            .append($('<option value="10" ' + (result.order_state == 10 ? 'selected' : '') + '>주문 취소 접수</option>'))
     	        ));
 
-    	        newRow.append($('<td class="text-center">').append($('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#orderdetail">상세보기</button>')));
+    	        newRow.append($('<td class="text-center">').append($('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#orderdetail" onclick="orderdetailToModal('+result.order_idx+')">상세보기</button>')));
 
     	        $('#table-body').append(newRow);
     	    });

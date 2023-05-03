@@ -317,7 +317,16 @@
             newRow.append($('<td class="text-center">').text(result.prod_wdate));
             newRow.append($('<td class="text-center">').text(result.prod_stock));
             newRow.append($('<td class="text-center">').text(result.prod_co));
+            newRow.append($('<td class="text-center">').text(   '<div class="d-flex justify-content-around">
+			<button type="button" onclick="location.href='prodmodify.do?prod_idx='+result.prod_idx+'" class="btn btn-outline-secondary btn-sm">수정</button>
+			<form name="frm" action="prodDelete.do" method="post">
+				<input name="prod_idx" type="hidden" value="+result.prod_idx+">
+				<button id="prodDel" class="btn btn-outline-secondary btn-sm">삭제</button>
+			</form>
+		</div>'));
 
+            
+         
             // 답변 버튼 추가 (이 경우에는 필요 없어보이므로 제거합니다.)
 
             tableBody.append(newRow);
