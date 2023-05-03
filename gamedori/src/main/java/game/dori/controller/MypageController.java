@@ -37,10 +37,8 @@ import game.dori.vo.COUPON_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.OPT_VO;
 import game.dori.vo.ORDER_DETAIL_VO;
-import game.dori.vo.NOTICE_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PAY_VO;
-import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.QA_VO;
@@ -91,8 +89,6 @@ public class MypageController {
 		 int ReviewCount =
 		 mypageService.ReviewCount(memberVO.getMember_idx());
 		 model.addAttribute("ReviewCount", ReviewCount);
-		
-		
 
 
 		//최근주문내역
@@ -103,7 +99,7 @@ public class MypageController {
 			olvo.setOrder_date(selectOrderList.get(i).getOrder_date());
 			olvo.setOrder_state(selectOrderList.get(i).getOrder_state());
 			ORDER_DETAIL_VO odvo = mypageService.orderDetailOne(selectOrderList.get(i).getOrder_idx());
-			OPT_VO optvo =productService.optSelectOne(odvo.getOpt_tb_idx());
+			OPT_VO optvo = productService.optSelectOne(odvo.getOpt_tb_idx());
 			PAY_VO payvo = mypageService.selectPayPrice(selectOrderList.get(i).getOrder_idx());
 			PRODUCT_VO pvo = productService.prodSelectOne(optvo.getProd_tb_idx());
 			olvo.setProd_name(pvo.getProd_name());
@@ -111,19 +107,16 @@ public class MypageController {
 			olvo.setPay_price_real(payvo.getPay_price_real());
 			orderList5.add(olvo);
 		}
+		
 		model.addAttribute("Orderlist", orderList5);
 
 		// 상품문의내역
 		List<PRODUCT_Q_VO> selectQAList = mypageService.selectQAListD(memberVO.getMember_idx() );
 		model.addAttribute("selectQAList", selectQAList);
 		
-//		// 1 : 1 문의 내역
-//		List<QA_VO> selectOtoList = mypageService.selectOtoList(memberVO.getMember_idx());
-//		model.addAttribute("selectOtoList", selectOtoList);
-		
-			// 1 : 1 문의 내역 역순
-			List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx());
-			model.addAttribute("selectOtoListD",selectOtoListD);
+		// 1 : 1 문의 내역 역순
+		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx());
+		model.addAttribute("selectOtoListD",selectOtoListD);
 		
 		// 나의후기
 		List<REVIEW_VO> selectReviewList = mypageService.selectReviewList(memberVO.getMember_idx());
@@ -216,14 +209,40 @@ public class MypageController {
 	
 	
 	// 상품 문의사항 상세보기
-	@RequestMapping( value = "/prdo_q_view.do", method = RequestMethod.GET )
-	public String view(Model model, @RequestParam("prod_q_idx") int prod_q_idx)
+	@RequestMapping( value = "/prod_q_view.do", method = RequestMethod.GET )
+	public String view(Model model, @RequestParam("prod_q_idx") int prod_q_idx, String prod_name)
 	{
 		PRODUCT_Q_VO product_Q_VO = mypageService.prod_select(prod_q_idx);
+		
 		model.addAttribute("product_Q_VO", product_Q_VO);
 
 		return "mypage/prod_q_view";
+	}	
+	
+	// 상품 문의사항 글 삭제
+	@RequestMapping(value = "/prod_q_delete.do", method = RequestMethod.GET)
+	public void prod_q_delete(@RequestParam("prod_q_idx") int prod_q_idx, HttpServletResponse rsp, HttpServletRequest req) throws IOException {
+	    
+	    System.out.println(prod_q_idx);
+	    
+	    HttpSession session = req.getSession();
+	    session.setAttribute("prod_q_idx", prod_q_idx); // qa_idx 값을 세션에 저장
+
+	    int result = mypageService.prod_delete(prod_q_idx);
+	    
+	    rsp.setContentType("text/html; charset=utf-8");
+	    PrintWriter pw = rsp.getWriter();
+
+	    if(result > 0) {
+	    	session.setAttribute("prod_q_idx", prod_q_idx);
+	        pw.append("<script>alert('상품 문의사항이 삭제되었습니다.'); location.href='" + req.getContextPath()
+	            + "/mypage/prodqa.do';</script>");
+	    } else {
+	        pw.append("<script>alert('상품 문의사항이 삭제되지 않았습니다.'); location.href='" + req.getContextPath()
+	            + "/mypage/prod_q_view.do?prod_q_idx=" + prod_q_idx + "';</script>");
+	    }
 	}
+
 	
 	/*-------------------------------------------------------------------------------*/
 	

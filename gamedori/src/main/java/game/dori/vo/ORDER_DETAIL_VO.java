@@ -7,6 +7,15 @@ public class ORDER_DETAIL_VO {
 	private int 	orderd_qty;			// 수량
 	private int 	orderd_price;		// 총 가격
 	private int 	opt_tb_idx;			// 옵션 테이블 인덱스
+	private int 	orderd_order_state;  // 주문 상태
+	
+	
+	public int getOrderd_order_state() {
+		return orderd_order_state;
+	}
+	public void setOrderd_order_state(int orderd_order_state) {
+		this.orderd_order_state = orderd_order_state;
+	}
 	public int getOrderd_idx() {
 		return orderd_idx;
 	}

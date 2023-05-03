@@ -175,19 +175,43 @@
 		</div>
 		<!-- 상품 상세정보 -------------------------------- -->
 		<div class="container mt-5">
-			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a id="productNav1"
-					class="nav-link active text-reset fw-bold" aria-current="page"
-					href="#productNav1">상품상세</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav2">배송안내</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav3">고객리뷰(${reviewCnt})</a></li>
-				<li class="nav-item"><a class="nav-link text-reset"
-					href="#productNav4">상품문의(${pqlCnt})</a></li>
+			<ul class="nav justify-content-center nav-fill nav-tabs text-black" id="tab_menu">
+			    <li class="nav-item">
+			        <a class="nav-link text-reset" href="#productNav1">상품상세</a>
+			    </li>
+			    <li class="nav-item">
+			        <a class="nav-link text-reset" href="#productNav2">배송안내</a>
+			    </li>
+			    <li class="nav-item">
+			        <a class="nav-link text-reset" href="#productNav3">고객리뷰(0)</a>
+			    </li>
+			    <li class="nav-item">
+			        <a class="nav-link text-reset" href="#productNav4">상품문의</a>
+			    </li>
 			</ul>
+			
+			<script>
+			    const tabs = document.querySelectorAll('.nav-item a');
+			
+			    tabs.forEach(tab => {
+			        tab.addEventListener('click', (event) => {
+			            event.preventDefault();
+			            tabs.forEach(tab => {
+			                tab.classList.remove('fw-bold');
+			                tab.classList.remove('active');
+			            });
+			            tab.classList.add('fw-bold');
+			            tab.classList.add('active');
+			            // TODO: 해당 탭에 대한 내용을 보여주는 코드 작성
+			        });
+			    });
+			</script>
+ 
+
+			
+			
 			<!--상세 사진 영역-->
-			<div class="container d-flex justify-content-center mt-3">
+			<div class="container d-flex justify-content-center mt-3" id="productNav1">
 				<img src="<c:url value='/images/${pvo.prod_imgd}' />" alt="">
 			</div>
 		</div>
@@ -205,9 +229,11 @@
 					href="#productNav4">상품문의(${pqlCnt})</a></li>
 			</ul>
 			<!--배송 안내 사진 영역-->
-			<div class="container">
-				<div class="container d-flex justify-content-center mt-3">
-					<img src="<c:url value='/images/겜우리 합배송 관련 주의사항.jpg' />" alt="">
+			<div class="container mt-5" id="productNav2">
+				<div class="container">
+					<div class="container d-flex justify-content-center mt-3">
+						<img src="<c:url value='/images/겜우리 합배송 관련 주의사항.jpg' />" alt="">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -346,81 +372,104 @@
 								<td colspan="4">${pql.prod_q_contents} <br>
 									<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
 									${pql.prod_q_reply}
+
 								</td>
-							</c:if>
-							
-							<c:if test="${pql.prod_q_secret eq '1' && pql.member_name != sessionScope.Login.member_name}">
-								<td colspan="4">
-									비밀글 입니다.
+								<td style="text-align: left;">${pql.prod_q_title}
+									<c:if test="${pql.prod_q_secret eq '1'}">
+									<i style="vertical-align: middle;" class="xi-lock-o"></i>
+									</c:if>
 								</td>
-							</c:if>
-						</tr>
-						</c:forEach>
-					</c:if>
-					<c:if test="${empty pqllist}">
-						<tr>
-							<td></td>
-							<td class="py-5">등록된 문의가 없습니다.</td>
-						</tr>
-					</c:if>
-				</tbody>
-			</table>
-			<div class="container d-flex justify-content-between">
-				<div></div>
-				<nav aria-label="Page navigation example">
-					<ul class="pagination text-black">
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&lt;</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">1</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">2</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">3</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&gt;</a></li>
-					</ul>
-				</nav>
-				<button type="button" class="btn btn-outline-light login me-2"
-					data-bs-toggle="modal" data-bs-target="#qa" style="height: 38px;">문의
-					작성하기</button>
-				<!-----------------------------------문의작성하기 모달----------------------------------------------->
-				<div class="modal fade" id="qa">
-					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-header d-flex flex-column logo">
-								<div class="mt-2">
-									<h4 class="modal-title fs-5">문의 하기</h4>
+								<td style="text-align:center;">${pql.member_name}</td>
+								<c:set var="pqlwdate" value="${pql.prod_q_wdate}" />
+								<c:set var="pqlwdates" value="${fn:substring(pqlwdate,0,10)}" />
+								<td style="text-align:center;">${pqlwdates}</td>
+							</tr>
+							<tr class="hide border-bottom">
+								<td></td>
+								
+								<c:if test="${pql.prod_q_secret eq '1' && pql.member_name == sessionScope.Login.member_name}">
+									<td colspan="4">${pql.prod_q_contents} <br>
+										<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
+										${pql.prod_q_reply}
+									</td>
+								</c:if>
+								
+								<c:if test="${pql.prod_q_secret eq '1' && pql.member_name != sessionScope.Login.member_name}">
+									<td colspan="4">
+										비밀글 입니다.
+									</td>
+								</c:if>
+							</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${empty pqllist}">
+							<tr>
+								<td></td>
+								<td class="py-5">등록된 문의가 없습니다.</td>
+							</tr>
+						</c:if>
+					</tbody>
+				</table>
+				<div class="container d-flex justify-content-between">
+					<div></div>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination text-black">
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">&lt;</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">1</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">2</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">3</a></li>
+							<li class="page-item"><a class="page-link text-reset"
+								href="#">&gt;</a></li>
+						</ul>
+					</nav>
+					<button type="button" class="btn btn-outline-light login me-2"
+						data-bs-toggle="modal" data-bs-target="#qa" style="height: 38px;">문의
+						작성하기</button>
+					<!-----------------------------------문의작성하기 모달----------------------------------------------->
+					<div class="modal fade" id="qa">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header d-flex flex-column logo">
+									<div class="mt-2">
+										<h4 class="modal-title fs-5">문의 하기</h4>
+									</div>
 								</div>
-							</div>
-							<div class="modal-body">
-								<form name="qa" method="post" action="detail.do">
-									<input value="${pvo.prod_idx}" type="hidden" name="product_tb_idx" >
-									<input value="${Login.member_idx}" type="hidden" name="member_tb_idx" >
-									<div class="form-group">
-										<input type="text" class="form-control"	placeholder="제목" name="prod_q_title">
-									</div>
-									<div class="form-group mt-2 col">
-										<textarea class="form-control h-25" rows="10"
-											placeholder="내용" name="prod_q_contents"></textarea>
-									</div>
-									<div class="d-grid gap-1 mt-2 d-flex align-items-center">
-										<span class="input-group-text" id="basic-addon1">비밀글여부</span>
-											<input name="prod_q_secret" type="radio" value="1">Y
-											<input name="prod_q_secret" type="radio" value="2">N
-									</div>
-									<div class="d-grid gap-1 mt-2">
-										<input type="submit"
-											class="btn btn-outline-light login btn-lg form-control"
-											value="작성">
-									</div>
-								</form>
+								<div class="modal-body">
+									<form name="qa" method="post" action="detail.do">
+										<input value="${pvo.prod_idx}" type="hidden" name="product_tb_idx" >
+										<input value="${Login.member_idx}" type="hidden" name="member_tb_idx" >
+										<div class="form-group">
+											<input type="text" class="form-control"	placeholder="제목" name="prod_q_title">
+										</div>
+										<div class="form-group mt-2 col">
+											<textarea class="form-control h-25" rows="10"
+												placeholder="내용" name="prod_q_contents"></textarea>
+										</div>
+										<div class="d-grid gap-1 mt-2 d-flex align-items-center">
+											<span class="input-group-text" id="basic-addon1">비밀글여부</span>
+												<input name="prod_q_secret" type="radio" value="1">Y
+												<input name="prod_q_secret" type="radio" value="2">N
+										</div>
+										<div class="d-grid gap-1 mt-2">
+											<input type="submit"
+												class="btn btn-outline-light login btn-lg form-control"
+												value="작성">
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
+
+
 </main>
 <script>
 	// 비로그인 상품구매 닫기

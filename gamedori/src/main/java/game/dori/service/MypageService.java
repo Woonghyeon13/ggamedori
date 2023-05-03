@@ -5,17 +5,15 @@ import java.util.List;
 import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
-import game.dori.vo.NOTICE_VO;
 import game.dori.vo.ORDER_DETAIL_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PAY_VO;
-import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.QA_VO;
 import game.dori.vo.REVIEW_VO;
 import game.dori.vo.SAVEPOINT_VO;
-import game.dori.vo.WISHLIST_VO;
+
 
 public interface MypageService {
 	
@@ -71,13 +69,6 @@ public interface MypageService {
 	
 	// 1 : 1 문의사항 글 개수	
 	public int oto_countAll();
-	
-//	// 사용자 본인이 등록한 글 리스트
-//	public List<QA_VO> otoListByMember(int member_idx, int limit, int start);
-//	
-//	// 사용자 본인이 등록한 글 개수
-//	public int countOtoByMember(int member_Idx);
-	
 
 	
 	/*-------------------------------------------------------------------------------*/

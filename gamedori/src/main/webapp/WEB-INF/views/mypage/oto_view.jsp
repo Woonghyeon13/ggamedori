@@ -68,7 +68,7 @@
 	                </tr>
 	                <tr>
 	                    <td style="float:left; color:gray;">작성자 : ${qaVO.qa_writer}</td>
-	                    <td class="wdate" style="float:left; color:gray;">작성일 : ${qaVO.qa_wdate}</td>
+	                    <td style="float:left; color:gray;">작성일 : <span class="wdate">${qaVO.qa_wdate}</span></td>
 
 	                    <td style="float:right; color:gray;">처리 상태 : ${qaVO.qa_yn == 1 ? '답변 완료' : '답변 처리중'}</td>              
 	                </tr>

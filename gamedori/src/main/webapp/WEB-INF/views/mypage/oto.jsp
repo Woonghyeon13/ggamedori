@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
@@ -216,21 +215,29 @@
 	        $.each(searchResults, function (index, result) {
 	            var newRow = $('<tr>');
 	
-	            newRow.append($('<td>').text(result.qa_idx));
-	            newRow.append($('<td>').append($('<a>').attr('href', 'oto_view.do?qa_idx=' + result.qa_idx).text(result.qa_title)));
-	            newRow.append($('<td>').text(result.qa_writer));
-	            newRow.append($('<td>').text(result.qa_wdate));
-	            newRow.append($('<td>').text(result.qa_yn == 1 ? '답변 완료' : '답변 처리중'));
+	            // 테이블에 행 추가
+	            newRow.append($('<td style="text-align:center;">').text(result.qa_idx));
+	            newRow.append($('<td style="text-align:center;">').append($('<a>').attr('href', 'oto_view.do?qa_idx=' + result.qa_idx).text(result.qa_title)));
+	            newRow.append($('<td style="text-align:center;">').text(result.qa_writer));
+	            newRow.append($('<td style="text-align:center;">').text(result.qa_wdate));
+	            
+	            var prodQynText = "";
+	            if (result.qa_yn === 2) {
+	              prodQynText = "답변 처리중";
+	            } else if (result.qa_yn === 1) {
+	              prodQynText = "답변 완료";
+	            }
+	            newRow.append($('<td style="text-align:center;">').text(prodQynText));
 	
-	         
 	            tableBody.append(newRow);
 	        });
 	    }
-	
+
 	    // 테이블을 보여줍니다.
 	    $('table').show();
 	}
-	</script>
+	  
+	  </script>
 	
 	  
 
@@ -283,6 +290,7 @@
 					</li>
 				</ul>
 			</div>
+					
         <div id="mypage_inner2" class="container">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
@@ -294,8 +302,7 @@
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
-					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의
-							후기</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의후기</a></li>
 					<!-- review_list.html -->
 					<li class="list-group-item"><a href="<c:url value='/user/modify.do' />">회원정보수정</a></li>
 					<li class="list-group-item"><a href="<c:url value='/user/withdraw.do' />">탈퇴하기</a></li>
@@ -331,47 +338,43 @@
               
 
             </table>    
-            <div class="container">
-			   
-			 <table class="table" style="clear:both; width: 100%;">
-			    <tr>                        
-			        <td class="d-flex align-items-center justify-content-between">
-			           <form class="d-flex justify-content-center align-items-center" role="form">
-			        <div class="me-2">
-			            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
-			                <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
-			                <option value="name" selected>제목으로 검색</option>
-			                <option value="content">내용으로 검색</option>
-			                <option value="ncontent">제목+내용으로검색</option>
-			            </select>
-			        </div>
-			        <div class="me-2">
-			            <input class="form-control form-control-sm" type="text" placeholder="제목"  name="searchText"aria-label=".form-control-sm example">
-			        </div>
-			        <div>
-			            <button type="submit" class="btn btn-dark btn_search">검색</button>
-			        </div>
-			    </form>
-            
+           <!-- 검색 -->
+		<div class="container">
+		    <form class="d-flex justify-content-center align-items-center" role="form">
+		        <div class="me-2">
+		            <select class="form-select" name="searchOption" aria-label="검색 옵션" style="width: 150px;">
+		                <option disabled style="background-color: #f2f2e7;">검색 옵션</option>
+		                <option value="name" selected>회원명으로 검색</option>
+		                <option value="title" selected>제목으로 검색</option>
+		            </select>
+		        </div>
+		        <div class="me-2">
+		            <input class="form-control form-control-sm" type="text" name="searchText">
+		        </div>
+		        <div>
+		            <button type="submit" class="btn btn-dark btn_search">검색</button>
+		        </div>
+		    </form>
+		</div> <!-- end:.container -->
+		<!-- 페이징 -->
+		<div class="mt-3">
+			<nav>
+			  <ul class="pagination justify-content-center">
+			    <c:forEach var="i" begin="1" end="${totalPages}">
+			      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+			        <a class="page-link" >
+			          ${i}
+			        </a>
+			      </li>
+			    </c:forEach>
+			  </ul>
+			</nav>
+		</div>
+
 
              <c:if test="${Login.member_role == 1}">
 	 	           <button class="btn btn-dark" onclick="location.href='${pageContext.request.contextPath}/mypage/oto_write.do'" style="float:right; margin-top:20px;">문의하기</button>
 			 </c:if>  
-		             </td>
-				</tr>		
-						</table>
-							<nav aria-label="Page navigation example">
-								<ul class="pagination justify-content-center" >
-									<c:forEach var="i" begin="1" end="${totalPages}">
-									    <li class="page-item" class="${param.page == i ? 'active' : ''}">
-									        <a class="page-link" href="?page=${i}" style="${param.page == i ? 'background-color: #dadbdd; border-color: #ffeeeee;' : ''}">
-									            ${i}
-									        </a>
-									    </li>
-									</c:forEach>
-								</ul>
-							</nav>
-			    	</div> <!-- end:.container -->
 				</div>	<!-- end:#one_to_one_inner -->
         	</div> <!-- end:#mypage_inner2 -->
         </div>	<!-- end:.mypage_inner -->

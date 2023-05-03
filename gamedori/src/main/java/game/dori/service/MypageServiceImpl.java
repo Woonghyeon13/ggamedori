@@ -16,14 +16,12 @@ import game.dori.dao.ProductQDAO;
 import game.dori.dao.QaDAO;
 import game.dori.dao.ReviewDAO;
 import game.dori.dao.SavepointDAO;
-import game.dori.dao.WishlistDAO;
 import game.dori.vo.CARTP_VO;
 import game.dori.vo.CART_VO;
 import game.dori.vo.COUPON_VO;
 import game.dori.vo.ORDER_DETAIL_VO;
 import game.dori.vo.ORDER_VO;
 import game.dori.vo.PAY_VO;
-import game.dori.vo.PRODUCTQQ_VO;
 import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
 import game.dori.vo.QA_VO;
@@ -59,12 +57,9 @@ public class MypageServiceImpl implements MypageService{
 	private CartDAO cartDAO;
 	
 	@Autowired
-	private WishlistDAO wishlistDAO;
-	
-	@Autowired
 	private ProductDAO productDAO;
 	
-  @Autowired
+	@Autowired
 	private OrderDetailDAO orderDetailDAO;
 	
 	@Autowired
@@ -149,49 +144,49 @@ public class MypageServiceImpl implements MypageService{
 	// 1 : 1 문의사항 글 등록
 	@Override
 	public int oto_insert(QA_VO qaVO) {
-		// TODO Auto-generated method stub
+		
 		return qaDAO.oto_insert(qaVO);
 	}
 	
 	// 1 : 1 문의사항 글 삭제
 	@Override
 	public int oto_delete(int qa_idx) {
-		// TODO Auto-generated method stub
+		
 		return qaDAO.oto_delete(qa_idx);
 	}
 	
 	// 1 : 1 문의사항 상세보기
 	@Override
 	public QA_VO oto_select(int member_tb_idx) {
-		// TODO Auto-generated method stub
+		
 		return qaDAO.oto_select(member_tb_idx);
 	}
 
 	// 1 : 1 문의사항 글 개수
 	@Override
 	public int oto_countAll() {
-		// TODO Auto-generated method stub
+		
 		return qaDAO.oto_countAll();
 	}
 	
 	// 1 : 1 문의사항 페이징
 	@Override
 	public List<QA_VO> oto_list(int limit, int start) {
-		// TODO Auto-generated method stub
+		
 		return qaDAO.list(limit, start);
 	}
 	
 	// 1 : 1 문의사항 글 검색
 	@Override
 	public int oto_countSearchResults(String searchText, String searchOption) {
-		// TODO Auto-generated method stub
+		
 		return qaDAO.oto_countSearchResults(searchText, searchOption);
 	}	
 
 	// 1 : 1 문의사항 글 검색 후 페이징
 	@Override
 	public List<QA_VO> oto_search(String searchText, String searchOption, int start, int limit) {
-		// TODO Auto-generated method stub
+		
 		return qaDAO.oto_search(searchText, searchOption, start, limit);
 	}
 	
@@ -215,42 +210,42 @@ public class MypageServiceImpl implements MypageService{
 	// 상품 문의사항 글 등록
 	@Override
 	public int prod_insert(PRODUCT_Q_VO product_Q_VO) {
-		// TODO Auto-generated method stub
+		
 		return productQDAO.prod_insert(product_Q_VO);
 	}
 
 	// 상품 문의사항 글 삭제
 	@Override
 	public int prod_delete(int prod_q_idx) {
-		// TODO Auto-generated method stub
+		
 		return productQDAO.prod_delete(prod_q_idx);
 	}
 	
 	// 상품 문의사항 상세보기
 	@Override
 	public PRODUCT_Q_VO prod_select(int member_tb_idx) {
-		// TODO Auto-generated method stub
+		
 		return productQDAO.prod_select(member_tb_idx);
 	}
 	
 	// 상품 문의사항 글 개수
 	@Override
 	public int prod_countAll() {
-		// TODO Auto-generated method stub
+		
 		return productQDAO.prod_countAll();
 	}
 	
 	// 상품 문의사항 페이징
 	@Override
 	public List<PRODUCT_Q_VO> prod_listD(int limit, int start) {
-		// TODO Auto-generated method stub
+		
 		return productQDAO.prod_list(limit, start);
 	}
 
 	// 상품 문의사항 글 검색
 	@Override
 	public int prod_countSearchResults(String prod_searchText, String prod_searchOption) {
-		// TODO Auto-generated method stub
+		
 		return productQDAO.prod_countSearchResults(prod_searchText, prod_searchOption);
 	}
 
@@ -258,7 +253,7 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public List<PRODUCT_Q_VO> prod_search(String prod_searchText, String prod_searchOption, int prod_start,
 			int prod_limit) {
-		// TODO Auto-generated method stub
+		
 		return productQDAO.prod_search(prod_searchText, prod_searchOption, prod_start, prod_limit);
 	}
 	
@@ -380,6 +375,7 @@ public class MypageServiceImpl implements MypageService{
 	public int insertPointUse(SAVEPOINT_VO savevo) {
 		return savepointDAO.insertPointUse(savevo);
 	}
+
 
 	
 	/*-------------------------------------------------------------------------------*/

@@ -14,7 +14,6 @@ public class ORDER_LIST_VO {
 	private String order_memo; //배송메모
 	private int order_state;	// 처리상태 1:주문접수,2:결제완료,3:상품준비중,4:발송준비중,5:발송완료,6:주문취소,7:반품접수,8:반품완료
 	private int order_usepoint; //사용적립금
-
 	
 	private int orderd_idx;			// 주문상세 인덱스
 	private int order_tb_idx;		// 주문번호 인덱스
@@ -23,6 +22,7 @@ public class ORDER_LIST_VO {
 	private int coupon_tb_idx;		// 쿠폰 인덱스
 	private String orderd_qty;			// 수량
 	private String orderd_price;		// 총 가격
+	private int 	orderd_order_state;  // 주문 상태
 
 	
 	private int member_idx ; //유저 인덱스
@@ -78,9 +78,60 @@ public class ORDER_LIST_VO {
 	private int 	pay_price_deposit;	// 입금액
 	private String 	pay_deposit_name;	// 입금자명
 	private int 	pay_deposit_bank; 			// 입금은행
-	
+
 	private String cart_idx;			// 카트 인덱스
+
+	private int refund_idx; 			//환불 인덱스
+	private String refund_contents;		//환불 사유
+	private String refund_img;			//환불 이미지
+	private int refund_yn;				//환불 상태
+	private String refund_date;			//환불 신청 시간
+
 	
+	
+	
+	public String getRefund_date() {
+		return refund_date;
+	}
+	public void setRefund_date(String refund_date) {
+		this.refund_date = refund_date;
+	}
+	public int getRefund_idx() {
+		return refund_idx;
+	}
+	public void setRefund_idx(int refund_idx) {
+		this.refund_idx = refund_idx;
+	}
+	public String getRefund_contents() {
+		return refund_contents;
+	}
+	public void setRefund_contents(String refund_contents) {
+		this.refund_contents = refund_contents;
+	}
+	public String getRefund_img() {
+		return refund_img;
+	}
+	public void setRefund_img(String refund_img) {
+		this.refund_img = refund_img;
+	}
+	public int getRefund_yn() {
+		return refund_yn;
+	}
+	public void setRefund_yn(int refund_yn) {
+		this.refund_yn = refund_yn;
+	}
+	public int getOrder_usepoint() {
+		return order_usepoint;
+	}
+	public void setOrder_usepoint(int order_usepoint) {
+		this.order_usepoint = order_usepoint;
+	}
+	public int getOrderd_order_state() {
+		return orderd_order_state;
+	}
+	public void setOrderd_order_state(int orderd_order_state) {
+		this.orderd_order_state = orderd_order_state;
+	}
 	public int getOrder_idx() {
 		return order_idx;
 	}

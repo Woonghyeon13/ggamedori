@@ -12,28 +12,50 @@
 		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_rdate}, #{prod_reserv}, #{prod_imgt}, #{prod_imgm}, #{prod_imgd}, #{prod_qtymin}, #{prod_qtymax});
 	</insert>
 	
-	<!-- 상품 리스트 -->
-	<select id="prodSelectAll" resultType="productVO" parameterType="categoryVO">
-		SELECT * FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
-		<choose>
-			<when test="cate_refcode != null">
-				and cate_refcode = #{cate_refcode} order by p.prod_idx desc
-			</when>
-			<when test='cate_rsv != null'>
-				and prod_reserv = #{cate_rsv} order by p.prod_idx desc
-			</when>
-			<when test='cate_refcode == null and cate_code != null'>
-				and category_tb_code = #{cate_code} order by p.prod_idx desc
-			</when>
-			<when test= 'cate_new != null'>
-				order by p.prod_rdate desc limit 12
-			</when>
-			<otherwise>
-				order by p.prod_idx desc
-			</otherwise>	
-		</choose>
-	</select>
-	
+<!-- 상품 리스트 -->
+<select id="prodSelectAll" resultType="productVO" parameterType="categoryVO">
+    SELECT * FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
+    <choose>
+        <when test="cate_refcode != null">
+            and cate_refcode = #{cate_refcode}
+        </when>
+        <when test='cate_code != null'>
+            and category_tb_code = #{cate_code}
+        </when>
+        <when test='cate_rsv != null'>
+            and prod_reserv = #{cate_rsv}
+        </when>
+        <when test='cate_new != null'>
+            and prod_rdate >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+        </when>
+    </choose>
+    <choose>
+        <when test='sort != null'>
+            <choose>
+                <when test='sort == "hot"'>
+                    order by p.prod_views desc
+                </when>
+                <when test='sort == "new"'>
+                    order by p.prod_rdate desc
+                </when>
+                <when test='sort == "row"'>
+                    order by p.prod_price asc
+                </when>
+                <when test='sort == "high"'>
+                    order by p.prod_price desc
+                </when>
+                <otherwise>
+                    order by p.prod_idx desc
+                </otherwise>
+            </choose>
+        </when>
+        <otherwise>
+            order by p.prod_idx desc
+        </otherwise>
+    </choose>
+</select>
+
+
 	<!-- 상품리스트 카운트 -->
 	<select id="listCnt" resultType="int" parameterType="categoryVO">
 		SELECT count(*) FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
@@ -182,8 +204,8 @@
 	
 	<!-- 상품문의 상품명찾기 -->
 	<select id="prod_name" parameterType="int" resultType="productVO">
-		select * from product_tb
-			where prod_idx = #{prod_idx}
+		SELECT * FROM product_tb
+			WHERE prod_idx = #{prod_idx}
 	</select>
 	
 	<!-- 상품 재고감소 -->
