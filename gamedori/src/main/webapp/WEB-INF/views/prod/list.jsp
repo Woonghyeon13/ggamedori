@@ -72,29 +72,31 @@
 				<div class="mt-5 border-top border-2 border-dark">
 					<ul class="d-flex justify-content-evenly mt-4 ps-0">
 						<c:if test="${param.cate_refcode eq '100' or param.cate_code eq '101' or param.cate_code eq '102' or param.cate_code eq '103' or param.cate_code eq '104'}">
-							<li><a href="<c:url value='/prod/list.do?cate_refcode=100'/>">전체</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=101'/>">하드웨어</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=102'/>">타이틀</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=103'/>">주변기기</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=104'/>">아미보</a></li>
+							<li><a href="#" onclick="changeCategory('cate_refcode', '100', event)">전체</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '101', event)">하드웨어</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '102', event)">타이틀</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '103', event)">주변기기</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '104', event)">아미보</a></li>
+							
 						</c:if>
 						<c:if test="${param.cate_refcode eq '200' or param.cate_code eq '201' or param.cate_code eq '202' or param.cate_code eq '203'}">
-							<li><a href="<c:url value='/prod/list.do?cate_refcode=200'/>">전체</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=201'/>">하드웨어</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=202'/>">타이틀</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=203'/>">주변기기</a></li>
+							<li><a href="#" onclick="changeCategory('cate_refcode', '200', event)">전체</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '201', event)">하드웨어</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '202', event)">타이틀</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '203', event)">주변기기</a></li>
+						
 						</c:if>
 						<c:if test="${param.cate_refcode eq '300' or param.cate_code eq '301' or param.cate_code eq '302' or param.cate_code eq '303'}">
-							<li><a href="<c:url value='/prod/list.do?cate_refcode=300'/>">전체</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=301'/>">하드웨어</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=302'/>">타이틀</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=303'/>">주변기기</a></li>
+									<li><a href="#" onclick="changeCategory('cate_refcode', '300', event)">전체</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '301', event)">하드웨어</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '302', event)">타이틀</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '303', event)">주변기기</a></li>
 						</c:if>
 						<c:if test="${param.cate_refcode eq '400' or param.cate_code eq '401' or param.cate_code eq '402' or param.cate_code eq '403'}">
-							<li><a href="<c:url value='/prod/list.do?cate_refcode=400'/>">전체</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=401'/>">하드웨어</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=402'/>">타이틀</a></li>
-							<li><a href="<c:url value='/prod/list.do?cate_code=403'/>">주변기기</a></li>
+							<li><a href="#" onclick="changeCategory('cate_refcode', '400', event)">전체</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '401', event)">하드웨어</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '402', event)">타이틀</a></li>
+							<li><a href="#" onclick="changeCategory('cate_code', '403', event)">주변기기</a></li>
 						</c:if>
 					</ul>
 				</div>
@@ -113,12 +115,69 @@
 					카테고리에 총 ${listCnt}개의 상품이있습니다.
 				</p>
 				<ul class="col-6 d-flex justify-content-end product_sort">
-				    <li id="li1"><a href="#" onclick="sortProducts('high')">높은가격순</a></li>
-				    <li id="li1"><a href="#" onclick="sortProducts('row')">낮은가격순</a></li>
-				    <li id="li1"><a href="#" onclick="sortProducts('hot')">인기상품</a></li>
-				    <li><a href="#" onclick="sortProducts('new')">최근순</a></li>
+				    <li id="li1"><a href="#" onclick="sortProducts('high', event)">높은가격순</a></li>
+				    <li id="li1"><a href="#" onclick="sortProducts('row', event)">낮은가격순</a></li>
+				    <li id="li1"><a href="#" onclick="sortProducts('hot', event)">인기상품</a></li>
+				    <li><a href="#" onclick="sortProducts('new', event)">최근순</a></li>
 				</ul>
-			
+				<script>
+				
+				function changeCategory(paramName, paramValue, event) {
+				    event.preventDefault();
+				    var sort = '<%=request.getParameter("sort")%>' || '';
+
+				    var data = {sort: sort};
+				    data[paramName] = paramValue;
+
+				    $.ajax({
+				        url: '<%=request.getContextPath()%>/prod/list.do',
+				        method: 'GET',
+				        data: data,
+				        success: function (data) {
+				            console.log(data);
+				            var product_list = $(data).find('.product-list');
+				            $('.product-list').html(product_list.html());
+				        },
+				        error: function (xhr, status, error) {
+				            console.log('Error:', error);
+				        }
+				    });
+				}
+				function sortProducts(sort, event) {
+				  
+				    event.preventDefault();
+				    var cate_refcode 	= '<%=request.getParameter("cate_refcode")%>'|| '';
+				    var cate_code 		= '<%=request.getParameter("cate_code")%>'	 || '';
+				    var cate_rsv 		= '<%=request.getParameter("cate_rsv")%>'	 || '';
+				    var cate_new 		= '<%=request.getParameter("cate_new")%>'	 || '';
+				    
+				    $.ajax
+				    ({
+				        url: '<%=request.getContextPath()%>/prod/list.do',
+				        method: 'GET',
+				        data: 
+				        {	//파라미터
+				            sort:sort, 
+				            cate_refcode: cate_refcode, 
+				            cate_code: cate_code,
+				            cate_rsv: cate_rsv,
+				            cate_new: cate_new
+				        },
+				        success: function(data)
+				        {
+				             console.log(data)
+				             var product_list = $(data).find('.product-list');
+				             $('.product-list').html(product_list.html());
+				             
+				        },
+				        error: function(xhr, status, error)
+				        {
+				            console.log('Error:', error);	
+				        }
+				        
+				    });
+				}
+				</script>
 			</div>
 		</div>
         
@@ -142,28 +201,21 @@
 			        </c:forEach>
 			    </ul>
 			</div>
-
-
-        <!--페이지네이션-->
-		<div class="d-flex justify-content-center">
-		    <nav>
-		        <ul class="pagination">
-		            <li class="page-item">
-		                <a class="page-link text-reset" href="<c:url value='/.do'/>" aria-label="Previous">
-		                <span aria-hidden="true">&laquo;</span>
-		                </a>
-		            </li>
-		            <li class="page-item"><a class="page-link text-reset" href="#">1</a></li>
-		            <li class="page-item"><a class="page-link text-reset" href="#">2</a></li>
-		            <li class="page-item"><a class="page-link text-reset" href="#">3</a></li>
-					<li class="page-item">
-						<a class="page-link text-reset" href="#" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
-				</ul>
+       <!-- 페이징 -->
+		<div class="mt-3">
+			<nav>
+			  <ul class="pagination justify-content-center">
+			    <c:forEach var="i" begin="1" end="${totalPages}">
+			      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+			        <a class="page-link" >
+			          ${i}
+			        </a>
+			      </li>
+			    </c:forEach>
+			  </ul>
 			</nav>
 		</div>
+            
 
 	</div>
 	
@@ -208,6 +260,7 @@
 	
 	
 </script>
+
 
 </main>
 

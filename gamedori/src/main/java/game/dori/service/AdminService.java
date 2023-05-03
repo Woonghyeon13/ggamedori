@@ -64,10 +64,13 @@ public interface AdminService {
 	public int cateImgInsert(CATEGORY_IMG_VO civo); //카테고리 이미지 등록
 	
 	public Map<String, String> selectCategoryImages(); //카테고리 이미지 리스트 
-	
-	
-
 
 	//주문 상태(관리자 페이지)
 	public int updateOrderState(ORDER_LIST_VO orderlistVO);
+	
+	//주문내역 상세 정보 가져오기
+	public List<ORDER_LIST_VO> getOrderDetail(int order_idx);
+	
+	//환불 리스트
+	public List<ORDER_LIST_VO> refundlist();
 }

@@ -50,22 +50,7 @@ public class ProductController {
 	@Autowired
 	private AdminService adminService;
 	
-//	// 상품 목록
-//	@RequestMapping( value = "/list.do", method = RequestMethod.GET )
-//	public String list( Model model, PRODUCT_VO pvo, CATEGORY_VO cvo, CATEGORY_IMG_VO civo ) {
-//		
-//		List<PRODUCT_VO> plist = productService.list(cvo);
-//		model.addAttribute("plist",plist);
-//		
-//		Map<String, String> cateImgs = adminService.selectCategoryImages();
-//		model.addAttribute("cateImgs", cateImgs);
-//		
-//		int listCnt = productService.listCnt(cvo);
-//		model.addAttribute("listCnt",listCnt);
-//		System.out.println(listCnt);
-//	
-//		return "prod/list";
-//	}
+
 	
 	
 	// 상품 목록
@@ -114,11 +99,27 @@ public class ProductController {
 		}
 		
 		model.addAttribute("plist",plist);
-		
-		Map<String, String> cateImgs = adminService.selectCategoryImages();
-		model.addAttribute("cateImgs", cateImgs);
 
-	    
+		
+		System.out.println(cate_code);
+		System.out.println(cate_rsv);
+		CATEGORY_VO categoryVO = new CATEGORY_VO();
+	        categoryVO.setCate_code(cate_code);
+	        categoryVO.setCate_refcode(cate_refcode);
+	        categoryVO.setCate_rsv(cate_rsv);
+	        categoryVO.setSort(sort);
+	        
+	  
+	    // 상품 리스트 조회
+	      List<PRODUCT_VO> productList = productService.list(categoryVO);
+
+	    model.addAttribute("plist", productList);
+
+	    // 카테고리 이미지 조회
+	    Map<String, String> cateImgs = adminService.selectCategoryImages();
+	    model.addAttribute("cateImgs", cateImgs);
+
+	    // 상품 개수 조회
 	    int listCnt = productService.listCnt(cvo);
 	    model.addAttribute("listCnt", listCnt);
 	    
@@ -127,12 +128,21 @@ public class ProductController {
 	    System.out.println(cate_code);
 	    System.out.println(cate_rsv);
 	    System.out.println(cate_new);
-	    
-	    
+
 	    return "prod/list";
 	}
 	
-	
+	//검색 결과페이지
+	@RequestMapping(value = "/search.do", method = RequestMethod.GET)
+	public String search(@RequestParam("searchOption") String searchOption,
+	                     @RequestParam("searchText") String searchText,
+	                     Model model) {
+		
+		 model.addAttribute("searchOption", searchOption);
+		 model.addAttribute("searchText", searchText);
+	    
+	    return "prod/search-result"; // 결과 페이지 뷰 이름
+	}
 
 	// 상품 상세
 	@RequestMapping( value = "/detail.do", method = RequestMethod.GET )
@@ -253,7 +263,8 @@ public class ProductController {
 		pw.flush();
 	}
 	
-	// 상품 문의사항 비밀글
+	
+	
 	
 	/*-----------------------------------------------------------------------*/
 	

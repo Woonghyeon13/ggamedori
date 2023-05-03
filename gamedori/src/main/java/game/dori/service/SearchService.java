@@ -4,12 +4,10 @@ import java.util.List;
 
 import game.dori.util.ORDER_LIST_VO;
 import game.dori.util.OTO_VO;
-import game.dori.util.PRODOPT_VO;
-import game.dori.util.PROD_Q_LIST_VO;
 import game.dori.vo.MEMBER_VO;
 import game.dori.vo.NOTICE_VO;
+import game.dori.vo.PRODUCT_Q_VO;
 import game.dori.vo.PRODUCT_VO;
-import game.dori.vo.QA_VO;
 
 public interface SearchService {
 
@@ -25,8 +23,8 @@ public interface SearchService {
 
     int notice_countSearchResults(String searchText, String searchOption);
     
-    List<PROD_Q_LIST_VO> qaprod_search(String searchText, String searchOption, int start, int limit);
-
+    List<PRODUCT_Q_VO> qaprod_search(String searchText, String searchOption, int start, int limit);
+    
     int qaprod_countSearchResults(String searchText, String searchOption);
 
     List<PRODUCT_VO> prod_search(String searchText, String searchOption, int start, int limit);
@@ -36,6 +34,10 @@ public interface SearchService {
     List<ORDER_LIST_VO> orderlist_search(String searchText, String searchOption, int start, int limit);
 
     int orderlist_countSearchResults(String searchText, String searchOption);
-   
+    
+    List<PRODUCT_VO> prodlistsearch_search(String searchText, String searchOption, int start, int limit);
+
+    int prodlistsearch_countSearchResults(String searchText, String searchOption);
+ 
   
 }

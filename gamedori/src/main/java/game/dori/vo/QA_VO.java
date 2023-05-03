@@ -12,8 +12,8 @@ public class QA_VO {
 	private String qa_writer; //문의 작성자
 	private int qa_yn; //답변여부 1:답변완료 2.미완
 	private String qa_reply ; //답변
-
 	
+
 	public String getQa_reply() {
 		return qa_reply;
 	}

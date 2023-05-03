@@ -69,6 +69,8 @@
 	<delete id="prod_delete" parameterType="int">
 		delete from PRODUCT_Q_TB where prod_q_idx = #{prod_q_idx}
 	</delete>
+
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
 	<!-- 상품 문의사항 글 검색 -->
 	<select id="prod_search" resultType="product_Q_VO" parameterType="map">
@@ -111,11 +113,11 @@
 		          (prod_q_title LIKE CONCAT('%', #{searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{searchText}, '%'))
 		        </if>
 		      </when>
-<!-- 		      <otherwise>
+		      <otherwise>
 		        <if test="searchText != null and searchText != ''">
 		          (prod_q_writer LIKE CONCAT('%', #{searchText}, '%') OR prod_q_title LIKE CONCAT('%', #{searchText}, '%') OR prod_q_contents LIKE CONCAT('%', #{searchText}, '%'))
 		        </if>
-		      </otherwise> -->
+		      </otherwise>
 		    </choose>
 		  </where>
 	</select>	
@@ -143,6 +145,7 @@
 			and 
 				pq.member_tb_idx = #{MEMBER_IDX}
 	</select>
+	
 
 	<!-- int 타입의 매개변수 member_idx 값을 받아서 칼럼 전체의 값을 p 객체로 형태로 반환 -->
 	
@@ -164,12 +167,14 @@
 		 	)
 	</insert>
 	
-	<!-- 상품문의목록 -->
+	<!-- 상품문의목록 역순으로 출력하게 변경 -->
 	<select id="prodQlist" resultType="pqlistVO" parameterType="int">
-		select *
-		 from product_q_tb q, member_tb m
-		  where q.member_tb_idx = m.member_idx and product_tb_idx = #{prod_idx}
+		SELECT *
+		FROM product_q_tb q, member_tb m
+		WHERE q.member_tb_idx = m.member_idx AND product_tb_idx = #{prod_idx}
+		ORDER BY q.prod_q_idx DESC;
 	</select>
+	
 	<!-- 상품문의목록카운트 -->
 	<select id="prodQlistCnt" resultType="int" parameterType="int">
 		select count(*)

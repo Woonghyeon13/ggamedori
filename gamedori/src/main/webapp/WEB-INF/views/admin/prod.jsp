@@ -45,7 +45,7 @@
 					</tr>
 				</thead>
 				<tbody id = "table-body" >
-					<c:forEach var="pvo" items="${plist}">
+					<%-- <c:forEach var="pvo" items="${plist}">
 						<tr>
 							<td class="text-center">${pvo.prod_idx}</td>
 							<td class="text-center">${pvo.category_tb_code}</td>
@@ -70,7 +70,7 @@
 								</div>
 							</td>
 						</tr>
-					</c:forEach>
+					</c:forEach> --%>
 				</tbody>
 			</table>
 		</div>

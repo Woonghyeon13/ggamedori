@@ -27,4 +27,9 @@ public class OrderListDAO {
 	
 	}
 	
+	//주문내역 상세 정보 가져오기
+	public List<ORDER_LIST_VO> getOrderDetail(int order_idx){
+		return sqlSession.selectList(namespace + "getOrderDetail", order_idx);
+	}
+	
 }
