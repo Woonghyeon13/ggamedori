@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/head.jsp" %>
 <script>
 	//주문 상세정보 모달창 열기
@@ -263,7 +264,8 @@
 							<td class="align-middle">
 								<input type="hidden" id="order_idx" value="${Orderlist.order_idx}">
 								<input type="hidden" id="member_idx" value="${Login.member_idx}">
-								<input type="hidden" id="savept_amount" value="${Orderlist.order_usepoint}">
+								<fmt:parseNumber var="payPriceReal" value="${Orderlist.pay_price_real/10}" integerOnly="true" />
+								<input type="hidden" id="savept_amount" value="${payPriceReal}">
 								<c:if test="${Orderlist.order_state == 9}">
 									구매확정<br/>완료
 								</c:if>
@@ -395,7 +397,7 @@
 $(document).on("click", "button[id=clickBtn]", function () {
 
 	var prodIdxx = $(this).prev().val();
-	console.log("상품번홍"+prodIdxx);
+	console.log("상품번호"+prodIdxx);
 	$("#product_tb_idx").val(prodIdxx);
 })
 

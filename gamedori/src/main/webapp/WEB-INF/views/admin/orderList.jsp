@@ -479,7 +479,7 @@
     	        newRow.append($('<td class="text-center">').text(result.member_email));
     	        newRow.append($('<td class="text-center">').text(result.member_name));
     	        newRow.append($('<td class="text-center">').text(result.order_date));
-    	        newRow.append($('<td class="text-center">').html(result.orderd_price.toLocaleString())+"원");
+    	        newRow.append($('<td class="text-center">').html(result.orderd_price.toLocaleString()));
 
     	       		 newRow.append($('<td class="text-center">').append(
     	            $('<select class="form-select" onchange="updateOrderState(this, \'' + result.order_idx + '\');">')

@@ -71,6 +71,7 @@
 								</td>
 								<td class="align-middle text-center">
 									<span class="fs-3 me-1 ms-2 fw-bold" id="del_amount">3,000</span>원
+									<p class="">30,000원 이상 구매시 배송비 무료</p>
 								</td> <!-- 고정 -->
 								<td class="align-middle text-center" style="color: #dd1111;">
 									<span class="fs-3 me-1 ms-2 fw-bold" id="total_amountCal"

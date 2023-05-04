@@ -107,6 +107,7 @@
 							        </select>
 									<div class="choice_product mt-3" style="margin: auto 0;">
 										<c:forEach var="optt" items="${optlist}" varStatus="status">
+										<c:if test="${optt.opt_stock ne 0}">
 										<input type="hidden" id="optPrice${status.count}" value="${optt.opt_price}">
 										<input type="hidden" id="opttIdx${status.count}" value="${optt.opt_idx}">
 										<div class="border-top border-bottom mx-2" id="optSel${status.count}"
@@ -129,6 +130,26 @@
 												</div>
 											</div>
 										</div>
+										</c:if>
+										<c:if test="${optt.opt_stock eq 0}">
+											<input type="hidden" id="opttIdx${status.count}" value="x">
+											<input type="hidden" id="optPrice${status.count}" value="${optt.opt_price}">
+											<input type="hidden" id="ct_qty${status.count}" value="1">
+											<div class="border-top border-bottom mx-2" id="optSel${status.count}"
+												style="display: none;">
+												<div class="d-flex justify-content-between">
+													<div class="mt-3">
+														<p>${optt.opt_name} 이 상품은 품절입니다.</p>
+														<input type="hidden" id="prodX" value="x">
+													</div>
+													<div class="my-3">
+													</div>
+													<div class="mt-3">
+														<button class="btn" id="optClo${status.count}">x</button>
+													</div>
+												</div>
+											</div>
+										</c:if>
 										</c:forEach>
 									</div>
 								</div>
@@ -152,7 +173,7 @@
 									style="width: 280px; height: 60px;">바로 구매하기</button>
 							</c:if>
 							<c:if test="${not empty sessionScope.Login}">
-								<form name="frm" action="orderForm.do" method="get">
+								<form name="frm" action="orderForm.do" method="get" onsubmit="return prodCheckBtn()" >
 									<input type="hidden" name="opt_idx1" id="optIdx1">
 									<input type="hidden" name="opt_idx2" id="optIdx2" value="0">
 									<input type="hidden" name="opt_idx3" id="optIdx3" value="0">
@@ -163,9 +184,7 @@
 									<input type="hidden" name="opt_qty3" id="optQty3" value="0">
 									<input type="hidden" name="opt_qty4" id="optQty4" value="0">
 									<input type="hidden" name="opt_qty5" id="optQty5" value="0">
-									<button class="btn btn-outline-light login" style="width: 280px; height: 60px;"
-									 onclick="if(document.getElementById('optIdx1').value == 0){alert('메인상품을 선택해주세요.');
-								      return false;}">바로 구매하기</button>
+									<button class="btn btn-outline-light login" style="width: 280px; height: 60px;">바로 구매하기</button>
 								</form>
 							</c:if>
 						</div>
@@ -176,11 +195,11 @@
 		<!-- 상품 상세정보 -------------------------------- -->
 		<div class="container mt-5">
 			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
-				<li class="nav-item"><a class="nav-link text-reset active fw-bold"
+				<li class="nav-item"><a id="productNav1" class="nav-link text-reset active fw-bold"
 					aria-current="page" href="#productNav1">상품상세</a></li>
 				<li class="nav-item"><a class="nav-link text-reset"
 					href="#productNav2">배송안내</a></li>
-				<li class="nav-item"><a id="productNav3"
+				<li class="nav-item"><a
 					class="nav-link text-reset" href="#productNav3">고객리뷰(${reviewCnt})</a>
 				</li>
 				<li class="nav-item"><a class="nav-link text-reset"
@@ -232,6 +251,13 @@
 				<h2>고객리뷰(${reviewCnt})</h2>
 			</div>
 			<table class="table w-100 text-center border-bottom">
+				<c:if test="${empty reviewlist}">
+					<tr>
+						<td></td>
+						<td class="py-5">등록된 리뷰가 없습니다.</td>
+					</tr>
+				</c:if>
+				<c:if test="${not empty reviewlist}">
 				<c:forEach var="reviews" items="${reviewlist}" varStatus="status">
 				<tr>
 					<td class="col-1 ps-3">
@@ -266,28 +292,11 @@
 					</td>
 				</tr>
 				</c:forEach>
-				<!-- 리뷰 없음 -->
-<!-- 
-		<tr>
-          <td class="py-5">등록된 리뷰가 없습니다.</td>
-     	</tr>
-       -->
+				</c:if>
 			</table>
 			<div class="container d-flex justify-content-between mt-3">
 				<div></div>
 				<nav aria-label="Page navigation example">
-					<ul class="pagination text-black">
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&lt;</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">1</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">2</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">3</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&gt;</a></li>
-					</ul>
 				</nav>
 				<div></div>
 				</div>
@@ -323,8 +332,8 @@
 					<th class="col-1 fw-bold">이름</th>
 					<th class="col-1 fw-bold">작성일</th>
 				</thead>
-<tbody>
-						<c:if test="${not empty pqllist}">
+				<tbody>
+				<c:if test="${not empty pqllist}">
 							<c:forEach var="pql" items="${pqllist}">
 							<tr class="text-center qa_item border-bottom" style="cursor: pointer;">
 								<td style="text-align:center;">
@@ -343,17 +352,21 @@
 							</tr>
 							<tr class="hide border-bottom">
 								<td></td>
-								
-								<c:if test="${pql.prod_q_secret eq '1' && pql.member_name == sessionScope.Login.member_name}">
+								<c:if test="${pql.prod_q_secret eq '1' and pql.member_name eq sessionScope.Login.member_name}">
 									<td colspan="4">${pql.prod_q_contents} <br>
 										<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
 										${pql.prod_q_reply}
 									</td>
 								</c:if>
-								
-								<c:if test="${pql.prod_q_secret eq '1' && pql.member_name != sessionScope.Login.member_name}">
+								<c:if test="${pql.prod_q_secret eq '1' and pql.member_name ne sessionScope.Login.member_name}">
 									<td colspan="4">
 										비밀글 입니다.
+									</td>
+								</c:if>
+								<c:if test="${pql.prod_q_secret eq '2'}">
+									<td colspan="4">${pql.prod_q_contents} <br>
+										<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
+										${pql.prod_q_reply}
 									</td>
 								</c:if>
 							</tr>
@@ -370,18 +383,6 @@
 				<div class="container d-flex justify-content-between">
 					<div></div>
 					<nav aria-label="Page navigation example">
-						<ul class="pagination text-black">
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">&lt;</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">1</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">2</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">3</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">&gt;</a></li>
-						</ul>
 					</nav>
 					<button type="button" class="btn btn-outline-light login me-2"
 						data-bs-toggle="modal" data-bs-target="#qa" style="height: 38px;">문의
@@ -593,6 +594,11 @@ function change_qty(optionIndex, t) {
 <script>
 function prodCart(){
 	
+	if( $("#optIdx1").val() == "x" ){
+		alert('현재 품절입니다.');
+		return false;
+	}
+	
 	var member_tb_idx = ${Login.member_idx};
 	var opt_tb_idx = [];
 	var cart_amount = [];
@@ -648,5 +654,18 @@ function prodCart(){
 		}
 	})
 };
+</script>
+<script>
+// 상품 담기전 체크
+function prodCheckBtn(){
+	if( $("#optIdx1").val() == "x" ){
+		alert('현재 품절입니다.');
+		return false;
+	}
+	if( $("#optIdx1").val() == 0 ){
+		alert('메인상품을 선택해주세요.'); 
+		return false;
+	}
+}
 </script>
 <%@ include file="../include/foot.jsp" %>
