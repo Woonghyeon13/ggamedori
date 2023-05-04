@@ -32,7 +32,7 @@
 	  var memberName = name;
 	  var refundImg = img;
 
-	  var imgUrl = "<c:url value='/images/carousel/" + refundImg + "'/>";
+	  var imgUrl = "<c:url value='/images/refund/" + refundImg + "'/>";
 	  
 	  // input 태그에 세션 값 할당
 	  document.getElementById('refundIdx').value = refundIdx;
@@ -143,11 +143,13 @@
 							</div>
 							<div class="form-group mt-3">
 								<label for="Contents" class="form-label">문의 내용</label>
-								<textarea id="Contents" class="form-control" style="resize: none; height:15vw;" readonly disabled></textarea>
+								<textarea id="Contents" class="form-control" style="resize: none; height:10vw;" readonly disabled></textarea>
 							</div>
 							<div class="form-group mt-3">
 								<p>이미지</p>
-								<img id ="refundImg" src ="" style="display:block; width:700px;" class="mx-auto" onclick="window.open(this.src)">
+								<div class="border">
+									<img id ="refundImg" src ="" style="display:block; width:700px;" class="mx-auto mt-4 mb-4" onclick="window.open(this.src)">
+								</div>
 							</div>
 					</div>
 				</div>

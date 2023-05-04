@@ -488,13 +488,13 @@ public class MypageController {
 	
 
 	// 주문상세
-	@RequestMapping( value = "/orderdetail.do", method = RequestMethod.GET )
-	public String orderdetail(Model model, HttpServletRequest req)
+	@RequestMapping( value = "/orderSuccess.do", method = RequestMethod.GET )
+	public String orderSuccess(Model model, HttpServletRequest req)
 	{
 		HttpSession session = req.getSession();
 		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");	
 		
-		return "mypage/orderdetail";
+		return "mypage/orderSuccess";
 	}
 
 	// 적립금 리스트 출력
@@ -877,4 +877,36 @@ public class MypageController {
 			pw.append("<script>alert('리뷰 등록실패하였습니다.'); location.href='reviewlist.do';</script>");
 		}
 	}
+	
+	
+	// 환불문의 작성
+	@ResponseBody
+	@RequestMapping( value = "applyRefund.do", method = RequestMethod.POST )
+	public void applyRefund( MultipartFile refund_img, REVIEW_VO review, HttpServletResponse rsp, HttpServletRequest req ) throws IllegalStateException, IOException {
+		
+		String path = req.getSession().getServletContext().getRealPath("/resources/images/refund");
+		File dir = new File(path);
+		if(!dir.exists()) { 
+			dir.mkdirs();
+		}
+		String newFileName = "";
+		if(!refund_img.getOriginalFilename().isEmpty()) { 
+			String FileName = System.currentTimeMillis()+refund_img.getOriginalFilename();
+			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
+			refund_img.transferTo(new File(path,newFileName));
+			review.setReview_img(newFileName);
+		}
+
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		int result = productService.review_insert(review);
+		
+		if( result > 0 ) {
+			pw.append("<script>alert('리뷰가 등록되었습니다.'); location.href='reviewlist.do';</script>");
+		}else {
+			pw.append("<script>alert('리뷰 등록실패하였습니다.'); location.href='reviewlist.do';</script>");
+		}
+	}
+	
 }

@@ -13,7 +13,7 @@
 <script>
 	$(document).ready(function() {
 		$(function() {
-			  $('#submitBtn').click(function() {
+			  $('#submitBtn').click(function carousel() {
 			    var formData = new FormData($('form[name="carouselInsert"]')[0]);
 			    var carouselProdLink = $('input[name="carousel_prod_link"]').val(); // carousel_prod_link input의 값을 가져옴
 			    if (!carouselProdLink) { // carousel_prod_link input이 비어있는 경우
@@ -34,17 +34,13 @@
 			         } else {
 			         	alert('등록 실패');
 			         }
-		          	error: function (xhr, status, error) {
-			            console.log('Error:', error);
-			            
-			        }
 			       }
 			    });
 			  });
 			});
 		
 		$(function() {
-			  $('#adSubmitBtn').click(function() {
+			  $('#adSubmitBtn').click(function ad() {
 			    var ad_link = $('input[name="ad_link"]').val();
 			    var ad_title = $('input[name="ad_title"]').val();
 			    var ad_contents = editor.getData();

@@ -3,6 +3,16 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/head.jsp" %>
+
+<style>
+.ck.ck-editor {
+	width:100%;
+}
+.ck-editor__editable {
+	 min-height: 20vw;
+}
+</style>
+
 <script>
 	//주문 상세정보 모달창 열기
 	function orderdetailToModal(idx) {
@@ -38,7 +48,7 @@
 		   		html += '<p>'+data[i].prod_name+'</p>'
 		   		html += '<div class="row">'
 		   		html += '<p class="col">가격: &nbsp'+data[i].opt_price+'원</p>'
-		   		html += '<p class="col">주문 수량: &nbsp'+data[i].orderd_qty+'개</p>'
+		   		html += '<p class="col">주문 수량: &nbsp'+data[i].orderd_qty+'개</p>'		   		
 		   		html += '</div>'
 		   		html += '</div>'
 		   		html += '</div>'
@@ -134,6 +144,15 @@
 	 });
 	}
 
+	
+	function sessionToModal(idx){
+		  // 세션 값 가져오기
+		  var order_idx = idx;	  
+
+		  // input 태그에 세션 값 할당
+		  document.getElementById('orderIdx').value = order_idx;
+
+		}
 </script>
 
 <main>
@@ -141,7 +160,7 @@
 	<!-- 주문상품 전체보기 ------------------------------------------------------ -->
 	<div class="container mypage_inner">
 		<h4>주문 상품 전체보기</h4>
-			<div id="mypage_1" class="col">
+			<div id="mypage_1" class="ms-0 me-0">
 				<ul>
 					<li>
 						<h4>등급</h4>
@@ -176,8 +195,8 @@
 					</li>
 				</ul>
 			</div>
-		<div id="mypage_inner2" class="container">
-			<div id="mypage_list" class="col-3">
+		<div id="mypage_inner2" class="container row">
+			<div id="mypage_list" class="col-3 p-0">
 				<p id="nickname">
 					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
@@ -187,15 +206,14 @@
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
 					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
-					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의
-							후기</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의 후기</a></li>
 					<!-- review_list.html -->
 					<li class="list-group-item"><a href="<c:url value='/user/modify.do' />">회원정보수정</a></li>
 					<li class="list-group-item"><a href="<c:url value='/user/withdraw.do' />">탈퇴하기</a></li>
 					<!-- unregister.html -->
 				</ol>
 			</div>
-			<div id="product_inner" class="col-8">
+			<div id="product_inner" class="col-9 p-0">
 				<p>
 					<strong>${sessionScope.Login.member_name}</strong>님의 주문내역
 				</p>
@@ -203,13 +221,14 @@
 					style="width: 100%; border-top: 1px solid #000;">
 					<thead>
 						<tr>
-							<th scope="col">주문 상태</th>
-							<th scope="col">상품 이미지</th>
+							<th scope="col">주문상태</th>
+							<th scope="col">상품이미지</th>
 							<th scope="col">상품명</th>
 							<th scope="col">주문 일자</th>
-							<th style="width:12%;" scope="col">주문 상세</th>
-							<th style="width:12%;" scope="col">리뷰작성</th>
-							<th style="width:12%;" scope="col">구매확정</th>
+							<th style="width:10%;" scope="col">주문 상세</th>
+							<th style="width:10%;" scope="col">리뷰작성</th>
+							<th style="width:10%;" scope="col">구매확정</th>
+							<th style="width:10%;" scope="col">환불신청</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -273,6 +292,10 @@
 									<button onclick="savePoint()" type="button" class="btn btn-outline-secondary btn-sm">구매확정</button>
 								</c:if>
 							</td>
+							<td class="align-middle">
+								<button id="clickBtn" type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#refund"
+								onclick="sessionToModal('${Orderlist.order_idx}')">환불신청</button>
+							</td>
 						</tr>
 					</c:forEach>
 					</tbody>
@@ -322,9 +345,8 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header d-flex flex-column logo">
-						<div class="mt-2">
-							<h4 class="modal-title fs-5">리뷰 작성</h4>
-						</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<h4 class="modal-title fs-5">리뷰 작성</h4>
 					</div>
 					<div class="modal-body">
 						<form name="review_reg" method="post" action="reviewInsert.do" enctype="multipart/form-data">
@@ -392,6 +414,69 @@
 					</div>
 				</div>
 			</div>
+			
+	<c:set var="sessionOrderIdx" scope="session" value="${sessionScope.orderIdx}" />		
+		<!-- 환불신청 모달창-->
+		<div class="modal fade" id="refund">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
+				<div class="modal-content" id="modal-content">
+					<div class="modal-header d-flex flex-column logo">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<h4 class="modal-title fs-5">환불신청</h4>
+					</div>
+					<div class="modal-body">
+						<form name="applyRefund" method="post" action="applyRefund.do" enctype="multipart/form-data">
+							<input type="hidden" id="orderIdx" name="order_idx">
+							<div class="form-group mt-2 d-flex flex-column justify-content-center align-items-center">
+								<textarea id="refundContents" name="refund_contents" placeholder="환불 사유를 적어주세요" class="form-control"></textarea>
+								<script>
+									//ck에디터 적용 및 한글 설정, 내용 없을 시에 submit막기까지 구현
+									let editor;
+	
+									ClassicEditor.create(document.querySelector('#refundContents'), {
+									  language: 'ko'
+									}).then(newEditor => {
+									  editor = newEditor;
+									  
+									  editor.model.document.on('change:data', () => {
+									    const textareaValue = editor.getData().trim();
+									    const submitBtn = document.querySelector('input[type="submit"]');
+	
+									    if (textareaValue === '') {
+									      submitBtn.disabled = true;
+									    } else {
+									      submitBtn.disabled = false;
+									    }
+									  });
+									}).catch(error => {
+									  console.error(error);
+									});
+	
+									document.querySelector('form').addEventListener('submit', event => {
+									  const textareaValue = editor.getData().trim();
+	
+									  if (textareaValue === '') {
+									    event.preventDefault();
+									    alert('내용을 입력해주세요.');
+									  }
+									});			
+									
+								</script>
+							</div>
+							<div class="mt-3 mb-2">
+								<p class="mb-0">환불하실 제품의 이미지를 첨부해주세요.</p>
+							</div>
+							<div class="input-group">
+								<input name="refund_img_file" type="file" class="form-control" id="refund_img_file">
+							</div>
+							<div class="d-flex gap-1 mt-4">
+								<input type="submit" class="btn btn-outline-secondary btn-lg form-control" value="등록">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 </main>
 <script>
 $(document).on("click", "button[id=clickBtn]", function () {

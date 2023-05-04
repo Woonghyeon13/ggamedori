@@ -27,7 +27,7 @@
 	
     <div class="container mypage_inner">
         <h4>1 : 1 문의 전체보기</h4>
-        <div id="mypage_1" class="col">
+        <div id="mypage_1" class="ms-0 me-0">
             <ul>
 				<li>
 					<h4>등급</h4>
@@ -61,7 +61,7 @@
 				</li>
             </ul>
         </div>
-        <div id="mypage_inner2" class="container">
+        <div id="mypage_inner2" class="container row">
         
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
@@ -85,7 +85,7 @@
 				</ol>
 			</div>	<!-- mypage_list -->
 			
-            <div id="one_to_one_inner" class="col-8">     
+            <div id="one_to_one_inner" class="col-9">     
             
                 <div id="oto" class="container">
 			        <h2>1 : 1 문의사항 등록</h2>
