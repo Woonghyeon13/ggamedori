@@ -303,38 +303,6 @@
 					<!-- end:#product_inner -->
 				</table>
 
-				<div id="paging" class="container">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination justify-content-center text-black">
-							<li class="page-item"><a class="page-link text-reset"
-								href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">1</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">2</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">3</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">4</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">5</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">6</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">7</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">8</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">9</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">10</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</nav>
-				</div>
 
 			</div>
 			<!-- end:#mypage_inner2 -->

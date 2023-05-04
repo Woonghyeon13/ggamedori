@@ -69,6 +69,11 @@ public class ProductDAO {
 	public int prodStockMinus( PRODOPT_VO optvo ) {
 		return sqlSession.update("game.dori.mapper.productMapper.prodStockMinus",optvo);
 	}
+	
+	// 메인화면 리스트
+	public List<PRODUCT_VO> mainProdList(){
+		return sqlSession.selectList("game.dori.mapper.productMapper.mainProdList");
+	}
 }
 
 

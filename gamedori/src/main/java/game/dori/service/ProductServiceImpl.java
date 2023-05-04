@@ -263,6 +263,12 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.newListCnt();
 	}
 
+	// 메인 상품리스트
+	@Override
+	public List<PRODUCT_VO> mainProdList() {
+		return productDAO.mainProdList();
+	}
+
 //	// 상품 문의사항 역순으로 출력
 //	@Override
 //	public List<PRODUCT_Q_VO> prod_listD(int member_idx) {

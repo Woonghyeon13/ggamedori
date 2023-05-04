@@ -41,7 +41,7 @@ public class HomeController {
 		model.addAttribute("adlist", adlist);
 		
 		//상품리스트
-		List<PRODUCT_VO> plist = productService.list(cvo);
+		List<PRODUCT_VO> plist = productService.mainProdList();
 		model.addAttribute("plist",plist);
 		
 		//예약상품 리스트

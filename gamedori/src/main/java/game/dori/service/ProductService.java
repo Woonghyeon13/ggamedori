@@ -116,5 +116,8 @@ public interface ProductService {
 	
 	// 상품 재고 감소
 	public int prodStockMinus( PRODOPT_VO optvo );
+	
+	// 메인화면 리스트
+	public List<PRODUCT_VO> mainProdList();
 
 }
