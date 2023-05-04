@@ -107,6 +107,7 @@ public class MypageController {
 				olvo.setProd_name(pvo.getProd_name());
 				olvo.setProd_imgt(pvo.getProd_imgt());
 				olvo.setPay_price_real(payvo.getPay_price_real());
+				olvo.setOrder_idx(selectOrderList.get(i).getOrder_idx());
 				orderList5.add(olvo);
 			}
 
@@ -836,10 +837,14 @@ public class MypageController {
 	public void pointSave( int order_idx, SAVEPOINT_VO savevo ) {
 		SAVEPOINT_VO amount = mypageService.selectPointInfo(savevo.getMember_tb_idx());
 		SAVEPOINT_VO resultpoint = new SAVEPOINT_VO();
+		int balance = amount.getSavept_balance();
+		int savepoint = savevo.getSavept_amount();
 		resultpoint.setMember_tb_idx(savevo.getMember_tb_idx());
-		resultpoint.setSavept_amount(savevo.getSavept_amount());
-		resultpoint.setSavept_balance(amount.getSavept_balance()+savevo.getSavept_amount());
+		resultpoint.setSavept_amount(savepoint);
+		resultpoint.setSavept_balance(balance+savepoint);
 		int result = mypageService.insertPoint(resultpoint);
+		System.out.println("잔여포인트"+balance);
+		System.out.println("적립금액"+savepoint);
 		if( result > 0 ) {
 			mypageService.updateOrderCheck(savevo.getOrder_idx());
 		}
@@ -847,9 +852,9 @@ public class MypageController {
 	// 리뷰작성
 	@ResponseBody
 	@RequestMapping( value = "reviewInsert.do", method = RequestMethod.POST )
-	public void reviewInsert( MultipartFile prod_file1, REVIEW_VO review, HttpServletResponse rsp ) throws IllegalStateException, IOException {
+	public void reviewInsert( MultipartFile prod_file1, REVIEW_VO review, HttpServletResponse rsp, HttpServletRequest req ) throws IllegalStateException, IOException {
 		
-		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
+		String path = req.getSession().getServletContext().getRealPath("/resources/images/review");
 		File dir = new File(path);
 		if(!dir.exists()) { 
 			dir.mkdirs();

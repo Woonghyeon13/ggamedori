@@ -96,7 +96,7 @@
 					<tbody>
 					<c:forEach var="optvo" items="${optlist}" varStatus="status">
 						<tr class="table-light text-center" style="border-bottom:1px solid #bdbdbd;">
-							<td><img src="./images/HOT1.jpg" style="width: 100px; height: 100px;"></td>
+							<td><img src="<c:url value='/images/prod/thumb/${optvo.prod_imgt}'/>" style="width: 100px; height: 100px;"></td>
 							<td class="pbb3">
 								<input type="hidden" id="optName${status.count}" value="${optvo.prod_name}">
 								<input type="hidden" id="ord_optIdx" name="opt_tb_idx" value="${optvo.opt_idx}">
@@ -195,7 +195,6 @@
 				<input type="hidden" id="orderPoint" value="0">
 				<button class="btn btn-danger btn-block mt-4" onclick=
 				"requestPay()" style="font-weight: bold">주문하기</button>
-				<button type="button" class="btn btn-danger btn-block mt-4" onclick="orderAjax()" style="font-weight: bold">주문테스트</button>
 			</div>
 		</div>
 	</section>
@@ -205,7 +204,10 @@
 					//전액사용 버튼 
 					function usingPoint() { 
 					    var savePoint = parseInt(document.getElementById("savePoint").value);
-					    var maxUsePoint = ${orderPrices + 3000};
+					    var maxUsePoint = ${orderPrices};
+					    if( maxUsePoint < 30000 ){
+					    	maxUsePoint = maxUsePoint + 3000;
+					    }
 					    var usePoint = 0;
 						
 					    if (savePoint >= maxUsePoint) { // 적립금이 상품 금액 이상인 경우
@@ -346,7 +348,7 @@
   		 		var order_name = $("#ord_name").val();
   		 		var order_phone = $("#ord_phone").val();
   		 		var order_memo = $("#ord_memo").val();
-  		 		var order_usepoint = $("orderPoint").val();
+  		 		var order_usepoint = $("#orderPoint").val();
   		 		
   		 		var opt_tb_idx = [];
   		 		var orderd_qty = [];
@@ -417,7 +419,7 @@
         		 		var order_name = $("#ord_name").val();
         		 		var order_phone = $("#ord_phone").val();
         		 		var order_memo = $("#ord_memo").val();
-        		 		var order_usepoint = $("orderPoint").val();
+        		 		var order_usepoint = $("#orderPoint").val();
         		 		
         		 		var opt_tb_idx = [];
         		 		var orderd_qty = [];

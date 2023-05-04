@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/head.jsp" %>
 
 <style>
@@ -41,7 +42,7 @@
 		   	for (var i = 0; i < data.length; i++) {
 		   		html += '<div class="row mb-3">'
 		   		html += '<div id="p_left" class="col-3">'
-		   		html += '<img src="<c:url value="/images/' + data[i].prod_imgt + '" />" style="width:85px; height:85px;">';
+		   		html += '<img src="<c:url value="/images/prod/thumb/' + data[i].prod_imgt + '" />" style="width:85px; height:85px;">';
 		   		html += '</div>'
 		   		html += '<div id="p_right" class="col-9 mt-2">'
 		   		html += '<p>'+data[i].prod_name+'</p>'
@@ -268,7 +269,7 @@
 							</c:choose>
 							</td>
 							<td class="align-middle">
-								<img style="width:85px; height:85px;" src="<c:url value='/images/${Orderlist.prod_imgt}' />">
+								<img style="width:85px; height:85px;" src="<c:url value='/images/prod/thumb/${Orderlist.prod_imgt}' />">
 							</td>
 							<td class="align-middle">${Orderlist.prod_name}</td>
 							<td class="align-middle">${fn:substring(Orderlist.order_date,0,10)}</td>
@@ -282,7 +283,8 @@
 							<td class="align-middle">
 								<input type="hidden" id="order_idx" value="${Orderlist.order_idx}">
 								<input type="hidden" id="member_idx" value="${Login.member_idx}">
-								<input type="hidden" id="savept_amount" value="${Orderlist.order_usepoint}">
+								<fmt:parseNumber var="payPriceReal" value="${Orderlist.pay_price_real/10}" integerOnly="true" />
+								<input type="hidden" id="savept_amount" value="${payPriceReal}">
 								<c:if test="${Orderlist.order_state == 9}">
 									구매확정<br/>완료
 								</c:if>

@@ -70,87 +70,29 @@
 					style="width: 100%; border-top: 1px solid #000;">
 					<thead>
 						<tr>
-							<th scope="col">번호</th>
-							<th scope="col">적립금 지급 일</th>
-							<th scope="col">지급 금액</th>
-
+							<th scope="col">적립금 사용일</th>
+							<th scope="col">적립금 사용내역</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${selectSavePointList}" var="vo">
-						<tr>
-							<th class="table_number"></th>
-							<td class="wdate">${vo.savept_created}</td>
-							<td>${vo.savept_amount}</td>
-						</tr>
+							<c:if test="${vo.savept_amount ne 0}">
+								<tr>
+									<td class="wdate">${vo.savept_created}</td>
+									<td>${vo.savept_amount}</td>
+								</tr>
+							</c:if>
 						</c:forEach>
 					</tbody>
 
 					</div>
 				</table>
-				<div id="paging" class="container">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination justify-content-center text-black">
-							<li class="page-item"><a class="page-link text-reset"
-								href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">1</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">2</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">3</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">4</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">5</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">6</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">7</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">8</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">9</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">10</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</nav>
-				</div>
-				<!-- end:#paging-->
-				<div id="money_contents" class="container">
-					<ul>
-						<li>누적 적립금</li>
-						<li>사용 적립금</li>
-						<li>남은 적립금</li>
-					</ul>
-				</div>
-				<hr>
-				<div id="use_money" class="container">
-					<ul>
-						<li>${selectPointAmount}</li>
-						<li>${selectPointAmount - PointBalance}</li> <!-- 누적적립금  - 잔여적립금 -->
-						<li>${PointBalance}</li> <!-- 잔여적립금 -->
-					</ul>
-				</div>
 			</div>
-
-
 		</div>
 		<!-- end:#s_money_inner -->
-
-
-
-
-
 	</div>
 	<!-- end:#mypage_inner2 -->
 
-	</div>
-	<!-- end:#mypage_inner -->
 
 	<!---------------------------------------------------------------------------->
 

@@ -34,7 +34,7 @@
     	   	for (var i = 0; i < data.length; i++) {
     	   		html += '<div class="row mb-3">'
     	   		html += '<div id="p_left" class="col-3">'
-    	   		html += '<img src="<c:url value="/images/' + data[i].prod_imgt + '" />" style="width:85px; height:85px;">';
+    	   		html += '<img src="<c:url value="/images/prod/thumb/' + data[i].prod_imgt + '" />" style="width:85px; height:85px;">';
     	   		html += '</div>'
     	   		html += '<div id="p_right" class="col-9 mt-2">'
     	   		html += '<p>'+data[i].prod_name+'</p>'
@@ -210,7 +210,7 @@
 										<th scope="col">상품 이미지</th>
 										<th scope="col">상품명</th>
 										<th scope="col">주문 일자</th>
-										<th scope="col">주문 금액</th>
+										<th scope="col">주문 결제 금액</th>
 										<th scope="col">주문 상세</th>
 									</tr>
 								</thead>
@@ -218,20 +218,41 @@
 								<c:forEach var="olist" items="${Orderlist}">
 									<tr>
 										<td class="align-middle">
-										<c:choose>
-											<c:when test="${olist.order_state == 1}">
-											    <c:out value="주문완료" />
-											</c:when>
-											<c:when test="${olist.order_state == 2}">
-											    <c:out value="배송중" />
-											 </c:when>
-											 <c:when test="${olist.order_state == 3}">
-											    <c:out value="배송완료" />
-											 </c:when>
-										</c:choose>
+											<c:choose>
+												<c:when test="${olist.order_state == 1}">
+												    <c:out value="주문접수" />
+												</c:when>
+												<c:when test="${olist.order_state == 2}">
+												    <c:out value="결제완료" />
+												 </c:when>
+												 <c:when test="${olist.order_state == 3}">
+												    <c:out value="상품준비중" />
+												 </c:when>
+												 <c:when test="${olist.order_state == 4}">
+												    <c:out value="발송준비중" />
+												 </c:when>
+												 <c:when test="${olist.order_state == 5}">
+												    <c:out value="배송완료" />
+												 </c:when>
+												 <c:when test="${olist.order_state == 6}">
+												    <c:out value="주문취소" />
+												 </c:when>
+												 <c:when test="${olist.order_state == 10}">
+												    <c:out value="주문취소접수" />
+												 </c:when>
+												 <c:when test="${olist.order_state == 7}">
+												    <c:out value="반품접수" />
+												 </c:when>
+												 <c:when test="${olist.order_state == 8}">
+												    <c:out value="반품완료" />
+												 </c:when>
+												 <c:when test="${olist.order_state == 9}">
+												    <c:out value="구매확정" />
+												 </c:when>
+											</c:choose>
 										</td>
 										<td class="align-middle">
-											<img style="width:85px; height:85px;" src="<c:url value='/images/${olist.prod_imgt}' />">
+											<img style="width:85px; height:85px;" src="<c:url value='/images/prod/thumb/${olist.prod_imgt}'/>">
 										</td>
 										<td class="align-middle">${olist.prod_name}</td>
 										<td class="align-middle">${fn:substring(olist.order_date,0,10)}</td>
@@ -366,7 +387,6 @@
 										<th class="align-middle">번호</th>
 										<th class="align-middle">상품 정보</th>
 										<th class="align-middle">후기 제목</th>
-										<th class="align-middle">작성자 명</th>
 										<th class="align-middle">작성 일자</th>
 										<th class="align-middle">별 점</th>
 									</tr>
@@ -378,7 +398,6 @@
 											<td class="table_number align-middle"></td>
 											<td class="align-middle"><a href="../prod/detail.do?prod_idx=${vo.product_tb_idx}">${vo.prod_name}</a></td>
 											<td class="align-middle">${vo.review_title}</td>
-											<td class="align-middle">${vo.review_writer}</td>
 											<td class="wdate align-middle">${vo.review_wdate}</td>
 											<td class="align-middle">
 					<div class="starCnt" style="margin:0px;">
