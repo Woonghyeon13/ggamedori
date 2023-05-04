@@ -12,6 +12,7 @@
 		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_rdate}, #{prod_reserv}, #{prod_imgt}, #{prod_imgm}, #{prod_imgd}, #{prod_qtymin}, #{prod_qtymax});
 	</insert>
 	
+
 	<!--  상품 리스트 -->
 <select id="prodSelectAll" resultType="productVO" parameterType="categoryVO">
     SELECT * FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
@@ -48,48 +49,54 @@
             ORDER BY p.prod_idx DESC
         </otherwise>
     </choose>
-    <if test="cate_new != null and cate_new != '1'">
-        LIMIT 20
-    </if>
+     LIMIT #{start}, #{limit}
 </select>
 
 
-	<!-- 상품리스트 카운트 -->
-	<select id="listCnt" resultType="int" parameterType="categoryVO">
-		SELECT count(*) FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
-		
-		<if test="cate_new == '1'">
-       	 AND PROD_RDATE >= DATE_SUB(NOW(), INTERVAL 14 DAY)
-   		 </if>
-		<if test="cate_refcode != null">
-			and cate_refcode = #{cate_refcode}
-		</if>
-		<if test='cate_rsv == "1"'>
-			and prod_reserv = #{cate_rsv}
-		</if>
-		<if test='cate_refcode == null and cate_code != null'>
-			and category_tb_code = #{cate_code}
-		</if>
-	</select>
-	
-	<!-- 상품 수정 -->
-	<update id="prodUpdate" parameterType="productVO">
-		update product_tb
-		set
-		 category_tb_code  = #{category_tb_code}
-		, prod_name = #{prod_name}
-		, prod_price = #{prod_price}
-		, prod_stock = #{prod_stock}
-		, prod_co = #{prod_co}
-		, prod_rdate = #{prod_rdate}
-		, prod_reserv = #{prod_reserv}
-		, prod_imgt = #{prod_imgt}
-		, prod_imgm = #{prod_imgm}
-		, prod_imgd = #{prod_imgd}
-		, prod_qtymin = #{prod_qtymin}
-		, prod_qtymax = #{prod_qtymax}
-		where prod_idx = #{prod_idx}
-	</update>
+<!-- 상품리스트 카운트 -->
+<select id="listCnt" resultType="int" parameterType="categoryVO">
+    SELECT count(*) FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
+    
+    <if test="cate_new == '1'">
+        AND PROD_WDATE >= DATE_SUB(NOW(), INTERVAL 14 DAY)
+    </if>
+    <if test="cate_refcode != null and cate_new != '1'">
+        and cate_refcode = #{cate_refcode}
+    </if>
+    <if test='cate_rsv == "1" and cate_new != "1"'>
+        and prod_reserv = #{cate_rsv}
+    </if>
+    <if test='cate_refcode == null and cate_code != null and cate_new != "1"'>
+        and category_tb_code = #{cate_code}
+    </if>
+</select>
+
+<!-- 새로운 상품리스트 카운트 -->
+
+<select id="newListCnt" resultType="int">
+    SELECT count(*) FROM product_tb
+    WHERE PROD_WDATE >= DATE_SUB(NOW(), INTERVAL 14 DAY)
+</select>
+
+<!-- 상품 수정 -->
+<update id="prodUpdate" parameterType="productVO">
+	update product_tb
+	set
+	 category_tb_code  = #{category_tb_code}
+	, prod_name = #{prod_name}
+	, prod_price = #{prod_price}
+	, prod_stock = #{prod_stock}
+	, prod_co = #{prod_co}
+	, prod_rdate = #{prod_rdate}
+	, prod_reserv = #{prod_reserv}
+	, prod_imgt = #{prod_imgt}
+	, prod_imgm = #{prod_imgm}
+	, prod_imgd = #{prod_imgd}
+	, prod_qtymin = #{prod_qtymin}
+	, prod_qtymax = #{prod_qtymax}
+	where prod_idx = #{prod_idx}
+</update>
+
 	
 	<!-- 상품 삭제 -->
 	<delete id="prodDelete" parameterType="int">
@@ -108,7 +115,6 @@
 		order by prod_idx desc
 	</select>
 	
-
 	<!-- 상품문의 상품명찾기 -->
 	<select id="prod_name" parameterType="int" resultType="productVO">
 		SELECT * FROM product_tb

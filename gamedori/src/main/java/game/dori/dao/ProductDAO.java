@@ -33,6 +33,12 @@ public class ProductDAO {
 	public int listCnt( CATEGORY_VO cvo ){
 		return sqlSession.selectOne("game.dori.mapper.productMapper.listCnt",cvo);
 	}
+	
+	//상품목록 새로운상품 카운트
+	public int newListCnt()
+	{
+		return sqlSession.selectOne("game.dori.mapper.productMapper.newListCnt");
+	}
 
 	// 상품 수정
 	public int pordUpdate( PRODUCT_VO pvo ) {

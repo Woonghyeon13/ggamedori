@@ -257,6 +257,12 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.prodStockMinus(optvo);
 	}
 
+	@Override
+	public int newListCnt() {
+		// TODO Auto-generated method stub
+		return productDAO.newListCnt();
+	}
+
 //	// 상품 문의사항 역순으로 출력
 //	@Override
 //	public List<PRODUCT_Q_VO> prod_listD(int member_idx) {

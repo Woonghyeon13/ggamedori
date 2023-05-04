@@ -28,6 +28,9 @@ public interface ProductService {
 	// 상품목록 카운트
 	public int listCnt( CATEGORY_VO cvo );
 	
+	//상품목록 카운터 (새로운상품 )
+	public int newListCnt();
+	
 	// 상품수정
 	public int prodUpdate( PRODUCT_VO pvo );
 	

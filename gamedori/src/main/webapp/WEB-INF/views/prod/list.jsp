@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <main>
 	<div class="inner product_list">
@@ -124,26 +125,26 @@
 		<input type="hidden" id="cate_rsv" value="${param.cate_rsv}">
         
 		<div class="mt-5">
-			    <ul class="d-flex flex-wrap product-list" style="padding: 0;">
-			        <c:forEach var="pvo" items="${plist}">
-			            <li class="ms-1 me-1 mb-4" style="width: 200px;">
-			                <a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
-			                    <div style="text-align: center;">
-			                        <img src="<c:url value='/images/prod/thumb/${pvo.prod_imgt}'/>" alt="...">
-			                        <div>
-			                            <p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
-      									<fmt:formatNumber var="prodPrice" value="${pvo.prod_price}" pattern="#,###"/>
-			                            <p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${prodPrice}원</p>
-			                            <c:if test="${pvo.prod_stock eq 0}">
-			                                <p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
-			                            </c:if>
-			                        </div>
-			                    </div>
-			                </a>
-			            </li>
-			        </c:forEach>
-			    </ul>
-			</div>
+			 <ul class="d-flex flex-wrap product-list" style="padding: 0;">
+				<c:forEach var="pvo" items="${plist}">
+					<li class="ms-1 me-1 mb-4" style="width: 200px;">
+						<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
+							<div style="text-align: center;">
+								<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
+								<div>
+									<p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
+									<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${pvo.prod_price}</p>
+									<c:if test="${pvo.prod_stock eq 0}">
+										<p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
+									</c:if>
+								</div>
+							</div>
+						</a> 
+					</li>
+				</c:forEach>
+            </ul>
+        </div>
+
 
 
 	</div>
@@ -170,7 +171,6 @@ function changeSort(event, sort, cateRefCode, cateCode, cateNew, cateRsv) {
     if (cateRsv && cateRsv === '1') {
         url += '&cate_rsv=' + cateRsv;
     }
-
     $.ajax({
         url: url,
         method: 'GET',
@@ -183,6 +183,91 @@ function changeSort(event, sort, cateRefCode, cateCode, cateNew, cateRsv) {
         }
     });
 }
+function updateActivePage(page) {
+    var pagination = $('.pagination');
+    pagination.find('li').removeClass('active');
+    pagination.find('li').each(function () {
+        var pageItem = $(this);
+        var pageLink = pageItem.find('a.page-link');
+        if (pageLink.text() === page.toString()) {
+            pageItem.addClass('active');
+        }
+    });
+}
+function updateActivePage(page) {
+    var pagination = $('.pagination');
+    pagination.find('li').removeClass('active');
+    pagination.find('li').each(function () {
+        var pageItem = $(this);
+        var pageLink = pageItem.find('a.page-link');
+        if (pageLink.text() === page.toString()) {
+            pageItem.addClass('active');
+        }
+    });
+}
+
+function changePage(page) {
+    var sort = $('.sort-option.active').data('sort');
+    var cateRefCode = $('#cate_refcode').val();
+    var cateCode = $('#cate_code').val();
+    var cateNew = $('#cate_new').val();
+    var cateRsv = $('#cate_rsv').val();
+
+    var contextPath = '<%= request.getContextPath() %>';
+    var url = contextPath + '/prod/list.do?sort=' + sort;
+    if (cateRefCode && cateRefCode !== 'null') {
+        url += '&cate_refcode=' + cateRefCode;
+    }
+    if (cateCode && cateCode !== 'null') {
+        url += '&cate_code=' + cateCode;
+    }
+    if (cateNew && cateNew === '1') {
+        url += '&cate_new=' + cateNew;
+    }
+    if (cateRsv && cateRsv === '1') {
+        url += '&cate_rsv=' + cateRsv;
+    }
+    url += '&page=' + page;
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (data) {
+            var product_list = $(data).find('.product-list');
+            $('.product-list').html(product_list.html());
+
+            updateActivePage(page);
+        },
+        error: function (xhr, status, error) {
+            console.log('Error:', error);
+        }
+    });
+}
+
+$('.pagination .page-item').on('click', function (event) {
+    event.preventDefault();
+    var page = $(this).text();
+    changePage(page);
+});
+
+$('.pagination .page-previous').on('click', function (event) {
+    event.preventDefault();
+    var currentPage = parseInt($('.pagination .page-item.active').text());
+    var previousPage = currentPage - 1;
+    if (previousPage >= 1) {
+        changePage(previousPage);
+    }
+});
+
+$('.pagination .page-next').on('click', function (event) {
+    event.preventDefault();
+    var currentPage = parseInt($('.pagination .page-item.active').text());
+    var nextPage = currentPage + 1;
+    var totalPages = parseInt($('.pagination .total-pages').text());
+    if (nextPage <= totalPages) {
+        changePage(nextPage);
+    }
+});
 
 $('.sort-option').on('click', function (event) {
     event.preventDefault();
@@ -197,10 +282,20 @@ $('.sort-option').on('click', function (event) {
     changeSort(event, sort, cateRefCode, cateCode, cateNew, cateRsv);
 });
 
-	
-
 </script>
 
+<!-- 페이징 -->
+<nav aria-label="Page navigation example" style="margin-top:20px;">
+  <ul class="pagination justify-content-center">
+    <c:forEach var="i" begin="1" end="${totalPages}">
+      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+        <a class="page-link" href="#" onclick="changePage(${i})">
+          ${i}
+        </a>
+      </li>
+    </c:forEach>
+  </ul>
+</nav>
 </main>
 
 <%@ include file="../include/foot.jsp" %>

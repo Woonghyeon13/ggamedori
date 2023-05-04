@@ -61,13 +61,25 @@ public class ProductController {
 	        @RequestParam(required = false) String cate_code,
 	        @RequestParam(required = false) String cate_refcode,
 	        @RequestParam(required = false) String cate_rsv,
-	        @RequestParam(required = false) String cate_new
+	        @RequestParam(required = false) String cate_new,
+	        @RequestParam(required = false, defaultValue = "1") int page
 	    ) {
+		
+		
+		 int limit = 12;
+		 int start = (page - 1) * limit;
+		
 
 	    cvo.setCate_code(cate_code);
 	    cvo.setCate_refcode(cate_refcode);
 	    cvo.setCate_rsv(cate_rsv);
 	    cvo.setCate_new(cate_new);
+
+	    cvo.setStart(start);
+	    cvo.setLimit(limit);
+	    
+	    System.out.println("cate_new :"+cate_new);
+
 	    
 	    // 추가된 부분: sort 값을 CATEGORY_VO 객체에 설정
 	    cvo.setSort(sort);
@@ -79,9 +91,21 @@ public class ProductController {
 	    Map<String, String> cateImgs = adminService.selectCategoryImages();
 	    model.addAttribute("cateImgs", cateImgs);
 
-	    int listCnt = productService.listCnt(cvo);
+
+	    int listCnt;
+	 
+	    if ("1".equals(cate_new)) {
+	        listCnt = productService.newListCnt();
+	    } else {
+	        listCnt = productService.listCnt(cvo);
+	    }
 	    model.addAttribute("listCnt", listCnt);
 	    System.out.println(listCnt);
+
+	    // 토탈 페이지 계산
+	    int totalPages = (int) Math.ceil((double) listCnt / limit);
+	    model.addAttribute("totalPages", totalPages);
+
 
 	    return "prod/list";
 	}
