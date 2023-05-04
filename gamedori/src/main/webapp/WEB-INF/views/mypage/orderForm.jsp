@@ -615,7 +615,7 @@ function updateSavedPoints(data) {
             }
             
             alert('결제가 완료되었습니다.'); // 이 부분을 추가합니다.
-            location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do';
+            location.href = '<%=request.getContextPath()%>/mypage/orderSuccess.do';
 			
         },
         error: function() {

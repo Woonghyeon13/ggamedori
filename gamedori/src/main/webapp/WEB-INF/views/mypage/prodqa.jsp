@@ -94,7 +94,6 @@
 											<img src= "<c:url value='/images/비밀글자물쇠.png'/>" style="width:20px;">
 										</c:when>
 									</c:choose>
-									${vo.prod_q_title}
 								</td>
 								<td class="wdate">${vo.prod_q_wdate}</td>
 								<td>

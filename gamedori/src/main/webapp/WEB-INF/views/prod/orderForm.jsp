@@ -603,7 +603,7 @@ function updateSavedPoints(data) {
             }
             
             alert('결제가 완료되었습니다.'); // 이 부분을 추가합니다.
-            location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
+            location.href = '<%=request.getContextPath()%>/mypage/orderSuccess.do'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
         },
         error: function() {
             // 서버 처리 중 오류 발생 시

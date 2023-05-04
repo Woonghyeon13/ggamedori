@@ -115,7 +115,7 @@ public class MypageController {
 		model.addAttribute("Orderlist", orderList5);
 
 		// 상품문의내역
-		List<PRODUCT_Q_VO> selectQAList = mypageService.selectQAListD(memberVO.getMember_idx() );
+		List<PRODUCT_Q_VO> selectQAList = mypageService.selectQAListD(memberVO.getMember_idx());
 		model.addAttribute("selectQAList", selectQAList);
 		
 		// 1 : 1 문의 내역 역순
@@ -214,12 +214,36 @@ public class MypageController {
 	
 	// 상품 문의사항 상세보기
 	@RequestMapping( value = "/prod_q_view.do", method = RequestMethod.GET )
-	public String view(Model model, @RequestParam("prod_q_idx") int prod_q_idx, String prod_name)
+	public String view(HttpServletRequest req,Model model, @RequestParam("prod_q_idx") int prod_q_idx, String prod_name)
 	{
-		PRODUCT_Q_VO product_Q_VO = mypageService.prod_select(prod_q_idx);
-		
-		model.addAttribute("product_Q_VO", product_Q_VO);
+		HttpSession session = req.getSession();
+		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
+		//상단 등급출력
+	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
+		model.addAttribute("level", selectMemberLevel);
 
+		//상단 적립금
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
+			
+		//상단 쿠폰개수출력
+		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+		model.addAttribute("CouponCount", CouponCount);
+			    
+		//상단 후기 개수
+		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
+		model.addAttribute("ReviewCount", ReviewCount);
+		
+		//마이페이지-상세페이지-상품문의 리스트 
+		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx() );
+		model.addAttribute("selectOtoListD", selectOtoListD);
+		
+		PRODUCT_Q_VO product_Q_VO = mypageService.prod_select(prod_q_idx);
+		model.addAttribute("product_Q_VO", product_Q_VO);
+		PRODUCT_VO prodVO = productService.prodSelectOne(product_Q_VO.getProduct_tb_idx());
+		model.addAttribute("prodVO", prodVO);
+		
+		
 		return "mypage/prod_q_view";
 	}	
 	

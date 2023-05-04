@@ -281,8 +281,6 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th scope="col">번호</th>
-										<th scope="col">상품 명</th>
 										<th scope="col">문의 제목</th>
 										<th scope="col">주문 번호</th>
 										<th scope="col">작성 일자</th>
@@ -294,15 +292,13 @@
 								<c:forEach items="${selectQAList}" var="vo" varStatus="status">
 									<c:if test="${status.index < 4}">
 										<tr>
-											<td>${vo.prod_q_idx}</td>
-											<td><a href="../prod/detail.do?prod_idx=${vo.product_tb_idx}">${vo.prod_name}</a></td>
 											<td>
 												<c:choose>
 													<c:when test="${vo.prod_q_secret == 1}">
 														<img src= "<c:url value='/images/비밀글자물쇠.png'/>" style="width:20px;">
 													</c:when>
 												</c:choose>
-												${vo.prod_q_title}
+												<a href="prod_q_view.do?prod_q_idx=${vo.prod_q_idx}">${vo.prod_q_title}</a>
 											</td>
 											<td>${vo.product_tb_idx}</td>	
 											<td class="wdate">${vo.prod_q_wdate}</td>

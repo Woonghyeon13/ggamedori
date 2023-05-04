@@ -285,7 +285,9 @@
 				</tr>
 				<tr class="border-bottom">
 					<td class="ps-3" colspan="1" style="text-align: left;">
-						<img src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3" style="border-radius: 6px;" alt="" width="100px" height="100px">
+						<c:if test="${not empty reviews.review_img}">
+							<img src="<c:url value='/images/review/${reviews.review_img}' />" class="me-3 mt-3" style="border-radius: 6px;" alt="" width="100px" height="100px">
+						</c:if>
 					</td>
 					<td colspan="2">
 						<span class="fw-bold fs-4">${reviews.review_title}</span> <br> ${reviews.review_contents} <br> 
