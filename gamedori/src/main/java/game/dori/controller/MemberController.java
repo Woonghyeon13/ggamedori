@@ -128,6 +128,8 @@ public class MemberController {
 	    	pw.append("<script>alert('잘못된 이메일입니다'); location.href='" + req.getContextPath() + "/'</script>");
 	    }
 	}
+	
+	
 	@RequestMapping(value = "/passwordEmail.do", method = RequestMethod.GET)
 	public void passwordEmail(@RequestParam("email") String email, @RequestParam("token") String token,
 	                        HttpServletResponse rsp, HttpServletRequest req, HttpSession session) throws IOException {
@@ -136,7 +138,7 @@ public class MemberController {
 	   
 	    rsp.setContentType("text/html; charset=utf-8");
 	    PrintWriter pw = rsp.getWriter();
-
+	    System.out.println(token);
 	    if (storedToken == null || !storedToken.equalsIgnoreCase(token)) {
 	        // 토큰 값이 null이거나 일치하지 않는 경우
 	        // 에러 처리
@@ -172,6 +174,7 @@ public class MemberController {
            
         }
     }
+	
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
 	public void logout(HttpSession session ,HttpServletResponse rsp ,HttpServletRequest req) throws IOException {
 	    session.invalidate(); // 세션 삭제
@@ -246,6 +249,7 @@ public class MemberController {
 	    }
 
 	    String memberMailKey = memberVO.getMember_email_key();
+	    System.out.println(memberMailKey);
 
 	    rsp.setContentType("text/html; charset=utf-8");
 	    PrintWriter pw = rsp.getWriter();
@@ -295,18 +299,14 @@ public class MemberController {
 	    // 이메일 인증 링크 생성
 		
 	    MEMBER_VO result = MemberService.selectByEmail(email);
-	    
-	    
+
 	    if(result != null)
 	    {
-
 			 result.setMember_email_key(token); 
 			 session.removeAttribute("memberVO");
 			 session.setAttribute("memberVO", result);
 	    }
 			
-
-	    
 	    // 이메일 전송
 	    mailService.sendVerificationEmail(email, token);
 	    
@@ -399,15 +399,14 @@ public class MemberController {
 	}
 	
 	//토큰값 만들기 위한 호출용 함수	
-	private String generateToken() {
-	    SecureRandom random = new SecureRandom();
-	    byte[] bytes = new byte[20];
-	    random.nextBytes(bytes);
-	    String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
-	    
-	
-	    
-	    return token;
-	}	
-	
+		private String generateToken() {
+		    SecureRandom random = new SecureRandom();
+		    byte[] bytes = new byte[20];
+		    random.nextBytes(bytes);
+		    String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+		    
+		
+		    
+		    return token;
+		}	
 }

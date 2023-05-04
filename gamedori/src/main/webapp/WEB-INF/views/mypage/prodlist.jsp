@@ -281,7 +281,6 @@
 								<button id="clickBtn" type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#review">리뷰작성</button>
 							</td>
 							<td class="align-middle">
-								<input type="hidden" id="order_idx" value="${Orderlist.order_idx}">
 								<input type="hidden" id="member_idx" value="${Login.member_idx}">
 								<fmt:parseNumber var="payPriceReal" value="${Orderlist.pay_price_real/10}" integerOnly="true" />
 								<input type="hidden" id="savept_amount" value="${payPriceReal}">
@@ -289,7 +288,8 @@
 									구매확정<br/>완료
 								</c:if>
 								<c:if test="${Orderlist.order_state ne 9}">
-									<button onclick="savePoint()" type="button" class="btn btn-outline-secondary btn-sm">구매확정</button>
+									<input type="hidden" id="order_idx" value="${Orderlist.order_idx}">
+									<button onclick="savePoint()" type="button" id="pointOrderIdx" class="btn btn-outline-secondary btn-sm">구매확정</button>
 								</c:if>
 							</td>
 							<td class="align-middle">
@@ -456,7 +456,7 @@ $(document).on("click", "button[id=clickBtn]", function () {
 
 function savePoint(){
 	
-	var order_idx = $("#order_idx").val();
+	var order_idx = $("#pointOrderIdx").prev().val();
 	var member_tb_idx = $("#member_idx").val();
 	var savept_amount = $("#savept_amount").val();
 	$.ajax({
