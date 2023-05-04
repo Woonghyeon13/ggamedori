@@ -419,8 +419,8 @@
 	        	newRow.append($('<td class="text-center">').text(result.prod_q_title));
 	        	newRow.append($('<td class="text-center">').text(result.member_name));
 	        	newRow.append($('<td class="text-center">').text(result.prod_q_wdate));
-	        	newRow.append($('<td class="text-center">').text(result.pql_q_secret === 1 ? '예' : '아니오'));
-	        	newRow.append($('<td class="text-center">').text(result.pql_q_yn === 1 ? '답변 완료' : '답변 대기 중'));
+	        	newRow.append($('<td class="text-center">').text(result.prod_q_secret === 1 ? '예' : '아니오'));
+	        	newRow.append($('<td class="text-center">').text(result.prod_q_yn === 1 ? '답변 완료' : '답변 대기 중'));
 
 	        	// 답변 버튼 추가
 	        	var answerBtn = $('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#prodRefund">답변</button>').click(function () {
