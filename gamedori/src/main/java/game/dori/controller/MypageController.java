@@ -94,24 +94,28 @@ public class MypageController {
 		//최근주문내역
 		List<ORDER_VO> selectOrderList = mypageService.selectOrderListService(memberVO.getMember_idx());
 		List<ORDER_LIST_VO> orderList5 = new ArrayList<ORDER_LIST_VO>();
-		for( int i = 0; i < selectOrderList.size(); i++) {
-			ORDER_LIST_VO olvo = new ORDER_LIST_VO();
-			olvo.setOrder_date(selectOrderList.get(i).getOrder_date());
-			olvo.setOrder_state(selectOrderList.get(i).getOrder_state());
-			ORDER_DETAIL_VO odvo = mypageService.orderDetailOne(selectOrderList.get(i).getOrder_idx());
-			OPT_VO optvo = productService.optSelectOne(odvo.getOpt_tb_idx());
-			PAY_VO payvo = mypageService.selectPayPrice(selectOrderList.get(i).getOrder_idx());
-			PRODUCT_VO pvo = productService.prodSelectOne(optvo.getProd_tb_idx());
-			olvo.setProd_name(pvo.getProd_name());
-			olvo.setProd_imgt(pvo.getProd_imgt());
-			olvo.setPay_price_real(payvo.getPay_price_real());
-			orderList5.add(olvo);
+
+		if( selectOrderList != null ) {
+			for( int i = 0; i < selectOrderList.size(); i++) {
+				ORDER_LIST_VO olvo = new ORDER_LIST_VO();
+				olvo.setOrder_date(selectOrderList.get(i).getOrder_date());
+				olvo.setOrder_state(selectOrderList.get(i).getOrder_state());
+				ORDER_DETAIL_VO odvo = mypageService.orderDetailOne(selectOrderList.get(i).getOrder_idx());
+				OPT_VO optvo = productService.optSelectOne(odvo.getOpt_tb_idx());
+				PAY_VO payvo = mypageService.selectPayPrice(selectOrderList.get(i).getOrder_idx());
+				PRODUCT_VO pvo = productService.prodSelectOne(optvo.getProd_tb_idx());
+				olvo.setProd_name(pvo.getProd_name());
+				olvo.setProd_imgt(pvo.getProd_imgt());
+				olvo.setPay_price_real(payvo.getPay_price_real());
+				olvo.setOrder_idx(selectOrderList.get(i).getOrder_idx());
+				orderList5.add(olvo);
+			}
+
 		}
-		
 		model.addAttribute("Orderlist", orderList5);
 
 		// 상품문의내역
-		List<PRODUCT_Q_VO> selectQAList = mypageService.selectQAListD(memberVO.getMember_idx() );
+		List<PRODUCT_Q_VO> selectQAList = mypageService.selectQAListD(memberVO.getMember_idx());
 		model.addAttribute("selectQAList", selectQAList);
 		
 		// 1 : 1 문의 내역 역순
@@ -210,12 +214,36 @@ public class MypageController {
 	
 	// 상품 문의사항 상세보기
 	@RequestMapping( value = "/prod_q_view.do", method = RequestMethod.GET )
-	public String view(Model model, @RequestParam("prod_q_idx") int prod_q_idx, String prod_name)
+	public String view(HttpServletRequest req,Model model, @RequestParam("prod_q_idx") int prod_q_idx, String prod_name)
 	{
-		PRODUCT_Q_VO product_Q_VO = mypageService.prod_select(prod_q_idx);
-		
-		model.addAttribute("product_Q_VO", product_Q_VO);
+		HttpSession session = req.getSession();
+		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
+		//상단 등급출력
+	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
+		model.addAttribute("level", selectMemberLevel);
 
+		//상단 적립금
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
+			
+		//상단 쿠폰개수출력
+		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+		model.addAttribute("CouponCount", CouponCount);
+			    
+		//상단 후기 개수
+		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
+		model.addAttribute("ReviewCount", ReviewCount);
+		
+		//마이페이지-상세페이지-상품문의 리스트 
+		List<QA_VO> selectOtoListD = mypageService.selectOtoListD(memberVO.getMember_idx() );
+		model.addAttribute("selectOtoListD", selectOtoListD);
+		
+		PRODUCT_Q_VO product_Q_VO = mypageService.prod_select(prod_q_idx);
+		model.addAttribute("product_Q_VO", product_Q_VO);
+		PRODUCT_VO prodVO = productService.prodSelectOne(product_Q_VO.getProduct_tb_idx());
+		model.addAttribute("prodVO", prodVO);
+		
+		
 		return "mypage/prod_q_view";
 	}	
 	
@@ -331,8 +359,25 @@ public class MypageController {
 	
 	// 1 : 1 문의 사항 글 등록
 	@RequestMapping(value = "/oto_write.do", method = RequestMethod.GET)
-	public String oto_write() {
+	public String oto_write(Model model, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");
 		
+		//상단 등급출력
+	    int selectMemberLevel = mypageService.selectMemberLevelService(memberVO.getMember_idx());
+		model.addAttribute("level", selectMemberLevel);
+
+		//상단 적립금
+		int savePoint = mypageService.selectPointBal(memberVO.getMember_idx());
+		model.addAttribute("savePoint",savePoint);
+			
+		//상단 쿠폰개수출력
+		int CouponCount = mypageService.CouponCount(memberVO.getMember_idx());
+		model.addAttribute("CouponCount", CouponCount);
+			    
+		//상단 후기 개수
+		int ReviewCount = mypageService.ReviewCount(memberVO.getMember_idx());
+		model.addAttribute("ReviewCount", ReviewCount);
 		return "mypage/oto_write";
 	}
 	
@@ -467,13 +512,13 @@ public class MypageController {
 	
 
 	// 주문상세
-	@RequestMapping( value = "/orderdetail.do", method = RequestMethod.GET )
-	public String orderdetail(Model model, HttpServletRequest req)
+	@RequestMapping( value = "/orderSuccess.do", method = RequestMethod.GET )
+	public String orderSuccess(Model model, HttpServletRequest req)
 	{
 		HttpSession session = req.getSession();
 		MEMBER_VO memberVO = (MEMBER_VO)session.getAttribute("Login");	
 		
-		return "mypage/orderdetail";
+		return "mypage/orderSuccess";
 	}
 
 	// 적립금 리스트 출력
@@ -816,10 +861,14 @@ public class MypageController {
 	public void pointSave( int order_idx, SAVEPOINT_VO savevo ) {
 		SAVEPOINT_VO amount = mypageService.selectPointInfo(savevo.getMember_tb_idx());
 		SAVEPOINT_VO resultpoint = new SAVEPOINT_VO();
+		int balance = amount.getSavept_balance();
+		int savepoint = savevo.getSavept_amount();
 		resultpoint.setMember_tb_idx(savevo.getMember_tb_idx());
-		resultpoint.setSavept_amount(savevo.getSavept_amount());
-		resultpoint.setSavept_balance(amount.getSavept_balance()+savevo.getSavept_amount());
+		resultpoint.setSavept_amount(savepoint);
+		resultpoint.setSavept_balance(balance+savepoint);
 		int result = mypageService.insertPoint(resultpoint);
+		System.out.println("잔여포인트"+balance);
+		System.out.println("적립금액"+savepoint);
 		if( result > 0 ) {
 			mypageService.updateOrderCheck(savevo.getOrder_idx());
 		}
@@ -827,9 +876,9 @@ public class MypageController {
 	// 리뷰작성
 	@ResponseBody
 	@RequestMapping( value = "reviewInsert.do", method = RequestMethod.POST )
-	public void reviewInsert( MultipartFile prod_file1, REVIEW_VO review, HttpServletResponse rsp ) throws IllegalStateException, IOException {
+	public void reviewInsert( MultipartFile prod_file1, REVIEW_VO review, HttpServletResponse rsp, HttpServletRequest req ) throws IllegalStateException, IOException {
 		
-		String path = "C:\\Users\\720\\git\\ggamedori\\gamedori\\src\\main\\webapp\\resources\\images";
+		String path = req.getSession().getServletContext().getRealPath("/resources/images/review");
 		File dir = new File(path);
 		if(!dir.exists()) { 
 			dir.mkdirs();
@@ -852,4 +901,36 @@ public class MypageController {
 			pw.append("<script>alert('리뷰 등록실패하였습니다.'); location.href='reviewlist.do';</script>");
 		}
 	}
+	
+	
+	// 환불문의 작성
+	@ResponseBody
+	@RequestMapping( value = "applyRefund.do", method = RequestMethod.POST )
+	public void applyRefund( MultipartFile refund_img, REVIEW_VO review, HttpServletResponse rsp, HttpServletRequest req ) throws IllegalStateException, IOException {
+		
+		String path = req.getSession().getServletContext().getRealPath("/resources/images/refund");
+		File dir = new File(path);
+		if(!dir.exists()) { 
+			dir.mkdirs();
+		}
+		String newFileName = "";
+		if(!refund_img.getOriginalFilename().isEmpty()) { 
+			String FileName = System.currentTimeMillis()+refund_img.getOriginalFilename();
+			newFileName = new String(FileName.getBytes("UTF-8"),"8859_1");
+			refund_img.transferTo(new File(path,newFileName));
+			review.setReview_img(newFileName);
+		}
+
+		rsp.setContentType("text/html; charset=utf-8");
+		PrintWriter pw = rsp.getWriter();
+		
+		int result = productService.review_insert(review);
+		
+		if( result > 0 ) {
+			pw.append("<script>alert('리뷰가 등록되었습니다.'); location.href='reviewlist.do';</script>");
+		}else {
+			pw.append("<script>alert('리뷰 등록실패하였습니다.'); location.href='reviewlist.do';</script>");
+		}
+	}
+	
 }

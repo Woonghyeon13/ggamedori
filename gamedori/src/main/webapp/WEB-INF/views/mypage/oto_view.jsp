@@ -13,7 +13,7 @@
 
     <div class="container mypage_inner">
         <h4>1 : 1 문의 전체보기</h4>
-        <div id="mypage_1" class="col">
+        <div id="mypage_1" class="ms-0 me-0">
             <ul>
                 <li>
                     <h5>등급</h5>
@@ -36,30 +36,26 @@
                 </li>
             </ul>
         </div>
-        <div id="mypage_inner2" class="container">
+        <div id="mypage_inner2" class="container row">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
 					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
-				<ol id="ol_li" class="list-group list-group-numbered">
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/cart.do'/>">장바구니</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/prodqa.do'/>">상품문의</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/oto.do'/>">1 : 1문의</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/mypage/reviewlist.do'/>">나의 후기</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/user/modify.do'/>">회원정보수정</a></li>
-					<li class="list-group-item"><a
-						href="<c:url value='/user/withdraw.do'/>">탈퇴하기</a></li>
-					<!-- unregister2.html -->
+			<ol id="ol_li" class="list-group">
+					<li class="list-group-item"><a href="<c:url value='/mypage/cart.do' />">장바구니</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의후기</a></li>
+					<!-- review_list.html -->
+					<li class="list-group-item"><a href="<c:url value='/user/modify.do' />">회원정보수정</a></li>
+					<li class="list-group-item"><a href="<c:url value='/user/withdraw.do' />">탈퇴하기</a></li>
+					<!-- unregister.html -->
 				</ol>
 			</div>
 			
-         <div id="one_to_one_inner" class="col-8">     
+         <div id="one_to_one_inner" class="col-9">     
 
 			<table class="table" style=" border-top:1px solid black;">
 	            <thead>

@@ -22,7 +22,7 @@
 		SELECT *
 		FROM order_tb  
 		 where member_tb_idx =#{member_tb_idx}
-		 order by order_idx
+		 order by order_idx desc
 	</select>
 	<!-- 주문상세 정보 출력 -->
 	<select id="orderDetail" parameterType="orderlistVO" resultType="orderlistVO">

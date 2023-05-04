@@ -8,7 +8,7 @@
 	
 	<div id="mypage_inner" class="container">
 		<h4>쿠폰 전체보기</h4>
-			<div id="mypage_1" class="col">
+			<div id="mypage_1" class="ms-0 me-0">
 				<ul>
 					<li>
 						<h4>등급</h4>

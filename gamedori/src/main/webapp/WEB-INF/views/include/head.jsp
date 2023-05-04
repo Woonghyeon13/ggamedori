@@ -19,6 +19,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 	<!-- 폰트 -->
 	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
@@ -28,6 +29,9 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 	<!--자바스크립트-->
 	<script src="<c:url value='/resources/js/script.js'/>"></script>
+	<!-- ck에디터 -->
+	<script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+	<script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/translations/ko.js"></script>
 
 </head>
 <script>
@@ -84,8 +88,12 @@
 								<li><button type="button" class="btn btn-outline-light join me-2"><a href="<c:url value='/admin/orderList.do'/>">관리자페이지</a></button></li>
 							</c:if>
 						</c:if>
-						<li><a href="<c:url value='/mypage/cart.do'/>" class="nav-link me-2 mt-1 text-muted" title="장바구니"><i class="xi-cart-o xi-2x"></i></a></li>
-						<li><a href="<c:url value='/mypage/wishlist.do'/>" class="nav-link mt-1 text-muted" title="찜 목록"><i class="xi-heart-o xi-2x jjim"></i></a></li>
+						<c:if test="${not empty sessionScope.Login}">
+							<li><a href="<c:url value='/mypage/cart.do'/>" class="nav-link me-2 mt-1 text-muted" title="장바구니"><i class="xi-cart-o xi-2x"></i></a></li>
+						</c:if>
+						<c:if test="${empty sessionScope.Login}">
+							<li><a href="#" onclick="alert('로그인이 필요합니다.')" class="nav-link me-2 mt-1 text-muted" title="장바구니"><i class="xi-cart-o xi-2x"></i></a></li>
+						</c:if>
 					</ul>
 				</div>
 			</div>

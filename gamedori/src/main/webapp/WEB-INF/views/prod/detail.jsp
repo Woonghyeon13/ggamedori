@@ -10,7 +10,7 @@
 		<div class="container mt-5">
 			<div class="row">
 				<div class="col-7">
-					<img class="border" src="<c:url value='/images/${pvo.prod_imgm}' />">
+					<img class="border" src="<c:url value='/images/prod/main/${pvo.prod_imgm}' />">
 				</div>
 				<div class="col-5">
 					<div class="container">
@@ -38,7 +38,7 @@
 							</div>
 							<div class="col-9">
 								<p>
-									<span>구매금액(추가옵션 제외)의 10%</span>
+									<span>구매금액의 10%</span>
 								</p>
 							</div>
 						</div>
@@ -47,7 +47,7 @@
 								<p class="fw-semibold">배송비</p>
 							</div>
 							<div class="col-9">
-								<p>주문시 결제</p>
+								<p><span>3,000원 ( 30,000원 이상 구매시 무료배송 ) </span></p>
 							</div>
 						</div>
 						<hr>
@@ -73,19 +73,19 @@
 								</div>
 								<div class="col-9">
 									<c:if test="${pvo.category_tb_code eq '100' or pvo.category_tb_code eq '101' or pvo.category_tb_code eq '102' or pvo.category_tb_code eq '103' or pvo.category_tb_code eq '104'}">
-										닌텐도 Switch
+										<p>닌텐도 Switch</p>
 									</c:if>
 									<c:if test="${param.cate_refcode eq '200' or pvo.category_tb_code eq '201' or pvo.category_tb_code eq '202' or pvo.category_tb_code eq '203'}">
-										PlayStation5
+										<p>PlayStation5</p>
 									</c:if>
 									<c:if test="${param.cate_refcode eq '300' or pvo.category_tb_code eq '301' or pvo.category_tb_code eq '302' or pvo.category_tb_code eq '303'}">
-										PlayStation4
+										<p>PlayStation4</p>
 									</c:if>
 									<c:if test="${pvo.category_tb_code eq '400' or pvo.category_tb_code eq '401' or pvo.category_tb_code eq '402' or pvo.category_tb_code eq '403'}">
-										XBOX
+										<p>XBOX</p>
 									</c:if>
 									<c:if test="${pvo.category_tb_code eq '500'}">
-										GOODS
+										<p>GOODS</p>
 									</c:if>
 								</div>
 							</div>
@@ -107,13 +107,14 @@
 							        </select>
 									<div class="choice_product mt-3" style="margin: auto 0;">
 										<c:forEach var="optt" items="${optlist}" varStatus="status">
+										<c:if test="${optt.opt_stock ne 0}">
 										<input type="hidden" id="optPrice${status.count}" value="${optt.opt_price}">
 										<input type="hidden" id="opttIdx${status.count}" value="${optt.opt_idx}">
 										<div class="border-top border-bottom mx-2" id="optSel${status.count}"
 											style="display: none;">
 											<div class="d-flex justify-content-between">
 												<div class="mt-3">
-													<p>${pvo.prod_name} : ${optt.opt_name}</p>
+													<p>${optt.opt_name}</p>
 												</div>
 												<div class="btn-group btn-group-sm my-3" role="group">
 												  <button type="button" class="btn btn-secondary"
@@ -129,6 +130,26 @@
 												</div>
 											</div>
 										</div>
+										</c:if>
+										<c:if test="${optt.opt_stock eq 0}">
+											<input type="hidden" id="opttIdx${status.count}" value="x">
+											<input type="hidden" id="optPrice${status.count}" value="${optt.opt_price}">
+											<input type="hidden" id="ct_qty${status.count}" value="1">
+											<div class="border-top border-bottom mx-2" id="optSel${status.count}"
+												style="display: none;">
+												<div class="d-flex justify-content-between">
+													<div class="mt-3">
+														<p>${optt.opt_name} 이 상품은 품절입니다.</p>
+														<input type="hidden" id="prodX" value="x">
+													</div>
+													<div class="my-3">
+													</div>
+													<div class="mt-3">
+														<button class="btn" id="optClo${status.count}">x</button>
+													</div>
+												</div>
+											</div>
+										</c:if>
 										</c:forEach>
 									</div>
 								</div>
@@ -152,7 +173,7 @@
 									style="width: 280px; height: 60px;">바로 구매하기</button>
 							</c:if>
 							<c:if test="${not empty sessionScope.Login}">
-								<form name="frm" action="orderForm.do" method="get">
+								<form name="frm" action="orderForm.do" method="get" onsubmit="return prodCheckBtn()" >
 									<input type="hidden" name="opt_idx1" id="optIdx1">
 									<input type="hidden" name="opt_idx2" id="optIdx2" value="0">
 									<input type="hidden" name="opt_idx3" id="optIdx3" value="0">
@@ -163,9 +184,7 @@
 									<input type="hidden" name="opt_qty3" id="optQty3" value="0">
 									<input type="hidden" name="opt_qty4" id="optQty4" value="0">
 									<input type="hidden" name="opt_qty5" id="optQty5" value="0">
-									<button class="btn btn-outline-light login" style="width: 280px; height: 60px;"
-									 onclick="if(document.getElementById('optIdx1').value == 0){alert('메인상품을 선택해주세요.');
-								      return false;}">바로 구매하기</button>
+									<button class="btn btn-outline-light login" style="width: 280px; height: 60px;">바로 구매하기</button>
 								</form>
 							</c:if>
 						</div>
@@ -175,44 +194,20 @@
 		</div>
 		<!-- 상품 상세정보 -------------------------------- -->
 		<div class="container mt-5">
-			<ul class="nav justify-content-center nav-fill nav-tabs text-black" id="tab_menu">
-			    <li class="nav-item">
-			        <a class="nav-link text-reset" href="#productNav1">상품상세</a>
-			    </li>
-			    <li class="nav-item">
-			        <a class="nav-link text-reset" href="#productNav2">배송안내</a>
-			    </li>
-			    <li class="nav-item">
-			        <a class="nav-link text-reset" href="#productNav3">고객리뷰(0)</a>
-			    </li>
-			    <li class="nav-item">
-			        <a class="nav-link text-reset" href="#productNav4">상품문의</a>
-			    </li>
+			<ul class="nav justify-content-center nav-fill nav-tabs text-black">
+				<li class="nav-item"><a id="productNav1" class="nav-link text-reset active fw-bold"
+					aria-current="page" href="#productNav1">상품상세</a></li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav2">배송안내</a></li>
+				<li class="nav-item"><a
+					class="nav-link text-reset" href="#productNav3">고객리뷰(${reviewCnt})</a>
+				</li>
+				<li class="nav-item"><a class="nav-link text-reset"
+					href="#productNav4">상품문의(${pqlCnt})</a></li>
 			</ul>
-			
-			<script>
-			    const tabs = document.querySelectorAll('.nav-item a');
-			
-			    tabs.forEach(tab => {
-			        tab.addEventListener('click', (event) => {
-			            event.preventDefault();
-			            tabs.forEach(tab => {
-			                tab.classList.remove('fw-bold');
-			                tab.classList.remove('active');
-			            });
-			            tab.classList.add('fw-bold');
-			            tab.classList.add('active');
-			            // TODO: 해당 탭에 대한 내용을 보여주는 코드 작성
-			        });
-			    });
-			</script>
- 
-
-			
-			
 			<!--상세 사진 영역-->
-			<div class="container d-flex justify-content-center mt-3" id="productNav1">
-				<img src="<c:url value='/images/${pvo.prod_imgd}' />" alt="">
+			<div class="container d-flex justify-content-center mt-3">
+				<img src="<c:url value='/images/prod/detail/${pvo.prod_imgd}' />" alt="">
 			</div>
 		</div>
 		<!-- 배송안내 -->
@@ -256,6 +251,13 @@
 				<h2>고객리뷰(${reviewCnt})</h2>
 			</div>
 			<table class="table w-100 text-center border-bottom">
+				<c:if test="${empty reviewlist}">
+					<tr>
+						<td></td>
+						<td class="py-5">등록된 리뷰가 없습니다.</td>
+					</tr>
+				</c:if>
+				<c:if test="${not empty reviewlist}">
 				<c:forEach var="reviews" items="${reviewlist}" varStatus="status">
 				<tr>
 					<td class="col-1 ps-3">
@@ -283,35 +285,20 @@
 				</tr>
 				<tr class="border-bottom">
 					<td class="ps-3" colspan="1" style="text-align: left;">
-						<img src="<c:url value='/images/GU1vXFJpbzGYNV6UN3U0Cnnb.jpg' />" class="me-3 mt-3" style="border-radius: 6px;" alt="" width="100px" height="100px">
+						<c:if test="${not empty reviews.review_img}">
+							<img src="<c:url value='/images/review/${reviews.review_img}' />" class="me-3 mt-3" style="border-radius: 6px;" alt="" width="100px" height="100px">
+						</c:if>
 					</td>
 					<td colspan="2">
 						<span class="fw-bold fs-4">${reviews.review_title}</span> <br> ${reviews.review_contents} <br> 
 					</td>
 				</tr>
 				</c:forEach>
-				<!-- 리뷰 없음 -->
-<!-- 
-		<tr>
-          <td class="py-5">등록된 리뷰가 없습니다.</td>
-     	</tr>
-       -->
+				</c:if>
 			</table>
 			<div class="container d-flex justify-content-between mt-3">
 				<div></div>
 				<nav aria-label="Page navigation example">
-					<ul class="pagination text-black">
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&lt;</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">1</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">2</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">3</a></li>
-						<li class="page-item"><a class="page-link text-reset"
-							href="#">&gt;</a></li>
-					</ul>
 				</nav>
 				<div></div>
 				</div>
@@ -336,7 +323,7 @@
 				style="border-bottom: 2px solid #000;">
 				<h2>상품문의(${pqlCnt})</h2>
 				<h6 class="ms-3">
-					상품의 취소/반품/교환/환불 및 배송관련 문의는 <a href="#"><strong>1:1문의</strong></a>를
+					상품의 취소/반품/교환/환불 및 배송관련 문의는 <a href="<c:url value='/mypage/oto_write.do' />"><strong>1:1문의</strong></a>를
 					이용해 주세요.
 				</h6>
 			</div>
@@ -347,8 +334,8 @@
 					<th class="col-1 fw-bold">이름</th>
 					<th class="col-1 fw-bold">작성일</th>
 				</thead>
-<tbody>
-						<c:if test="${not empty pqllist}">
+				<tbody>
+				<c:if test="${not empty pqllist}">
 							<c:forEach var="pql" items="${pqllist}">
 							<tr class="text-center qa_item border-bottom" style="cursor: pointer;">
 								<td style="text-align:center;">
@@ -367,17 +354,21 @@
 							</tr>
 							<tr class="hide border-bottom">
 								<td></td>
-								
-								<c:if test="${pql.prod_q_secret eq '1' && pql.member_name == sessionScope.Login.member_name}">
+								<c:if test="${pql.prod_q_secret eq '1' and pql.member_name eq sessionScope.Login.member_name}">
 									<td colspan="4">${pql.prod_q_contents} <br>
 										<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
 										${pql.prod_q_reply}
 									</td>
 								</c:if>
-								
-								<c:if test="${pql.prod_q_secret eq '1' && pql.member_name != sessionScope.Login.member_name}">
+								<c:if test="${pql.prod_q_secret eq '1' and pql.member_name ne sessionScope.Login.member_name}">
 									<td colspan="4">
 										비밀글 입니다.
+									</td>
+								</c:if>
+								<c:if test="${pql.prod_q_secret eq '2'}">
+									<td colspan="4">${pql.prod_q_contents} <br>
+										<hr> <i style="vertical-align: middle;" class="xi-subdirectory"></i><i style="vertical-align: middle;" class="xi-message"></i>
+										${pql.prod_q_reply}
 									</td>
 								</c:if>
 							</tr>
@@ -394,18 +385,6 @@
 				<div class="container d-flex justify-content-between">
 					<div></div>
 					<nav aria-label="Page navigation example">
-						<ul class="pagination text-black">
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">&lt;</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">1</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">2</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">3</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">&gt;</a></li>
-						</ul>
 					</nav>
 					<button type="button" class="btn btn-outline-light login me-2"
 						data-bs-toggle="modal" data-bs-target="#qa" style="height: 38px;">문의
@@ -617,6 +596,11 @@ function change_qty(optionIndex, t) {
 <script>
 function prodCart(){
 	
+	if( $("#optIdx1").val() == "x" ){
+		alert('현재 품절입니다.');
+		return false;
+	}
+	
 	var member_tb_idx = ${Login.member_idx};
 	var opt_tb_idx = [];
 	var cart_amount = [];
@@ -672,5 +656,18 @@ function prodCart(){
 		}
 	})
 };
+</script>
+<script>
+// 상품 담기전 체크
+function prodCheckBtn(){
+	if( $("#optIdx1").val() == "x" ){
+		alert('현재 품절입니다.');
+		return false;
+	}
+	if( $("#optIdx1").val() == 0 ){
+		alert('메인상품을 선택해주세요.'); 
+		return false;
+	}
+}
 </script>
 <%@ include file="../include/foot.jsp" %>

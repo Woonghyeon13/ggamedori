@@ -13,7 +13,7 @@
 
     <div class="container mypage_inner">
         <h4>상품 문의 전체보기</h4>
-        		<div id="mypage_1" class="col">
+        		<div id="mypage_1" class="ms-0 me-0">
 					<ul>
 						<li>
 							<h4>등급</h4>
@@ -33,28 +33,29 @@
 							</p>
 						</li>
 						<li>
-							<h4>적립금</h4>
-							<p><c:out value="${PointBalance}"/>원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
-							<!--s_money_check.html -->
-						</li>
-						<li>
-							<h4>쿠폰</h4>
-							<p> <c:out value="${CouponCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
-						</li>
-						<li>
-							<h4>나의 후기</h4>
-							<p><c:out value="${ReviewCount}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
-						</li>
-					</ul>
+						<h4>적립금</h4>
+						<fmt:formatNumber var="savePointt" value="${savePoint}" pattern="#,###"/>
+						<p>${savePointt}원</p> <a href="<c:url value='/mypage/point.do' />">적립금 확인 > </a>
+						<!--s_money_check.html -->
+					</li>
+					<li>
+						<h4>쿠폰</h4>
+						<p> <c:out value="${CouponCount}"/>개</p> <a href="<c:url value='/mypage/coupon.do' />">쿠폰 확인 > </a> <!-- coupon_check.html -->
+					</li>
+					<li>
+						<h4>나의 후기</h4>
+						<p><c:out value="${ReviewCount}"/>개</p> <a href="<c:url value='/mypage/reviewlist.do' />">후기 확인 > </a> <!-- review_list.html -->
+					</li>
+				</ul>
 				</div>
 		
-        <div id="mypage_inner2" class="container">
+        <div id="mypage_inner2" class="container row">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
 					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
 				</p>
 
-				<ol id="ol_li" class="list-group list-group-numbered">
+				<ol id="ol_li" class="list-group">
 					<li class="list-group-item"><a
 						href="<c:url value='/mypage/cart.do'/>">장바구니</a></li>
 					<li class="list-group-item"><a
@@ -71,7 +72,7 @@
 				</ol>
 			</div>
 			
-         <div id="prod_q_inner" class="col-8">     
+         <div id="prod_q_inner" class="col-9">     
 
 			<table class="table" style=" border-top:1px solid black;">
 	            <thead>
@@ -80,7 +81,7 @@
 	                </tr>
 	                
 	                <tr>
-	                    <td style="float:left; color:gray;">상품 명 : <span style="border-bottom:1px solid #fff; font-size:30px;">${product_VO.prod_name}</span></td>
+	                    <td style="float:left; color:gray;">상품 명 : <span style="border-bottom:1px solid #fff; font-size:30px;">${prodVO.prod_name}</span></td>
 	                </tr>
 	                
 	                <tr>

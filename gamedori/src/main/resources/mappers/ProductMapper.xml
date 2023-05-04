@@ -12,7 +12,8 @@
 		VALUES (#{category_tb_code}, #{prod_name}, #{prod_price}, #{prod_stock}, #{prod_co}, #{prod_rdate}, #{prod_reserv}, #{prod_imgt}, #{prod_imgm}, #{prod_imgd}, #{prod_qtymin}, #{prod_qtymax});
 	</insert>
 	
-<!--  상품 리스트 -->
+
+	<!--  상품 리스트 -->
 <select id="prodSelectAll" resultType="productVO" parameterType="categoryVO">
     SELECT * FROM product_tb p, category_tb c where p.category_tb_code = c.cate_code
     <choose>
@@ -24,7 +25,7 @@
             and prod_reserv = #{cate_rsv}
         </when>
         <when test= 'cate_new == "1"'>
-        	AND PROD_WDATE >= DATE_SUB(NOW(), INTERVAL 14 DAY)
+        	AND PROD_RDATE >= DATE_SUB(NOW(), INTERVAL 14 DAY)
         </when>
         <when test='cate_refcode == null and cate_code != null'>
             and category_tb_code = #{cate_code}
@@ -95,6 +96,7 @@
 	, prod_qtymax = #{prod_qtymax}
 	where prod_idx = #{prod_idx}
 </update>
+
 	
 	<!-- 상품 삭제 -->
 	<delete id="prodDelete" parameterType="int">

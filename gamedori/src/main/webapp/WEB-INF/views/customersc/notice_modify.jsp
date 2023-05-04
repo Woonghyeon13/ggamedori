@@ -60,7 +60,7 @@
 	function validateForm(event) {
 	    // 검색어와 검색 옵션 가져오기
 	    var noticeTitle = $('.noticetitle').val();
-	    var noticeContents = ''; // 변수 초기화
+	    var noticeContents = $('.noticecontents').val(); // 변수 초기화
 	
 	    // CKEditor 인스턴스가 있는 경우, 편집기의 데이터를 가져옵니다.
 	    if (classicEditorInstance) {
@@ -68,7 +68,7 @@
 	    }
 	
 	    // 입력값이 있는지 확인
-	    if (!noticeTitle || noticeTitle.trim() === '' || !noticeContents || noticeContents.trim() === '') {
+	    if (!noticeTitle || noticeTitle == '' || !noticeContents || noticeContents == '') {
 	        alert('공지사항 제목과 내용을 모두 입력해주세요.');
 	        event.preventDefault();
 	    } else {

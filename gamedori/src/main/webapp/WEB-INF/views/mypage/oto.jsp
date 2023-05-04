@@ -255,7 +255,7 @@
 	
     <div class="container mypage_inner">
         <h4>1 : 1 문의 전체보기</h4>
-			<div id="mypage_1" class="col">
+			<div id="mypage_1" class="ms-0 me-0">
 				<ul>
 					<li>
 						<h4>등급</h4>
@@ -291,7 +291,7 @@
 				</ul>
 			</div>
 					
-        <div id="mypage_inner2" class="container">
+        <div id="mypage_inner2" class="container row">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
 					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
@@ -309,7 +309,7 @@
 					<!-- unregister.html -->
 				</ol>
 			</div>
-            <div id="one_to_one_inner" class="col-8">     
+            <div id="one_to_one_inner" class="col-9">     
                 <p><strong>${sessionScope.Login.member_name}</strong>님의 1 : 1 문의 내역</p>            
                 <table id="one_to_one_t" class="table table-hover" style="width:100%; border-top:1px solid #000;">
                 

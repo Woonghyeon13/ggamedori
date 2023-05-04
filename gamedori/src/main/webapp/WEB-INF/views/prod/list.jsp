@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <main>
 	<div class="inner product_list">
 		<div>
@@ -145,6 +146,7 @@
         </div>
 
 
+
 	</div>
 
 
@@ -169,7 +171,6 @@ function changeSort(event, sort, cateRefCode, cateCode, cateNew, cateRsv) {
     if (cateRsv && cateRsv === '1') {
         url += '&cate_rsv=' + cateRsv;
     }
-
     $.ajax({
         url: url,
         method: 'GET',

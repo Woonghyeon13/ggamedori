@@ -96,7 +96,7 @@
 					<tbody>
 					<c:forEach var="optvo" items="${optlist}" varStatus="status">
 						<tr class="table-light text-center" style="border-bottom:1px solid #bdbdbd;">
-							<td><img src="./images/HOT1.jpg" style="width: 100px; height: 100px;"></td>
+							<td><img src="<c:url value='/images/prod/thumb/${optvo.prod_imgt}'/>" style="width: 100px; height: 100px;"></td>
 							<td class="pbb3">
 								<input type="hidden" id="optName${status.count}" value="${optvo.prod_name}">
 								<input type="hidden" id="ord_optIdx" name="opt_tb_idx" value="${optvo.opt_idx}">
@@ -138,7 +138,14 @@
 						</tr>
 						<tr class="pbb">
 							<td class="pbb2">배송비</td>
-							<td colspan="3">3,000원</td>
+							<td colspan="3">
+								<c:if test="${orderPrices lt 30000}">
+									3,000원
+								</c:if>
+								<c:if test="${orderPrices ge 30000}">
+									0원
+								</c:if>
+							</td>
 						</tr>
 						<tr class="pbb" style="border-bottom:1px solid #bdbdbd;">
 							<td class="pbb2">적립금</td>
@@ -149,9 +156,19 @@
 							</td>
 						</tr>
 						<tr class="pbb" style="height: 80px; vertical-align: middle;">
-							<fmt:formatNumber var="orderPointCal" value="${orderPrices +3000 - use_point}" pattern="#,###"/>
+							<c:if test="${orderPrices lt 30000}">
+								<fmt:formatNumber var="orderPointCal" value="${orderPrices +3000 - use_point}" pattern="#,###"/>
+							</c:if>
+							<c:if test="${orderPrices ge 30000}">
+								<fmt:formatNumber var="orderPointCal" value="${orderPrices - use_point}" pattern="#,###"/>
+							</c:if>
 							<td class="pbb2">
+							<c:if test="${orderPrices lt 30000}">
 								<input type="hidden" id="ordPric" value="${orderPrices +3000}">
+							</c:if>
+							<c:if test="${orderPrices ge 30000}">
+								<input type="hidden" id="ordPric" value="${orderPrices}">
+							</c:if>
 								총 결제금액
 							</td>
 							<td colspan="3" id="priCalResult">
@@ -178,7 +195,6 @@
 				<input type="hidden" id="orderPoint" value="0">
 				<button class="btn btn-danger btn-block mt-4" onclick=
 				"requestPay()" style="font-weight: bold">주문하기</button>
-				<button type="button" class="btn btn-danger btn-block mt-4" onclick="orderAjax()" style="font-weight: bold">주문테스트</button>
 			</div>
 		</div>
 	</section>
@@ -188,7 +204,10 @@
 					//전액사용 버튼 
 					function usingPoint() { 
 					    var savePoint = parseInt(document.getElementById("savePoint").value);
-					    var maxUsePoint = ${orderPrices + 3000};
+					    var maxUsePoint = ${orderPrices};
+					    if( maxUsePoint < 30000 ){
+					    	maxUsePoint = maxUsePoint + 3000;
+					    }
 					    var usePoint = 0;
 						
 					    if (savePoint >= maxUsePoint) { // 적립금이 상품 금액 이상인 경우
@@ -329,7 +348,7 @@
   		 		var order_name = $("#ord_name").val();
   		 		var order_phone = $("#ord_phone").val();
   		 		var order_memo = $("#ord_memo").val();
-  		 		var order_usepoint = $("orderPoint").val();
+  		 		var order_usepoint = $("#orderPoint").val();
   		 		
   		 		var opt_tb_idx = [];
   		 		var orderd_qty = [];
@@ -400,7 +419,7 @@
         		 		var order_name = $("#ord_name").val();
         		 		var order_phone = $("#ord_phone").val();
         		 		var order_memo = $("#ord_memo").val();
-        		 		var order_usepoint = $("orderPoint").val();
+        		 		var order_usepoint = $("#orderPoint").val();
         		 		
         		 		var opt_tb_idx = [];
         		 		var orderd_qty = [];
@@ -469,7 +488,12 @@ $(document).ready(function(){
 });
 $("#usePoint").change(function() {
 	  var num1 = $("#usePoint").val();
-	  var num2 = ${orderPrices+3000};
+	  var num2 = ${orderPrices};
+	  if( num2 < 30000 ){
+		  num2 = ${orderPrices+3000};
+	  }else{
+		  num2 = ${orderPrices}
+	  }
 	  var savePoint = $("#savePoint").val();
 	  
 	  // 사용한 포인트를 총 결제 금액에서 빼서 업데이트
@@ -579,7 +603,7 @@ function updateSavedPoints(data) {
             }
             
             alert('결제가 완료되었습니다.'); // 이 부분을 추가합니다.
-            location.href = '<%=request.getContextPath()%>/mypage/orderdetail.do'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
+            location.href = '<%=request.getContextPath()%>/mypage/orderSuccess.do'; // 결제 완료 후 이동할 페이지 URL을 입력하세요.
         },
         error: function() {
             // 서버 처리 중 오류 발생 시
