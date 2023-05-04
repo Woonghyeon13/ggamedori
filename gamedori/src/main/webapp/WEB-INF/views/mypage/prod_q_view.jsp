@@ -13,7 +13,7 @@
 
     <div class="container mypage_inner">
         <h4>상품 문의 전체보기</h4>
-        		<div id="mypage_1" class="col">
+        		<div id="mypage_1" class="ms-0 me-0">
 					<ul>
 						<li>
 							<h4>등급</h4>
@@ -48,7 +48,7 @@
 					</ul>
 				</div>
 		
-        <div id="mypage_inner2" class="container">
+        <div id="mypage_inner2" class="container row">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
 					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
@@ -71,7 +71,7 @@
 				</ol>
 			</div>
 			
-         <div id="prod_q_inner" class="col-8">     
+         <div id="prod_q_inner" class="col-9">     
 
 			<table class="table" style=" border-top:1px solid black;">
 	            <thead>

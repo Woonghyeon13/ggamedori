@@ -52,7 +52,7 @@
 	    	   	for (var i = 0; i < data.length; i++) {
 	    	   		html += '<div class="row mb-3">'
 	    	   		html += '<div id="p_left" class="col-3">'
-	    	   		html += '<img src="<c:url value="/images/' + data[i].prod_imgt + '" />" style="width:85px; height:85px;">';
+	    	   		html += '<img src="<c:url value="/images/prod/thumb/' + data[i].prod_imgt + '" />" style="width:85px; height:85px;">';
 	    	   		html += '</div>'
 	    	   		html += '<div id="p_right" class="col-9 mt-2">'
 	    	   		html += '<p>'+data[i].prod_name+'</p>'
@@ -473,13 +473,13 @@
     	        var newRow = $('<tr>');
 
     	        // 테이블에 행 추가
-    	        newRow.append($('<td class="text-center">').text(result.order_idx));
-    	        newRow.append($('<td class="text-center">').text(result.member_email));
-    	        newRow.append($('<td class="text-center">').text(result.member_name));
-    	        newRow.append($('<td class="text-center">').text(result.order_date));
-    	        newRow.append($('<td class="text-center">').text(result.orderd_price));
+    	        newRow.append($('<td class="text-center align-middle">').text(result.order_idx));
+    	        newRow.append($('<td class="text-center align-middle">').text(result.member_email));
+    	        newRow.append($('<td class="text-center align-middle">').text(result.member_name));
+    	        newRow.append($('<td class="text-center align-middle">').text(result.order_date));
+    	        newRow.append($('<td class="text-center align-middle">').text(result.orderd_price));
 
-    	       		 newRow.append($('<td class="text-center">').append(
+    	       		 newRow.append($('<td class="text-center align-middle">').append(
     	            $('<select class="form-select" onchange="updateOrderState(this, \'' + result.order_idx + '\');">')
     	            .append($('<option value="1" ' + (result.order_state == 1 ? 'selected' : '') + '>주문접수</option>'))
     	            .append($('<option value="2" ' + (result.order_state == 2 ? 'selected' : '') + '>결제완료</option>'))
@@ -490,7 +490,7 @@
     	            .append($('<option value="10" ' + (result.order_state == 10 ? 'selected' : '') + '>주문 취소 접수</option>'))
     	        ));
 
-    	        newRow.append($('<td class="text-center">').append($('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#orderdetail" onclick="orderdetailToModal('+result.order_idx+')">상세보기</button>')));
+    	        newRow.append($('<td class="text-center align-middle">').append($('<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#orderdetail" onclick="orderdetailToModal('+result.order_idx+')">상세보기</button>')));
 
     	        $('#table-body').append(newRow);
     	    });

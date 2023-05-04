@@ -8,7 +8,7 @@
 
 	<div id="mypage_inner" class="container">
 		<h4>탈퇴하기</h4>
-		<div id="mypage_1" class="col">
+		<div id="mypage_1" class="ms-0 me-0">
 			<ul>
 				<li>
 					<h5>등급</h5>
@@ -35,15 +35,16 @@
 					<span>닉네임</span>님 환영합니다.
 				</p>
 
-				<ol id="ol_li" class="list-group list-group-numbered">
-					<li class="list-group-item"><a href="<c:url value='/mypage/cart' />">장바구니</a></li>
-					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa' />">상품문의</a></li>
-					<li class="list-group-item"><a href="<c:url value='/mypage/oto' />">1 : 1문의</a></li>
-					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist' />">나의
-							후기</a></li>
-					<li class="list-group-item"><a href="<c:url value='/user/modify' />">회원정보수정</a></li>
-					<li class="list-group-item"><a href="<c:url value='/user/withdraw' />">탈퇴하기</a></li>
-					<!-- unregister2.html -->
+			<ol id="ol_li" class="list-group">
+					<li class="list-group-item"><a href="<c:url value='/mypage/cart.do' />">장바구니</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/prodqa.do' />">상품문의</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/prodlist.do' />">주문내역</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/oto.do' />">1 : 1문의</a></li>
+					<li class="list-group-item"><a href="<c:url value='/mypage/reviewlist.do' />">나의후기</a></li>
+					<!-- review_list.html -->
+					<li class="list-group-item"><a href="<c:url value='/user/modify.do' />">회원정보수정</a></li>
+					<li class="list-group-item"><a href="<c:url value='/user/withdraw.do' />">탈퇴하기</a></li>
+					<!-- unregister.html -->
 				</ol>
 			</div>
 				<div id="unregister_inner" class="col-8">

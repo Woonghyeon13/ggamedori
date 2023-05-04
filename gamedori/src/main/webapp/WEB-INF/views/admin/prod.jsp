@@ -34,24 +34,24 @@
 			<table class="table table-sm ">
 				<thead class="table-light">
 					<tr>
-						<th class="text-center">상품 번호</th>
-						<th class="text-center">상품 분류</th>
-						<th class="text-center">상품 이름</th>
-						<th class="text-center">상품 등록일</th>
-						<th class="text-center">재고 수량</th>
-						<th class="text-center">재고 상태</th>
-						<th class="text-center">상품 관리</th>
+						<th class="text-center align-middle">상품 번호</th>
+						<th class="text-center align-middle">상품 분류</th>
+						<th class="text-center align-middle">상품 이름</th>
+						<th class="text-center align-middle">상품 등록일</th>
+						<th class="text-center align-middle">재고 수량</th>
+						<th class="text-center align-middle">재고 상태</th>
+						<th class="text-center align-middle">상품 관리</th>
 					</tr>
 				</thead>
 				<tbody id = "table-body" >
 					<%-- <c:forEach var="pvo" items="${plist}">
 						<tr>
-							<td class="text-center">${pvo.prod_idx}</td>
-							<td class="text-center">${pvo.category_tb_code}</td>
-							<td class="text-center">${pvo.prod_name}</td>
-							<td class="text-center">${pvo.prod_wdate}</td>
-							<td class="text-center">${pvo.prod_stock}</td>
-							<td class="text-center">
+							<td class="text-center align-middle">${pvo.prod_idx}</td>
+							<td class="text-center align-middle">${pvo.category_tb_code}</td>
+							<td class="text-center align-middle">${pvo.prod_name}</td>
+							<td class="text-center align-middle">${pvo.prod_wdate}</td>
+							<td class="text-center align-middle">${pvo.prod_stock}</td>
+							<td class="text-center align-middle">
 								<c:if test="${pvo.prod_stock eq 0 }">
 									품절
 								</c:if>
@@ -189,6 +189,7 @@
 	    sendAjaxRequest('prod',searchText, searchOption, page, function(response) {
 	        updateTable(response);
 	        updatePagination(response.totalPages, searchText, searchOption, page);
+	        updatePaginationForAll();
 	    });
 	}
 	
@@ -315,13 +316,13 @@
             	var stockState = '정상';
             }
 
-            newRow.append($('<td class="text-center">').text(result.prod_idx));
-            newRow.append($('<td class="text-center">').text(result.category_tb_code));
-            newRow.append($('<td class="text-center">').text(result.prod_name));
-            newRow.append($('<td class="text-center">').text(result.prod_wdate));
-            newRow.append($('<td class="text-center">').text(result.prod_stock));
-   	        newRow.append($('<td class="text-center">').text(stockState));
-            newRow.append($('<td class="text-center">').html(
+            newRow.append($('<td class="text-center align-middle">').text(result.prod_idx));
+            newRow.append($('<td class="text-center align-middle">').text(result.category_tb_code));
+            newRow.append($('<td class="text-center align-middle">').text(result.prod_name));
+            newRow.append($('<td class="text-center align-middle">').text(result.prod_wdate));
+            newRow.append($('<td class="text-center align-middle">').text(result.prod_stock));
+   	        newRow.append($('<td class="text-center align-middle">').text(stockState));
+            newRow.append($('<td class="text-center align-middle">').html(
             		   '<div class="d-flex justify-content-around">' +
             		   '<button type="button" onclick="location.href=\'prodmodify.do?prod_idx=' + result.prod_idx + '\'" class="btn btn-outline-secondary btn-sm">수정</button>' +
             		   '<form name="frm" action="prodDelete.do" method="post">' +

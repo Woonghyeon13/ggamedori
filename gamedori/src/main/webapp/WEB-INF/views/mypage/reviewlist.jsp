@@ -7,7 +7,7 @@
 	
 	<div class="container mypage_inner">
 		<h4>후기 전체보기</h4>
-			<div id="mypage_1" class="col">
+			<div id="mypage_1" class="ms-0 me-0">
 				<ul>
 					<li>
 						<h4>등급</h4>
@@ -42,7 +42,7 @@
 					</li>
 				</ul>
 			</div>
-		<div id="mypage_inner2" class="container">
+		<div id="mypage_inner2" class="container row">
 			<div id="mypage_list" class="col-3">
 				<p id="nickname">
 					<strong>${sessionScope.Login.member_name}</strong>님 환영합니다.
@@ -61,7 +61,7 @@
 					<!-- unregister.html -->
 				</ol>
 			</div>
-			<div id="review_inner" class="col-8">
+			<div id="review_inner" class="col-9">
 				<div id="select">
 					<p>
 						<strong>${sessionScope.Login.member_name}</strong>님이 작성한 후기모음

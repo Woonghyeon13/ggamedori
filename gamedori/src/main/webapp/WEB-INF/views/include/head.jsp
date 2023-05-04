@@ -28,6 +28,9 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 	<!--자바스크립트-->
 	<script src="<c:url value='/resources/js/script.js'/>"></script>
+	<!-- ck에디터 -->
+	<script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+	<script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/translations/ko.js"></script>
 
 </head>
 <script>

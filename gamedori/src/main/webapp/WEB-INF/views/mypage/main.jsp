@@ -142,7 +142,7 @@
 	<!-- 마이페이지 클릭 시 첫 화면 ------------------------------------------------------------------------------------------------->
 	<div id="mypage_inner" class="container">
 		<h3>마이페이지</h3>
-		<div id="mypage_1" class="col">
+		<div id="mypage_1" class="ms-0 me-0">
 			<ul>
 				<li>
 					<h4>등급</h4>
@@ -178,8 +178,8 @@
 			</ul>
 		</div>
 
-		<div id="mypage_inner2" class="container">
-			<div id="mypage_list" class="col-3">
+		<div id="mypage_inner2" class="container row p-0">
+			<div id="mypage_list" class="col-3 p-0">
 				<p id="nickname">
 					<span>${sessionScope.Login.member_name}</span>님 환영합니다.
 				</p>
@@ -196,7 +196,7 @@
 					<!-- unregister.html -->
 				</ol>
 			</div>
-			<div id="detail_inner" class="col-8">
+			<div id="detail_inner" class="col-9 ps-1">
 				<ul>
 					<li>
 						<div id="product_page" class="container">
