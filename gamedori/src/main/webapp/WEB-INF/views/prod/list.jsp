@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../include/head.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <main>
 	<div class="inner product_list">
 		<div>
@@ -181,6 +182,91 @@ function changeSort(event, sort, cateRefCode, cateCode, cateNew, cateRsv) {
         }
     });
 }
+function updateActivePage(page) {
+    var pagination = $('.pagination');
+    pagination.find('li').removeClass('active');
+    pagination.find('li').each(function () {
+        var pageItem = $(this);
+        var pageLink = pageItem.find('a.page-link');
+        if (pageLink.text() === page.toString()) {
+            pageItem.addClass('active');
+        }
+    });
+}
+function updateActivePage(page) {
+    var pagination = $('.pagination');
+    pagination.find('li').removeClass('active');
+    pagination.find('li').each(function () {
+        var pageItem = $(this);
+        var pageLink = pageItem.find('a.page-link');
+        if (pageLink.text() === page.toString()) {
+            pageItem.addClass('active');
+        }
+    });
+}
+
+function changePage(page) {
+    var sort = $('.sort-option.active').data('sort');
+    var cateRefCode = $('#cate_refcode').val();
+    var cateCode = $('#cate_code').val();
+    var cateNew = $('#cate_new').val();
+    var cateRsv = $('#cate_rsv').val();
+
+    var contextPath = '<%= request.getContextPath() %>';
+    var url = contextPath + '/prod/list.do?sort=' + sort;
+    if (cateRefCode && cateRefCode !== 'null') {
+        url += '&cate_refcode=' + cateRefCode;
+    }
+    if (cateCode && cateCode !== 'null') {
+        url += '&cate_code=' + cateCode;
+    }
+    if (cateNew && cateNew === '1') {
+        url += '&cate_new=' + cateNew;
+    }
+    if (cateRsv && cateRsv === '1') {
+        url += '&cate_rsv=' + cateRsv;
+    }
+    url += '&page=' + page;
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (data) {
+            var product_list = $(data).find('.product-list');
+            $('.product-list').html(product_list.html());
+
+            updateActivePage(page);
+        },
+        error: function (xhr, status, error) {
+            console.log('Error:', error);
+        }
+    });
+}
+
+$('.pagination .page-item').on('click', function (event) {
+    event.preventDefault();
+    var page = $(this).text();
+    changePage(page);
+});
+
+$('.pagination .page-previous').on('click', function (event) {
+    event.preventDefault();
+    var currentPage = parseInt($('.pagination .page-item.active').text());
+    var previousPage = currentPage - 1;
+    if (previousPage >= 1) {
+        changePage(previousPage);
+    }
+});
+
+$('.pagination .page-next').on('click', function (event) {
+    event.preventDefault();
+    var currentPage = parseInt($('.pagination .page-item.active').text());
+    var nextPage = currentPage + 1;
+    var totalPages = parseInt($('.pagination .total-pages').text());
+    if (nextPage <= totalPages) {
+        changePage(nextPage);
+    }
+});
 
 $('.sort-option').on('click', function (event) {
     event.preventDefault();
@@ -195,10 +281,20 @@ $('.sort-option').on('click', function (event) {
     changeSort(event, sort, cateRefCode, cateCode, cateNew, cateRsv);
 });
 
-	
-
 </script>
 
+<!-- 페이징 -->
+<nav aria-label="Page navigation example" style="margin-top:20px;">
+  <ul class="pagination justify-content-center">
+    <c:forEach var="i" begin="1" end="${totalPages}">
+      <li class="page-item ${param.page == i || (fn:trim(param.page) == '' && i == 1) ? 'active' : ''}">
+        <a class="page-link" href="#" onclick="changePage(${i})">
+          ${i}
+        </a>
+      </li>
+    </c:forEach>
+  </ul>
+</nav>
 </main>
 
 <%@ include file="../include/foot.jsp" %>

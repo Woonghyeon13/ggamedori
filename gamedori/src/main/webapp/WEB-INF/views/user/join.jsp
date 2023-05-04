@@ -184,20 +184,20 @@ function validateEmail() {
 							<!-- 주소검색 api -->
 							<label for="addr1">*우편번호</label> <input type="text"
 								class="form-control col-md-6 input_s" id="addr_1" name="addr_1"
-								placeholder="우편번호" required> 
+								placeholder="우편번호" disabled> 
 								
 								<input type="button" class="btn btn-outline-secondary btn-sm" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" name="member_addr">
 								<div>${fn:escapeXml(member_addr)}</div>
 								
-							<div class="invalid-feedback mb-3">우편번호를 입력해주세요</div>
+							<div class="invalid-feedback mb-3" >우편번호를 입력해주세요</div>
 							
 							<br /> <label for="addr2" class="mt-3">*주소</label> <input
-								type="text" class="form-control col-md-6 input_s" id="addr_2"
-								name="addr_2" placeholder="주소" required>
+								type="text" class="form-control col-md-6 input_s" id="addr_2" 
+								name="addr_2" placeholder="주소" disabled>
 							<div class="invalid-feedback mt-3">주소를 입력해주세요</div>
 							<br> <input type="text"
 								class="form-control col-md-6 mb-3 input_s" id="addr_3"
-								name="addr_3" placeholder="상세주소">
+								name="addr_3" placeholder="상세주소" >
 
 
 							<script

@@ -1554,6 +1554,16 @@ main .starRatingVt > input:checked ~ label:hover ~ label{
 }
 
 
+.pagination .page-item.active .page-link {
+    background-color: var(--bs-pagination-hover-border-color);
+    color: black;
+    border-color: var(--bs-pagination-hover-border-color);
+}
+.pagination .page-link {
+    background-color: #fff;
+    color: #007bff;
+}
+
 footer {
   width: 100%;
   height: 200px;
