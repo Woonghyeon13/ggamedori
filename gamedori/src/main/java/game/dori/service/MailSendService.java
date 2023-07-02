@@ -26,7 +26,9 @@ public class MailSendService {
 	        helper.setSubject("이메일 인증");
 
 	        // 이메일 인증 링크에 email과 token 파라미터 추가
-	       // String verificationLink = "http://localhost:8156/gamedori/user/emailCheck.do?email=" + recipientEmail + "&token=" + token;
+
+	       //String verificationLink = "http://localhost:8155/controller/user/emailCheck.do?email=" + recipientEmail + "&token=" + token;
+
 	        String verificationLink = "http://jjezen.cafe24.com/gamedori/user/emailCheck.do?email=" + recipientEmail + "&token=" + token;
 
 	        // 메일 내용 설정
@@ -48,7 +50,9 @@ public class MailSendService {
 	        helper.setSubject("이메일 인증");
 
 	        // 이메일 인증 링크에 email과 token 파라미터 추가
-	       // String verificationLink = "http://localhost:8155/controller/user/passwordEmail.do?email=" + recipientEmail + "&token=" + token;
+
+	        //String verificationLink = "http://localhost:8155/controller/user/passwordEmail.do?email=" + recipientEmail + "&token=" + token;
+
 	        String verificationLink = "http://jjezen.cafe24.com/gamedori/user/passwordEmail.do?email=" + recipientEmail + "&token=" + token;
 
 	        // 메일 내용 설정

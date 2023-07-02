@@ -869,6 +869,7 @@ public class MypageController {
 		int result = mypageService.insertPoint(resultpoint);
 		System.out.println("잔여포인트"+balance);
 		System.out.println("적립금액"+savepoint);
+		System.out.println("적립"+order_idx);
 		if( result > 0 ) {
 			mypageService.updateOrderCheck(savevo.getOrder_idx());
 		}

@@ -74,7 +74,6 @@
 					<thead>
 						<tr>
 							<th scope="col">번호</th>
-							<th scope="col">상품 정보</th>
 							<th scope="col">문의 제목</th>
 							<th scope="col">작성 일자</th>
 							<th scope="col">처리 상태</th>
@@ -86,7 +85,6 @@
 							<c:if test="${sessionScope.Login.member_name == Login.member_name}">
 							<tr>
 								<td class="table_number"></td>
-								<td>${vo.prod_name}</td>
 								<td>
 									<a href="prod_q_view.do?prod_q_idx=${vo.prod_q_idx}">${vo.prod_q_title}</a>
 									<c:choose>
