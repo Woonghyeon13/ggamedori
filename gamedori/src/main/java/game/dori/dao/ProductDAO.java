@@ -33,6 +33,12 @@ public class ProductDAO {
 	public int listCnt( CATEGORY_VO cvo ){
 		return sqlSession.selectOne("game.dori.mapper.productMapper.listCnt",cvo);
 	}
+	
+	//상품목록 새로운상품 카운트
+	public int newListCnt()
+	{
+		return sqlSession.selectOne("game.dori.mapper.productMapper.newListCnt");
+	}
 
 	// 상품 수정
 	public int pordUpdate( PRODUCT_VO pvo ) {
@@ -62,6 +68,11 @@ public class ProductDAO {
 	// 상품 재고감소
 	public int prodStockMinus( PRODOPT_VO optvo ) {
 		return sqlSession.update("game.dori.mapper.productMapper.prodStockMinus",optvo);
+	}
+	
+	// 메인화면 리스트
+	public List<PRODUCT_VO> mainProdList(){
+		return sqlSession.selectList("game.dori.mapper.productMapper.mainProdList");
 	}
 }
 

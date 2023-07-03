@@ -12,7 +12,22 @@ public class CATEGORY_VO {
 	private String cate_rsv;		// 예약여부
 	private String cate_new;		//새로운 상품
 	private String sort;  			//정렬 방법
+	private int start;
+	private int limit;
 	
+	
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
 	
 	public String getSort() {
 		return sort;

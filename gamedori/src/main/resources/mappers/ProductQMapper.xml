@@ -144,6 +144,7 @@
 				pq.product_tb_idx = p.prod_idx
 			and 
 				pq.member_tb_idx = #{MEMBER_IDX}
+			order by prod_q_idx desc
 	</select>
 	
 

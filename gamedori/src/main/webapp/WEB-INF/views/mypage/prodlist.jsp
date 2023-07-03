@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../include/head.jsp" %>
 
 <style>
@@ -41,7 +42,7 @@
 		   	for (var i = 0; i < data.length; i++) {
 		   		html += '<div class="row mb-3">'
 		   		html += '<div id="p_left" class="col-3">'
-		   		html += '<img src="<c:url value="/images/' + data[i].prod_imgt + '" />" style="width:85px; height:85px;">';
+		   		html += '<img src="<c:url value="/images/prod/thumb/' + data[i].prod_imgt + '" />" style="width:85px; height:85px;">';
 		   		html += '</div>'
 		   		html += '<div id="p_right" class="col-9 mt-2">'
 		   		html += '<p>'+data[i].prod_name+'</p>'
@@ -268,7 +269,7 @@
 							</c:choose>
 							</td>
 							<td class="align-middle">
-								<img style="width:85px; height:85px;" src="<c:url value='/images/${Orderlist.prod_imgt}' />">
+								<img style="width:85px; height:85px;" src="<c:url value='/images/prod/thumb/${Orderlist.prod_imgt}' />">
 							</td>
 							<td class="align-middle">${Orderlist.prod_name}</td>
 							<td class="align-middle">${fn:substring(Orderlist.order_date,0,10)}</td>
@@ -280,14 +281,15 @@
 								<button id="clickBtn" type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#review">리뷰작성</button>
 							</td>
 							<td class="align-middle">
-								<input type="hidden" id="order_idx" value="${Orderlist.order_idx}">
 								<input type="hidden" id="member_idx" value="${Login.member_idx}">
-								<input type="hidden" id="savept_amount" value="${Orderlist.order_usepoint}">
+								<fmt:parseNumber var="payPriceReal" value="${Orderlist.pay_price_real/10}" integerOnly="true" />
+								<input type="hidden" id="savept_amount" value="${payPriceReal}">
 								<c:if test="${Orderlist.order_state == 9}">
 									구매확정<br/>완료
 								</c:if>
 								<c:if test="${Orderlist.order_state ne 9}">
-									<button onclick="savePoint()" type="button" class="btn btn-outline-secondary btn-sm">구매확정</button>
+									<input type="hidden" id="order_idx" value="${Orderlist.order_idx}">
+									<button onclick="savePoint()" type="button" id="pointOrderIdx" class="btn btn-outline-secondary btn-sm">구매확정</button>
 								</c:if>
 							</td>
 							<td class="align-middle">
@@ -301,38 +303,6 @@
 					<!-- end:#product_inner -->
 				</table>
 
-				<div id="paging" class="container">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination justify-content-center text-black">
-							<li class="page-item"><a class="page-link text-reset"
-								href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">1</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">2</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">3</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">4</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">5</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">6</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">7</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">8</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">9</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#">10</a></li>
-							<li class="page-item"><a class="page-link text-reset"
-								href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</nav>
-				</div>
 
 			</div>
 			<!-- end:#mypage_inner2 -->
@@ -486,7 +456,7 @@ $(document).on("click", "button[id=clickBtn]", function () {
 
 function savePoint(){
 	
-	var order_idx = $("#order_idx").val();
+	var order_idx = $("#pointOrderIdx").prev().val();
 	var member_tb_idx = $("#member_idx").val();
 	var savept_amount = $("#savept_amount").val();
 	$.ajax({

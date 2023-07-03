@@ -37,7 +37,9 @@
 									<input type="hidden" id="cartIdx" value="${vo.cart_idx}">
 									<input type="hidden" id="pricePlus" value="${vo.cart_amount * vo.opt_price}">
 								</td>
-								<td class="text-center align-middle"><a href="#"><img src=></a></td>
+								<td class="text-center align-middle"><a href="#">
+		                        <img src="<c:url value='/images/prod/thumb/${vo.prod_imgt}'/>" alt="...">
+								</a></td>
 								<td class="align-middle">
 									<ul class="list-unstyled mb-0 ps-2 pe-2">
 										<li><a href="#">${vo.prod_name}</a></li>
@@ -69,6 +71,7 @@
 								</td>
 								<td class="align-middle text-center">
 									<span class="fs-3 me-1 ms-2 fw-bold" id="del_amount">3,000</span>원
+									<p class="">30,000원 이상 구매시 배송비 무료</p>
 								</td> <!-- 고정 -->
 								<td class="align-middle text-center" style="color: #dd1111;">
 									<span class="fs-3 me-1 ms-2 fw-bold" id="total_amountCal"

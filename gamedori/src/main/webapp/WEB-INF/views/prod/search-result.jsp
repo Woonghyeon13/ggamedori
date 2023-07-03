@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../include/head.jsp" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ include file="../include/head.jsp" %>
 
 <main>
 	<div class="inner product_list">
@@ -112,12 +112,12 @@
 					<c:if test="${param.cate_code eq '104'}">아미보</c:if>
 					<span id="result-title">${searchText} 로 검색해서 나온 상품 목록입니다.</span> 총 <span id="result-count"></span>개의 상품이 있습니다.
 				</p>
-				<ul class="col-6 d-flex justify-content-end product_sort">
+		<%-- 		<ul class="col-6 d-flex justify-content-end product_sort">
 					<li id="li1"><a href="<c:url value='/prod/list.do'/>?sort=high" id="tag">높은가격순</a></li>
 					<li id="li1"><a href="<c:url value='/prod/list.do'/>?sort=row" id="tag">낮은가격순</a></li>
 					<li id="li1"><a href="<c:url value='/prod/list.do'/>?sort=hot" id="tag">인기상품</a></li>
 					<li><a href="<c:url value='/prod/list.do'/>?sort=new" id="tag">최근순</a></li>
-				</ul>
+				</ul> --%>
 			</div>
 		</div>
         
@@ -127,10 +127,11 @@
 					<li class="ms-1 me-1 mb-4" style="width: 200px;">
 						<a href="<c:url value='/prod/detail.do?prod_idx=${pvo.prod_idx}'/>">
 							<div style="text-align: center;">
-								<img src="<c:url value='/images/${pvo.prod_imgt}'/>" alt="...">
+								<img src="<c:url value='/images/prod/thumb/${pvo.prod_imgt}'/>" alt="...">
 								<div>
 									<p class="text-center fs-6 mb-0">${pvo.prod_name}</p>
-									<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${pvo.prod_price}</p>
+									<fmt:formatNumber var="prodPrice" value="${pvo.prod_price}" pattern="#,###"/>
+									<p class="text-center fs-5 fw-bold mb-0" style="color: #cc0033;">${prodPrice}원</p>
 									<c:if test="${pvo.prod_stock eq 0}">
 										<p class="text-center"><img src="<c:url value='/images/ico_product_soldout.gif' />"></p>
 									</c:if>
@@ -236,15 +237,15 @@ function sendAjaxRequest(searchType, searchText, searchOption, page, onSuccess) 
         $.each(searchResults, function (index, result) {
             var newItem = $('<li>').addClass('ms-1 me-1 mb-4').css('width', '200px');
             var link = $('<a>').attr('href', '/controller/prod/detail.do?prod_idx=' + result.prod_idx);
-            var image = $('<img>').attr('src', '/images/' + result.prod_imgt).attr('alt', '...');
+            var image = $('<img>').attr('src', '/controller/images/prod/thumb/' + result.prod_imgt).attr('alt', '...');
             var prodName = $('<p>').addClass('text-center fs-6 mb-0').text(result.prod_name);
-            var prodPrice = $('<p>').addClass('text-center fs-5 fw-bold mb-0').css('color', '#cc0033').text(result.prod_price);
+            var prodPrice = $('<p>').addClass('text-center fs-5 fw-bold mb-0').css('color', '#cc0033').text(result.prod_price+"원");
             link.append(image);
             link.append(prodName);
             link.append(prodPrice);
 
             if (result.prod_stock === 0) {
-                var soldOutImage = $('<img>').attr('src', '/images/ico_product_soldout.gif');
+                var soldOutImage = $('<img>').attr('src', '/controller/images/ico_product_soldout.gif');
                 link.append($('<p>').addClass('text-center').append(soldOutImage));
             }
 

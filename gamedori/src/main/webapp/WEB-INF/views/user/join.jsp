@@ -251,6 +251,7 @@ function validateEmail() {
 
 
 
+
 							<br />
 							<button class="btn btn-primary btn-block mt-4" type="submit">가입
 								완료</button>
