@@ -4,12 +4,12 @@
 			<div class="col-md-4">
 				<p class="fs-5">겜도리 고객센터</p>
 				<br>
-				<p class="fs-3 fw-bold">010-9354-3755</p>
+				<p class="fs-3 fw-bold">010-1111-2222</p>
 			</div>
 			<div class="col-md-6 text-end border-start border-1">
 				<p class="fs-5">겜도리도리</p>
 				<br>
-				<p class="fs-3 fw-bold">전북 전주시 덕진구 떡전4길 20-1</p>
+				<p class="fs-3 fw-bold">전북 전주시 덕진구 백제대로 572</p>
 			</div>
 		</div>
 		<div class="container d-flex flex-wrap justify-content-between align-items-center py-3 my-4">
